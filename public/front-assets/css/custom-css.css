@@ -1,0 +1,78 @@
+.SofiaPro-SemiBold {
+	font-family: "SofiaPro-SemiBold";
+}
+.mr-10px {
+	margin-right: 10px;
+}
+.main-wrapper {
+	position: relative;
+  min-height: 100vh;
+}
+.decor-top-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(180deg, #24A1DB 0%, #294896 100%);
+  border-bottom-right-radius: 100%;
+  z-index: 1;
+}
+.decor-bottom-right {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 120px;
+  height: 78px;
+  background: linear-gradient(180deg, #24A1DB 0%, #294896 100%);
+  border-top-left-radius: 100%;
+  z-index: 0;
+}
+.common-button {
+    /* background-color: #3490CD; */
+    /* border-color: #3490CD; */
+    color: #fff;
+	border-radius: 25px;
+	text-transform: uppercase;
+	padding: 10px 20px;
+    min-width: 200px;
+}
+.common-cancel-button, .common-cancel-button:focus, .common-cancel-button:active {
+	background-color: #ffffff;
+    border: 1px solid #000000;
+    color: #000000 !important;
+	border-radius: 25px;
+	text-transform: uppercase;
+	padding: 10px 20px;
+    min-width: 200px;
+}
+.custom-header {
+	padding: 12px 0;
+}
+.custom-header img {
+	height: 100px;
+}
+.page-title {
+	font-size: 32px;
+}
+.content-heading{
+	font-size: 18px;
+	color: #212529;
+	margin-bottom: 5px;
+}
+.col-form-label {
+	font-size: 16px;
+}
+.toggle-password {
+	position: absolute;
+	right: 15px;
+	bottom: 0;
+	transform: translateY(-50%);
+	cursor: pointer;
+	color: #999;
+	z-index: 2;
+}
+
+.position-relative {
+	position: relative;
+}
