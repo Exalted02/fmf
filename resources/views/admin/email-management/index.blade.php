@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('styles')
 <link rel="stylesheet" href="{{ url('front-assets/plugins/summernote/summernote-bs4.min.css') }}">
@@ -13,10 +13,10 @@
 		<div class="page-header">
 			<div class="row align-items-center">
 				<div class="col-md-4">
-					<h3 class="page-title">{{ __('email_management') }}</h3>
+					<h3 class="page-title">Eemail management</h3>
 					<ul class="breadcrumb">
-						<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('dashboard') }}</a></li>
-						<li class="breadcrumb-item active">{{ __('email_management') }}</li>
+						<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+						<li class="breadcrumb-item active">Email management</li>
 					</ul>
 				</div>
 			</div>
@@ -29,10 +29,10 @@
 					<table class="table table-striped custom-table datatable">
 						<thead>
 							<tr>
-								<th>{{ __('name') }}</th>
-								<th>{{ __('email_subject') }}</th>
-								<th>{{ __('status') }}</th>
-								<th class="text-end">{{ __('action') }}</th>
+								<th>Name</th>
+								<th>Email subject</th>
+								<th>Status</th>
+								<th class="text-end">Action</th>
 							</tr>
 						</thead>
 						<tbody>

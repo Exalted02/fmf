@@ -18,60 +18,60 @@
                             <label class="form-check-label" for="smtpmail">SMTP</label>
                         </div>
                     </div>--}}
-                    <h4 class="page-title">{{ __('email_settings') }}</h4>
+                    <h4 class="page-title">Email Settings</h4>
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
-                                <label class="col-form-label">{{ __('email_from_address') }}</label>
+                                <label class="col-form-label">Email from address</label>
                                 <input class="form-control" type="email" id="email_from_address" name="email_from_address" value="{{$email->email_from_address}}">
 								<div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
-                                <label class="col-form-label">{{ __('email_from_name') }}</label>
+                                <label class="col-form-label">Email from name</label>
                                 <input class="form-control" type="text" id="emails_from_name" name="emails_from_name" value="{{$email->emails_from_name}}">
 								<div class="invalid-feedback"></div>
                             </div>
                         </div>
                     </div>
-                    <h4 class="page-title m-t-30">{{ __('smtp_email_settings') }}</h4>
+                    <h4 class="page-title m-t-30">Smtp email settings</h4>
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
-                                <label class="col-form-label">{{ __('smtp_host') }}</label>
+                                <label class="col-form-label">Smtp host</label>
                                 <input class="form-control" type="text" id="smtp_host" name="smtp_host" value="{{$email->smtp_host}}">
 								<div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
-                                <label class="col-form-label">{{ __('smtp_user') }}</label>
+                                <label class="col-form-label">Smtp user</label>
                                 <input class="form-control" type="text" id="smtp_user" name="smtp_user" value="{{$email->smtp_user}}">
 								<div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
-                                <label class="col-form-label">{{ __('smtp_password') }}</label>
+                                <label class="col-form-label">Smtp password</label>
                                 <input class="form-control" type="password" id="smtp_password" name="smtp_password" value="{{$email->smtp_password}}">
 								<div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
-                                <label class="col-form-label">{{ __('smtp_port') }}</label>
+                                <label class="col-form-label">Smtp port</label>
                                 <input class="form-control" type="text" id="smpt_port" name="smpt_port" value="{{$email->smpt_port}}">
 								<div class="invalid-feedback"></div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="input-block mb-3">
-                                <label class="col-form-label">{{ __('smtp_security') }}</label>
+                                <label class="col-form-label">Smtp security</label>
                                 <select class="select" id="smtp_security" name="smtp_security">
-                                    <option value="0" {{ $email->smtp_security == 0 ? 'selected' : '' }}>{{ __('none') }}</option>
-                                    <option value="1" {{ $email->smtp_security == 1 ? 'selected' : '' }}>{{ __('ssl') }}</option>
-                                    <option value="2" {{ $email->smtp_security == 2 ? 'selected' : '' }}>{{ __('tls') }}</option>
+                                    <option value="0" {{ $email->smtp_security == 0 ? 'selected' : '' }}>None</option>
+                                    <option value="1" {{ $email->smtp_security == 1 ? 'selected' : '' }}>SSL</option>
+                                    <option value="2" {{ $email->smtp_security == 2 ? 'selected' : '' }}>TLS</option>
                                 </select>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                         </div>--}}
                     </div>
                     <div class="submit-section">
-                        <button class="btn btn-primary save-update" type="button" >{{ __('save_and_update') }}</button>
+                        <button class="btn btn-primary save-update" type="button" >Save & Update</button>
                     </div>
                 </form>
             </div>
@@ -101,7 +101,7 @@
 					<div class="success-popup-icon">
 						<i class="la la-pencil"></i>
 					</div>
-					<h3>{{ __('data_updated_successfully') }}!!!</h3>
+					<h3>Data updated successfully!!!</h3>
 				</div>
 			</div>
 		</div>

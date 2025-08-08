@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 	<div class="row">
-	<div class="col-md-6 left-section" style="background: url('../../front-assets/img/pp-bg.png') no-repeat center center/cover;">
+		<div class="col-md-6 left-section" style="background: url({{ asset('front-assets/img/pp-bg.png') }}) no-repeat center center/cover;">
 		<div class="overlay"></div>
 		<div class="logo-wrapper">
 			<img src="{{ asset('front-assets/img/-logo1-bw.png') }}" alt="Fidelity Logo">

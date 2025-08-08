@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('styles')
 <link rel="stylesheet" href="{{ url('front-assets/plugins/summernote/summernote-bs4.min.css') }}">
@@ -30,7 +30,7 @@
 						<h5 class="card-title">{{ __('edit') }}</h5>
 					</div>
 					<div class="card-body">
-						<form id="frmeditproductcode" action="{{ route('email-management-edit-save') }}">
+						<form id="frmeditproductcode" action="{{ route('admin.email-management-edit-save') }}">
 						<input type="hidden" id="id" name="id" value="{{$data->id}}">
 							<div class="row">
 								<div class="col-sm-12">

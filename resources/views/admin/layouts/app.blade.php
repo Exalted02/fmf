@@ -2,22 +2,11 @@
 <!--<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">-->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-sidebar="dark" data-sidebar-size="lg" data-layout-mode="blue" data-layout-width="fluid" data-layout-position="fixed" data-layout-style="default" data-topbar="light">
 	<head>
-        <!--<meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-		<link href="{{ url('front-assets/css/responsive-media.css') }}" rel="stylesheet">
-
-        @vite(['resources/css/app.css', 'resources/js/app.js'])-->
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Smarthr - Bootstrap Admin Template">
+        <meta name="description" content="{{ __('project_title') }}">
 		<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
-        <meta name="author" content="Dreamstechnologies - Bootstrap Admin Template">
+        <meta name="author" content="{{ __('project_title') }}">
         <title>{{ __('project_title') }}</title>
 		
 		<!-- Favicon -->

@@ -9,7 +9,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form id="frmeditproductcode" action="{{ route('email-management-edit-save') }}">
+				<form id="frmeditproductcode" action="{{ route('admin.email-management-edit-save') }}">
 				<input type="hidden" id="id" name="id">
 					<div class="row">
 						<div class="col-sm-12">
