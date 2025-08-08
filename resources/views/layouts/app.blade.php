@@ -65,16 +65,21 @@
 		<script>
         var csrfToken = "{{ csrf_token() }}"; // Declare the CSRF token
 		</script>
+		@if(request()->routeIs('login', 'pricing-plans', 'password.request', 'password.reset', 'verification.notice', 'password.confirm'))
+			@vite(['resources/css/app.css', 'resources/js/app.js'])
+		@endif
     </head>
 	<body>
 		<div class="main-wrapper">
+		@if(!request()->routeIs('login', 'pricing-plans', 'password.request', 'password.reset', 'verification.notice', 'password.confirm'))
 			@include('_includes/header')
-			
+		@endif
 			
 				@yield('content')
 
-			
+			@if(!request()->routeIs('login', 'pricing-plans', 'password.request', 'password.reset', 'verification.notice', 'password.confirm'))
 			<div class="decor-bottom-right"></div>
+			@endif
 		</div>
 		<!-- jQuery -->
         <script src="{{ url('front-assets/js/jquery-3.7.1.min.js') }}"></script>
@@ -111,31 +116,6 @@
 		<script src="{{ url('front-assets/js/app.js') }}"></script>
 		<script src="{{ url('front-assets/js/page/multi-action.js') }}"></script>
 		
-		
-		
-		<script type="text/javascript">
-		$(function(){
-			var url = "{{ route('changeLang') }}";
-			$(document).on("click", ".languageChange a", function(e) {
-				e.preventDefault();  // Prevent default action for anchor
-				var languageCode = $(this).data('id');
-				var selectedText = $(this).text().trim();
-				$('#selectedLang').data('id', languageCode);  // Update the data-id
-				$('#selectedLang img').attr('src', $(this).find('img').attr('src'));  // Update the flag icon
-				$('#selectedLangText').text(selectedText); 
-				//alert(languageCode);
-				window.location.href = url + "?lang=" + languageCode;
-			});
-		});
-			/*$(function(){
-				var url = "{{ route('changeLang') }}";
-				$(document).on("click", "ul.languageChange li a", function(e) {
-					var languageCode = $(this).data('id');
-					alert(languageCode);
-					window.location.href = url + "?lang="+ $(this).data('id');
-				});
-			});*/		
-		</script>
 		<script>
 			@if(Session::has('message'))
 				var msg = "{{ session('message') }}";
