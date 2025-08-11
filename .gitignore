@@ -6,7 +6,7 @@
 # Node artifact files
 vendor/
 node_modules/
-public/build
+#public/build
 copy
 
 # Storage folder
