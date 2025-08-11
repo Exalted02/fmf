@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('content')
+@php 
+$monthly_billing = App\Models\Pricing_plan::where('plan_type',1)->get();
+$yearly_billing = App\Models\Pricing_plan::where('plan_type',2)->get();
+@endphp
 	<div class="row">
 		<div class="col-md-6 left-section" style="background: url({{ asset('front-assets/img/pp-bg.png') }}) no-repeat center center/cover;">
 		<div class="overlay"></div>
@@ -25,10 +29,12 @@
 								<div class="pricing-card">
 									<div class="billing-label">MONTHLY BILLING</div>
 									<ul class="features">
-										<li><i class="fa fa-square"></i>$159.99/month</li>
-										<li><i class="fa fa-square"></i>24/7 Priority Support</li>
+									@foreach($monthly_billing as $monthly)
+										<li><i class="fa fa-square"></i>{{ $monthly->plan_name ?? ''}}</li>
+									@endforeach
+										{{--<li><i class="fa fa-square"></i>24/7 Priority Support</li>
 										<li><i class="fa fa-square"></i>Full Platform Access</li>
-										<li><i class="fa fa-square"></i>Free Updates</li>
+										<li><i class="fa fa-square"></i>Free Updates</li>--}}
 									</ul>
 								</div>
 								<button class="select-btn selected-btn">SELECTED</button>
@@ -39,11 +45,13 @@
 								<div class="pricing-card">
 									<div class="billing-label">ANNUAL BILLING</div>
 									<ul class="features">
-										<li><i class="fa fa-square"></i>$1,499.99 Annual</li>
-										<li><i class="fa fa-square"></i>24/7 Priority Support</li>
-										<li><i class="fa fa-square"></i>Full Platform Access</li>
+									@foreach($yearly_billing as $yearly)
+										<li><i class="fa fa-square"></i>{{ $yearly->plan_name ?? '' }}</li>
+									@endforeach
+										{{--<li><i class="fa fa-square"></i>24/7 Priority Support</li>
+										{{--<li><i class="fa fa-square"></i>Full Platform Access</li>
 										<li><i class="fa fa-square"></i>Free Updates</li>
-										<li class="text-uppercase"><i class="fa fa-square"></i>Annual Discount $419.89</li>
+										<li class="text-uppercase"><i class="fa fa-square"></i>Annual Discount $419.89</li>--}}
 									</ul>
 								</div>
 								<button class="select-btn">SELECT</button>
