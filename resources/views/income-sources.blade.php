@@ -29,8 +29,8 @@
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
-										<label for="" class="col-form-label">Income</label>
-										<input class="form-control" type="text" placeholder="Income">
+										<label for="" class="col-form-label">Income Amount</label>
+										<input class="form-control" type="text" placeholder="Income Amount">
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
@@ -137,8 +137,8 @@
 		</div>
 		<div class="col-lg-3 col-md-3">
 			<div class="input-block">
-				<label for="" class="col-form-label">Income</label>
-				<input class="form-control" type="text" placeholder="Income">
+				<label for="" class="col-form-label">Income Amount</label>
+				<input class="form-control" type="text" placeholder="Income Amount">
 			</div>
 		</div>
 		<div class="col-lg-3 col-md-3">

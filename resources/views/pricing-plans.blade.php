@@ -21,7 +21,7 @@
 					<section class="pricing-section">
 						<div class="row">
 							<!-- Monthly Billing -->
-							<div class="col-md-6 col-sm-12 mb-4">
+							<div class="col-md-6 col-sm-12 mb-4 text-center">
 								<div class="pricing-card">
 									<div class="billing-label">MONTHLY BILLING</div>
 									<ul class="features">
@@ -30,12 +30,12 @@
 										<li><i class="fa fa-square"></i>Full Platform Access</li>
 										<li><i class="fa fa-square"></i>Free Updates</li>
 									</ul>
-									<button class="select-btn selected-btn">SELECTED</button>
 								</div>
+								<button class="select-btn selected-btn">SELECTED</button>
 							</div>
 
 							<!-- Annual Billing -->
-							<div class="col-md-6 col-sm-12 mb-4">
+							<div class="col-md-6 col-sm-12 mb-4 text-center">
 								<div class="pricing-card">
 									<div class="billing-label">ANNUAL BILLING</div>
 									<ul class="features">
@@ -43,14 +43,15 @@
 										<li><i class="fa fa-square"></i>24/7 Priority Support</li>
 										<li><i class="fa fa-square"></i>Full Platform Access</li>
 										<li><i class="fa fa-square"></i>Free Updates</li>
+										<li class="text-uppercase"><i class="fa fa-square"></i>Annual Discount $419.89</li>
 									</ul>
-									<button class="select-btn">SELECT</button>
 								</div>
+								<button class="select-btn">SELECT</button>
 							</div>
 						</div>
 					</section>
 				</div>
-				<div class="login-head">Payment method</div>
+				<div class="login-head">Payment Method</div>
 				<p class="text-center">Dynamic payment gateway content will come here</p>
 				
 				<div class="row mt-4">
