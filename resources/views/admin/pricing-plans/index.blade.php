@@ -1,5 +1,8 @@
 @extends('admin.layouts.app')
 @section('content')
+@php 
+//echo "<pre>";print_r($monthly_plan_arr);die;
+@endphp
 <!-- Page Wrapper -->
 <div class="page-wrapper">
     <!-- Page Content -->
@@ -14,10 +17,10 @@
 					<!-- Column 1 -->
 					<div class="col-md-6">
 					<h4 class="">Monthly billing</h4>
-						@for($i=1;$i<=4;$i++)
+						@for($i=0;$i<4;$i++)
 						<div class="input-block mb-3">
 							<label class="col-form-label"></label>
-							<input class="form-control" @error("monthly_billing.$i") is-invalid @enderror" type="text" name="monthly_billing[]" value="{{ old('monthly_billing.' . ($i - 1)) }}">
+							<input class="form-control" @error("monthly_billing.$i") is-invalid @enderror" type="text" name="monthly_billing[]" value="{{ old('monthly_billing.' . $i, $monthly_plan_arr[$i] ?? '') }}">
 						</div>
 						@error("monthly_billing.$i")
 							<div class="invalid-feedback">{{ $message }}</div>
@@ -28,10 +31,10 @@
 					<!-- Column 2 -->
 					<div class="col-md-6">
 					<h4 class="">Annual billing</h4>
-						@for($j=1;$j<=5;$j++)
+						@for($j=0;$j<5;$j++)
 						<div class="input-block mb-3">
 							<label class="col-form-label"></label>
-							<input class="form-control" @error("annual_billing.$j") is-invalid @enderror" type="text" name="annual_billing[]" value="{{ old('annual_billing.' . ($j - 1)) }}">
+							<input class="form-control" @error("annual_billing.$j") is-invalid @enderror" type="text" name="annual_billing[]" value="{{ old('annual_billing.' . $j, $yearly_plan_arr[$j] ?? '') }}">
 						</div>
 						@error("annual_billing.$j")
 							<div class="invalid-feedback">{{ $message }}</div>

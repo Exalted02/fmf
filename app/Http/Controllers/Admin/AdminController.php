@@ -16,7 +16,23 @@ class AdminController extends Controller
     }
 	public function pricing_plans()
 	{
-		return view('admin.pricing-plans.index');
+		$monthly_plan_arr = [];
+		$yearly_plan_arr = [];
+		$pricing_monthly_plan = Pricing_plan::where('plan_type', 1)->get();
+		$pricing_yearly_plan = Pricing_plan::where('plan_type', 1)->get();
+		foreach($pricing_monthly_plan as $m)
+		{
+			$monthly_plan_arr[] = $m->plan_name;
+		}
+		
+		foreach($pricing_yearly_plan as $y)
+		{
+			$yearly_plan_arr[] = $y->plan_name;
+		}
+		$data['monthly_plan_arr'] = $monthly_plan_arr;
+		$data['yearly_plan_arr'] = $yearly_plan_arr;
+		
+		return view('admin.pricing-plans.index', $data);
 	}
 	public function pricing_plans_edit_save(Request $request)
 	{
@@ -44,5 +60,7 @@ class AdminController extends Controller
 			$model->status = 1;
 			$model->save();
 		}
+		
+		return redirect('/admin/pricing-plans');
 	}
 }
