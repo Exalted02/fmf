@@ -93,7 +93,7 @@
                 </div>
 				<div class="col-md-12">
 					<div class="submit-section mt-2 mb-5">
-						<button class="btn common-cancel-button mr-10px">Cancel</button>
+						<button type="button" class="btn common-cancel-button mr-10px">Cancel</button>
 						<button class="btn btn-primary common-button">Submit</button>
 					</div>
 				</div>
@@ -123,6 +123,13 @@
       }
     });
   });
+  $(document).ready(function(){
+	  
+	  $('.common-cancel-button').on('click', function(){
+		  
+		window.location.href= "{{	route('login')	}}";
+	  })
+  })
 </script>
 @endsection
 
