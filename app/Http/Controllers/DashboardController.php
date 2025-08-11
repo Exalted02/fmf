@@ -11,13 +11,11 @@ class DashboardController extends Controller
     public function index()
     {
 		$data = [];
-		
-        return view('dashboard', $data);
+		return view('dashboard', $data);
     }
     public function pricing_plans()
     {
 		$data = [];
-		
         return view('pricing-plans', $data);
     }
     public function portfolio_desires()

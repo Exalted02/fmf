@@ -18,48 +18,67 @@
                 </div>
             </div>
             <!-- /Page Header -->
-        
+			<form name="frm" action="{{ route('register')}}" method="post">
+			@csrf
             <div class="row">
                 <div class="col-md-6">
 					<div class="input-block mb-3">
 						<label class="col-form-label">First Name</label>
-						<input type="text" class="form-control" placeholder="Enter your first name">
+						<input type="text" class="form-control" name="first_name" placeholder="Enter your first name" value="{{ old('first_name') }}">
+						@error('first_name')
+							<div class="error-text">{{ $message }}</div>
+						@enderror
 					</div>
                 </div>
                 <div class="col-md-6">
 					<div class="input-block mb-3">
 						<label class="col-form-label">Last Name</label>
-						<input type="text" class="form-control" placeholder="Enter your last name">
+						<input type="text" class="form-control" name="last_name" placeholder="Enter your last name" value="{{ old('last_name') }}">
+						@error('last_name')
+							<div class="error-text">{{ $message }}</div>
+						@enderror
 					</div>
                 </div>
                 <div class="col-md-6">
 					<div class="input-block mb-3">
 						<label class="col-form-label">Email/Username</label>
-						<input type="text" class="form-control" placeholder="Enter your email">
+						<input type="text" class="form-control" name="email" placeholder="Enter your email" value="{{ old('email') }}">
+						@error('email')
+							<div class="error-text">{{ $message }}</div>
+						@enderror
 					</div>
                 </div>
                 <div class="col-md-6">
 					<div class="input-block mb-3">
 						<label class="col-form-label">Phone Number</label>
-						<input type="text" class="form-control" placeholder="Enter your phone number">
+						<input type="text" class="form-control" name="phone_number" placeholder="Enter your phone number" value="{{ old('phone_number') }}">
+						@error('phone_number')
+							<div class="error-text">{{ $message }}</div>
+						@enderror
 					</div>
                 </div>
                 <div class="col-md-6">
 					<div class="input-block mb-3 position-relative">
 						<label class="col-form-label">Password</label>
-						<input type="password" class="form-control password-input" id="password" placeholder="Enter password">
+						<input type="password" class="form-control password-input" id="password" name="password" placeholder="Enter password">
 						<span class="toggle-password" toggle="#password">
 							<i class="fas fa-eye"></i>
 						</span>
+						@error('password')
+							<div class="error-text">{{ $message }}</div>
+						@enderror
 					</div>
                 </div>
                 <div class="col-md-6">
 					<div class="input-block mb-3 position-relative">
 						<label class="col-form-label">Confirm Password</label>
-						<input type="password" class="form-control password-input" id="confirm_password" placeholder="Enter confirm password">
-						<span class="toggle-password" toggle="#confirm_password">
+						<input type="password" class="form-control password-input" id="password_confirmation" name="password_confirmation" placeholder="Enter confirm password">
+						<span class="toggle-password" toggle="#password_confirmation">
 							<i class="fas fa-eye"></i>
 						</span>
+						@error('password_confirmation')
+							<div class="error-text">{{ $message }}</div>
+						@enderror
 					</div>
                 </div>
                 <div class="col-md-12">
@@ -79,6 +98,7 @@
 					</div>
 				</div>
             </div>
+			</form>
         </div>
         <!-- /Page Content -->
 
