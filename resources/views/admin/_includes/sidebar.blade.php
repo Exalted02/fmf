@@ -26,6 +26,9 @@
 				<li class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
 					<a href="{{ route('admin.dashboard')}}"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a>
 				</li>
+				<li class="{{ request()->routeIs('admin.pricing-plans','admin.pricing-plans-edit-save') ? 'active' : '' }}">
+					<a href="{{ route('admin.pricing-plans') }}"><i class="fa-regular fa-envelope"></i> <span>Pricing Plans</span></a>
+				</li>
 				<li class="{{ request()->routeIs('admin.email-management','admin.email-management-edit') ? 'active' : '' }}">
 					<a href="{{ route('admin.email-management') }}"><i class="fa-regular fa-envelope"></i> <span>Email Management</span></a>
 				</li>

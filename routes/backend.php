@@ -24,7 +24,11 @@ Route::middleware(['web'])->group(function () {
 		//ChangePassword
 		// Route::get('/change-password', [ChangePasswordController::class, 'index'])->name('change-password');
 		// Route::post('/change-password', [ChangePasswordController::class, 'save_data'])->name('change-password-save');
-
+		
+		//pricing plan
+		Route::get('/pricing-plans', [AdminController::class, 'pricing_plans'])->name('pricing-plans');
+		Route::post('/pricing-plans-edit-save', [AdminController::class, 'pricing_plans_edit_save'])->name('pricing-plans-edit-save');
+		
 		//EmailSettings
 		Route::get('/email-settings', [EmailSettingsController::class, 'index'])->name('email-settings');
 		Route::post('/email-settings', [EmailSettingsController::class, 'save_data'])->name('email-settings-save');
