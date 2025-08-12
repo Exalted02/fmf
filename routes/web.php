@@ -60,6 +60,7 @@ Route::middleware(['auth','verified'])->group(function () {
 	Route::post('/income-sources', [DashboardController::class, 'income_sources_save'])->name('income-sources');
 	
 	Route::get('/roth-calculator', [DashboardController::class, 'roth_calculator'])->name('roth-calculator');
+	Route::post('/roth-calculator', [DashboardController::class, 'roth_calculator_save'])->name('roth-calculator');
 	
 	
 });

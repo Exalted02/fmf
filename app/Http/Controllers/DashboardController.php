@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Client_portfolio_Desires;
 use App\Models\Guaranteed_income_sources;
+use App\Models\Roth_conversion_calculators;
+use App\Models\Roth_conversion_calculator_yearly_rule;
 use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
@@ -88,6 +90,44 @@ class DashboardController extends Controller
 			$model->end_age = $end_age[$index] ?? null;
 			$model->status = 1;
 			$model->save();	
+		}
+		
+		return response()->json(['message'=>'success']);
+	}
+	public function roth_calculator_save(Request $request)
+	{
+		$sl_no = Session::get('sl_no');
+		$model = new Roth_conversion_calculators();
+		$model->user_id  = auth()->user()->id;
+		$model->sl_no  = $sl_no;
+		$model->conversion_start_age  = $request->conversion_start_age;
+		$model->conversion_finish_age  = $request->conversion_finish_age;
+		$model->conversion_annual_fee  = $request->conversion_annual_fee;
+		$model->rmd_start_age  = $request->rmd_start_age;
+		$model->rmd_finish_age  = $request->rmd_finish_age;
+		$model->rmd_tax_free_income  = $request->rmd_tax_free_income;
+		$model->save();
+		$roth_id = $model->id;
+		
+		$investment_amount = $request->input('investment_amount_arr', []);
+		$income_amount = $request->input('income_amount_arr', []);
+		$bonus = $request->input('bonus_arr', []);
+		$assumed_return = $request->input('assumed_return_arr', []);
+		
+		$countrecord = count($investment_amount);
+		if($countrecord > 0)
+		{
+			for($index = 0; $index < $countrecord; $index++)
+			{
+				$rothmodel = new Roth_conversion_calculator_yearly_rule();
+				$rothmodel->roth_id = $roth_id ?? null;
+				
+				$rothmodel->investment_amount = $investment_amount[$index] ?? null;
+				$rothmodel->bonus = $bonus[$index] ?? null;
+				$rothmodel->assumed_return = $assumed_return[$index] ?? null;
+				$rothmodel->status = 1;
+				$rothmodel->save();	
+			}
 		}
 		
 		return response()->json(['message'=>'success']);

@@ -29,19 +29,26 @@
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Investment Amount $</label>
-										<input class="form-control" type="text" placeholder="Investment Amount $">
+										<div class="input-dollar">
+										<span class="currency-symbol">$</span>
+										<input class="form-control" name="investment_amount[]" type="text" placeholder="Investment Amount">
+										</div>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Bonus %</label>
-										<input class="form-control" type="text" placeholder="Bonus %">
+										<div class="input-percent">
+										<input class="form-control" name="bonus[]" type="text" placeholder="Bonus">
+										</div>
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
 										<label for="" class="col-form-label">Assumed Return</label>
-										<input class="form-control" type="text" placeholder="Assumed Return">
+										<div class="input-percent">
+										<input class="form-control" name="assumed_return[]" type="text" placeholder="Assumed Return">
+										</div>
 									</div>
 								</div>
 								<div class="col-lg-1 col-md-1">
@@ -68,19 +75,24 @@
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Start Age</label>
-										<input class="form-control" type="text" placeholder="Start Age">
+										<input class="form-control" name="conversion_start_age" id="conversion_start_age" type="text" placeholder="Start Age">
+										<div class="conversion_start_age_error error-text"></div>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Finish Age</label>
-										<input class="form-control" type="text" placeholder="Finish Age">
+										<input class="form-control" name="conversion_finish_age" id="conversion_finish_age" type="text" placeholder="Finish Age">
+										<div class="conversion_finish_age_error error-text"></div>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Annual Fee</label>
-										<input class="form-control" type="text" placeholder="Annual Fee">
+										<div class="input-percent">
+										<input class="form-control" name="conversion_annual_fee" id="conversion_annual_fee" type="text" placeholder="Annual Fee">
+										</div>
+										<div class="conversion_annual_fee_error error-text"></div>
 									</div>
 								</div>
 							</div>
@@ -96,19 +108,22 @@
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Start Age</label>
-										<input class="form-control" type="text" placeholder="Start Age">
+										<input class="form-control" name="rmd_start_age" id="rmd_start_age" type="text" placeholder="Start Age">
+										<div class="rmd_start_age_error error-text"></div>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Finish Age</label>
-										<input class="form-control" type="text" placeholder="Finish Age">
+										<input class="form-control" name="rmd_finish_age" id="rmd_finish_age" type="text" placeholder="Finish Age">
+										<div class="rmd_finish_age_error error-text"></div>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Age to Begin TAX FREE INCOME</label>
-										<input class="form-control" type="text" placeholder="Age to Begin TAX FREE INCOME">
+										<input class="form-control" name="rmd_tax_free_income" id="rmd_tax_free_income" type="text" placeholder="Age to Begin TAX FREE INCOME">
+										<div class="rmd_tax_free_income_error error-text"></div>
 									</div>
 								</div>
 							</div>
@@ -170,19 +185,26 @@
 		<div class="col-lg-4 col-md-4">
 			<div class="input-block">
 				<label for="" class="col-form-label">Investment Amount $</label>
-				<input class="form-control" type="text" placeholder="Investment Amount $">
+				<div class="input-dollar">
+				<span class="currency-symbol">$</span>
+				<input class="form-control" type="text" name="investment_amount[]" placeholder="Investment Amount">
+				</div>
 			</div>
 		</div>
 		<div class="col-lg-4 col-md-4">
 			<div class="input-block">
 				<label for="" class="col-form-label">Bonus %</label>
-				<input class="form-control" type="text" placeholder="Bonus %">
+				<div class="input-percent">
+				<input class="form-control" type="text" name="bonus[]" placeholder="Bonus">
+				</div>
 			</div>
 		</div>
 		<div class="col-lg-3 col-md-3">
 			<div class="input-block">
 				<label for="" class="col-form-label">Assumed Return</label>
-				<input class="form-control" type="text" placeholder="Assumed Return">
+				<div class="input-percent">
+				<input class="form-control" type="text" name="assumed_return[]" placeholder="Assumed Return">
+				</div>
 			</div>
 		</div>
 		<div class="col-lg-1 col-md-1">
@@ -207,6 +229,104 @@
     const row = button.closest('.row');
     row.remove();
   }
+</script>
+<script>
+$(document).ready(function(){
+	$('.common-button').on('click', function(e){
+		e.preventDefault();
+		var conversion_start_age = $('#conversion_start_age').val();
+		var conversion_finish_age = $('#conversion_finish_age').val();
+		var conversion_annual_fee = $('#conversion_annual_fee').val();
+		var rmd_start_age = $('#rmd_start_age').val();
+		var rmd_finish_age = $('#rmd_finish_age').val();
+		var rmd_tax_free_income = $('#rmd_tax_free_income').val();
+		
+		var investment_amount_arr = [];
+		var bonus_arr = [];
+		var assumed_return_arr = [];
+		
+		$('.conversion_start_age_error').text('');
+		$('.conversion_finish_age_error').text('');
+		$('.conversion_annual_fee_error').text('');
+		$('.rmd_start_age_error').text('');
+		$('.rmd_finish_age_error').text('');
+		$('.rmd_tax_free_income_error').text('');
+		
+		let isValid = true;
+		$('.invalid-feedback').hide();
+		$('.form-control').removeClass('is-invalid');
+		if (conversion_start_age === '')
+		{
+			$('.conversion_start_age_error').text('Enter start age');
+			isValid = false;
+		}
+		if (conversion_finish_age === '')
+		{
+			$('.conversion_finish_age_error').text('Enter finish age');
+			isValid = false;
+		}
+		if (conversion_annual_fee === '')
+		{
+			$('.conversion_annual_fee_error').text('Enter annual fee');
+			isValid = false;
+		}
+		if (rmd_start_age === '')
+		{
+			$('.rmd_start_age_error').text('Enter start age');
+			isValid = false;
+		}
+		if (rmd_finish_age === '')
+		{
+			$('.rmd_finish_age_error').text('Enter finish age');
+			isValid = false;
+		}
+		if (rmd_tax_free_income === '')
+		{
+			$('.rmd_tax_free_income_error').text('Enter tax free income');
+			isValid = false;
+		}
+		
+		
+		
+		$('input[name="investment_amount[]"]').each(function() {
+            investment_amount_arr.push($(this).val().trim());
+        });
+		
+		$('input[name="bonus[]"]').each(function() {
+            bonus_arr.push($(this).val().trim());
+           
+        });
+		
+		$('input[name="assumed_return[]"]').each(function() {
+            assumed_return_arr.push($(this).val().trim());
+           
+        });
+		
+		if(isValid)
+		{
+			var URL = "{{ route('roth-calculator') }}";
+			
+			$.ajax({
+				url: URL,
+				type: "POST",
+				data: {conversion_start_age:conversion_start_age,conversion_finish_age:conversion_finish_age,conversion_annual_fee:conversion_annual_fee,rmd_start_age:rmd_start_age,rmd_finish_age:rmd_finish_age,rmd_tax_free_income:rmd_tax_free_income,investment_amount_arr:investment_amount_arr,bonus_arr:bonus_arr,assumed_return_arr:assumed_return_arr,_token:csrfToken},
+				dataType: 'json',
+				success: function(response) {
+					if(response.message == 'success')
+					{
+						window.location.href= "{{ route('portfolio-desires') }}";
+					}
+				},
+				error: function(xhr) {
+					// Handle validation errors
+					
+				}
+			});
+			
+		}
+	});
+	
+});
 </script>
 @endsection
 
