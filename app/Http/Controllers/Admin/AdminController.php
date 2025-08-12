@@ -36,17 +36,11 @@ class AdminController extends Controller
 	}
 	public function pricing_plans_edit_save(Request $request)
 	{
-		//echo "<pre>";print_r($request->all());die;
-		$request->validate([
-			'monthly_billing.*' => 'required',
-		]);
+		//echo "<pre>";print_r($request->all());die
 		
 		$monthly_billing = $request->input('monthly_billing', []);
 		$annual_billing = $request->input('annual_billing', []);
-		//$truncate = Pricing_plan::all();
-		//$truncate->truncate();
 		Pricing_plan::query()->truncate();
-		//echo "<pre>";print_r($hasData);die;
 		
 		for($index = 0; $index < count($monthly_billing); $index++)
 		{
@@ -65,8 +59,6 @@ class AdminController extends Controller
 			$model->status = 1;
 			$model->save();
 		}
-		
-		
 		
 		return redirect('/admin/pricing-plans');
 	}
