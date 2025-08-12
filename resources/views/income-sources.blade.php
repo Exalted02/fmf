@@ -30,7 +30,10 @@
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
 										<label for="" class="col-form-label">Income Amount</label>
+										<div class="input-dollar">
+										<span class="currency-symbol">$</span>
 										<input class="form-control" name="income_amount[]" type="text" placeholder="Income Amount">
+										</div>
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
@@ -38,7 +41,7 @@
 										<label for="" class="col-form-label">Type</label>
 										<select class="select" name="type[]">
 											<option>Type</option>
-											<option value="0">Income</option>
+											<option value="1">Income</option>
 										</select>
 									</div>
 								</div>
@@ -47,8 +50,8 @@
 										<label for="" class="col-form-label">Frequency</label>
 										<select class="select" name="frequency[]">
 											<option>Frequency</option>
-											<option value="0">Monthly</option>
-											<option value="1">Yearly</option>
+											<option value="1">Monthly</option>
+											<option value="2">Yearly</option>
 										</select>
 									</div>
 								</div>
@@ -139,7 +142,10 @@
 		<div class="col-lg-3 col-md-3">
 			<div class="input-block">
 				<label for="" class="col-form-label">Income Amount</label>
+				<div class="input-dollar">
+				<span class="currency-symbol">$</span>
 				<input class="form-control" name="income_amount[]" type="text" placeholder="Income Amount">
+				</div>
 			</div>
 		</div>
 		<div class="col-lg-3 col-md-3">
@@ -147,7 +153,7 @@
 				<label for="" class="col-form-label">Type</label>
 				<select class="select" name="type[]">
 					<option>Type</option>
-					<option value="0">Income</option>
+					<option value="1">Income</option>
 				</select>
 			</div>
 		</div>
@@ -156,8 +162,8 @@
 				<label for="" class="col-form-label">Frequency</label>
 				<select class="select" name="frequency[]">
 					<option>Frequency</option>
-					<option value="0">Monthly</option>
-					<option value="1">Yearly</option>
+					<option value="1">Monthly</option>
+					<option value="2">Yearly</option>
 				</select>
 			</div>
 		</div>
@@ -208,6 +214,13 @@ $(document).ready(function(){
 	$('.common-button').on('click', function(e){
 		e.preventDefault();
 		var client_arr = [];
+		var income_amount_arr = [];
+		var type_amount_arr = [];
+		var frequency_amount_arr = [];
+		var cola_arr = [];
+		var start_age_arr = [];
+		var end_age_arr = [];
+		
 		var allClientBlank = true;
 		$('input[name="client_name[]"]').each(function() {
             if ($(this).val().trim() !== '') {
@@ -216,11 +229,78 @@ $(document).ready(function(){
             }
 			
         });
-		alert(client_arr);
+		
+		$('input[name="income_amount[]"]').each(function() {
+            //if ($(this).val().trim() !== '') {
+				income_amount_arr.push($(this).val().trim());
+                allClientBlank = false;
+            //}
+			
+        });
+		
+		$('select[name="type[]"]').each(function() {
+            //if ($(this).val().trim() !== '') {
+				type_amount_arr.push($(this).val().trim());
+                allClientBlank = false;
+            //}
+			
+        });
+		
+		$('select[name="frequency[]"]').each(function() {
+            //if ($(this).val().trim() !== '') {
+				frequency_amount_arr.push($(this).val().trim());
+                allClientBlank = false;
+            //}
+			
+        });
+		$('input[name="cola[]"]').each(function() {
+            //if ($(this).val().trim() !== '') {
+				cola_arr.push($(this).val().trim());
+                allClientBlank = false;
+            //}
+			
+        });
+		
+		$('input[name="start_age[]"]').each(function() {
+            //if ($(this).val().trim() !== '') {
+				start_age_arr.push($(this).val().trim());
+                allClientBlank = false;
+            //}
+			
+        });
+		
+		$('input[name="end_age[]"]').each(function() {
+            //if ($(this).val().trim() !== '') {
+				end_age_arr.push($(this).val().trim());
+                allClientBlank = false;
+            //}
+			
+        });
+		
+		/*alert(client_arr);
 		if(allClientBlank)
 		{
 			
-		}
+		}*/
+		
+		var URL = "{{ route('income-sources') }}";
+		
+		$.ajax({
+				url: URL,
+				type: "POST",
+				data: {client_arr:client_arr,income_amount_arr:income_amount_arr,type_amount_arr:type_amount_arr,frequency_amount_arr:frequency_amount_arr,cola_arr:cola_arr,start_age_arr:start_age_arr,end_age_arr:end_age_arr,_token:csrfToken},
+				dataType: 'json',
+				success: function(response) {
+					if(response.message == 'success')
+					{
+						window.location.href= "{{ route('roth-calculator') }}";
+					}
+				},
+				error: function(xhr) {
+					// Handle validation errors
+					
+				}
+			});
 	});
 });
 </script>
