@@ -110,14 +110,14 @@ class DashboardController extends Controller
 		$roth_id = $model->id;
 		
 		$investment_amount = $request->input('investment_amount_arr', []);
-		$income_amount = $request->input('income_amount_arr', []);
 		$bonus = $request->input('bonus_arr', []);
 		$assumed_return = $request->input('assumed_return_arr', []);
 		
 		$countrecord = count($investment_amount);
-		if($countrecord > 0)
+		
+		for($index = 0; $index < $countrecord; $index++)
 		{
-			for($index = 0; $index < $countrecord; $index++)
+			if(!empty($investment_amount[$index]) || !empty($bonus[$index]) || !empty($assumed_return[$index]))
 			{
 				$rothmodel = new Roth_conversion_calculator_yearly_rule();
 				$rothmodel->roth_id = $roth_id ?? null;
@@ -129,6 +129,7 @@ class DashboardController extends Controller
 				$rothmodel->save();	
 			}
 		}
+		
 		
 		Session::forget('sl_no');
 		return response()->json(['message'=>'success']);
