@@ -124,9 +124,7 @@
     });
   });
   $(document).ready(function(){
-	  
 	  $('.common-cancel-button').on('click', function(){
-		  
 		window.location.href= "{{	route('login')	}}";
 	  })
   })

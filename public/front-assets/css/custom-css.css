@@ -216,3 +216,47 @@
     color: red;
     font-size: 20px;
 }
+.input-dollar {
+    position: relative;
+}
+.currency-symbol {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+    pointer-events: none;
+	z-index: 2;
+}
+/*.input-dollar::before {
+    content: '$';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+}*/
+.input-dollar input {
+    padding-left: 20px !important;
+	line-height: 1.5;
+}
+.input-dollar input.is-invalid {
+    padding-left: 20px !important;
+}
+
+.input-percent {
+    position: relative;
+    /*display: inline-block;*/
+}
+.input-percent::after {
+    content: '%';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+}
+.input-percent input {
+    padding-right: 20px; /* space for the % */
+}
+
