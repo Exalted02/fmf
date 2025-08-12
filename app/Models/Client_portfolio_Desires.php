@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client_portfolio_Desires extends Model
 {
     use HasFactory;
+	protected $table = 'client_portfolio_desires';
 	protected $fillable = [
         'user_id',
 		'client_name',

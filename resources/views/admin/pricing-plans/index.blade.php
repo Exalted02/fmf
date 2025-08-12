@@ -106,55 +106,6 @@ $( document ).ready(function() {
 		else {
              $('#frmPricingPlans').submit();
         }
-		/*if (isValid) {
-			var form = $("#frmEmailSettings");
-			var URL = $('#frmEmailSettings').attr('action');
-			$.ajax({
-				url: URL,
-				type: "POST",
-				data: form.serialize() + '&_token=' + csrfToken,
-				//dataType: 'json',
-				success: function(response) {
-					$('#updt_success_msg').modal('show');
-					setTimeout(() => {
-						window.location.reload();
-					}, "2000");
-				},
-				error: function(xhr) {
-					// Handle validation errors
-					if (xhr.status === 422) {
-						const errors = xhr.responseJSON.errors;
-						let errorMessage = '';
-
-						$('.invalid-feedback').hide();
-						$('.form-control').removeClass('is-invalid');
-						// Loop through errors and format them
-						$.each(errors, function(key, value) {
-							errorMessage += value[0] + '\n'; // Assuming you want the first error message for each field
-							if ($('#'+key).length) { // Which have id
-								$('#'+key).addClass('is-invalid');
-								$('#'+key).next('.invalid-feedback').show().text(value[0]);
-							}else{ // Which have not any id
-								var fieldName = key.split('.')[0]; // Get the base field name (e.g., product_sale_price)
-								var index = key.split('.').pop();
-								var inputField = $('input[name="' + fieldName + '[]"]').eq(index);
-								inputField.addClass('is-invalid');
-								inputField.next('.invalid-feedback').show().text(value[0]);
-							}
-						});
-						// Display the errors
-						//alert('Validation errors:\n' + errorMessage);
-					} else if(xhr.status == 403){
-						$('#module_permission').modal('show');
-						setTimeout(() => {
-							window.location.reload();
-						}, "2000");
-					}else{
-						alert('An unexpected error occurred.');
-					}
-				}
-			});
-		}*/
 	});
 });
 </script>
