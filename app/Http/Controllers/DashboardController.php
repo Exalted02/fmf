@@ -129,7 +129,7 @@ class DashboardController extends Controller
 				$rothmodel->save();	
 			}
 		}
-		
+		Session::destroy('sl_no');
 		return response()->json(['message'=>'success']);
 	}
 }
