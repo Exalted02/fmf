@@ -24,19 +24,19 @@
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
 										<label for="" class="col-form-label">Client's Name</label>
-										<input class="form-control" type="text" placeholder="Client's Name">
+										<input class="form-control" name="client_name[]" type="text" placeholder="Client's Name">
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
 										<label for="" class="col-form-label">Income Amount</label>
-										<input class="form-control" type="text" placeholder="Income Amount">
+										<input class="form-control" name="income_amount[]" type="text" placeholder="Income Amount">
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="">
 										<label for="" class="col-form-label">Type</label>
-										<select class="select">
+										<select class="select" name="type[]">
 											<option>Type</option>
 											<option value="0">Income</option>
 										</select>
@@ -45,7 +45,7 @@
 								<div class="col-lg-3 col-md-3">
 									<div class="">
 										<label for="" class="col-form-label">Frequency</label>
-										<select class="select">
+										<select class="select" name="frequency[]">
 											<option>Frequency</option>
 											<option value="0">Monthly</option>
 											<option value="1">Yearly</option>
@@ -55,19 +55,19 @@
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">COLA</label>
-										<input class="form-control" type="text" placeholder="COLA">
+										<input class="form-control" name="cola[]" type="text" placeholder="COLA">
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">Start Age</label>
-										<input class="form-control" type="text" placeholder="Start Age">
+										<input class="form-control" name="start_age[]" type="text" placeholder="Start Age">
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">End Age</label>
-										<input class="form-control" type="text" placeholder="End Age">
+										<input class="form-control" name="end_age[]" type="text" placeholder="End Age">
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2">
@@ -85,7 +85,8 @@
 						<div class="col-md-12">
 							<div class="d-flex justify-between submit-section mt-2 mb-5">
 								<a href="{{route('portfolio-desires')}}"><button class="btn btn-primary common-button"><i class="fa fa-arrow-left"></i> Previous</button></a>
-								<a href="{{route('roth-calculator')}}"><button class="btn btn-primary common-button">Next <i class="fa fa-arrow-right"></i></button></a>
+								<button class="btn btn-primary common-button">Next <i class="fa fa-arrow-right"></i></button>
+									{{--<a href="{{route('roth-calculator')}}"><button class="btn btn-primary common-button">Next <i class="fa fa-arrow-right"></i></button></a>--}}
 							</div>
 						</div>
 					</div>
@@ -132,19 +133,19 @@
 		<div class="col-lg-3 col-md-3">
 			<div class="input-block">
 				<label for="" class="col-form-label">Client's Name</label>
-				<input class="form-control" type="text" placeholder="Client's Name">
+				<input class="form-control" name="client_name[]" type="text" placeholder="Client's Name">
 			</div>
 		</div>
 		<div class="col-lg-3 col-md-3">
 			<div class="input-block">
 				<label for="" class="col-form-label">Income Amount</label>
-				<input class="form-control" type="text" placeholder="Income Amount">
+				<input class="form-control" name="income_amount[]" type="text" placeholder="Income Amount">
 			</div>
 		</div>
 		<div class="col-lg-3 col-md-3">
 			<div class="">
 				<label for="" class="col-form-label">Type</label>
-				<select class="select">
+				<select class="select" name="type[]">
 					<option>Type</option>
 					<option value="0">Income</option>
 				</select>
@@ -153,7 +154,7 @@
 		<div class="col-lg-3 col-md-3">
 			<div class="">
 				<label for="" class="col-form-label">Frequency</label>
-				<select class="select">
+				<select class="select" name="frequency[]">
 					<option>Frequency</option>
 					<option value="0">Monthly</option>
 					<option value="1">Yearly</option>
@@ -163,19 +164,19 @@
 		<div class="col-lg-2 col-md-2">
 			<div class="input-block">
 				<label for="" class="col-form-label">COLA</label>
-				<input class="form-control" type="text" placeholder="COLA">
+				<input class="form-control" name="cola[]" type="text" placeholder="COLA">
 			</div>
 		</div>
 		<div class="col-lg-2 col-md-2">
 			<div class="input-block">
 				<label for="" class="col-form-label">Start Age</label>
-				<input class="form-control" type="text" placeholder="Start Age">
+				<input class="form-control" name="start_age[]" type="text" placeholder="Start Age">
 			</div>
 		</div>
 		<div class="col-lg-2 col-md-2">
 			<div class="input-block">
 				<label for="" class="col-form-label">End Age</label>
-				<input class="form-control" type="text" placeholder="End Age">
+				<input class="form-control" name="end_age[]" type="text" placeholder="End Age">
 			</div>
 		</div>
 		<div class="col-lg-2 col-md-2">
@@ -200,6 +201,28 @@
     const row = button.closest('.row');
     row.remove();
   }
+  
+</script>
+<script>
+$(document).ready(function(){
+	$('.common-button').on('click', function(e){
+		e.preventDefault();
+		var client_arr = [];
+		var allClientBlank = true;
+		$('input[name="client_name[]"]').each(function() {
+            if ($(this).val().trim() !== '') {
+				client_arr.push($(this).val().trim());
+                allClientBlank = false;
+            }
+			
+        });
+		alert(client_arr);
+		if(allClientBlank)
+		{
+			
+		}
+	});
+});
 </script>
 @endsection
 

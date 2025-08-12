@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Client_portfolio_Desires;
+use App\Models\Guaranteed_income_sources;
 
 class DashboardController extends Controller
 {
@@ -55,6 +56,8 @@ class DashboardController extends Controller
 		$model->RIPG  = implode(',', $request->RIPG) ?? null;
 		$model->status  = 1;
 		$model->save();
+		$id = $model->id;
+		Session::put('sl_no', $id);
 		return response()->json(['message'=>'success']);
 	}
 }
