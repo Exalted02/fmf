@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
 @php 
-//echo "<pre>";print_r($monthly_plan_arr);die;
+//echo "<pre>";print_r($yearly_plan_arr);die;
 @endphp
 <!-- Page Wrapper -->
 <div class="page-wrapper">

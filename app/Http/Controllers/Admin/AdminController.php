@@ -19,7 +19,7 @@ class AdminController extends Controller
 		$monthly_plan_arr = [];
 		$yearly_plan_arr = [];
 		$pricing_monthly_plan = Pricing_plan::where('plan_type', 1)->get();
-		$pricing_yearly_plan = Pricing_plan::where('plan_type', 1)->get();
+		$pricing_yearly_plan = Pricing_plan::where('plan_type', 2)->get();
 		foreach($pricing_monthly_plan as $m)
 		{
 			$monthly_plan_arr[] = $m->plan_name;
@@ -43,6 +43,11 @@ class AdminController extends Controller
 		
 		$monthly_billing = $request->input('monthly_billing', []);
 		$annual_billing = $request->input('annual_billing', []);
+		//$truncate = Pricing_plan::all();
+		//$truncate->truncate();
+		Pricing_plan::query()->truncate();
+		//echo "<pre>";print_r($hasData);die;
+		
 		for($index = 0; $index < count($monthly_billing); $index++)
 		{
 			$model = new Pricing_plan();
@@ -60,6 +65,8 @@ class AdminController extends Controller
 			$model->status = 1;
 			$model->save();
 		}
+		
+		
 		
 		return redirect('/admin/pricing-plans');
 	}
