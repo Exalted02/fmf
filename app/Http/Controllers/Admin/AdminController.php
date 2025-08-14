@@ -69,6 +69,7 @@ class AdminController extends Controller
 		$users = User::where('status', '!=', 2)->get();
 		//echo "<pre>";print_r($users);die;
 		$data['users'] = $users;
-		return view('users.index');
+		$data['has_search'] = '';
+		return view('admin.users.index', $data);
 	}
 }

@@ -40,6 +40,7 @@ Route::middleware(['web'])->group(function () {
 		
 		// users
 		Route::get('/users', [AdminController::class, 'users'])->name('users');
+		Route::get('/user-update-status', [AdminController::class, 'user-update-status'])->name('user-update-status');
 	});
 
 	Route::prefix('admin')->name('admin.')->group(function () {
