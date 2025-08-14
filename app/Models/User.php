@@ -72,4 +72,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Client_portfolio_Desires::class, 'user_id', 'id');
     }
+	
 }

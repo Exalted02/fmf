@@ -250,4 +250,31 @@
 .input-percent input {
     padding-right: 20px;
 }
+.multiadd{
+	border: 1px solid #D3D3D4;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 10px;
+}
+.section-title {
+    font-size: 20px;
+    font-weight: ;
+    margin-bottom: 10px;
+    /*border-bottom: 2px solid #003b80;*/
+    border-bottom: 1px solid #b9c0c8;
+    padding-bottom: 5px;
+    /*color: #003b80;*/
+    color: #2567b3;
+}
+.irs-section-title {
+    font-size: 20px;
+    font-weight: ;
+    margin-bottom: 0px;
+    margin-top: 20px;
+    border-bottom: 0px solid #003b80;
+    padding-bottom: 5px;
+    /*color: #003b80;*/
+    color: #2567b3;
+}
+
 

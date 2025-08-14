@@ -72,6 +72,7 @@
 									<div class="dropdown dropdown-action">
 										<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
 										<div class="dropdown-menu dropdown-menu-right">
+											<a class="dropdown-item delete-user-record" href="javascript:void(0);" data-id="{{ $val->id}}" data-url="{{ route('admin.deleteUser') }}"><i class="fa-regular fa-trash-can m-r-5"></i> {{ __('delete') }}</a>
 											<a class="dropdown-item edit-product-code" href="{{ route('admin.user-view', $val->id)}}"><i class="fa-regular fa-eye m-r-5"></i> {{ __('view') }}</a>
 										</div>
 									</div>
@@ -85,6 +86,8 @@
 		</div>
 	</div>
 </div>
+
+
 	<!-- /Page Content -->
 @include('modal.email-management-modal')
 @include('modal.common')
@@ -116,6 +119,48 @@ $( document ).ready(function() {
 			},
 		}
 	});
+	
+	$(document).on('click','.delete-user-record', function(e){
+		e.preventDefault();
+		
+		var id = $(this).data('id');
+		var URL = $(this).data('url');
+		//alert(id);alert(URL);
+		if (confirm("Are you sure you want to delete this record?")) {
+			$.ajax({
+				url: URL,
+				type: "POST",
+				data: {
+					id: id,
+					_token: $('meta[name="csrf-token"]').attr('content')
+				},
+				success: function (response) {
+					
+					location.reload(); 
+				},
+				error: function (xhr) {
+					alert("Something went wrong. Please try again.");
+				}
+			});
+		}
+	});
+	
+	$(document).on('click','.update-status', function(){
+	var id= $(this).data('id');
+	var URL = $(this).data('url');
+	$.ajax({
+		url: URL,
+		type: "POST",
+		data: {id:id, _token: csrfToken},
+		dataType: 'json',
+		success: function(response) {
+			//alert(response);
+			setTimeout(() => {
+				window.location.reload();
+			}, "1000");
+		},
+	});
+});
 });
 </script>
 @endsection

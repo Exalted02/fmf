@@ -80,4 +80,19 @@ class AdminController extends Controller
 		return view('admin.users.view', $data);
 		echo "<pre>";print_r($user);die;
 	}
+	public function _delete_user(Request $request)
+	{
+		//echo "<pre>";print_r($request->all());die;
+		User::where('id',$request->id)->update(['status'=>2]);
+		return response()->json(['message'=>'success']);
+	}
+	public function user_update_status(Request $request)
+	{
+		$status = User::where('id', $request->id)->first()->status;
+		$change_status = $status == 1 ? 0 : 1;
+		$update = User::where('id', $request->id)->update(['status'=> $change_status]);
+		
+		$data['result'] = $change_status;
+		echo json_encode($data);
+	}
 }

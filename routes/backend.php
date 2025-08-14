@@ -42,6 +42,8 @@ Route::middleware(['web'])->group(function () {
 		Route::get('/users', [AdminController::class, 'users'])->name('users');
 		Route::get('/user-update-status', [AdminController::class, 'user-update-status'])->name('user-update-status');
 		Route::get('/user-view/{id}', [AdminController::class, 'user_view'])->name('user-view');
+		Route::post('/deleteUser', [AdminController::class, '_delete_user'])->name('deleteUser'); 
+		Route::post('/user-update-status', [AdminController::class, 'user_update_status'])->name('user-update-status');
 	});
 
 	Route::prefix('admin')->name('admin.')->group(function () {

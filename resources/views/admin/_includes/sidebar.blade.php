@@ -27,7 +27,7 @@
 					<a href="{{ route('admin.dashboard')}}"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a>
 				</li>
 				<li class="{{ request()->routeIs('admin.pricing-plans','admin.pricing-plans-edit-save') ? 'active' : '' }}">
-					<a href="{{ route('admin.pricing-plans') }}"><i class="fa-regular fa-envelope"></i> <span>Pricing Plans</span></a>
+					<a href="{{ route('admin.pricing-plans') }}"><i class="fa-solid fa-dollar-sign"></i> <span>Pricing Plans</span></a>
 				</li>
 				<li class="{{ request()->routeIs('admin.email-management','admin.email-management-edit') ? 'active' : '' }}">
 					<a href="{{ route('admin.email-management') }}"><i class="fa-regular fa-envelope"></i> <span>Email Management</span></a>
@@ -37,7 +37,7 @@
 				</li>
 				
 				<li class="{{ request()->routeIs('admin.users', 'admin.user-view') ? 'active' : '' }}">
-					<a href="{{ route('admin.users') }}"><i class="fa-regular fa-envelope"></i> <span>Users</span></a>
+					<a href="{{ route('admin.users') }}"><i class="fa-solid fa-user"></i> <span>Users</span></a>
 				</li>
 				
 				<li class="{{ request()->routeIs('admin.logout') ? 'active' : '' }}">
