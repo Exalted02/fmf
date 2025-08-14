@@ -36,7 +36,7 @@
 					<a href="{{ route('admin.email-settings') }}"><i class="fa-regular fa-envelope"></i> <span>Email Settings</span></a>
 				</li>
 				
-				<li class="{{ request()->routeIs('admin.users') ? 'active' : '' }}">
+				<li class="{{ request()->routeIs('admin.users', 'admin.user-view') ? 'active' : '' }}">
 					<a href="{{ route('admin.users') }}"><i class="fa-regular fa-envelope"></i> <span>Users</span></a>
 				</li>
 				

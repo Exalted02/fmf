@@ -72,7 +72,7 @@
 									<div class="dropdown dropdown-action">
 										<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
 										<div class="dropdown-menu dropdown-menu-right">
-											<a class="dropdown-item edit-product-code" href=""><i class="fa-solid fa-pencil m-r-5"></i> {{ __('edit') }}</a>
+											<a class="dropdown-item edit-product-code" href="{{ route('admin.user-view', $val->id)}}"><i class="fa-regular fa-eye m-r-5"></i> {{ __('view') }}</a>
 										</div>
 									</div>
 								</td>

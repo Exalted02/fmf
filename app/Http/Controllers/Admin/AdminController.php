@@ -66,10 +66,17 @@ class AdminController extends Controller
 	public function users()
 	{
 		$data = [];
-		$users = User::where('status', '!=', 2)->get();
+		$users = User::where('user_type', 1)->where('status', '!=', 2)->get();
 		//echo "<pre>";print_r($users);die;
 		$data['users'] = $users;
-		$data['has_search'] = '';
 		return view('admin.users.index', $data);
+	}
+	public function user_view($id='')
+	{
+		$data = [];
+		$user = User::where('id', $id)->first();
+		$data['users'] = $user;
+		return view('admin.users.view', $data);
+		echo "<pre>";print_r($user);die;
 	}
 }

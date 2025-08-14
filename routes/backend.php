@@ -41,6 +41,7 @@ Route::middleware(['web'])->group(function () {
 		// users
 		Route::get('/users', [AdminController::class, 'users'])->name('users');
 		Route::get('/user-update-status', [AdminController::class, 'user-update-status'])->name('user-update-status');
+		Route::get('/user-view/{id}', [AdminController::class, 'user_view'])->name('user-view');
 	});
 
 	Route::prefix('admin')->name('admin.')->group(function () {
