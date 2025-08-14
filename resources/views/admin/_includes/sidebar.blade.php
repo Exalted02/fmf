@@ -36,6 +36,10 @@
 					<a href="{{ route('admin.email-settings') }}"><i class="fa-regular fa-envelope"></i> <span>Email Settings</span></a>
 				</li>
 				
+				<li class="{{ request()->routeIs('admin.users') ? 'active' : '' }}">
+					<a href="{{ route('admin.users') }}"><i class="fa-regular fa-envelope"></i> <span>Users</span></a>
+				</li>
+				
 				<li class="{{ request()->routeIs('admin.logout') ? 'active' : '' }}">
 					<a href="{{ route('admin.logout') }}"><i class="fa-solid fa-shop-lock"></i> <span> {{ __('logout') }} </span></a>
 				</li>

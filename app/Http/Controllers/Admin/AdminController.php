@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use App\Models\Pricing_plan;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -61,5 +62,13 @@ class AdminController extends Controller
 		}
 		
 		return redirect('/admin/pricing-plans');
+	}
+	public function users()
+	{
+		$data = [];
+		$users = User::where('status', '!=', 2)->get();
+		//echo "<pre>";print_r($users);die;
+		$data['users'] = $users;
+		return view('users.index');
 	}
 }

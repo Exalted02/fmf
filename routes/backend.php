@@ -37,6 +37,9 @@ Route::middleware(['web'])->group(function () {
 		Route::get('email-management', [EmailManagementController::class,'index'])->name('email-management');
 		Route::get('/email-management-edit/{id}', [EmailManagementController::class, 'email_management_edit'])->name('email-management-edit');
 		Route::post('/email-management-edit-save',[EmailManagementController::class,'manage_email_management_process'])->name('email-management-edit-save');
+		
+		// users
+		Route::get('/users', [AdminController::class, 'users'])->name('users');
 	});
 
 	Route::prefix('admin')->name('admin.')->group(function () {
