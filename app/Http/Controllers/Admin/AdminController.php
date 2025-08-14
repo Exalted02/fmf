@@ -74,8 +74,9 @@ class AdminController extends Controller
 	public function user_view($id='')
 	{
 		$data = [];
-		$user = User::where('id', $id)->first();
-		$data['users'] = $user;
+		$user = User::with('get_client_portfolio')->where('id', $id)->first();
+		//echo "<pre>";print_r($user);die;
+		$data['user'] = $user;
 		return view('admin.users.view', $data);
 		echo "<pre>";print_r($user);die;
 	}

@@ -24,165 +24,115 @@
 		<!-- /Page Header -->
 		
 		<div class="row">
-					{{--<div class="col-xl-6">
-                            <div id="accordion" class="custom-faq">
-                                <div class="card mb-1">
-                                    <div class="card-header" id="headingOne">
-                                        <h5 class="accordion-faq m-0">
-                                            <a class="text-dark" data-bs-toggle="collapse" href="#collapseOne" aria-expanded="true">
-                                                <i class="mdi mdi-help-circle me-1 text-primary"></i> 
-                                                What is Vakal text here?
-                                            </a>
-                                        </h5>
-                                    </div>
-                        
-                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-bs-parent="#accordion">
-                                        <div class="card-body">
-                                            Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
-                                            Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card mb-1">
-                                    <div class="card-header" id="headingTwo">
-                                        <h5 class="accordion-faq m-0">
-                                            <a class="text-dark" data-bs-toggle="collapse" href="#collapseTwo" aria-expanded="false">
-                                                <i class="mdi mdi-help-circle me-1 text-primary"></i> 
-                                                Why use Vakal text here?
-                                            </a>
-                                        </h5>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#accordion">
-                                        <div class="card-body">
-                                            Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
-                                            Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card mb-1">
-                                    <div class="card-header" id="headingThree">
-                                        <h5 class="accordion-faq m-0">
-                                            <a class="text-dark" data-bs-toggle="collapse" href="#collapseThree" aria-expanded="false">
-                                                <i class="mdi mdi-help-circle me-1 text-primary"></i> 
-                                                How many variations exist?
-                                            </a>
-                                        </h5>
-                                    </div>
-                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-bs-parent="#accordion">
-                                        <div class="card-body">
-                                            Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
-                                            Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
-                                        </div>
-                                    </div>
-                                </div>
-    
-                                <div class="card mb-1">
-                                    <div class="card-header" id="headingFour">
-                                        <h5 class="accordion-faq m-0">
-                                            <a class="text-dark" data-bs-toggle="collapse" href="#collapseFour" aria-expanded="false">
-                                                <i class="mdi mdi-help-circle me-1 text-primary"></i> 
-                                                What is Vakal text here?
-                                            </a>
-                                        </h5>
-                                    </div>
-                                    <div id="collapseFour" class="collapse" aria-labelledby="collapseFour" data-bs-parent="#accordion">
-                                        <div class="card-body">
-                                            Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
-                                            Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> <!-- end #accordions-->
-                        </div>--}} <!-- end col -->
+			<div class="col-xl-12">
+				<div class="accordion custom-accordion" id="custom-accordion-one">
+				@foreach($user->get_client_portfolio as $key=>$val)
+					<div class="card mb-1">
+						<div class="card-header" id="heading-{{ $key }}">
+							<h5 class="accordion-faq m-0 position-relative">
+								<a class="custom-accordion-title text-reset d-block"
+									data-bs-toggle="collapse" href="#collapse-{{ $key }}"
+									aria-expanded="true" aria-controls="collapseNine">
+									#. <strong>Client name</strong>:- {{$val->client_name}} &nbsp; <strong>Client age</strong>:- {{ $val->client_age}}&nbsp; <strong>Partner name</strong>:- {{ $val->partner_name}} &nbsp; <strong>Partner age</strong>:- {{ $val->partner_age }}<i
+										class="mdi mdi-chevron-down accordion-arrow"></i>
+								</a>
+							</h5>
+						</div>
 
-                        <div class="col-xl-12">
-                            <div class="accordion custom-accordion" id="custom-accordion-one">
-                                <div class="card mb-1">
-                                    <div class="card-header" id="headingNine">
-                                        <h5 class="accordion-faq m-0 position-relative">
-                                            <a class="custom-accordion-title text-reset d-block"
-                                                data-bs-toggle="collapse" href="#collapseNine"
-                                                aria-expanded="true" aria-controls="collapseNine">
-                                                Q. Can I use this template for my client? <i
-                                                    class="mdi mdi-chevron-down accordion-arrow"></i>
-                                            </a>
-                                        </h5>
+						<div id="collapse-{{ $key }}" class="collapse"
+							aria-labelledby="heading-{{ $key }}"
+							data-bs-parent="#custom-accordion-one">
+							<div class="card-body">
+								<div class="contact-tab-wrap">
+									<ul class="contact-nav nav">
+										<li>
+											<a href="#" data-bs-toggle="tab" data-bs-target="#product" class="active">
+												<i class="fa-solid fa-box"></i>{{ __('product_information') }}
+											</a>
+										</li>
+										<li>
+											<a href="#" data-bs-toggle="tab" data-bs-target="#outsource">
+												<i class="fa-solid fa-person-shelter"></i>{{ __('outsource_information') }}
+											</a>
+										</li>
+										<li>
+											<a href="#" data-bs-toggle="tab" data-bs-target="#referral">
+												<i class="fa-solid fa-people-pulling"></i>{{ __('referral_information') }}
+											</a>
+										</li>
+										<li>
+											<a href="#" data-bs-toggle="tab" data-bs-target="#follow">
+												<i class="fa-solid fa-user-plus"></i>{{ __('follow_up_information') }}
+											</a>
+										</li>
+									</ul>
+								</div>
+								
+								<div class="contact-tab-view">
+									<div class="tab-content pt-0">
+									
+										<!-- Product Information -->
+                                    <div class="tab-pane active show" id="product">
+                                        
+                                                <div class="multiadd d-flex flex-wrap">
+                                                    
+                                                        <div class="col-md-4 mt-3">
+                                                            <strong>{{ __('select_product_code') }}</strong>
+                                                            <div>ggggg</div>
+                                                        </div>
+                                                  
+                                                    
+                                                        <div class="col-md-4 mt-3">
+                                                            <strong>{{ __('select_product_group') }}</strong>
+                                                            <div>kkkkkk</div>
+                                                        </div>
+                                                    
+                                                    
+                                                        <div class="col-md-4 mt-3">
+                                                            <strong>{{ __('select_product_name') }}</strong>
+                                                            <div>hhhhhh</div>
+                                                        </div>
+                                                    
+                                                    
+                                                        <div class="col-md-4 mt-3">
+                                                            <strong>{{ __('sale_price') }}</strong>
+                                                            <div>uuuuu</div>
+                                                        </div>
+                                                    
+                                                    
+                                                        <div class="col-md-4 mt-3">
+                                                            <strong>{{ __('tally_serial_no') }}</strong>
+                                                            <div>yyyyy</div>
+                                                        </div>
+                                                    
+                                                        <div class="col-md-4 mt-3">
+                                                            <strong>{{ __('select_resource') }}</strong>
+                                                            <div>eeeee</div>
+                                                        </div>
+                                                   
+                                                        <div class="col-md-4 mt-3">
+                                                            <strong>{{ __('remarks') }}</strong>
+                                                            <div>wwwww</div>
+                                                        </div>
+                                                    
+                                                </div>
+                                            
+                                        
+										{{--<div>{{ __('no_record_found') }}</div>--}}
+                                            
                                     </div>
-
-                                    <div id="collapseNine" class="collapse show"
-                                        aria-labelledby="headingFour"
-                                        data-bs-parent="#custom-accordion-one">
-                                        <div class="card-body">
-                                            Yup, the marketplace license allows you to use this theme
-                                            in any end products.
-                                            For more information on licenses, please refere <a
-                                                href="#" target="_blank">here</a>.
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card mb-1">
-                                    <div class="card-header" id="headingFive">
-                                        <h5 class="accordion-faq m-0 position-relative">
-                                            <a class="custom-accordion-title text-reset collapsed d-block"
-                                                data-bs-toggle="collapse" href="#collapseFive"
-                                                aria-expanded="false" aria-controls="collapseFive">
-                                                Q. Can this theme work with Wordpress? <i
-                                                    class="mdi mdi-chevron-down accordion-arrow"></i>
-                                            </a>
-                                        </h5>
-                                    </div>
-                                    <div id="collapseFive" class="collapse"
-                                        aria-labelledby="headingFive"
-                                        data-bs-parent="#custom-accordion-one">
-                                        <div class="card-body">
-                                            No. This is a HTML template. It won't directly with
-                                            wordpress, though you can convert this into wordpress
-                                            compatible theme
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card mb-1">
-                                    <div class="card-header" id="headingSix">
-                                        <h5 class="accordion-faq m-0 position-relative">
-                                            <a class="custom-accordion-title text-reset collapsed d-block"
-                                                data-bs-toggle="collapse" href="#collapseSix"
-                                                aria-expanded="false" aria-controls="collapseSix">
-                                                Q. How do I get help with the theme? <i
-                                                    class="mdi mdi-chevron-down accordion-arrow"></i>
-                                            </a>
-                                        </h5>
-                                    </div>
-                                    <div id="collapseSix" class="collapse" aria-labelledby="headingSix"
-                                        data-bs-parent="#custom-accordion-one">
-                                        <div class="card-body">
-                                            Use our dedicated support email (support@coderthemes.com) to
-                                            send your issues or feedback. We are here to help anytime
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card mb-1">
-                                    <div class="card-header" id="headingSeven">
-                                        <h5 class="accordion-faq m-0 position-relative">
-                                            <a class="custom-accordion-title text-reset collapsed d-block"
-                                                data-bs-toggle="collapse" href="#collapseSeven"
-                                                aria-expanded="false" aria-controls="collapseSeven">
-                                                Q. Will you regularly give updates of DGT ? <i
-                                                    class="mdi mdi-chevron-down accordion-arrow"></i>
-                                            </a>
-                                        </h5>
-                                    </div>
-                                    <div id="collapseSeven" class="collapse"
-                                        aria-labelledby="headingSeven"
-                                        data-bs-parent="#custom-accordion-one">
-                                        <div class="card-body">
-                                            Yes, We will update the DGT regularly. All the
-                                            future updates would be available without any cost
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                    <!-- /Product Information -->
+									
+									</div>
+								</div>
+								
+							</div> <!-- cart body end -->
+						</div>
+					</div>
+				@endforeach
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 	<!-- /Page Content -->

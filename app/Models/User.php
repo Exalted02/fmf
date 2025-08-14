@@ -68,4 +68,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(State::class, 'id', 'state');
     }
+	public function get_client_portfolio()
+    {
+        return $this->hasMany(Client_portfolio_Desires::class, 'user_id', 'id');
+    }
 }
