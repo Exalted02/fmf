@@ -153,21 +153,29 @@ use App\Models\Followup_remarks;
 		// toEmails = Receiver Email, bccEmails = Bcc Receiver, ccEmails = Cc Receiver, files = For attatchment files.
 		$data['body'] = str_replace(array("[SCREEN_NAME]", "[YEAR]"), array(config('app.name', 'Laravel'),date('Y')), $data['body']);
 		set_email_configuration();
-        Mail::send('email-setting.sendmail', $data, function($message)use($data) {
-            $message->to($data["toEmails"]);
-			if(isset($data['bccEmails']) && count($data['bccEmails']) > 0){
-				$message->bcc($data["bccEmails"]);
-			}
-			if(isset($data['ccEmails']) && count($data['ccEmails']) > 0){
-				$message->cc($data["ccEmails"]);
-			}
-            $message->subject($data["subject"]);
-			if(isset($data['files']) && count($data['files']) > 0){
-				foreach ($data['files'] as $file){
-					$message->attach($file);
+		try {
+			Mail::send('email-setting.sendmail', $data, function($message)use($data) {
+				$message->to($data["toEmails"]);
+				if(isset($data['bccEmails']) && count($data['bccEmails']) > 0){
+					$message->bcc($data["bccEmails"]);
 				}
-            }
-        });
+				if(isset($data['ccEmails']) && count($data['ccEmails']) > 0){
+					$message->cc($data["ccEmails"]);
+				}
+				$message->subject($data["subject"]);
+				if(isset($data['files']) && count($data['files']) > 0){
+					foreach ($data['files'] as $file){
+						$message->attach($file);
+					}
+				}
+			});
+			return true;
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
+	function get_app_name(){		
+		return env('APP_NAME');;
 	}
 //uc all text
     function uc_all($data){

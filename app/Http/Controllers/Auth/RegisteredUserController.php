@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Lang;
 
 class RegisteredUserController extends Controller
 {
@@ -38,7 +39,10 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
 			'phone_number' => ['required', 'numeric', 'min:11'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+            'disclaimer_text' => ['required'],
+        ],[
+			'disclaimer_text' => 'Please check Disclaimer checkbox.',
+		]);
 
         $user = User::create([
             'user_type' => 1,
@@ -53,6 +57,23 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+		
+		$client_name = $request->first_name." ".$request->last_name;
+		$email_content = get_email(1);
+		if(!empty($email_content))
+		{
+			$logo = '<img src="' . url('front-assets/img/-logo1.png') . '" alt="'.Lang::get('project_title').'" width="150">';
+			$maildata = [
+				'subject' => $email_content->message_subject,
+				'body' => str_replace(array("[LOGO]", "[NAME]", "[SCREEN_NAME]", "[YEAR]"), array($logo, $client_name, get_app_name(), date('Y')), $email_content->message),
+				'toEmails' => array($request->email),
+			];
+			try {
+				send_email($maildata);
+			} catch (\Exception $e) {
+				//
+			}
+		}
 
         Auth::login($user);
 

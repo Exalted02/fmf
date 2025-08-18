@@ -84,11 +84,14 @@
                 <div class="col-md-12">
 					<div class="input-block mb-3">
 						<div class="form-check">
-							<input type="checkbox" class="form-check-input" id="dropdownCheck">
+							<input type="checkbox" class="form-check-input" name="disclaimer_text" id="dropdownCheck">
 							<label class="form-check-label" for="dropdownCheck">
 								The following disclaimer in place of what you have:</br>The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide. The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br>Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
 							</label>
 						</div>
+						@error('disclaimer_text')
+							<div class="error-text">{{ $message }}</div>
+						@enderror
 					</div>
                 </div>
 				<div class="col-md-12">

@@ -15,6 +15,7 @@ class CreateEmailManagementTable extends Migration
     {
         Schema::create('email_management', function (Blueprint $table) {
             $table->id();
+			$table->text('message_purpose');
 			$table->text('message_subject');
 			$table->longText('message');
 			$table->tinyInteger('status')->default(0);

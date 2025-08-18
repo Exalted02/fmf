@@ -31,44 +31,19 @@
 							<tr>
 								<th>Name</th>
 								<th>Email subject</th>
-								<th>Status</th>
 								<th class="text-end">Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							@foreach($data as $val)
 							<tr>
-								<td>{{ $val->name ?? ''}}</td>
+								<td>{{ $val->message_purpose ?? ''}}</td>
 								<td>{{ $val->message_subject ?? ''}}</td>
-								<td>
-								@if($val->status ==1)
-									<div class="dropdown action-label">
-										<a class="btn btn-white btn-sm badge-outline-success dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-											<i class="fa-regular fa-circle-dot text-success"></i> {{ __('active') }}
-										</a>
-										<div class="dropdown-menu dropdown-menu-right">
-											<a class="dropdown-item update-status" href="javascript:void(0);" data-id="{{ $val->id }}" data-url="{{ route('email-management-update-status') }}"><i class="fa-regular fa-circle-dot text-success"></i> {{ __('active') }}</a>
-											<a class="dropdown-item update-status" href="javascript:void(0);" data-id="{{ $val->id }}" data-url="{{ route('email-management-update-status') }}"><i class="fa-regular fa-circle-dot text-danger"></i> {{ __('inactive') }}</a>
-										</div>
-									</div>
-								 @else
-									<div class="dropdown action-label">
-										<a class="btn btn-white btn-sm badge-outline-danger dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-											<i class="fa-regular fa-circle-dot text-danger"></i> {{ __('inactive') }}
-										</a>
-										<div class="dropdown-menu dropdown-menu-right">
-											<a class="dropdown-item update-status" href="javascript:void(0);" data-id="{{ $val->id }}" data-url="{{ route('email-management-update-status') }}"><i class="fa-regular fa-circle-dot text-success"></i> {{ __('active') }}</a>
-											<a class="dropdown-item update-status" href="javascript:void(0);" data-id="{{ $val->id }}" data-url="{{ route('email-management-update-status') }}"><i class="fa-regular fa-circle-dot text-danger"></i> {{ __('inactive') }}</a>
-										</div>
-									</div> 
-								 
-								 @endif
-								</td>
 								<td class="text-end">
 									<div class="dropdown dropdown-action">
 										<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
 										<div class="dropdown-menu dropdown-menu-right">
-											<a class="dropdown-item edit-product-code" href="{{ route('email-management-edit', $val->id) }}"><i class="fa-solid fa-pencil m-r-5"></i> {{ __('edit') }}</a>
+											<a class="dropdown-item edit-product-code" href="{{ route('admin.email-management-edit', $val->id) }}"><i class="fa-solid fa-pencil m-r-5"></i> {{ __('edit') }}</a>
 										</div>
 									</div>
 								</td>

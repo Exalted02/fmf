@@ -13,10 +13,10 @@
 		<div class="page-header">
 			<div class="row align-items-center">
 				<div class="col-md-4">
-					<h3 class="page-title">{{ __('email_management') }}</h3>
+					<h3 class="page-title">Email Management</h3>
 					<ul class="breadcrumb">
-						<li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('dashboard') }}</a></li>
-						<li class="breadcrumb-item active">{{ __('email_management') }}</li>
+						<li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+						<li class="breadcrumb-item active">Email Management</li>
 					</ul>
 				</div>
 			</div>
@@ -27,7 +27,7 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header">
-						<h5 class="card-title">{{ __('edit') }}</h5>
+						<h5 class="card-title">Edit</h5>
 					</div>
 					<div class="card-body">
 						<form id="frmeditproductcode" action="{{ route('admin.email-management-edit-save') }}">
@@ -35,14 +35,14 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="input-block mb-3">
-										<label class="col-form-label">{{ __('email_subject') }}<span class="text-danger">*</span></label>
+										<label class="col-form-label">Email Subject<span class="text-danger">*</span></label>
 										<input class="form-control" type="text" name="message_subject" id="message_subject" value="{{$data->message_subject}}">
 										<div class="invalid-feedback"></div>
 									</div>
 								</div>
 								<div class="col-sm-12">
 									<div class="input-block mb-3">
-										<label class="col-form-label">{{ __('email_message') }}<span class="text-danger">*</span></label>
+										<label class="col-form-label">Email Message<span class="text-danger">*</span></label>
 										<textarea class="form-control summernote" name="message" id="message" >{{$data->message}}</textarea>
 										<div class="invalid-feedback"></div>
 									</div>
@@ -70,7 +70,16 @@
     <script src="{{ url('front-assets/summernote/summernote-lite.min.js') }}"></script>
 	<script>
 		$('.summernote').summernote({
-			height: 200, // Set the height to 300px (you can adjust this value)
+			toolbar: [
+				['style', ['style']],
+				['font', ['bold', 'italic', 'underline']],
+				['fontsize', ['fontsize']],
+				['style', ['fontname', 'color']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['height', ['height']],
+				['insert', ['link', 'picture', 'video']],
+				['view', ['codeview']],
+			]
 		});
 	</script>
 @endsection
