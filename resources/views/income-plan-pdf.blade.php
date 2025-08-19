@@ -121,7 +121,7 @@ use Carbon\Carbon;
 				</tr>
 				<tr>
 					<td width="70%">Growth Allocation</td>
-					<td width="30%" style="text-align: right;">$ {{ $growth_allocation ?? ''}}</td>
+					<td width="30%" style="text-align: right;">$ {{ $growth_allocation ?? '' }}</td>
 				</tr>
 				{{--<tr>
 					<td width="70%">Income Bucket</td>
@@ -136,7 +136,6 @@ use Carbon\Carbon;
 				
 				if(!empty($primary_goal))
 				{
-					
 					if (isset($primary_goal[0])) {
 						$primary1 = $primary_goal[0] == '1' 
 							? 'Income' 
