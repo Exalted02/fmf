@@ -5,12 +5,22 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use PDF;
+use App\Models\Client_portfolio_Desires;
 
 class PdfController extends Controller
 {
 	public function incomePlan()
 	{
+		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->first();
+		//echo "<pre>";print_r($portfolio_Desire_data);die;
 		$data = [
+            "current_position" => $portfolio_Desire_data->current_portfolio_value ?? '',
+            "current_age" => $portfolio_Desire_data->client_age ?? '',
+            "retirement_age" => $portfolio_Desire_data->desired_retirement_age ?? '',
+            "desired_retirement_income" => $portfolio_Desire_data->desired_gross_income_retirement ?? '',
+            "cola" => $portfolio_Desire_data->COLA ?? '',
+            "growth_allocation" => $portfolio_Desire_data->current_portfolio_value ?? '',
+            "primary_goals" => $portfolio_Desire_data->RIPG ?? '',
             "wife_annuity" => "2,377,000",
             "husband_annuity" => "803,952",
             "joint_401k" => "156,000",

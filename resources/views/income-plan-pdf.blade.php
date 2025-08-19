@@ -98,36 +98,73 @@
 			<tbody>
 				<tr>
 					<td width="70%">Current Position</td>
-					<td width="30%" style="text-align: right;">$3,853,752</td>
+					<td width="30%" style="text-align: right;">$ {{ $current_position ?? ''}}</td>
 				</tr>
 				<tr>
 					<td width="70%">Current Age</td>
-					<td width="30%" style="text-align: right;">68</td>
+					<td width="30%" style="text-align: right;">{{ $current_age ?? ''}}</td>
 				</tr>
 				<tr>
 					<td width="70%">Retirement Age</td>
-					<td width="30%" style="text-align: right;">70</td>
+					<td width="30%" style="text-align: right;">{{ $retirement_age ?? ''}}</td>
 				</tr>
 				<tr>
 					<td width="70%">Desired Retirement Income</td>
-					<td width="30%" style="text-align: right;">$125,000-$150,000</td>
+					<td width="30%" style="text-align: right;">$ {{ $desired_retirement_income ?? ''}}</td>
 				</tr>
 				<tr>
 					<td width="70%">COLA</td>
-					<td width="30%" style="text-align: right;">3%</td>
+					<td width="30%" style="text-align: right;">{{ $cola ?? ''}} %</td>
 				</tr>
 				<tr>
 					<td width="70%">Growth Allocation</td>
-					<td width="30%" style="text-align: right;">$3,853,752</td>
+					<td width="30%" style="text-align: right;">$ {{ $growth_allocation ?? ''}}</td>
 				</tr>
-				<tr>
+				{{--<tr>
 					<td width="70%">Income Bucket</td>
 					<td width="30%" style="text-align: right;">$0</td>
-				</tr>
+				</tr>--}}
+				@php 
+				$primary_goal = explode(",", $primary_goals);
+				//print_r($primary_goal);die;
+				
+				if(!empty($primary_goal))
+				{
+					/*$primary1 = !empty($primary_goal[0]) && $primary_goal[0] == '1' ? 'Income' : (!empty($primary_goal[0]) && $primary_goal[0] == '2' ?  'Tax Reduction' : 'Legacy');*/
+					
+					if (isset($primary_goal[0])) {
+						$primary1 = $primary_goal[0] == '1' 
+							? 'Income' 
+							: ($primary_goal[0] == '2' ? 'Tax Reduction' : 'Legacy');
+					} else {
+						$primary1 = null;
+					}
+					
+					if (isset($primary_goal[1])) {
+						$primary2 = $primary_goal[1] == '1' 
+							? ', Income' 
+							: ($primary_goal[1] == '2' ? ', Tax Reduction' : ', Legacy');
+					} else {
+						$primary2 = null;
+					}
+					
+					if (isset($primary_goal[2])) {
+						$primary3 = $primary_goal[2] == '1' 
+							? ', Income' 
+							: ($primary_goal[2] == '2' ? ', Tax Reduction' : ', Legacy');
+					} else {
+						$primary3 = null;
+					}
+				}
+				@endphp
 				<tr>
-					<td width="70%">Primary Goals: Tax Efficiency, Legacy, Tax Free Estate Plan</td>
+					<td width="70%">Primary Goals: {{ $primary1 ?? '' }}{{ $primary2 ?? '' }}{{ $primary3 ?? '' }}</td>
 					<td width="30%" style="text-align: right;"></td>
 				</tr>
+				{{--<tr>
+					<td width="70%">Primary Goals: {{$primary1 ?? ''}}, Legacy, Tax Free Estate Plan</td>
+					<td width="30%" style="text-align: right;"></td>
+				</tr>--}}
 			</tbody>
 		</table>
 	</div>
