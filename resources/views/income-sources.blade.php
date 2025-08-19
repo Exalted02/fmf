@@ -131,7 +131,12 @@
   function addRow() {
     const container = document.getElementById('formContainer');
     const row = document.createElement('div');
-    row.className = 'row add-more-seperator';
+    // check if container has content (ignoring whitespace)
+	if (container.innerHTML.trim() !== "") {
+		row.className = 'row add-more-seperator';
+	} else {
+		row.className = 'row';
+	}
     row.innerHTML = `
 		<div class="col-lg-3 col-md-3">
 			<div class="input-block">

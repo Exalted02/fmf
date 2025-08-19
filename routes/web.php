@@ -11,6 +11,7 @@ use App\Http\Controllers\EmailManagementController;
 use App\Http\Controllers\EmailSettingsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\PdfController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,8 +63,8 @@ Route::middleware(['auth','verified'])->group(function () {
 	Route::get('/roth-calculator', [DashboardController::class, 'roth_calculator'])->name('roth-calculator');
 	Route::post('/roth-calculator', [DashboardController::class, 'roth_calculator_save'])->name('roth-calculator');
 	
-	
 });
+	Route::get('/income-plan-pdf', [PdfController::class, 'incomePlan']);
 
 
 
