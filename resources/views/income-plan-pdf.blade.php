@@ -129,11 +129,13 @@ use Carbon\Carbon;
 				</tr>--}}
 				@php 
 				$primary_goal = explode(",", $primary_goals);
-				//print_r($primary_goal);die;
+				
+				$primary1 = '';
+				$primary2 = '';
+				$primary3 = '';
 				
 				if(!empty($primary_goal))
 				{
-					/*$primary1 = !empty($primary_goal[0]) && $primary_goal[0] == '1' ? 'Income' : (!empty($primary_goal[0]) && $primary_goal[0] == '2' ?  'Tax Reduction' : 'Legacy');*/
 					
 					if (isset($primary_goal[0])) {
 						$primary1 = $primary_goal[0] == '1' 
