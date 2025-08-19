@@ -166,10 +166,6 @@ use Carbon\Carbon;
 					<td width="70%">Primary Goals: {{ $primary1 ?? '' }}{{ $primary2 ?? '' }}{{ $primary3 ?? '' }}</td>
 					<td width="30%" style="text-align: right;"></td>
 				</tr>
-				{{--<tr>
-					<td width="70%">Primary Goals: {{$primary1 ?? ''}}, Legacy, Tax Free Estate Plan</td>
-					<td width="30%" style="text-align: right;"></td>
-				</tr>--}}
 			</tbody>
 		</table>
 	</div>
