@@ -14,6 +14,7 @@ class PdfController extends Controller
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->first();
 		//echo "<pre>";print_r($portfolio_Desire_data);die;
 		$data = [
+			"created_at" => $portfolio_Desire_data->created_at ?? '',
             "current_position" => $portfolio_Desire_data->current_portfolio_value ?? '',
             "current_age" => $portfolio_Desire_data->client_age ?? '',
             "retirement_age" => $portfolio_Desire_data->desired_retirement_age ?? '',

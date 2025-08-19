@@ -1,3 +1,6 @@
+@php 
+use Carbon\Carbon;
+@endphp
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,7 +64,7 @@
 					Darryl Stein</p>
 
 					<p><strong style="color: #3490CD;">Date Prepared:</strong>
-					06/30/2025</p>
+					{{ Carbon::parse($created_at)->format('d/m/Y') }}</p>
 				</td>
 			</tr>
 		</table>
