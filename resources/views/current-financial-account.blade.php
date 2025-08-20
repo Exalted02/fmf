@@ -24,7 +24,7 @@
 								<div class="col-lg-3 col-md-3">
 									<div class="">
 										<label for="" class="col-form-label">Account owner</label>
-										<select class="select" name="account_owner[]">
+										<select class="form-control select" name="account_owner[]">
 											<option value="">Select</option>
 											<option value="1">Husband</option>
 											<option value="2">Wife</option>
@@ -124,7 +124,7 @@
 @endsection 
 @section('scripts')
 <script>
-  function addRow() {
+  function addRow() { 
     const container = document.getElementById('formContainer');
     const row = document.createElement('div');
     // check if container has content (ignoring whitespace)
@@ -138,7 +138,7 @@
 		<div class="col-lg-3 col-md-3">
 			<div class="">
 				<label for="" class="col-form-label">Account owner</label>
-				<select class="select" name="account_owner[]">
+				<select class="form-control select" name="account_owner[]">
 					<option>Select</option>
 					<option value="1">Husband</option>
 					<option value="2">Wife</option>
@@ -187,6 +187,11 @@
 		}, 100);
 	}, 100);
     container.appendChild(row);
+	
+	/*$(row).find('.select2').select2({
+        minimumResultsForSearch: 0,
+        width: '100%'
+    });*/
   }
 
   function deleteRow(button) {
@@ -205,41 +210,58 @@ $(document).ready(function(){
 		var account_value_arr = [];
 		
 		
-		var allClientBlank = true;
+		let isValid = true;
 		$('select[name="account_owner[]"]').each(function() {
-            if ($(this).val().trim() !== '') {
+			let $container = $(this).data('select2').$container;
+            if ($(this).val() === "" || $(this).val() === null) {
+				//$(this).next('.select2').addClass('is-invalid');
+				//$(this).siblings('.select2').addClass('is-invalid');
+				$container.addClass('is-invalid');
+				isValid = false;
+			} else {
+				$(this).next('.select2').removeClass('is-invalid');
 				account_owner_arr.push($(this).val().trim());
-                allClientBlank = false;
-            }
-			
-        });
+			}
+       });
 		
 		$('input[name="account_title[]"]').each(function() {
-            //if ($(this).val().trim() !== '') {
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).addClass('is-invalid');
+                isValid = false;
+            } else {
+				$(this).removeClass('is-invalid');
 				account_title_arr.push($(this).val().trim());
-                allClientBlank = false;
-            //}
+			}
 			
         });
 		
 		$('select[name="tax_qualification[]"]').each(function() {
-            //if ($(this).val().trim() !== '') {
+            if ($(this).val() === "" || $(this).val() === null) {
+				//$(this).addClass('is-invalid');
+				$(this).next('.select2').addClass('is-invalid');
+                isValid = false;
+            } else {
+				//$(this).removeClass('is-invalid');
+				$(this).next('.select2').removeClass('is-invalid');
 				tax_qualification_arr.push($(this).val().trim());
-                allClientBlank = false;
-            //}
+			}
 			
         });
 		
 		$('input[name="account_value[]"]').each(function() {
-            //if ($(this).val().trim() !== '') {
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).addClass('is-invalid');
+                isValid = false;
+            } else {
+				$(this).removeClass('is-invalid');
 				account_value_arr.push($(this).val().trim());
-                allClientBlank = false;
-            //}
+			}
 			
         });
 		
-		//alert(account_owner_arr);
-		//alert(account_value_arr);
+		if (!isValid) {
+			return false;
+		}
 		
 		var URL = "{{ route('current-financial-account') }}";
 		
@@ -252,7 +274,6 @@ $(document).ready(function(){
 					if(response.message == 'success')
 					{
 						//window.location.href= "{{ route('income-sources') }}";
-						//window.location.href= "{{ route('roth-calculator') }}";
 					}
 				},
 				error: function(xhr) {
