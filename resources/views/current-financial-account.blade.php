@@ -232,7 +232,7 @@ $(document).ready(function(){
 			}
        });
 	   
-	   
+	   //alert(account_owner_arr);
 		
 		$('input[name="account_title[]"]').each(function() {
             if ($(this).val() === "" || $(this).val() === null) {
