@@ -1,5 +1,43 @@
 @php 
 use Carbon\Carbon;
+//echo "<pre>";print_r($current_financial_account);die;
+$husbandAsset = [];
+$wifeAsset = [];
+$jointAsset = [];
+foreach($current_financial_account as $financial_account)
+{
+	if($financial_account->account_owner == 1)
+	{
+		$husbandAsset[] = [
+			'account_owner' => 'Husband',
+			'account_title' => $financial_account->account_title,
+			'tax_qualification' => $financial_account->tax_qualification,
+			'account_value' => $financial_account->account_value,
+		];
+	}
+	elseif($financial_account->account_owner == 2)
+	{
+		$wifeAsset[] = [
+			'account_owner' => 'Wife',
+			'account_title' => $financial_account->account_title,
+			'tax_qualification' => $financial_account->tax_qualification,
+			'account_value' => $financial_account->account_value,
+		];
+	}
+	else
+	{
+		$jointAsset[] = [
+			'account_owner' => 'Joint',
+			'account_title' => $financial_account->account_title,
+			'tax_qualification' => $financial_account->tax_qualification,
+			'account_value' => $financial_account->account_value,
+		];
+	}
+	
+}
+//echo "<pre>";print_r($husbandAsset);
+//echo "<pre>";print_r($wifeAsset);
+//echo "<pre>";print_r($jointAsset);die;
 @endphp
 <!DOCTYPE html>
 <html>
@@ -187,8 +225,16 @@ use Carbon\Carbon;
 				<!-- Wife's Accounts -->
 				<td width="50%" valign="top">
 					<strong>Wife's Accounts</strong><br>
-					#1 Variable Annuity &nbsp;&nbsp; $2,377,000 <br>
-					#2 401k T-IRA &nbsp;&nbsp; $156,000 <br><br>
+					@if(!empty($wifeAsset))
+						@foreach($wifeAsset as $val)
+							@php 
+								$acc_title = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
+							@endphp
+							#1 {{ $val['account_title'] }}&nbsp; {{$acc_title ?? ''}}&nbsp;&nbsp; $ {{ $val['account_value'] }} <br>
+						@endforeach
+					@endif
+					{{--#1 Variable Annuity &nbsp;&nbsp; $2,377,000 <br>
+					#2 401k T-IRA &nbsp;&nbsp; $156,000 <br><br>--}}
 					<span class="subtotal">Subtotal $2,533,000</span>
 				</td>
 

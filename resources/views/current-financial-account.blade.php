@@ -28,7 +28,7 @@
 											<option value="">Select</option>
 											<option value="1">Husband</option>
 											<option value="2">Wife</option>
-											<option value="2">Joint</option>
+											<option value="3">Joint</option>
 										</select>
 									</div>
 								</div>
@@ -142,7 +142,7 @@
 					<option>Select</option>
 					<option value="1">Husband</option>
 					<option value="2">Wife</option>
-					<option value="2">Joint</option>
+					<option value="3">Joint</option>
 				</select>
 			</div>
 		</div>
