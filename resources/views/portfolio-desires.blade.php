@@ -100,7 +100,7 @@
 							<div class="col-md-6">
 								<div class="input-block mb-3">
 									<label class="col-form-label">Age to Begin COLA Adjustment</label>
-									<div class="input-percent">
+									<div class="input-percent-s">
 									<input type="text" class="form-control"  name= "cola_age" id="cola_age" placeholder="Enter Age to Begin COLA Adjustment">
 									</div>
 									<div class="cola_age_error error-text"></div>
@@ -204,7 +204,7 @@
 		$('.current_gross_portfolio_error').text('');
 		$('.desired_retirement_age_error').text('');
 		$('.COLA_error').text('');
-		$('.COLA_age_error').text('');
+		$('.cola_age_error').text('');
 		$('.assumed_return_error').text('');
 		
 		
@@ -273,7 +273,8 @@
 				success: function(response) {
 					if(response.message == 'success')
 					{
-						window.location.href= "{{ route('income-sources') }}";
+						//window.location.href= "{{ route('income-sources') }}";
+						window.location.href= "{{ route('current-financial-account') }}";
 					}
 				},
 				error: function(xhr) {

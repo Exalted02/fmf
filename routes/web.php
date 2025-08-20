@@ -54,8 +54,12 @@ Route::get('lang/change', [LangController::class, 'change'])->name('changeLang')
 Route::middleware(['auth','verified'])->group(function () {
 	Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 	Route::get('/pricing-plans', [DashboardController::class, 'pricing_plans'])->name('pricing-plans');
+	
 	Route::get('/portfolio-desires', [DashboardController::class, 'portfolio_desires'])->name('portfolio-desires');
 	Route::post('/portfolio-desires', [DashboardController::class, 'portfolio_desires_save'])->name('portfolio-desires');
+	
+	Route::get('/current-financial-account', [DashboardController::class, 'current_financial_account'])->name('current-financial-account');
+	Route::post('/current-financial-account', [DashboardController::class, 'current_financial_account_save'])->name('current-financial-account');
 	
 	Route::get('/income-sources', [DashboardController::class, 'income_sources'])->name('income-sources');
 	Route::post('/income-sources', [DashboardController::class, 'income_sources_save'])->name('income-sources');
