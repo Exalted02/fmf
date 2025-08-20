@@ -327,7 +327,7 @@ $(document).ready(function(){
 				success: function(response) {
 					if(response.message == 'success')
 					{
-						//window.location.href= "{{ route('roth-calculator') }}";
+						window.location.href= "{{ route('roth-calculator') }}";
 					}
 				},
 				error: function(xhr) {
