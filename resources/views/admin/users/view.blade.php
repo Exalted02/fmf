@@ -51,6 +51,11 @@
 											</a>
 										</li>
 										<li>
+											<a href="#" data-bs-toggle="tab" data-bs-target="#financial_account-{{$key}}">
+												<i class="fa-solid fa-chart-line"></i>{{ __('Current financial account') }}
+											</a>
+										</li>
+										<li>
 											<a href="#" data-bs-toggle="tab" data-bs-target="#income_source-{{$key}}">
 												<i class="fa-solid fa-hand-holding-dollar"></i>{{ __('Guaranteed Income Sources') }}
 											</a>
@@ -120,6 +125,111 @@
                                             {{--<div>{{ __('no_record_found') }}</div>--}}
 										</div>
 										<!-- /Portfolio Information -->
+										
+										<!-- Current financial account -->
+										<div class="tab-pane fade" id="financial_account-{{$key}}">
+											@php
+												$financialAccountHusband = App\Models\Current_financial_account::where('sl_no', $val->id)->where('account_owner',  1)->get();
+												//echo"<pre>";print_r($$financialAccountHusband);
+											@endphp
+										@if($financialAccountHusband->isNotEmpty())
+											<div class="row">
+											<h4 class="section-title">Husband Asset</h4>
+											</div>
+											
+                                            @foreach($financialAccountHusband as $account)
+											@php
+												$tax_quali = $account->tax_qualification == 1 ? 'IRA ' : 'non-qualified';
+											@endphp
+											<div class="multiadd">
+											<div class="row">
+												<div class="col-md-4 mt-3">
+													  <strong>{{ __('Account title') }}</strong>
+													  <div>{{ $account->account_title ?? 'N/A'}}</div>
+												</div>
+												<div class="col-md-4 mt-3">
+													  <strong>{{ __('Tax qualification') }}</strong>
+													  <div>{{ $tax_quali ?? 'NA'}}</div>
+												</div>
+												<div class="col-md-4 mt-3">
+													  <strong>{{ __('Account value') }}</strong>
+													  <div>{{ $account->account_value ?? 'NA'}}</div>
+												</div>
+												
+											</div>
+										</div>
+										@endforeach
+										@endif
+										
+										@php
+											$financialAccountWife = App\Models\Current_financial_account::where('sl_no', $val->id)->where('account_owner',  2)->get();
+											//echo"<pre>";print_r($financialAccountWife);
+										@endphp
+										
+										@if($financialAccountWife->isNotEmpty())
+										<div class="row mt-3">
+											<h4 class="section-title">Wife Asset</h4>
+										</div>
+											@foreach($financialAccountWife as $account)
+											@php
+												$tax_quali = $account->tax_qualification == 1 ? 'IRA ' : 'non-qualified';
+											@endphp
+											<div class="multiadd">
+											<div class="row">
+												<div class="col-md-4 mt-3">
+													  <strong>{{ __('Account title') }}</strong>
+													  <div>{{ $account->account_title ?? 'N/A'}}</div>
+												</div>
+												<div class="col-md-4 mt-3">
+													  <strong>{{ __('Tax qualification') }}</strong>
+													  <div>{{ $tax_quali ?? 'NA'}}</div>
+												</div>
+												<div class="col-md-4 mt-3">
+													  <strong>{{ __('Account value') }}</strong>
+													  <div>{{ $account->account_value ?? 'NA'}}</div>
+												</div>
+												
+											</div>
+										</div>
+										@endforeach
+										@endif
+										
+										@php
+											$financialAccountJoint = App\Models\Current_financial_account::where('sl_no', $val->id)->where('account_owner',  3)->get();
+											//echo"<pre>";print_r($financialAccountJoint);
+										@endphp
+										
+										@if($financialAccountJoint->isNotEmpty())
+										<div class="row mt-3">
+											<h4 class="section-title">Joint Asset</h4>
+										</div>
+										
+                                            @foreach($financialAccountJoint as $account)
+											@php
+												$tax_quali = $account->tax_qualification == 1 ? 'IRA ' : 'non-qualified';
+											@endphp
+											<div class="multiadd">
+											<div class="row">
+												<div class="col-md-4 mt-3">
+													  <strong>{{ __('Account title') }}</strong>
+													  <div>{{ $account->account_title ?? 'N/A'}}</div>
+												</div>
+												<div class="col-md-4 mt-3">
+													  <strong>{{ __('Tax qualification') }}</strong>
+													  <div>{{ $tax_quali ?? 'NA'}}</div>
+												</div>
+												<div class="col-md-4 mt-3">
+													  <strong>{{ __('Account value') }}</strong>
+													  <div>{{ $account->account_value ?? 'NA'}}</div>
+												</div>
+												
+											</div>
+										</div>
+										@endforeach
+										@endif
+										
+										</div>
+										<!-- /Current financial account-->
 										<!-- Income source Information -->
 										<div class="tab-pane fade" id="income_source-{{$key}}">
 										
@@ -169,7 +279,8 @@
 										@else
 											<div class="col-md-12 mb-6 ms-3">{{ __('No record found') }}</div>
 										@endif
-										</div><!-- Income source Information -->
+										</div>
+										<!-- Income source Information -->
 										
 										<!-- roth calulator -->
 										@php 
