@@ -273,7 +273,7 @@ $(document).ready(function(){
 				success: function(response) {
 					if(response.message == 'success')
 					{
-						//window.location.href= "{{ route('income-sources') }}";
+						window.location.href= "{{ route('income-sources') }}";
 					}
 				},
 				error: function(xhr) {

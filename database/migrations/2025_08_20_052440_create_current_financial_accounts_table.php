@@ -18,7 +18,7 @@ return new class extends Migration
 			$table->integer('account_owner')->nullable()->comment('1=Husband, 2 =Wife, 3=Joint');
 			$table->string('account_title')->nullable();
 			$table->integer('tax_qualification')->nullable()->comment('1=IRA ,2=non-qualified');
-			$table->double('account_value', 8, 2)->nullable();
+			$table->double('account_value', 15, 2)->nullable();
 			$table->tinyInteger('status')->default(1)->comment('1=active ,0=inactive');
             $table->timestamps();
         });
