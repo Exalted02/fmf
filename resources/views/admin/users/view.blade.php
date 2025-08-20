@@ -52,7 +52,7 @@
 										</li>
 										<li>
 											<a href="#" data-bs-toggle="tab" data-bs-target="#financial_account-{{$key}}">
-												<i class="fa-solid fa-chart-line"></i>{{ __('Current financial account') }}
+												<i class="fa-solid fa-chart-line"></i>{{ __('Current Financial Account') }}
 											</a>
 										</li>
 										<li>
