@@ -35,6 +35,12 @@ foreach($current_financial_account as $financial_account)
 	}
 	
 }
+$subTotalHusband = 0;
+$subTotalWife = 0;
+$subTotalJoint = 0;
+$h=0;
+$w=0;
+$j=0;
 //echo "<pre>";print_r($husbandAsset);
 //echo "<pre>";print_r($wifeAsset);
 //echo "<pre>";print_r($jointAsset);die;
@@ -229,20 +235,32 @@ foreach($current_financial_account as $financial_account)
 						@foreach($wifeAsset as $val)
 							@php 
 								$acc_title = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
+								$subTotalWife += $val['account_value'];
+								$w++;
 							@endphp
-							#1 {{ $val['account_title'] }}&nbsp; {{$acc_title ?? ''}}&nbsp;&nbsp; $ {{ $val['account_value'] }} <br>
+							#{{ $w }} {{ $val['account_title'] }}&nbsp; {{$acc_title ?? ''}}&nbsp;&nbsp; $ {{ number_format($val['account_value']) }} <br>
 						@endforeach
 					@endif
 					{{--#1 Variable Annuity &nbsp;&nbsp; $2,377,000 <br>
 					#2 401k T-IRA &nbsp;&nbsp; $156,000 <br><br>--}}
-					<span class="subtotal">Subtotal $2,533,000</span>
+					<span class="subtotal">Subtotal $ {{ number_format($subTotalWife) }}</span>
 				</td>
 
 				<!-- Husband's Accounts -->
 				<td width="50%" valign="top">
 					<strong>Husband's Accounts</strong><br>
-					#1 Variable Annuity &nbsp;&nbsp; $803,952 <br><br>
-					<span class="subtotal">Subtotal $803,952</span>
+					@if(!empty($husbandAsset))
+						@foreach($husbandAsset as $val)
+							@php 
+								$acc_title = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
+								$subTotalHusband += $val['account_value'];
+								$h++;
+							@endphp
+							#{{ $h }} {{ $val['account_title'] }}&nbsp; {{$acc_title ?? ''}}&nbsp;&nbsp; $ {{ number_format($val['account_value']) }} <br>
+						@endforeach
+					@endif
+					{{--#1 Variable Annuity &nbsp;&nbsp; $803,952 <br><br>--}}
+					<span class="subtotal">Subtotal ${{ number_format($subTotalHusband) }}</span>
 				</td>
 			</tr>
 		</table>
@@ -252,9 +270,19 @@ foreach($current_financial_account as $financial_account)
 			<tr>
 				<td width="100%" valign="top">
 					<strong>Joint Accounts</strong><br>
-					#1 Variable Annuity &nbsp;&nbsp; $440,400 <br>
-					#2 Savings &nbsp;&nbsp; $76,400 <br><br>
-					<span class="subtotal">Subtotal $516,800</span>
+					@if(!empty($jointAsset))
+						@foreach($jointAsset as $val)
+							@php 
+								$acc_title = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
+								$subTotalJoint += $val['account_value'];
+								$j++;
+							@endphp
+							#{{ $j }} {{ $val['account_title'] }}&nbsp; {{$acc_title ?? ''}}&nbsp;&nbsp; $ {{ number_format($val['account_value']) }} <br>
+						@endforeach
+					@endif
+					{{--#1 Variable Annuity &nbsp;&nbsp; $440,400 <br>
+					#2 Savings &nbsp;&nbsp; $76,400 <br><br>--}}
+					<span class="subtotal">Subtotal ${{ number_format($subTotalJoint) }}</span>
 				</td>
 			</tr>
 		</table>
@@ -263,7 +291,7 @@ foreach($current_financial_account as $financial_account)
 		<table>
 			<tr>
 				<td width="70%"></td>
-				<td class="totals right">Asset Total $3,853,752</td>
+				<td class="totals right">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</td>
 			</tr>
 			<tr>
 				<td></td>
