@@ -228,6 +228,9 @@
 										@endforeach
 										@endif
 										
+										@if($financialAccountHusband->isEmpty() && $financialAccountWife->isEmpty() && $financialAccountJoint->isEmpty())
+											<div class="col-md-12 mb-6 ms-3">{{ __('No record found') }}</div>
+										@endif
 										</div>
 										<!-- /Current financial account-->
 										<!-- Income source Information -->
