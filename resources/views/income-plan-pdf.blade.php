@@ -234,11 +234,11 @@ $j=0;
 					@if(!empty($wifeAsset))
 						@foreach($wifeAsset as $val)
 							@php 
-								$acc_title = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
+								$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
 								$subTotalWife += $val['account_value'];
 								$w++;
 							@endphp
-							#{{ $w }} {{ $val['account_title'] }}&nbsp; {{$acc_title ?? ''}}&nbsp;&nbsp; $ {{ number_format($val['account_value']) }} <br>
+							#{{ $w }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; $ {{ number_format($val['account_value']) }} <br>
 						@endforeach
 					@endif
 					{{--#1 Variable Annuity &nbsp;&nbsp; $2,377,000 <br>
@@ -252,11 +252,11 @@ $j=0;
 					@if(!empty($husbandAsset))
 						@foreach($husbandAsset as $val)
 							@php 
-								$acc_title = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
+								$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
 								$subTotalHusband += $val['account_value'];
 								$h++;
 							@endphp
-							#{{ $h }} {{ $val['account_title'] }}&nbsp; {{$acc_title ?? ''}}&nbsp;&nbsp; $ {{ number_format($val['account_value']) }} <br>
+							#{{ $h }} {{ $val['account_title'] }}&nbsp; {{ $tax_quali ?? '' }}&nbsp;&nbsp; $ {{ number_format($val['account_value']) }} <br>
 						@endforeach
 					@endif
 					{{--#1 Variable Annuity &nbsp;&nbsp; $803,952 <br><br>--}}
@@ -273,11 +273,11 @@ $j=0;
 					@if(!empty($jointAsset))
 						@foreach($jointAsset as $val)
 							@php 
-								$acc_title = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
+								$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
 								$subTotalJoint += $val['account_value'];
 								$j++;
 							@endphp
-							#{{ $j }} {{ $val['account_title'] }}&nbsp; {{$acc_title ?? ''}}&nbsp;&nbsp; $ {{ number_format($val['account_value']) }} <br>
+							#{{ $j }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; $ {{ number_format($val['account_value']) }} <br>
 						@endforeach
 					@endif
 					{{--#1 Variable Annuity &nbsp;&nbsp; $440,400 <br>

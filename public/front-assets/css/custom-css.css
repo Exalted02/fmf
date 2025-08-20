@@ -276,10 +276,16 @@
     /*color: #003b80;*/
     color: #2567b3;
 }
-.select2-container.is-invalid {
+/*.select2-container.is-invalid {
+  border: 1px solid #dc3545 !important;
+  border-radius: .25rem;
+}*/
+.select2-container.is-invalid .select2-selection {
   border: 1px solid #dc3545 !important;
   border-radius: .25rem;
 }
+
+
 
 
 

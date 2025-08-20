@@ -25,6 +25,7 @@
 									<div class="input-block">
 										<label for="" class="col-form-label">Client's Name</label>
 										<input class="form-control" name="client_name[]" type="text" placeholder="Client's Name">
+										<div class="invalid-feedback"></div> 
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
@@ -33,44 +34,50 @@
 										<div class="input-dollar">
 										<span class="currency-symbol">$</span>
 										<input class="form-control" name="income_amount[]" type="text" placeholder="Income Amount">
+										<div class="invalid-feedback"></div> 
 										</div>
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="">
 										<label for="" class="col-form-label">Type</label>
-										<select class="select" name="type[]">
+										<select class="form-control select" name="type[]">
 											<option>Type</option>
 											<option value="1">Income</option>
 										</select>
+										<div class="invalid-feedback"></div> 
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="">
 										<label for="" class="col-form-label">Frequency</label>
-										<select class="select" name="frequency[]">
+										<select class="form-control select" name="frequency[]">
 											<option>Frequency</option>
 											<option value="1">Monthly</option>
 											<option value="2">Yearly</option>
 										</select>
+										<div class="invalid-feedback"></div> 
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">COLA</label>
 										<input class="form-control" name="cola[]" type="text" placeholder="COLA">
+										<div class="invalid-feedback"></div> 
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">Start Age</label>
 										<input class="form-control" name="start_age[]" type="text" placeholder="Start Age">
+										<div class="invalid-feedback"></div> 
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">End Age</label>
 										<input class="form-control" name="end_age[]" type="text" placeholder="End Age">
+										<div class="invalid-feedback"></div> 
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2">
@@ -156,7 +163,7 @@
 		<div class="col-lg-3 col-md-3">
 			<div class="">
 				<label for="" class="col-form-label">Type</label>
-				<select class="select" name="type[]">
+				<select class="form-control select" name="type[]">
 					<option>Type</option>
 					<option value="1">Income</option>
 				</select>
@@ -165,7 +172,7 @@
 		<div class="col-lg-3 col-md-3">
 			<div class="">
 				<label for="" class="col-form-label">Frequency</label>
-				<select class="select" name="frequency[]">
+				<select class="form-control select" name="frequency[]">
 					<option>Frequency</option>
 					<option value="1">Monthly</option>
 					<option value="2">Yearly</option>
@@ -228,65 +235,87 @@ $(document).ready(function(){
 		
 		var allClientBlank = true;
 		$('input[name="client_name[]"]').each(function() {
-            if ($(this).val().trim() !== '') {
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).addClass('is-invalid');
+               allClientBlank = false;
+            } else {
+				$(this).removeClass('is-invalid');
 				client_arr.push($(this).val().trim());
-                allClientBlank = false;
-            }
+			}
 			
         });
 		
 		$('input[name="income_amount[]"]').each(function() {
-            //if ($(this).val().trim() !== '') {
-				income_amount_arr.push($(this).val().trim());
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).addClass('is-invalid');
                 allClientBlank = false;
-            //}
+            } else {
+				$(this).removeClass('is-invalid');
+				income_amount_arr.push($(this).val().trim());
+			}
 			
         });
 		
 		$('select[name="type[]"]').each(function() {
-            //if ($(this).val().trim() !== '') {
-				type_amount_arr.push($(this).val().trim());
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).next('.select2').addClass('is-invalid');
                 allClientBlank = false;
-            //}
+            } else {
+				$(this).next('.select2').removeClass('is-invalid');
+				type_amount_arr.push($(this).val().trim());
+			}
 			
         });
 		
 		$('select[name="frequency[]"]').each(function() {
-            //if ($(this).val().trim() !== '') {
-				frequency_amount_arr.push($(this).val().trim());
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).next('.select2').addClass('is-invalid');
                 allClientBlank = false;
-            //}
+            } else {
+				$(this).next('.select2').removeClass('is-invalid');
+				frequency_amount_arr.push($(this).val().trim());
+			}
 			
         });
+		
 		$('input[name="cola[]"]').each(function() {
-            //if ($(this).val().trim() !== '') {
-				cola_arr.push($(this).val().trim());
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).addClass('is-invalid');
                 allClientBlank = false;
-            //}
+            } else {
+				$(this).removeClass('is-invalid');
+				cola_arr.push($(this).val().trim());
+			}
 			
         });
 		
 		$('input[name="start_age[]"]').each(function() {
-            //if ($(this).val().trim() !== '') {
-				start_age_arr.push($(this).val().trim());
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).addClass('is-invalid');
                 allClientBlank = false;
-            //}
+            } else {
+				$(this).removeClass('is-invalid');
+				start_age_arr.push($(this).val().trim());
+			}
 			
         });
 		
 		$('input[name="end_age[]"]').each(function() {
-            //if ($(this).val().trim() !== '') {
-				end_age_arr.push($(this).val().trim());
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).addClass('is-invalid');
                 allClientBlank = false;
-            //}
+            } else {
+				$(this).removeClass('is-invalid');
+				end_age_arr.push($(this).val().trim());
+			}
 			
         });
 		
-		/*alert(client_arr);
-		if(allClientBlank)
+		
+		if(!allClientBlank)
 		{
-			
-		}*/
+			return false;
+		}
 		
 		var URL = "{{ route('income-sources') }}";
 		
@@ -298,11 +327,11 @@ $(document).ready(function(){
 				success: function(response) {
 					if(response.message == 'success')
 					{
-						window.location.href= "{{ route('roth-calculator') }}";
+						//window.location.href= "{{ route('roth-calculator') }}";
 					}
 				},
 				error: function(xhr) {
-					// Handle validation errors
+					
 					
 				}
 			});

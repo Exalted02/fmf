@@ -73,6 +73,7 @@ class DashboardController extends Controller
 	public function income_sources_save(Request $request)
 	{
 		//echo "<pre>";print_r($request->all());die;
+		
 		$client_name = $request->input('client_arr', []);
 		$income_amount = $request->input('income_amount_arr', []);
 		$type = $request->input('type_amount_arr', []);
@@ -99,7 +100,10 @@ class DashboardController extends Controller
 			$model->save();	
 		}
 		
-		return response()->json(['message'=>'success']);
+		return response()->json([
+			'status' => true,
+			'message' => 'success',
+		]);
 	}
 	public function roth_calculator_save(Request $request)
 	{

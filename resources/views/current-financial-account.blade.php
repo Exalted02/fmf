@@ -188,6 +188,7 @@
 	}, 100);
     container.appendChild(row);
 	
+	
 	/*$(row).find('.select2').select2({
         minimumResultsForSearch: 0,
         width: '100%'
@@ -212,17 +213,26 @@ $(document).ready(function(){
 		
 		let isValid = true;
 		$('select[name="account_owner[]"]').each(function() {
-			let $container = $(this).data('select2').$container;
+			const $sel = $(this);
+			//let $container = $(this).data('select2').$container;
+			//let $container = $(this).siblings('.select2-container');
+			const $container =($sel.data('select2') && $sel.data('select2').$container) || $sel.siblings('.select2-container') || $sel.next('.select2');  
+			
             if ($(this).val() === "" || $(this).val() === null) {
 				//$(this).next('.select2').addClass('is-invalid');
 				//$(this).siblings('.select2').addClass('is-invalid');
-				$container.addClass('is-invalid');
+				//$container.addClass('is-invalid');
+				if ($container && $container.length) $container.addClass('is-invalid');
 				isValid = false;
 			} else {
-				$(this).next('.select2').removeClass('is-invalid');
+				//$(this).next('.select2').removeClass('is-invalid');
+				//$container.removeClass('is-invalid');
+				 if ($container && $container.length) $container.removeClass('is-invalid');
 				account_owner_arr.push($(this).val().trim());
 			}
        });
+	   
+	   
 		
 		$('input[name="account_title[]"]').each(function() {
             if ($(this).val() === "" || $(this).val() === null) {
