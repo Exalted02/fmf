@@ -17,7 +17,7 @@ return new class extends Migration
 			$table->integer('user_id')->nullable();
 			$table->integer('conversion_start_age')->nullable();
 			$table->integer('conversion_finish_age')->nullable();
-			$table->double('conversion_annual_fee', 8, 2)->nullable();
+			$table->double('conversion_annual_fee', 15, 2)->nullable();
 			$table->integer('rmd_start_age')->nullable();
 			$table->integer('rmd_finish_age')->nullable();
 			$table->integer('rmd_tax_free_income')->nullable();

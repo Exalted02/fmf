@@ -34,8 +34,8 @@ class DashboardController extends Controller
 			$record = Client_portfolio_Desires::where('id', $id)->first();
 			$data['record'] = $record;
 		}
-		
-        return view('portfolio-desires', $data);
+		Session::forget('has_roth');
+		return view('portfolio-desires', $data);
     }
 	public function current_financial_account()
     {
@@ -46,10 +46,6 @@ class DashboardController extends Controller
 			$record = Current_financial_account::where('sl_no', $sl_no)->get();
 			$data['records'] = $record;
 			
-			/*if($record->isEmpty())
-			{
-				return redirect('portfolio-desires');
-			}*/
 		}
 		else
 		{
@@ -61,15 +57,19 @@ class DashboardController extends Controller
     {
 		$data = [];
 		$sl_no = Session::get('sl_no');
+		
+		$has_current_income = Session::get('has_current_income');
+		$has_income_source = Session::get('has_income_source');
+		
 		if(!empty($sl_no))
 		{
 			$record = Guaranteed_income_sources::where('sl_no', $sl_no)->get();
 			$data['records'] = $record;
 			
-			/*if($record->isEmpty())
+			if(empty($has_current_income) && empty($has_income_source))
 			{
 				return redirect('current-financial-account');
-			}*/
+			}
 		}
 		else
 		{
@@ -82,6 +82,11 @@ class DashboardController extends Controller
     {
 		$data = [];
 		$sl_no = Session::get('sl_no');
+		
+		$has_current_income = Session::get('has_current_income');
+		$has_income_source = Session::get('has_income_source');
+		$has_roth = Session::get('has_roth');
+		
 		if(!empty($sl_no))
 		{
 			$result = Roth_conversion_calculators::where('sl_no', $sl_no)->first();
@@ -92,10 +97,14 @@ class DashboardController extends Controller
 			$record = Roth_conversion_calculator_yearly_rule::where('roth_id', $roth_id)->get();
 			$data['records'] = $record;
 			
-			/*if(!$result)
+			if(empty($has_current_income) && empty($has_income_source) && empty($has_roth))
+			{
+				return redirect('current-financial-account');
+			}
+			else if(!empty($has_current_income) && empty($has_income_source) && empty($has_roth))
 			{
 				return redirect('income-sources');
-			}*/
+			}
 		}
 		else
 		{
@@ -188,7 +197,7 @@ class DashboardController extends Controller
 			$model->status = 1;
 			$model->save();	
 		}
-		
+		Session::put('has_income_source', 1);
 		return response()->json([
 			'status' => true,
 			'message' => 'success',
@@ -254,8 +263,10 @@ class DashboardController extends Controller
 			}
 		}
 		
-		
+		Session::put('has_roth', 1);
 		Session::forget('sl_no');
+		Session::forget('has_current_income');
+		Session::forget('has_income_source');
 		return response()->json(['message'=>'success']);
 	}
 	public function current_financial_account_save(Request $request)
@@ -286,7 +297,7 @@ class DashboardController extends Controller
 			$model->status = 1;
 			$model->save();	
 		}
-		
+		Session::put('has_current_income', 1);
 		return response()->json(['message'=>'success']);
 	}
 	public function delete_current_financial_account(Request $request)
