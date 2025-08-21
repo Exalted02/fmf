@@ -60,12 +60,16 @@ Route::middleware(['auth','verified'])->group(function () {
 	
 	Route::get('/current-financial-account', [DashboardController::class, 'current_financial_account'])->name('current-financial-account');
 	Route::post('/current-financial-account', [DashboardController::class, 'current_financial_account_save'])->name('current-financial-account');
+	Route::post('/delete-current-financial-account', [DashboardController::class, 'delete_current_financial_account'])->name('delete-current-financial-account');
+	
 	
 	Route::get('/income-sources', [DashboardController::class, 'income_sources'])->name('income-sources');
 	Route::post('/income-sources', [DashboardController::class, 'income_sources_save'])->name('income-sources');
+	Route::post('/delete-incoume-source', [DashboardController::class, 'delete_incoume_source'])->name('delete-incoume-source');
 	
 	Route::get('/roth-calculator', [DashboardController::class, 'roth_calculator'])->name('roth-calculator');
 	Route::post('/roth-calculator', [DashboardController::class, 'roth_calculator_save'])->name('roth-calculator');
+	Route::post('/delete-roth-calculator', [DashboardController::class, 'delete_roth_calculator'])->name('delete-roth-calculator');
 	
 });
 	Route::get('/income-plan-pdf', [PdfController::class, 'incomePlan']);

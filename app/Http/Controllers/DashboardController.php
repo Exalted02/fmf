@@ -36,7 +36,7 @@ class DashboardController extends Controller
 		
         return view('portfolio-desires', $data);
     }
-	 public function current_financial_account()
+	public function current_financial_account()
     {
 		$data = [];
 		$sl_no = Session::get('sl_no');
@@ -44,6 +44,15 @@ class DashboardController extends Controller
 		{
 			$record = Current_financial_account::where('sl_no', $sl_no)->get();
 			$data['records'] = $record;
+			
+			/*if($record->isEmpty())
+			{
+				return redirect('portfolio-desires');
+			}*/
+		}
+		else
+		{
+			return redirect('portfolio-desires');
 		}
         return view('current-financial-account', $data);
     }
@@ -55,12 +64,42 @@ class DashboardController extends Controller
 		{
 			$record = Guaranteed_income_sources::where('sl_no', $sl_no)->get();
 			$data['records'] = $record;
+			
+			/*if($record->isEmpty())
+			{
+				return redirect('current-financial-account');
+			}*/
 		}
+		else
+		{
+			return redirect('portfolio-desires');
+		}
+		
         return view('income-sources', $data);
     }
     public function roth_calculator()
     {
 		$data = [];
+		$sl_no = Session::get('sl_no');
+		if(!empty($sl_no))
+		{
+			$result = Roth_conversion_calculators::where('sl_no', $sl_no)->first();
+			$data['results'] = $result;
+			
+			$roth_id = $result ? $result->id : '';
+			
+			$record = Roth_conversion_calculator_yearly_rule::where('roth_id', $roth_id)->get();
+			$data['records'] = $record;
+			
+			/*if(!$result)
+			{
+				return redirect('income-sources');
+			}*/
+		}
+		else
+		{
+			return redirect('portfolio-desires');
+		}
 		
         return view('roth-calculator', $data);
     }
@@ -68,6 +107,13 @@ class DashboardController extends Controller
 	{
 		//echo "<pre>";print_r($request->all());die;
 		$id = Session::get('sl_no');
+		$RIPG = null;
+		if(!empty($request->RIPG))
+		{
+			$RIPG = implode(',', $request->RIPG);
+		}
+		
+		
 		if($id !='')
 		{
 			$model  = Client_portfolio_Desires::find($id);
@@ -81,7 +127,7 @@ class DashboardController extends Controller
 			$model->COLA  = $request->COLA;
 			$model->cola_age  = $request->cola_age;
 			$model->assumed_return  = $request->assumed_return;
-			$model->RIPG  = implode(',', $request->RIPG) ?? null;
+			$model->RIPG  = $RIPG;
 			$model->save();
 		}
 		else
@@ -99,7 +145,7 @@ class DashboardController extends Controller
 			$model->COLA  = $request->COLA;
 			$model->cola_age  = $request->cola_age;
 			$model->assumed_return  = $request->assumed_return;
-			$model->RIPG  = implode(',', $request->RIPG) ?? null;
+			$model->RIPG  = $RIPG;
 			$model->status  = 1;
 			$model->save();
 			$id = $model->id;
@@ -150,21 +196,45 @@ class DashboardController extends Controller
 	public function roth_calculator_save(Request $request)
 	{
 		$sl_no = Session::get('sl_no');
-		$model = new Roth_conversion_calculators();
-		$model->user_id  = auth()->user()->id;
-		$model->sl_no  = $sl_no;
-		$model->conversion_start_age  = $request->conversion_start_age;
-		$model->conversion_finish_age  = $request->conversion_finish_age;
-		$model->conversion_annual_fee  = $request->conversion_annual_fee;
-		$model->rmd_start_age  = $request->rmd_start_age;
-		$model->rmd_finish_age  = $request->rmd_finish_age;
-		$model->rmd_tax_free_income  = $request->rmd_tax_free_income;
-		$model->save();
-		$roth_id = $model->id;
+		$res = Roth_conversion_calculators::where('sl_no', $sl_no)->first();
+		$id = $res ? $res->id : '';
+		if($id != '')
+		{
+			$model = Roth_conversion_calculators::find($id);
+			$model->user_id  = auth()->user()->id;
+			$model->sl_no  = $sl_no;
+			$model->conversion_start_age  = $request->conversion_start_age;
+			$model->conversion_finish_age  = $request->conversion_finish_age;
+			$model->conversion_annual_fee  = $request->conversion_annual_fee;
+			$model->rmd_start_age  = $request->rmd_start_age;
+			$model->rmd_finish_age  = $request->rmd_finish_age;
+			$model->rmd_tax_free_income  = $request->rmd_tax_free_income;
+			$model->save();
+		}
+		else 
+		{
+			$model = new Roth_conversion_calculators();
+			$model->user_id  = auth()->user()->id;
+			$model->sl_no  = $sl_no;
+			$model->conversion_start_age  = $request->conversion_start_age;
+			$model->conversion_finish_age  = $request->conversion_finish_age;
+			$model->conversion_annual_fee  = $request->conversion_annual_fee;
+			$model->rmd_start_age  = $request->rmd_start_age;
+			$model->rmd_finish_age  = $request->rmd_finish_age;
+			$model->rmd_tax_free_income  = $request->rmd_tax_free_income;
+			$model->save();
+			$roth_id = $model->id;
+		}
 		
 		$investment_amount = $request->input('investment_amount_arr', []);
 		$bonus = $request->input('bonus_arr', []);
 		$assumed_return = $request->input('assumed_return_arr', []);
+		
+		
+		if($sl_no != '')
+		{
+			Roth_conversion_calculator_yearly_rule::where('roth_id', $id)->delete();
+		}
 		
 		$countrecord = count($investment_amount);
 		
@@ -217,5 +287,17 @@ class DashboardController extends Controller
 		}
 		
 		return response()->json(['message'=>'success']);
+	}
+	public function delete_current_financial_account(Request $request)
+	{
+		Current_financial_account::where('id', $request->id)->delete();
+	}
+	public function delete_incoume_source(Request $request)
+	{
+		Guaranteed_income_sources::where('id', $request->id)->delete();
+	}
+	public function delete_roth_calculator(Request $request)
+	{
+		Roth_conversion_calculator_yearly_rule::where('id', $request->id)->delete();
 	}
 }

@@ -61,7 +61,7 @@
 								
 								<div class="col-lg-2 col-md-2">
 									<div class="add-more-row-icon">
-										<a href="javascript:void(0)" class="" onclick="deleteRow(this)"><i class="fa fa-trash"></i></a>
+										<a href="javascript:void(0)" class="" onclick="deleteRow(this, '')"><i class="fa fa-trash"></i></a>
 									</div>
 								</div>
 							</div>
@@ -107,7 +107,7 @@
 								
 								<div class="col-lg-2 col-md-2">
 									<div class="add-more-row-icon">
-										<a href="javascript:void(0)" class="" onclick="deleteRow(this)"><i class="fa fa-trash"></i></a>
+										<a href="javascript:void(0)" class="" onclick="deleteRow(this , '{{ $record->id ?? '' }}')"><i class="fa fa-trash"></i></a>
 									</div>
 								</div>
 							</div>
@@ -210,7 +210,7 @@
 		</div>
 		<div class="col-lg-2 col-md-2">
 			<div class="add-more-row-icon">
-				<a href="javascript:void(0)" class="" onclick="deleteRow(this)"><i class="fa fa-trash"></i></a>
+				<a href="javascript:void(0)" class="" onclick="deleteRow(this, '')"><i class="fa fa-trash"></i></a>
 			</div>
 		</div>
     `;
@@ -232,9 +232,25 @@
     });*/
   }
 
-  function deleteRow(button) {
+  function deleteRow(button, id) {
     const row = button.closest('.row');
     row.remove();
+	if(id != '')
+	{
+		$.ajax({
+			url: "{{ route('delete-current-financial-account') }}",
+			type: "POST",
+			data: {id:id,_token:csrfToken},
+			dataType: 'json',
+			success: function(response) {
+			
+			},
+			error: function(xhr) {
+				// Handle validation errors
+				
+			}
+		});
+	}
   }
   
 </script>

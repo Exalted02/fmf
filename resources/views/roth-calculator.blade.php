@@ -25,6 +25,7 @@
 					
 						<!-- Input Rows -->
 						<div class="addMoreformContainer" id="formContainer">
+						@if($records->isEmpty())
 							<div class="row">
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
@@ -53,10 +54,46 @@
 								</div>
 								<div class="col-lg-1 col-md-1">
 									<div class="add-more-row-icon">
-										<a href="javascript:void(0)" class="" onclick="deleteRow(this)"><i class="fa fa-trash"></i></a>
+										<a href="javascript:void(0)" class="" onclick="deleteRow(this, '')"><i class="fa fa-trash"></i></a>
 									</div>
 								</div>
 							</div>
+						@endif
+						
+						@foreach($records as $record)
+							<div class="row">
+								<div class="col-lg-4 col-md-4">
+									<div class="input-block">
+										<label for="" class="col-form-label">Investment Amount $</label>
+										<div class="input-dollar">
+										<span class="currency-symbol">$</span>
+										<input class="form-control" name="investment_amount[]" type="text" placeholder="Investment Amount" value="{{  $record->investment_amount ?? ''}}">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4">
+									<div class="input-block">
+										<label for="" class="col-form-label">Bonus %</label>
+										<div class="input-percent">
+										<input class="form-control" name="bonus[]" type="text" placeholder="Bonus"  value="{{  $record->bonus ?? ''}}">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
+										<label for="" class="col-form-label">Assumed Return</label>
+										<div class="input-percent">
+										<input class="form-control" name="assumed_return[]" type="text" placeholder="Assumed Return" value="{{  $record->assumed_return ?? ''}}">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-1 col-md-1">
+									<div class="add-more-row-icon">
+										<a href="javascript:void(0)" class="" onclick="deleteRow(this, '{{  $record->id ?? ''}}')"><i class="fa fa-trash"></i></a>
+									</div>
+								</div>
+							</div>
+						@endforeach
 						</div>
 						<!-- Add Button -->
 						<div class="row">
@@ -75,14 +112,14 @@
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Start Age</label>
-										<input class="form-control" name="conversion_start_age" id="conversion_start_age" type="text" placeholder="Start Age">
+										<input class="form-control" name="conversion_start_age" id="conversion_start_age" type="text" placeholder="Start Age" value="{{ $results->conversion_start_age ?? '' }}">
 										<div class="conversion_start_age_error error-text"></div>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Finish Age</label>
-										<input class="form-control" name="conversion_finish_age" id="conversion_finish_age" type="text" placeholder="Finish Age">
+										<input class="form-control" name="conversion_finish_age" id="conversion_finish_age" type="text" placeholder="Finish Age" value="{{ $results->conversion_finish_age ?? '' }}">
 										<div class="conversion_finish_age_error error-text"></div>
 									</div>
 								</div>
@@ -90,7 +127,7 @@
 									<div class="input-block">
 										<label for="" class="col-form-label">Annual Fee</label>
 										<div class="input-percent">
-										<input class="form-control" name="conversion_annual_fee" id="conversion_annual_fee" type="text" placeholder="Annual Fee">
+										<input class="form-control" name="conversion_annual_fee" id="conversion_annual_fee" type="text" placeholder="Annual Fee" value="{{ $results->conversion_annual_fee ?? '' }}">
 										</div>
 										<div class="conversion_annual_fee_error error-text"></div>
 									</div>
@@ -108,21 +145,21 @@
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Start Age</label>
-										<input class="form-control" name="rmd_start_age" id="rmd_start_age" type="text" placeholder="Start Age">
+										<input class="form-control" name="rmd_start_age" id="rmd_start_age" type="text" placeholder="Start Age" value="{{ $results->rmd_start_age ?? '' }}">
 										<div class="rmd_start_age_error error-text"></div>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Finish Age</label>
-										<input class="form-control" name="rmd_finish_age" id="rmd_finish_age" type="text" placeholder="Finish Age">
+										<input class="form-control" name="rmd_finish_age" id="rmd_finish_age" type="text" placeholder="Finish Age" value="{{ $results->rmd_finish_age ?? '' }}">
 										<div class="rmd_finish_age_error error-text"></div>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Age to Begin TAX FREE INCOME</label>
-										<input class="form-control" name="rmd_tax_free_income" id="rmd_tax_free_income" type="text" placeholder="Age to Begin TAX FREE INCOME">
+										<input class="form-control" name="rmd_tax_free_income" id="rmd_tax_free_income" type="text" placeholder="Age to Begin TAX FREE INCOME" value="{{ $results->rmd_tax_free_income ?? '' }}">
 										<div class="rmd_tax_free_income_error error-text"></div>
 									</div>
 								</div>
@@ -209,7 +246,7 @@
 		</div>
 		<div class="col-lg-1 col-md-1">
 			<div class="add-more-row-icon">
-				<a href="javascript:void(0)" class="" onclick="deleteRow(this)"><i class="fa fa-trash"></i></a>
+				<a href="javascript:void(0)" class="" onclick="deleteRow(this, '')"><i class="fa fa-trash"></i></a>
 			</div>
 		</div>
     `;
@@ -225,9 +262,25 @@
     container.appendChild(row);
   }
 
-  function deleteRow(button) {
+  function deleteRow(button, id) {
     const row = button.closest('.row');
     row.remove();
+	if(id != '')
+	{
+		$.ajax({
+			url: "{{ route('delete-roth-calculator') }}",
+			type: "POST",
+			data: {id:id,_token:csrfToken},
+			dataType: 'json',
+			success: function(response) {
+			
+			},
+			error: function(xhr) {
+				// Handle validation errors
+				
+			}
+		});
+	}
   }
 </script>
 <script>
