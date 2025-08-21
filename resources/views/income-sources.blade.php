@@ -94,8 +94,8 @@
 					<div class="row mt-4">
 						<div class="col-md-12">
 							<div class="d-flex justify-between submit-section mt-2 mb-5">
-								<a href="{{route('portfolio-desires')}}"><button class="btn btn-primary common-button"><i class="fa fa-arrow-left"></i> Previous</button></a>
-								<button class="btn btn-primary common-button">Next <i class="fa fa-arrow-right"></i></button>
+								<button class="btn btn-primary common-button" type="button" onclick="goBackAndReload()"><i class="fa fa-arrow-left"></i> Previous</button>
+								<button class="btn btn-primary common-button save-income-source">Next <i class="fa fa-arrow-right"></i></button>
 									{{--<a href="{{route('roth-calculator')}}"><button class="btn btn-primary common-button">Next <i class="fa fa-arrow-right"></i></button></a>--}}
 							</div>
 						</div>
@@ -223,7 +223,7 @@
 </script>
 <script>
 $(document).ready(function(){
-	$('.common-button').on('click', function(e){
+	$('.save-income-source').on('click', function(e){
 		e.preventDefault();
 		var client_arr = [];
 		var income_amount_arr = [];
@@ -336,7 +336,16 @@ $(document).ready(function(){
 				}
 			});
 	});
+	
+	
+	
+	/*$('.previous-page').on('click', function(e){
+		e.preventDefault();
+		//window.location.href = "{{ url()->previous() }}";
+		history.back();
+	});*/
 });
+
 </script>
 @endsection
 

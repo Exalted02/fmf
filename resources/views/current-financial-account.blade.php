@@ -20,15 +20,16 @@
 					
 						<!-- Input Rows -->
 						<div class="addMoreformContainer" id="formContainer">
+						@foreach($records as $record)
 							<div class="row">
 								<div class="col-lg-3 col-md-3">
 									<div class="">
 										<label for="" class="col-form-label">Account owner</label>
 										<select class="form-control select" name="account_owner[]">
 											<option value="">Select</option>
-											<option value="1">Husband</option>
-											<option value="2">Wife</option>
-											<option value="3">Joint</option>
+											<option value="1" {{ !empty($record->account_owner) && $record->account_owner == 1 ? 'selected' : ''}}>Husband</option>
+											<option value="2" {{ !empty($record->account_owner) && $record->account_owner == 2 ? 'selected' : ''}}>Wife</option>
+											<option value="3" {{ !empty($record->account_owner) && $record->account_owner == 3 ? 'selected' : ''}}>Joint</option>
 										</select>
 									</div>
 								</div>
@@ -37,7 +38,7 @@
 										<label for="" class="col-form-label">Account title</label>
 										<div class="input-dollar">
 										<span class="currency-symbol"></span>
-										<input class="form-control" name="account_title[]" type="text" placeholder="Account title">
+										<input class="form-control" name="account_title[]" type="text" placeholder="Account title" value="{{ $record->account_title ?? ''}}">
 										</div>
 									</div>
 								</div>
@@ -46,35 +47,25 @@
 										<label for="" class="col-form-label">Tax qualification</label>
 										<select class="select" name="tax_qualification[]">
 											<option value="">Select</option>
-											<option value="1">IRA</option>
-											<option value="2">Non-Qualified</option>
+											<option value="1" {{ !empty($record->tax_qualification) && $record->tax_qualification == 1 ? 'selected' : ''}}>IRA</option>
+											<option value="2" {{ !empty($record->tax_qualification) && $record->tax_qualification == 2 ? 'selected' : ''}}>Non-Qualified</option>
 										</select>
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">Amount value</label>
-										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value">
+										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" value="{{ $record->account_value ?? ''}}">
 									</div>
 								</div>
-								{{--<div class="col-lg-2 col-md-2">
-									<div class="input-block">
-										<label for="" class="col-form-label">Start Age</label>
-										<input class="form-control" name="start_age[]" type="text" placeholder="Start Age">
-									</div>
-								</div>
-								<div class="col-lg-2 col-md-2">
-									<div class="input-block">
-										<label for="" class="col-form-label">End Age</label>
-										<input class="form-control" name="end_age[]" type="text" placeholder="End Age">
-									</div>
-								</div>--}}
+								
 								<div class="col-lg-2 col-md-2">
 									<div class="add-more-row-icon">
 										<a href="javascript:void(0)" class="" onclick="deleteRow(this)"><i class="fa fa-trash"></i></a>
 									</div>
 								</div>
 							</div>
+						@endforeach
 						</div>
 
 						<!-- Add Button -->
@@ -83,8 +74,8 @@
 					<div class="row mt-4">
 						<div class="col-md-12">
 							<div class="d-flex justify-between submit-section mt-2 mb-5">
-								<a href="{{route('portfolio-desires')}}"><button class="btn btn-primary common-button"><i class="fa fa-arrow-left"></i> Previous</button></a>
-								<button class="btn btn-primary common-button">Next <i class="fa fa-arrow-right"></i></button>
+								<button class="btn btn-primary common-button"  onclick="goBackAndReload()"><i class="fa fa-arrow-left"></i> Previous</button>
+								<button class="btn btn-primary common-button save-account">Next <i class="fa fa-arrow-right"></i></button>
 									{{--<a href="{{route('roth-calculator')}}"><button class="btn btn-primary common-button">Next <i class="fa fa-arrow-right"></i></button></a>--}}
 							</div>
 						</div>
@@ -203,7 +194,7 @@
 </script>
 <script>
 $(document).ready(function(){
-	$('.common-button').on('click', function(e){
+	$('.save-account').on('click', function(e){
 		e.preventDefault();
 		var account_owner_arr = [];
 		var account_title_arr = [];

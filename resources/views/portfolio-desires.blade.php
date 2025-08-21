@@ -22,28 +22,28 @@
 							<div class="col-md-6">
 								<div class="input-block mb-3">
 									<label class="col-form-label">Client's Name</label>
-									<input type="text" class="form-control" placeholder="Enter Client's Name" name="client_name" id="client_name">
+									<input type="text" class="form-control" placeholder="Enter Client's Name" name="client_name" id="client_name" value="{{ $record->client_name ?? '' }}">
 									<div class="client_name_error error-text"></div>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="input-block mb-3">
 									<label class="col-form-label">Client's Age</label>
-									<input type="text" class="form-control"  name="client_age" id="client_age" placeholder="Enter Client's Age">
+									<input type="text" class="form-control"  name="client_age" id="client_age" placeholder="Enter Client's Age"  value="{{ $record->client_age ?? '' }}">
 									<div class="client_age_error error-text"></div>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="input-block mb-3">
 									<label class="col-form-label">Partner's Name</label>
-									<input type="text" class="form-control"   name="partner_name" id="partner_name" placeholder="Enter Partner's Name">
+									<input type="text" class="form-control"   name="partner_name" id="partner_name" placeholder="Enter Partner's Name" value="{{ $record->partner_name ?? '' }}">
 									<div class="partner_name_error error-text"></div>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="input-block mb-3">
 									<label class="col-form-label">Partner's Age</label>
-									<input type="text" class="form-control"   name="partner_age" id="partner_age" placeholder="Enter Partner's Age">
+									<input type="text" class="form-control"   name="partner_age" id="partner_age" placeholder="Enter Partner's Age" value="{{ $record->partner_age ?? '' }}">
 									<div class="partner_age_error error-text"></div>
 								</div>
 							</div>
@@ -59,7 +59,7 @@
 									<label class="col-form-label">Current Portfolio Value</label>
 									<div class="input-dollar">
 									<span class="currency-symbol">$</span>
-									<input type="text" class="form-control"   name="current_portfolio_value" id="current_portfolio_value" placeholder="Enter Current Portfolio Value">
+									<input type="text" class="form-control"   name="current_portfolio_value" id="current_portfolio_value" placeholder="Enter Current Portfolio Value"  value="{{ $record->current_portfolio_value ?? '' }}">
 									</div>
 									<div class="current_portfolio_error error-text"></div>
 								</div>
@@ -69,7 +69,7 @@
 									<label class="col-form-label">Desired Gross Income During Retirement</label>
 									<div class="input-dollar">
 									<span class="currency-symbol">$</span>
-									<input type="text" class="form-control"   name="desired_gross_income_retirement" id="desired_gross_income_retirement" placeholder="Enter Desired Gross Income">
+									<input type="text" class="form-control"   name="desired_gross_income_retirement" id="desired_gross_income_retirement" placeholder="Enter Desired Gross Income" value="{{ $record->desired_gross_income_retirement ?? '' }}">
 									</div>
 									<div class="current_gross_portfolio_error error-text"></div>
 								</div>
@@ -77,7 +77,7 @@
 							<div class="col-md-6">
 								<div class="input-block mb-3">
 									<label class="col-form-label">Desired Retirement Age</label>
-									<input type="text" class="form-control"   name="desired_retirement_age" id="desired_retirement_age" placeholder="Enter Desired Retirement Age">
+									<input type="text" class="form-control"   name="desired_retirement_age" id="desired_retirement_age" placeholder="Enter Desired Retirement Age" value="{{ $record->desired_retirement_age ?? '' }}">
 									<div class="desired_retirement_age_error error-text"></div>
 								</div>
 							</div>
@@ -92,7 +92,7 @@
 								<div class="input-block mb-3">
 									<label class="col-form-label">Cost of Living Adjustment (COLA)</label>
 									<div class="input-percent">
-									<input type="text" class="form-control"   name="COLA" id="COLA" placeholder="Enter Cost of Living Adjustment (COLA)">
+									<input type="text" class="form-control"   name="COLA" id="COLA" placeholder="Enter Cost of Living Adjustment (COLA)" value="{{ $record->COLA ?? '' }}">
 									</div>
 									<div class="COLA_error error-text"></div>
 								</div>
@@ -101,7 +101,7 @@
 								<div class="input-block mb-3">
 									<label class="col-form-label">Age to Begin COLA Adjustment</label>
 									<div class="input-percent-s">
-									<input type="text" class="form-control"  name= "cola_age" id="cola_age" placeholder="Enter Age to Begin COLA Adjustment">
+									<input type="text" class="form-control"  name= "cola_age" id="cola_age" placeholder="Enter Age to Begin COLA Adjustment" value="{{ $record->cola_age ?? '' }}">
 									</div>
 									<div class="cola_age_error error-text"></div>
 									
@@ -111,7 +111,7 @@
 								<div class="input-block mb-3">
 									<label class="col-form-label">Assumed Return</label>
 									<div class="input-percent">
-									<input type="text" class="form-control"   name="assumed_return" id="assumed_return" placeholder="Enter Assumed Return">
+									<input type="text" class="form-control"   name="assumed_return" id="assumed_return" placeholder="Enter Assumed Return" value="{{ $record->assumed_return ?? '' }}">
 									</div>
 									<div class="assumed_return_error error-text"></div>
 								</div>
@@ -120,11 +120,11 @@
 								<div class="form-box">
 									<h3 class="content-heading SofiaPro-SemiBold">Retirement Income Planning Goal</h3>
 									<div class="d-flex justify-between">	
-									    <label class="checkbox-inline"><input type="checkbox" name="RIPG[]" value="1" class="form-check-input"><span class="checkmark SofiaPro-SemiBold">Income</span></label>
+									    <label class="checkbox-inline"><input type="checkbox" name="RIPG[]" value="1" class="form-check-input" {{ !empty($record->RIPG) && $record->RIPG == 1 ? 'checked' : '' }} ><span class="checkmark SofiaPro-SemiBold">Income</span></label>
 
-										<label class="checkbox-inline"><input type="checkbox" name="RIPG[]" value="2" class="form-check-input"><span class="checkmark SofiaPro-SemiBold">Tax Reduction</span></label>
+										<label class="checkbox-inline"><input type="checkbox" name="RIPG[]" value="2" class="form-check-input" {{ !empty($record->RIPG) && $record->RIPG == 2 ? 'checked' : '' }}><span class="checkmark SofiaPro-SemiBold">Tax Reduction</span></label>
 									
-										<label class="checkbox-inline"><input type="checkbox" name="RIPG[]" value="3" class="form-check-input"><span class="checkmark SofiaPro-SemiBold">Legacy</span></label>
+										<label class="checkbox-inline"><input type="checkbox" name="RIPG[]" value="3" class="form-check-input" {{ !empty($record->RIPG) && $record->RIPG == 3 ? 'checked' : '' }}><span class="checkmark SofiaPro-SemiBold">Legacy</span></label>
 									</div>
 								</div>
 							</div>

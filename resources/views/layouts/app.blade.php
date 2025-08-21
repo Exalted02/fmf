@@ -137,6 +137,10 @@
 				}
 				toastr[type](msg);
 			}
+			function goBackAndReload()
+			{
+				history.back();
+			}
 		</script>
 		@yield('scripts')
 		@yield('component-scripts')

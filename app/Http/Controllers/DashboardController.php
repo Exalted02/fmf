@@ -27,13 +27,24 @@ class DashboardController extends Controller
     public function portfolio_desires()
     {
 		$data = [];
+		$id = Session::get('sl_no');
+		if(!empty($id))
+		{
+			$record = Client_portfolio_Desires::where('id', $id)->first();
+			$data['record'] = $record;
+		}
 		
         return view('portfolio-desires', $data);
     }
 	 public function current_financial_account()
     {
 		$data = [];
-		
+		$sl_no = Session::get('sl_no');
+		if(!empty($sl_no))
+		{
+			$record = Current_financial_account::where('sl_no', $sl_no)->get();
+			$data['records'] = $record;
+		}
         return view('current-financial-account', $data);
     }
     public function income_sources()
@@ -51,23 +62,44 @@ class DashboardController extends Controller
 	public function portfolio_desires_save(Request $request)
 	{
 		//echo "<pre>";print_r($request->all());die;
-		$model = new Client_portfolio_Desires();
-		$model->user_id  = auth()->user()->id;
-		$model->client_name  = $request->client_name;
-		$model->client_age  = $request->client_age;
-		$model->partner_name  = $request->partner_name;
-		$model->partner_age  = $request->partner_age;
-		$model->current_portfolio_value  = $request->current_portfolio_value;
-		$model->desired_gross_income_retirement  = $request->desired_gross_income_retirement;
-		$model->desired_retirement_age  = $request->desired_retirement_age;
-		$model->COLA  = $request->COLA;
-		$model->cola_age  = $request->cola_age;
-		$model->assumed_return  = $request->assumed_return;
-		$model->RIPG  = implode(',', $request->RIPG) ?? null;
-		$model->status  = 1;
-		$model->save();
-		$id = $model->id;
-		Session::put('sl_no', $id);
+		$id = Session::get('sl_no');
+		if($id !='')
+		{
+			$model  = Client_portfolio_Desires::find($id);
+			$model->client_name  = $request->client_name;
+			$model->client_age  = $request->client_age;
+			$model->partner_name  = $request->partner_name;
+			$model->partner_age  = $request->partner_age;
+			$model->current_portfolio_value  = $request->current_portfolio_value;
+			$model->desired_gross_income_retirement  = $request->desired_gross_income_retirement;
+			$model->desired_retirement_age  = $request->desired_retirement_age;
+			$model->COLA  = $request->COLA;
+			$model->cola_age  = $request->cola_age;
+			$model->assumed_return  = $request->assumed_return;
+			$model->RIPG  = implode(',', $request->RIPG) ?? null;
+			$model->save();
+		}
+		else
+		{
+		
+			$model = new Client_portfolio_Desires();
+			$model->user_id  = auth()->user()->id;
+			$model->client_name  = $request->client_name;
+			$model->client_age  = $request->client_age;
+			$model->partner_name  = $request->partner_name;
+			$model->partner_age  = $request->partner_age;
+			$model->current_portfolio_value  = $request->current_portfolio_value;
+			$model->desired_gross_income_retirement  = $request->desired_gross_income_retirement;
+			$model->desired_retirement_age  = $request->desired_retirement_age;
+			$model->COLA  = $request->COLA;
+			$model->cola_age  = $request->cola_age;
+			$model->assumed_return  = $request->assumed_return;
+			$model->RIPG  = implode(',', $request->RIPG) ?? null;
+			$model->status  = 1;
+			$model->save();
+			$id = $model->id;
+			Session::put('sl_no', $id);
+		}
 		return response()->json(['message'=>'success']);
 	}
 	public function income_sources_save(Request $request)
@@ -148,12 +180,18 @@ class DashboardController extends Controller
 	public function current_financial_account_save(Request $request)
 	{
 		//echo "<pre>";print_r($request->all());die;
+		
 		$account_owner = $request->input('account_owner_arr', []);
 		$account_title = $request->input('account_title_arr', []);
 		$tax_qualification = $request->input('tax_qualification_arr', []);
 		$account_value = $request->input('account_value_arr', []);
 		
 		$sl_no = Session::get('sl_no');
+		if($sl_no != '')
+		{
+			Current_financial_account::where('sl_no', $sl_no)->delete();
+		}
+		
 		$countrecord = count($account_owner);
 		for($index = 0; $index < $countrecord; $index++)
 		{
