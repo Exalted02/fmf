@@ -7,15 +7,19 @@ use Illuminate\Http\Request;
 use PDF;
 use App\Models\Client_portfolio_Desires;
 use App\Models\Current_financial_account;
+use App\Models\Guaranteed_income_sources;
 
 class PdfController extends Controller
 {
 	public function incomePlan()
 	{
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
+		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
 		$current_financial_account = Current_financial_account::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->get();
+		
+		$current_income_account = Guaranteed_income_sources::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->get();
 		
 		//echo "<pre>";print_r($portfolio_Desire_data);die;
 		$data = [
@@ -35,6 +39,7 @@ class PdfController extends Controller
             "wife_ss" => "35,772",
             "husband_ss" => "25,764",
             "current_financial_account" => $current_financial_account,
+            "current_income_account" => $current_income_account,
         ];
 		
 		$pdf = app('dompdf.wrapper');

@@ -38,9 +38,11 @@ foreach($current_financial_account as $financial_account)
 $subTotalHusband = 0;
 $subTotalWife = 0;
 $subTotalJoint = 0;
+$subTotalCurrent = 0;
 $h=0;
 $w=0;
 $j=0;
+$c=0;
 //echo "<pre>";print_r($husbandAsset);
 //echo "<pre>";print_r($wifeAsset);
 //echo "<pre>";print_r($jointAsset);die;
@@ -295,7 +297,7 @@ $j=0;
 			</tr>
 			<tr>
 				<td></td>
-				<td class="totals right">Income Total $61,536</td>
+				<td class="totals right">Income Total $<span id="tot_current_income"></span></td>
 			</tr>
 		</table>
 
@@ -304,11 +306,21 @@ $j=0;
 			<tr>
 				<td width="100%" valign="top">
 					<strong>Current Income Accounts</strong><br>
-					Wife SS &nbsp;&nbsp; $35,772 <br>
-					Husband SS &nbsp;&nbsp; $25,764 <br><br>
-					<span class="subtotal">Subtotal $61,536</span>
+					@if($current_income_account->isNotEmpty())
+						@foreach($current_income_account as $income_account)
+						@php 
+							$subTotalCurrent += $income_account->income_amount;
+						@endphp
+						{{ $income_account->client_name ?? ''}} &nbsp;&nbsp; ${{  number_format($income_account->income_amount) }} <br>
+						@endforeach
+					@endif
+					{{--Wife SS &nbsp;&nbsp; $35,772 <br>
+					Husband SS &nbsp;&nbsp; $25,764 <br><br>--}}
+					
+					<span class="subtotal">Subtotal $ {{ number_format($subTotalCurrent)}}</span>
 				</td>
 			</tr>
+			<input type="hidden" id="subTotalCurrent" value="{{ $subTotalCurrent ?? 0 }}">
 		</table>
 
 		<br><br>
@@ -320,3 +332,12 @@ $j=0;
 	</div>
 </body>
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+$(document).ready(function(){
+	var subTotalCurrent = $('#subTotalCurrent').val();
+	var s_total = Number(subTotalCurrent).toLocaleString('en-IN');
+	$('#tot_current_income').text(s_total);
+});
+</script>
+
