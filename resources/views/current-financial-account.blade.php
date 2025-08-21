@@ -108,7 +108,7 @@
 						</div>
 
 						<div class="step-content mt-3">
-							<h5 class="step-title">Income Sources</h5>
+							<h5 class="step-title">Current Financial Account</h5>
 							<p class="step-description">
 								Use the Income Allocation Tool to examine a client’s current financial situation and income sources in retirement to help effectively put together a financial plan.
 							</p>

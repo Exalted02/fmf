@@ -28,6 +28,8 @@ class PdfController extends Controller
 		//echo "<pre>";print_r($portfolio_Desire_data);die;
 		$data = [
 			"created_at" => $portfolio_Desire_data->created_at ?? '',
+			"client_nm" => $portfolio_Desire_data->client_name ?? '',
+			"partner_nm" => $portfolio_Desire_data->partner_name ?? '',
             "current_position" => $portfolio_Desire_data->current_portfolio_value ?? '',
             "current_age" => $portfolio_Desire_data->client_age ?? '',
             "retirement_age" => $portfolio_Desire_data->desired_retirement_age ?? '',

@@ -107,10 +107,10 @@
 							<div class="triangle-up complete">
 								<span class="triangle-number">1</span>
 							</div>
-							<div class="triangle-up active">
+							<div class="triangle-up complete">
 								<span class="triangle-number">2</span>
 							</div>
-							<div class="triangle-up">
+							<div class="triangle-up active">
 								<span class="triangle-number">3</span>
 							</div>
 							<div class="triangle-up">

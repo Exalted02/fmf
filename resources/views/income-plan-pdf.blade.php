@@ -104,10 +104,10 @@ $c=0;
 				<!-- Right Side -->
 				<td width="50%" style="padding-left: 20px;">
 					<p><strong style="color: #3490CD;">Prepared For:</strong><br>
-					Sample Husband and Wife</p>
+					Client and Partner</p>
 
 					<p><strong style="color: #3490CD;">Agent/Representative:</strong><br>
-					Darryl Stein</p>
+					{{ $client_nm ?? ''}}</p>
 
 					<p><strong style="color: #3490CD;">Date Prepared:</strong>
 					{{ Carbon::parse($created_at)->format('d/m/Y') }}</p>
