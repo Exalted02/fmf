@@ -1,5 +1,31 @@
 @extends('layouts.app')
 @section('content')
+@php 
+	$primary_goal = explode(",", $record->RIPG);
+	//echo "<pre>";print_r($primary_goal);die;
+	
+	$primary1 = '';
+	$primary2 = '';
+	$primary3 = '';
+	
+	if(!empty($primary_goal))
+	{
+		if(in_array(1, $primary_goal))
+		{
+			$primary1 = 1;
+		}
+		
+		if(in_array(2, $primary_goal))
+		{
+			$primary2 = 2;
+		}
+		
+		if(in_array(3, $primary_goal))
+		{
+			$primary3 = 3;
+		}
+	}
+@endphp
     <!-- Page Wrapper -->
     <div class="container">
     
@@ -120,11 +146,11 @@
 								<div class="form-box">
 									<h3 class="content-heading SofiaPro-SemiBold">Retirement Income Planning Goal</h3>
 									<div class="d-flex justify-between">	
-									    <label class="checkbox-inline"><input type="checkbox" name="RIPG[]" value="1" class="form-check-input" {{ !empty($record->RIPG) && $record->RIPG == 1 ? 'checked' : '' }} ><span class="checkmark SofiaPro-SemiBold">Income</span></label>
+									    <label class="checkbox-inline"><input type="checkbox" name="RIPG[]" value="1" class="form-check-input" {{ !empty($primary1) && $primary1 == 1 ? 'checked' : '' }} ><span class="checkmark SofiaPro-SemiBold">Income</span></label>
 
-										<label class="checkbox-inline"><input type="checkbox" name="RIPG[]" value="2" class="form-check-input" {{ !empty($record->RIPG) && $record->RIPG == 2 ? 'checked' : '' }}><span class="checkmark SofiaPro-SemiBold">Tax Reduction</span></label>
+										<label class="checkbox-inline"><input type="checkbox" name="RIPG[]" value="2" class="form-check-input" {{ !empty($primary2) && $primary2 == 2 ? 'checked' : '' }}><span class="checkmark SofiaPro-SemiBold">Tax Reduction</span></label>
 									
-										<label class="checkbox-inline"><input type="checkbox" name="RIPG[]" value="3" class="form-check-input" {{ !empty($record->RIPG) && $record->RIPG == 3 ? 'checked' : '' }}><span class="checkmark SofiaPro-SemiBold">Legacy</span></label>
+										<label class="checkbox-inline"><input type="checkbox" name="RIPG[]" value="3" class="form-check-input" {{ !empty($primary3) && $primary3 == 3 ? 'checked' : '' }}><span class="checkmark SofiaPro-SemiBold">Legacy</span></label>
 									</div>
 								</div>
 							</div>
