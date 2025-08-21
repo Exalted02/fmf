@@ -27,6 +27,41 @@
 			<div class="col-xl-12">
 				<div class="accordion custom-accordion" id="custom-accordion-one">
 				@foreach($user->get_client_portfolio as $key=>$val)
+				
+				@php 
+				$primary_goal = explode(",", $val->RIPG);
+				
+				$primary1 = '';
+				$primary2 = '';
+				$primary3 = '';
+				
+				if(!empty($primary_goal))
+				{
+					if (isset($primary_goal[0])) {
+						$primary1 = $primary_goal[0] == '1' 
+							? 'Income' 
+							: ($primary_goal[0] == '2' ? 'Tax Reduction' : 'Legacy');
+					} else {
+						$primary1 = null;
+					}
+					
+					if (isset($primary_goal[1])) {
+						$primary2 = $primary_goal[1] == '1' 
+							? ', Income' 
+							: ($primary_goal[1] == '2' ? ', Tax Reduction' : ', Legacy');
+					} else {
+						$primary2 = null;
+					}
+					
+					if (isset($primary_goal[2])) {
+						$primary3 = $primary_goal[2] == '1' 
+							? ', Income' 
+							: ($primary_goal[2] == '2' ? ', Tax Reduction' : ', Legacy');
+					} else {
+						$primary3 = null;
+					}
+				}
+				@endphp
 					<div class="card mb-1">
 						<div class="card-header" id="heading-{{ $key }}">
 							<h5 class="accordion-faq m-0 position-relative">
@@ -118,7 +153,7 @@
 												</div>
 												<div class="col-md-4 mt-3">
 													<strong>{{ __('RIPG') }}</strong>
-													<div> {{ $val->RIPG ?? 'N/A'}}</div>
+													<div> {{ $primary1 }}{{ $primary2 }}{{ $primary3 }}</div>
 												</div>
 											  </div>
                                             </div>
