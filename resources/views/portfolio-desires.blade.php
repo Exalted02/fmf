@@ -1,7 +1,11 @@
 @extends('layouts.app')
 @section('content')
 @php 
-	$primary_goal = explode(",", $record->RIPG);
+    $primary_goal = '';
+	if(isset($record->RIPG))
+	{
+		$primary_goal = explode(",", $record->RIPG);
+	}
 	//echo "<pre>";print_r($primary_goal);die;
 	
 	$primary1 = '';

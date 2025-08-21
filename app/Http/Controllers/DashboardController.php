@@ -28,6 +28,7 @@ class DashboardController extends Controller
     {
 		$data = [];
 		$id = Session::get('sl_no');
+		$data['record'] = '';
 		if(!empty($id))
 		{
 			$record = Client_portfolio_Desires::where('id', $id)->first();
