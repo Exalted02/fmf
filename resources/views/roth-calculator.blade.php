@@ -137,8 +137,8 @@
 					<div class="row mt-4">
 						<div class="col-md-12">
 							<div class="d-flex justify-between submit-section mt-2 mb-5">
-								<a href="{{route('income-sources')}}"><button class="btn btn-primary common-button"><i class="fa fa-arrow-left"></i> Previous</button></a>
-								<a href="javascript:void(0)"><button class="btn btn-primary common-button">Next <i class="fa fa-arrow-right"></i></button></a>
+								<button class="btn btn-primary common-button" onclick="goBackAndReload()"><i class="fa fa-arrow-left"></i> Previous</button>
+								<a href="javascript:void(0)"><button class="btn btn-primary common-button save-roth-calculator">Next <i class="fa fa-arrow-right"></i></button></a>
 							</div>
 						</div>
 					</div>
@@ -232,7 +232,7 @@
 </script>
 <script>
 $(document).ready(function(){
-	$('.common-button').on('click', function(e){
+	$('.save-roth-calculator').on('click', function(e){
 		e.preventDefault();
 		var conversion_start_age = $('#conversion_start_age').val();
 		var conversion_finish_age = $('#conversion_finish_age').val();

@@ -20,6 +20,7 @@
 					
 						<!-- Input Rows -->
 						<div class="addMoreformContainer" id="formContainer">
+						@if($records->isEmpty())
 							<div class="row">
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
@@ -86,6 +87,75 @@
 									</div>
 								</div>
 							</div>
+						@endif
+						@foreach($records as $record)
+							<div class="row">
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
+										<label for="" class="col-form-label">Client's Name</label>
+										<input class="form-control" name="client_name[]" type="text" placeholder="Client's Name" value="{{ $record->client_name ?? ''}}">
+										<div class="invalid-feedback"></div> 
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
+										<label for="" class="col-form-label">Income Amount</label>
+										<div class="input-dollar">
+										<span class="currency-symbol">$</span>
+										<input class="form-control" name="income_amount[]" type="text" placeholder="Income Amount" value="{{ $record->income_amount ?? ''}}">
+										<div class="invalid-feedback"></div> 
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="">
+										<label for="" class="col-form-label">Type</label>
+										<select class="form-control select" name="type[]">
+											<option>Type</option>
+											<option value="1"  {{ !empty($record->type) && $record->type == 1 ? 'selected' : ''}}>Income</option>
+										</select>
+										<div class="invalid-feedback"></div> 
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="">
+										<label for="" class="col-form-label">Frequency</label>
+										<select class="form-control select" name="frequency[]">
+											<option>Frequency</option>
+											<option value="1"  {{ !empty($record->frequency) && $record->frequency == 1 ? 'selected' : ''}}>Monthly</option>
+											<option value="2"   {{ !empty($record->frequency) && $record->frequency == 2 ? 'selected' : ''}}>Yearly</option>
+										</select>
+										<div class="invalid-feedback"></div> 
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2">
+									<div class="input-block">
+										<label for="" class="col-form-label">COLA</label>
+										<input class="form-control" name="cola[]" type="text" placeholder="COLA" value="{{ $record->cola ?? ''}}">
+										<div class="invalid-feedback"></div> 
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2">
+									<div class="input-block">
+										<label for="" class="col-form-label">Start Age</label>
+										<input class="form-control" name="start_age[]" type="text" placeholder="Start Age" value="{{ $record->start_age ?? ''}}">
+										<div class="invalid-feedback"></div> 
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2">
+									<div class="input-block">
+										<label for="" class="col-form-label">End Age</label>
+										<input class="form-control" name="end_age[]" type="text" placeholder="End Age" value="{{ $record->end_age ?? ''}}">
+										<div class="invalid-feedback"></div> 
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2">
+									<div class="add-more-row-icon">
+										<a href="javascript:void(0)" class="" onclick="deleteRow(this)"><i class="fa fa-trash"></i></a>
+									</div>
+								</div>
+							</div>
+						@endforeach
 						</div>
 
 						<!-- Add Button -->

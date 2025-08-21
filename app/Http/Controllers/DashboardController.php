@@ -50,7 +50,12 @@ class DashboardController extends Controller
     public function income_sources()
     {
 		$data = [];
-		
+		$sl_no = Session::get('sl_no');
+		if(!empty($sl_no))
+		{
+			$record = Guaranteed_income_sources::where('sl_no', $sl_no)->get();
+			$data['records'] = $record;
+		}
         return view('income-sources', $data);
     }
     public function roth_calculator()
@@ -115,6 +120,11 @@ class DashboardController extends Controller
 		$end_age = $request->input('end_age_arr', []);
 		
 		$sl_no = Session::get('sl_no');
+		if($sl_no != '')
+		{
+			Guaranteed_income_sources::where('sl_no', $sl_no)->delete();
+		}
+		
 		$countrecord = count($client_name);
 		for($index = 0; $index < $countrecord; $index++)
 		{

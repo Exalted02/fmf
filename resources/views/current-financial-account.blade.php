@@ -20,6 +20,52 @@
 					
 						<!-- Input Rows -->
 						<div class="addMoreformContainer" id="formContainer">
+						@if($records->isEmpty())
+							<div class="row">
+								<div class="col-lg-3 col-md-3">
+									<div class="">
+										<label for="" class="col-form-label">Account owner</label>
+										<select class="form-control select" name="account_owner[]">
+											<option value="">Select</option>
+											<option value="1">Husband</option>
+											<option value="2">Wife</option>
+											<option value="3">Joint</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
+										<label for="" class="col-form-label">Account title</label>
+										<div class="input-dollar">
+										<span class="currency-symbol"></span>
+										<input class="form-control" name="account_title[]" type="text" placeholder="Account title">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2">
+									<div class="">
+										<label for="" class="col-form-label">Tax qualification</label>
+										<select class="select" name="tax_qualification[]">
+											<option value="">Select</option>
+											<option value="1">IRA</option>
+											<option value="2">Non-Qualified</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-2 col-md-2">
+									<div class="input-block">
+										<label for="" class="col-form-label">Amount value</label>
+										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value">
+									</div>
+								</div>
+								
+								<div class="col-lg-2 col-md-2">
+									<div class="add-more-row-icon">
+										<a href="javascript:void(0)" class="" onclick="deleteRow(this)"><i class="fa fa-trash"></i></a>
+									</div>
+								</div>
+							</div>
+						@endif
 						@foreach($records as $record)
 							<div class="row">
 								<div class="col-lg-3 col-md-3">
