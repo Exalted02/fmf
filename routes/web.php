@@ -65,7 +65,7 @@ Route::middleware(['auth','verified'])->group(function () {
 	
 	Route::get('/income-sources', [DashboardController::class, 'income_sources'])->name('income-sources');
 	Route::post('/income-sources', [DashboardController::class, 'income_sources_save'])->name('income-sources');
-	Route::post('/delete-incoume-source', [DashboardController::class, 'delete_incoume_source'])->name('delete-incoume-source');
+	Route::post('/delete-income-source', [DashboardController::class, 'delete_income_source'])->name('delete-income-source');
 	
 	Route::get('/roth-calculator', [DashboardController::class, 'roth_calculator'])->name('roth-calculator');
 	Route::post('/roth-calculator', [DashboardController::class, 'roth_calculator_save'])->name('roth-calculator');

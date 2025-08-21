@@ -291,7 +291,7 @@
 	if(id != '')
 	{
 		$.ajax({
-			url: "{{ route('delete-incoume-source') }}",
+			url: "{{ route('delete-income-source') }}",
 			type: "POST",
 			data: {id:id,_token:csrfToken},
 			dataType: 'json',

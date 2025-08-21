@@ -293,7 +293,7 @@ class DashboardController extends Controller
 	{
 		Current_financial_account::where('id', $request->id)->delete();
 	}
-	public function delete_incoume_source(Request $request)
+	public function delete_income_source(Request $request)
 	{
 		Guaranteed_income_sources::where('id', $request->id)->delete();
 	}
