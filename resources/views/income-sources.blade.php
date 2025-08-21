@@ -34,7 +34,7 @@
 										<label for="" class="col-form-label">Income Amount</label>
 										<div class="input-dollar">
 										<span class="currency-symbol">$</span>
-										<input class="form-control" name="income_amount[]" type="text" placeholder="Income Amount">
+										<input class="form-control" name="income_amount[]" type="text" placeholder="Income Amount" onkeypress="return isNumberKey(event,this)">
 										<div class="invalid-feedback"></div> 
 										</div>
 									</div>
@@ -64,20 +64,20 @@
 									<div class="input-block">
 										<label for="" class="col-form-label">COLA</label>
 										<input class="form-control" name="cola[]" type="text" placeholder="COLA">
-										<div class="invalid-feedback"></div> 
+										<div class="invalid-feedback" onkeypress="return isNumberKey(event,this)"></div> 
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">Start Age</label>
-										<input class="form-control" name="start_age[]" type="text" placeholder="Start Age">
+										<input class="form-control" name="start_age[]" type="text" placeholder="Start Age" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										<div class="invalid-feedback"></div> 
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">End Age</label>
-										<input class="form-control" name="end_age[]" type="text" placeholder="End Age">
+										<input class="form-control" name="end_age[]" type="text" placeholder="End Age" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										<div class="invalid-feedback"></div> 
 									</div>
 								</div>
@@ -102,7 +102,7 @@
 										<label for="" class="col-form-label">Income Amount</label>
 										<div class="input-dollar">
 										<span class="currency-symbol">$</span>
-										<input class="form-control" name="income_amount[]" type="text" placeholder="Income Amount" value="{{ $record->income_amount ?? ''}}">
+										<input class="form-control" name="income_amount[]" type="text" placeholder="Income Amount" value="{{ $record->income_amount ?? ''}}" onkeypress="return isNumberKey(event,this)">
 										<div class="invalid-feedback"></div> 
 										</div>
 									</div>
@@ -131,21 +131,21 @@
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">COLA</label>
-										<input class="form-control" name="cola[]" type="text" placeholder="COLA" value="{{ $record->cola ?? ''}}">
+										<input class="form-control" name="cola[]" type="text" placeholder="COLA" value="{{ $record->cola ?? ''}}" onkeypress="return isNumberKey(event,this)">
 										<div class="invalid-feedback"></div> 
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">Start Age</label>
-										<input class="form-control" name="start_age[]" type="text" placeholder="Start Age" value="{{ $record->start_age ?? ''}}">
+										<input class="form-control" name="start_age[]" type="text" placeholder="Start Age" value="{{ $record->start_age ?? ''}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										<div class="invalid-feedback"></div> 
 									</div>
 								</div>
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">End Age</label>
-										<input class="form-control" name="end_age[]" type="text" placeholder="End Age" value="{{ $record->end_age ?? ''}}">
+										<input class="form-control" name="end_age[]" type="text" placeholder="End Age" value="{{ $record->end_age ?? ''}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										<div class="invalid-feedback"></div> 
 									</div>
 								</div>
@@ -226,7 +226,7 @@
 				<label for="" class="col-form-label">Income Amount</label>
 				<div class="input-dollar">
 				<span class="currency-symbol">$</span>
-				<input class="form-control" name="income_amount[]" type="text" placeholder="Income Amount">
+				<input class="form-control" name="income_amount[]" type="text" placeholder="Income Amount" onkeypress="return isNumberKey(event,this)">
 				</div>
 			</div>
 		</div>
@@ -252,19 +252,19 @@
 		<div class="col-lg-2 col-md-2">
 			<div class="input-block">
 				<label for="" class="col-form-label">COLA</label>
-				<input class="form-control" name="cola[]" type="text" placeholder="COLA">
+				<input class="form-control" name="cola[]" type="text" placeholder="COLA" onkeypress="return isNumberKey(event,this)">
 			</div>
 		</div>
 		<div class="col-lg-2 col-md-2">
 			<div class="input-block">
 				<label for="" class="col-form-label">Start Age</label>
-				<input class="form-control" name="start_age[]" type="text" placeholder="Start Age">
+				<input class="form-control" name="start_age[]" type="text" placeholder="Start Age" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 			</div>
 		</div>
 		<div class="col-lg-2 col-md-2">
 			<div class="input-block">
 				<label for="" class="col-form-label">End Age</label>
-				<input class="form-control" name="end_age[]" type="text" placeholder="End Age">
+				<input class="form-control" name="end_age[]" type="text" placeholder="End Age" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 			</div>
 		</div>
 		<div class="col-lg-2 col-md-2">

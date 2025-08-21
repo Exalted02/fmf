@@ -137,9 +137,30 @@
 				}
 				toastr[type](msg);
 			}
+			
 			function goBackAndReload()
 			{
 				history.back();
+			}
+			
+			function isNumberKey(evt, element) {
+				var charCode = (evt.which) ? evt.which : evt.keyCode;
+				if (charCode === 8 || charCode === 9 || charCode === 46 || (charCode >= 37 && charCode <= 40)) {
+					return true;
+				}
+
+				if (charCode === 46) {
+					if (element.value.indexOf('.') !== -1) {
+						return false;
+					}
+					return true;
+				}
+
+				if (charCode >= 48 && charCode <= 57) {
+					return true;
+				}
+
+				return false;
 			}
 		</script>
 		@yield('scripts')

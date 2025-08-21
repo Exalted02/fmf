@@ -55,7 +55,7 @@
 							<div class="col-md-6">
 								<div class="input-block mb-3">
 									<label class="col-form-label">Client's Age</label>
-									<input type="text" class="form-control"  name="client_age" id="client_age" placeholder="Enter Client's Age"  value="{{ $record->client_age ?? '' }}">
+									<input type="text" class="form-control"  name="client_age" id="client_age" placeholder="Enter Client's Age"  value="{{ $record->client_age ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 									<div class="client_age_error error-text"></div>
 								</div>
 							</div>
@@ -69,7 +69,7 @@
 							<div class="col-md-6">
 								<div class="input-block mb-3">
 									<label class="col-form-label">Partner's Age</label>
-									<input type="text" class="form-control"   name="partner_age" id="partner_age" placeholder="Enter Partner's Age" value="{{ $record->partner_age ?? '' }}">
+									<input type="text" class="form-control"   name="partner_age" id="partner_age" placeholder="Enter Partner's Age" value="{{ $record->partner_age ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 									<div class="partner_age_error error-text"></div>
 								</div>
 							</div>
@@ -85,7 +85,7 @@
 									<label class="col-form-label">Current Portfolio Value</label>
 									<div class="input-dollar">
 									<span class="currency-symbol">$</span>
-									<input type="text" class="form-control"   name="current_portfolio_value" id="current_portfolio_value" placeholder="Enter Current Portfolio Value"  value="{{ $record->current_portfolio_value ?? '' }}">
+									<input type="text" class="form-control"   name="current_portfolio_value" id="current_portfolio_value" placeholder="Enter Current Portfolio Value"  value="{{ $record->current_portfolio_value ?? '' }}" onkeypress="return isNumberKey(event,this)">
 									</div>
 									<div class="current_portfolio_error error-text"></div>
 								</div>
@@ -95,7 +95,7 @@
 									<label class="col-form-label">Desired Gross Income During Retirement</label>
 									<div class="input-dollar">
 									<span class="currency-symbol">$</span>
-									<input type="text" class="form-control"   name="desired_gross_income_retirement" id="desired_gross_income_retirement" placeholder="Enter Desired Gross Income" value="{{ $record->desired_gross_income_retirement ?? '' }}">
+									<input type="text" class="form-control"   name="desired_gross_income_retirement" id="desired_gross_income_retirement" placeholder="Enter Desired Gross Income" value="{{ $record->desired_gross_income_retirement ?? '' }}" onkeypress="return isNumberKey(event,this)">
 									</div>
 									<div class="current_gross_portfolio_error error-text"></div>
 								</div>
@@ -103,7 +103,7 @@
 							<div class="col-md-6">
 								<div class="input-block mb-3">
 									<label class="col-form-label">Desired Retirement Age</label>
-									<input type="text" class="form-control"   name="desired_retirement_age" id="desired_retirement_age" placeholder="Enter Desired Retirement Age" value="{{ $record->desired_retirement_age ?? '' }}">
+									<input type="text" class="form-control"   name="desired_retirement_age" id="desired_retirement_age" placeholder="Enter Desired Retirement Age" value="{{ $record->desired_retirement_age ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 									<div class="desired_retirement_age_error error-text"></div>
 								</div>
 							</div>
@@ -118,7 +118,7 @@
 								<div class="input-block mb-3">
 									<label class="col-form-label">Cost of Living Adjustment (COLA)</label>
 									<div class="input-percent">
-									<input type="text" class="form-control"   name="COLA" id="COLA" placeholder="Enter Cost of Living Adjustment (COLA)" value="{{ $record->COLA ?? '' }}">
+									<input type="text" class="form-control"   name="COLA" id="COLA" placeholder="Enter Cost of Living Adjustment (COLA)" value="{{ $record->COLA ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 									</div>
 									<div class="COLA_error error-text"></div>
 								</div>
@@ -127,7 +127,7 @@
 								<div class="input-block mb-3">
 									<label class="col-form-label">Age to Begin COLA Adjustment</label>
 									<div class="input-percent-s">
-									<input type="text" class="form-control"  name= "cola_age" id="cola_age" placeholder="Enter Age to Begin COLA Adjustment" value="{{ $record->cola_age ?? '' }}">
+									<input type="text" class="form-control"  name= "cola_age" id="cola_age" placeholder="Enter Age to Begin COLA Adjustment" value="{{ $record->cola_age ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 									</div>
 									<div class="cola_age_error error-text"></div>
 									
@@ -137,7 +137,7 @@
 								<div class="input-block mb-3">
 									<label class="col-form-label">Assumed Return</label>
 									<div class="input-percent">
-									<input type="text" class="form-control"   name="assumed_return" id="assumed_return" placeholder="Enter Assumed Return" value="{{ $record->assumed_return ?? '' }}">
+									<input type="text" class="form-control"   name="assumed_return" id="assumed_return" placeholder="Enter Assumed Return" value="{{ $record->assumed_return ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 									</div>
 									<div class="assumed_return_error error-text"></div>
 								</div>
@@ -311,6 +311,7 @@
 		}
 	});
  });
+ 
 </script>
 @endsection
 

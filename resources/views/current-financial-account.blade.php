@@ -55,7 +55,7 @@
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">Amount value</label>
-										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value">
+										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" onkeypress="return isNumberKey(event,this)">
 									</div>
 								</div>
 								
@@ -101,7 +101,7 @@
 								<div class="col-lg-2 col-md-2">
 									<div class="input-block">
 										<label for="" class="col-form-label">Amount value</label>
-										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" value="{{ $record->account_value ?? ''}}">
+										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" value="{{ $record->account_value ?? ''}}" onkeypress="return isNumberKey(event,this)">
 									</div>
 								</div>
 								
@@ -205,7 +205,7 @@
 		<div class="col-lg-2 col-md-2">
 			<div class="input-block">
 				<label for="" class="col-form-label">Acount value</label>
-				<input class="form-control" name="account_value[]" type="text" placeholder="Amount value">
+				<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" onkeypress="return isNumberKey(event,this)">
 			</div>
 		</div>
 		<div class="col-lg-2 col-md-2">

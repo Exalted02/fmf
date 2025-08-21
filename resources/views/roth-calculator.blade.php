@@ -32,7 +32,7 @@
 										<label for="" class="col-form-label">Investment Amount $</label>
 										<div class="input-dollar">
 										<span class="currency-symbol">$</span>
-										<input class="form-control" name="investment_amount[]" type="text" placeholder="Investment Amount">
+										<input class="form-control" name="investment_amount[]" type="text" placeholder="Investment Amount"  onkeypress="return isNumberKey(event,this)">
 										</div>
 									</div>
 								</div>
@@ -40,7 +40,7 @@
 									<div class="input-block">
 										<label for="" class="col-form-label">Bonus %</label>
 										<div class="input-percent">
-										<input class="form-control" name="bonus[]" type="text" placeholder="Bonus">
+										<input class="form-control" name="bonus[]" type="text" placeholder="Bonus" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										</div>
 									</div>
 								</div>
@@ -48,7 +48,7 @@
 									<div class="input-block">
 										<label for="" class="col-form-label">Assumed Return</label>
 										<div class="input-percent">
-										<input class="form-control" name="assumed_return[]" type="text" placeholder="Assumed Return">
+										<input class="form-control" name="assumed_return[]" type="text" placeholder="Assumed Return" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										</div>
 									</div>
 								</div>
@@ -67,7 +67,7 @@
 										<label for="" class="col-form-label">Investment Amount $</label>
 										<div class="input-dollar">
 										<span class="currency-symbol">$</span>
-										<input class="form-control" name="investment_amount[]" type="text" placeholder="Investment Amount" value="{{  $record->investment_amount ?? ''}}">
+										<input class="form-control" name="investment_amount[]" type="text" placeholder="Investment Amount" value="{{  $record->investment_amount ?? ''}}"  onkeypress="return isNumberKey(event,this)">
 										</div>
 									</div>
 								</div>
@@ -75,7 +75,7 @@
 									<div class="input-block">
 										<label for="" class="col-form-label">Bonus %</label>
 										<div class="input-percent">
-										<input class="form-control" name="bonus[]" type="text" placeholder="Bonus"  value="{{  $record->bonus ?? ''}}">
+										<input class="form-control" name="bonus[]" type="text" placeholder="Bonus"  value="{{  $record->bonus ?? ''}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										</div>
 									</div>
 								</div>
@@ -83,7 +83,7 @@
 									<div class="input-block">
 										<label for="" class="col-form-label">Assumed Return</label>
 										<div class="input-percent">
-										<input class="form-control" name="assumed_return[]" type="text" placeholder="Assumed Return" value="{{  $record->assumed_return ?? ''}}">
+										<input class="form-control" name="assumed_return[]" type="text" placeholder="Assumed Return" value="{{  $record->assumed_return ?? ''}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										</div>
 									</div>
 								</div>
@@ -112,14 +112,14 @@
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Start Age</label>
-										<input class="form-control" name="conversion_start_age" id="conversion_start_age" type="text" placeholder="Start Age" value="{{ $results->conversion_start_age ?? '' }}">
+										<input class="form-control" name="conversion_start_age" id="conversion_start_age" type="text" placeholder="Start Age" value="{{ $results->conversion_start_age ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										<div class="conversion_start_age_error error-text"></div>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Finish Age</label>
-										<input class="form-control" name="conversion_finish_age" id="conversion_finish_age" type="text" placeholder="Finish Age" value="{{ $results->conversion_finish_age ?? '' }}">
+										<input class="form-control" name="conversion_finish_age" id="conversion_finish_age" type="text" placeholder="Finish Age" value="{{ $results->conversion_finish_age ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										<div class="conversion_finish_age_error error-text"></div>
 									</div>
 								</div>
@@ -127,7 +127,7 @@
 									<div class="input-block">
 										<label for="" class="col-form-label">Annual Fee</label>
 										<div class="input-percent">
-										<input class="form-control" name="conversion_annual_fee" id="conversion_annual_fee" type="text" placeholder="Annual Fee" value="{{ $results->conversion_annual_fee ?? '' }}">
+										<input class="form-control" name="conversion_annual_fee" id="conversion_annual_fee" type="text" placeholder="Annual Fee" value="{{ $results->conversion_annual_fee ?? '' }}"  onkeypress="return isNumberKey(event,this)">
 										</div>
 										<div class="conversion_annual_fee_error error-text"></div>
 									</div>
@@ -145,21 +145,21 @@
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Start Age</label>
-										<input class="form-control" name="rmd_start_age" id="rmd_start_age" type="text" placeholder="Start Age" value="{{ $results->rmd_start_age ?? '' }}">
+										<input class="form-control" name="rmd_start_age" id="rmd_start_age" type="text" placeholder="Start Age" value="{{ $results->rmd_start_age ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										<div class="rmd_start_age_error error-text"></div>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Finish Age</label>
-										<input class="form-control" name="rmd_finish_age" id="rmd_finish_age" type="text" placeholder="Finish Age" value="{{ $results->rmd_finish_age ?? '' }}">
+										<input class="form-control" name="rmd_finish_age" id="rmd_finish_age" type="text" placeholder="Finish Age" value="{{ $results->rmd_finish_age ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										<div class="rmd_finish_age_error error-text"></div>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4">
 									<div class="input-block">
 										<label for="" class="col-form-label">Age to Begin TAX FREE INCOME</label>
-										<input class="form-control" name="rmd_tax_free_income" id="rmd_tax_free_income" type="text" placeholder="Age to Begin TAX FREE INCOME" value="{{ $results->rmd_tax_free_income ?? '' }}">
+										<input class="form-control" name="rmd_tax_free_income" id="rmd_tax_free_income" type="text" placeholder="Age to Begin TAX FREE INCOME" value="{{ $results->rmd_tax_free_income ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										<div class="rmd_tax_free_income_error error-text"></div>
 									</div>
 								</div>
@@ -224,7 +224,7 @@
 				<label for="" class="col-form-label">Investment Amount $</label>
 				<div class="input-dollar">
 				<span class="currency-symbol">$</span>
-				<input class="form-control" type="text" name="investment_amount[]" placeholder="Investment Amount">
+				<input class="form-control" type="text" name="investment_amount[]" placeholder="Investment Amount"  onkeypress="return isNumberKey(event,this)">
 				</div>
 			</div>
 		</div>
@@ -232,7 +232,7 @@
 			<div class="input-block">
 				<label for="" class="col-form-label">Bonus %</label>
 				<div class="input-percent">
-				<input class="form-control" type="text" name="bonus[]" placeholder="Bonus">
+				<input class="form-control" type="text" name="bonus[]" placeholder="Bonus" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 				</div>
 			</div>
 		</div>
@@ -240,7 +240,7 @@
 			<div class="input-block">
 				<label for="" class="col-form-label">Assumed Return</label>
 				<div class="input-percent">
-				<input class="form-control" type="text" name="assumed_return[]" placeholder="Assumed Return">
+				<input class="form-control" type="text" name="assumed_return[]" placeholder="Assumed Return" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 				</div>
 			</div>
 		</div>
