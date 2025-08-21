@@ -234,7 +234,7 @@
 										</div>
 										<!-- /Current financial account-->
 										<!-- Income source Information -->
-										<div class="tab-pane fade" id="income_source-{{$key}}">
+										<div class="tab-pane fade" id="income_source-{{ $key }}">
 										
 											@php 
 											$ifExists = App\Models\Guaranteed_income_sources::where('sl_no', $val->id)->exists();
@@ -245,6 +245,10 @@
 												//echo"<pre>";print_r($guaranteedIncome);
 											@endphp
                                             @foreach($guaranteedIncome as $incomes)
+											@php 
+												$type = !empty($incomes->type) && $incomes->type == 1 ? 'Income ' : 'N/A';
+												$frequency = !empty($incomes->frequency) && $incomes->frequency == 1 ? 'Monthly' : 'Yearly';
+											@endphp
                                         <div class="multiadd">
 											<div class="row">
 												<div class="col-md-4 mt-3">
@@ -257,11 +261,11 @@
 												</div>
 												<div class="col-md-4 mt-3">
 													  <strong>{{ __('Type') }}</strong>
-													  <div>{{ $incomes->type ?? 'NA'}}</div>
+													  <div>{{ $type ?? 'NA'}}</div>
 												</div>
 												<div class="col-md-4 mt-3">
 													  <strong>{{ __('Frequency') }}</strong>
-													  <div>{{ $incomes->frequency ?? 'NA' }}</div>
+													  <div>{{ $frequency ?? 'NA' }}</div>
 												</div>
 												<div class="col-md-4 mt-3">
 													  <strong>{{ __('Cola') }}</strong>
