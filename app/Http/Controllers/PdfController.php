@@ -13,6 +13,10 @@ class PdfController extends Controller
 {
 	public function incomePlan()
 	{
+		if(empty(auth()->user()->id))
+		{
+			return redirect('login');
+		}
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
