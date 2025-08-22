@@ -16,7 +16,7 @@ return new class extends Migration
 			$table->integer('sl_no')->nullable();
 			$table->integer('user_id')->nullable();
 			$table->string('client_name')->nullable();
-			$table->double('income_amount', 8, 2)->nullable();
+			$table->double('income_amount', 15, 2)->nullable();
 			$table->integer('type')->nullable();
 			$table->integer('frequency')->nullable();
 			$table->double('cola', 8, 2)->nullable()->comment('Cost of Living Adjustment in %');

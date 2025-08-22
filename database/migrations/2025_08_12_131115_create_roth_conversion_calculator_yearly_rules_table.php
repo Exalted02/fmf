@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('roth_conversion_calculator_yearly_rules', function (Blueprint $table) {
             $table->id();
 			$table->integer('roth_id')->nullable();
-			$table->double('investment_amount', 8, 2)->nullable();
+			$table->double('investment_amount', 15, 2)->nullable();
 			$table->integer('bonus')->nullable();
 			$table->integer('assumed_return')->nullable();
 			$table->tinyInteger('status')->default(1)->comment('1=active ,0=inactive');
