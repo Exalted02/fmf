@@ -43,7 +43,7 @@
 									<div class="">
 										<label for="" class="col-form-label">Type</label>
 										<select class="form-control select" name="type[]">
-											<option>Type</option>
+											<option value="">Type</option>
 											<option value="1">Income</option>
 										</select>
 										<div class="invalid-feedback"></div> 
@@ -53,7 +53,7 @@
 									<div class="">
 										<label for="" class="col-form-label">Frequency</label>
 										<select class="form-control select" name="frequency[]">
-											<option>Frequency</option>
+											<option value="">Frequency</option>
 											<option value="1">Monthly</option>
 											<option value="2">Yearly</option>
 										</select>
@@ -111,7 +111,7 @@
 									<div class="">
 										<label for="" class="col-form-label">Type</label>
 										<select class="form-control select" name="type[]">
-											<option>Type</option>
+											<option value="">Type</option>
 											<option value="1"  {{ !empty($record->type) && $record->type == 1 ? 'selected' : ''}}>Income</option>
 										</select>
 										<div class="invalid-feedback"></div> 
@@ -121,7 +121,7 @@
 									<div class="">
 										<label for="" class="col-form-label">Frequency</label>
 										<select class="form-control select" name="frequency[]">
-											<option>Frequency</option>
+											<option value="">Frequency</option>
 											<option value="1"  {{ !empty($record->frequency) && $record->frequency == 1 ? 'selected' : ''}}>Monthly</option>
 											<option value="2"   {{ !empty($record->frequency) && $record->frequency == 2 ? 'selected' : ''}}>Yearly</option>
 										</select>
@@ -234,7 +234,7 @@
 			<div class="">
 				<label for="" class="col-form-label">Type</label>
 				<select class="form-control select" name="type[]">
-					<option>Type</option>
+					<option value="">Type</option>
 					<option value="1">Income</option>
 				</select>
 			</div>
@@ -243,7 +243,7 @@
 			<div class="">
 				<label for="" class="col-form-label">Frequency</label>
 				<select class="form-control select" name="frequency[]">
-					<option>Frequency</option>
+					<option value="">Frequency</option>
 					<option value="1">Monthly</option>
 					<option value="2">Yearly</option>
 				</select>

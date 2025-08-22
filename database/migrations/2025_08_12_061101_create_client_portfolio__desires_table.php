@@ -19,7 +19,7 @@ return new class extends Migration
 			$table->string('partner_name')->nullable();
 			$table->integer('partner_age')->nullable();
 			$table->double('current_portfolio_value', 15, 2)->nullable();
-			$table->double('desired_gross_income_retirement', 8, 2)->nullable();
+			$table->double('desired_gross_income_retirement', 15, 2)->nullable();
 			$table->integer('desired_retirement_age')->nullable();
 			$table->integer('COLA')->nullable()->comment('Cost of Living Adjustment');
 			$table->integer('cola_age')->nullable()->comment('Age to Begin COLA Adjustment');
