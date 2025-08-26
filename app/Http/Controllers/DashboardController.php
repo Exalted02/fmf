@@ -277,6 +277,8 @@ class DashboardController extends Controller
 		$account_title = $request->input('account_title_arr', []);
 		$tax_qualification = $request->input('tax_qualification_arr', []);
 		$account_value = $request->input('account_value_arr', []);
+		$age_income_start = $request->input('age_income_start_arr', []);
+		$annual_income_value = $request->input('annual_income_value_arr', []);
 		
 		$sl_no = Session::get('sl_no');
 		if($sl_no != '')
@@ -293,7 +295,9 @@ class DashboardController extends Controller
 			$model->account_owner = $account_owner[$index] ?? null;
 			$model->account_title = $account_title[$index] ?? null;
 			$model->tax_qualification = $tax_qualification[$index] ?? null;
+			$model->age_income_start = $age_income_start[$index] ?? null;
 			$model->account_value = $account_value[$index] ?? null;
+			$model->annual_income_value = $annual_income_value[$index] ?? null;
 			$model->status = 1;
 			$model->save();	
 		}

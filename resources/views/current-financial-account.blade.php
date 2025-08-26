@@ -54,8 +54,21 @@
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
+										<label for="" class="col-form-label">Age income start</label>
+										<input class="form-control" name="age_income_start[]" type="text" placeholder="Age income start" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+										
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
 										<label for="" class="col-form-label">Amount value</label>
 										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" onkeypress="return isNumberKey(event,this)">
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
+										<label for="" class="col-form-label">Annual income value</label>
+										<input class="form-control" name="annual_income_value[]" type="text" placeholder="Annual income value" onkeypress="return isNumberKey(event,this)">
 									</div>
 								</div>
 								
@@ -98,13 +111,25 @@
 										</select>
 									</div>
 								</div>
-								<div class="col-lg-1 col-md-3">
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
+										<label for="" class="col-form-label">Age income start</label>
+										<input class="form-control" name="age_income_start[]" type="text" placeholder="Age income start" value="{{ $record->age_income_start ?? ''}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+										
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
 										<label for="" class="col-form-label">Amount value</label>
 										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" value="{{ $record->account_value ?? ''}}" onkeypress="return isNumberKey(event,this)">
 									</div>
 								</div>
-								
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
+										<label for="" class="col-form-label">Annual income value</label>
+										<input class="form-control" name="annual_income_value[]" type="text" placeholder="Annual income value" onkeypress="return isNumberKey(event,this)" value="{{ $record->annual_income_value ?? ''}}">
+									</div>
+								</div>
 								<div class="col-lg-1 col-md-1">
 									<div class="add-more-row-icon">
 										<a href="javascript:void(0)" class="" onclick="deleteRow(this , '{{ $record->id ?? '' }}')"><i class="fa fa-trash"></i></a>
@@ -204,8 +229,21 @@
 		</div>
 		<div class="col-lg-3 col-md-3">
 			<div class="input-block">
-				<label for="" class="col-form-label">Acount value</label>
+				<label for="" class="col-form-label">Age income start</label>
+				<input class="form-control" name="age_income_start[]" type="text" placeholder="Age income start" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+				
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3">
+			<div class="input-block">
+				<label for="" class="col-form-label">Amount value</label>
 				<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" onkeypress="return isNumberKey(event,this)">
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3">
+			<div class="input-block">
+				<label for="" class="col-form-label">Annual income value</label>
+				<input class="form-control" name="annual_income_value[]" type="text" placeholder="Annual income value" onkeypress="return isNumberKey(event,this)">
 			</div>
 		</div>
 		<div class="col-lg-1 col-md-1">
@@ -261,7 +299,9 @@ $(document).ready(function(){
 		var account_owner_arr = [];
 		var account_title_arr = [];
 		var tax_qualification_arr = [];
+		var age_income_start_arr = [];
 		var account_value_arr = [];
+		var annual_income_value_arr = [];
 		
 		
 		let isValid = true;
@@ -311,6 +351,17 @@ $(document).ready(function(){
 			
         });
 		
+		$('input[name="age_income_start[]"]').each(function() {
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).addClass('is-invalid');
+                isValid = false;
+            } else {
+				$(this).removeClass('is-invalid');
+				age_income_start_arr.push($(this).val().trim());
+			}
+			
+        });
+		
 		$('input[name="account_value[]"]').each(function() {
             if ($(this).val() === "" || $(this).val() === null) {
 				$(this).addClass('is-invalid');
@@ -322,6 +373,16 @@ $(document).ready(function(){
 			
         });
 		
+		$('input[name="annual_income_value[]"]').each(function() {
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).addClass('is-invalid');
+                isValid = false;
+            } else {
+				$(this).removeClass('is-invalid');
+				annual_income_value_arr.push($(this).val().trim());
+			}
+			
+        });
 		if (!isValid) {
 			return false;
 		}
@@ -331,7 +392,7 @@ $(document).ready(function(){
 		$.ajax({
 				url: URL,
 				type: "POST",
-				data: {account_owner_arr:account_owner_arr,account_title_arr:account_title_arr,tax_qualification_arr:tax_qualification_arr,account_value_arr:account_value_arr,_token:csrfToken},
+				data: {account_owner_arr:account_owner_arr,account_title_arr:account_title_arr,tax_qualification_arr:tax_qualification_arr,age_income_start_arr:age_income_start_arr,account_value_arr:account_value_arr,annual_income_value_arr:annual_income_value_arr,_token:csrfToken},
 				dataType: 'json',
 				success: function(response) {
 					if(response.message == 'success')
