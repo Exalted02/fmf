@@ -15,7 +15,9 @@ class Current_financial_account extends Model
 		'account_owner',
 		'account_title',
 		'tax_qualification',
+		'age_income_start',
 		'account_value',
+		'annual_income_value',
 		'status', 
     ];
 }
