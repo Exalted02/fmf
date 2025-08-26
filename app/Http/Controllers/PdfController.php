@@ -145,7 +145,7 @@ class PdfController extends Controller
         $pdf->getDomPDF()->setHttpContext($contxt);
 		$pdf->loadView('income-plan-pdf', $data);
 		
-		return view('income-plan-pdf', $data);
+		//return view('income-plan-pdf', $data);
 		return $pdf->download('income-plan.pdf');
 	}
 }
