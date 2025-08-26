@@ -21,9 +21,9 @@ class PdfController extends Controller
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
-		$current_financial_account = Current_financial_account::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->get();
+		$current_financial_account = Current_financial_account::where('sl_no', 9)->where('user_id', auth()->user()->id)->get();
 		
-		$current_income_account = Guaranteed_income_sources::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->get();
+		$current_income_account = Guaranteed_income_sources::where('sl_no', 9)->where('user_id', auth()->user()->id)->get();
 		
 		//echo "<pre>";print_r($portfolio_Desire_data);die;
 		$data = [
@@ -47,6 +47,27 @@ class PdfController extends Controller
             "current_financial_account" => $current_financial_account,
             "current_income_account" => $current_income_account,
         ];
+		
+		// for more excel data in pdf
+		$headerAccountOwnerArray = [];
+		$headerAccountTitleArray = [];
+		$headerIncomeSrcArray = [];
+		foreach($current_financial_account as $acount)
+		{
+			$account_owner = $acount->account_owner == 1 ? 'Husband' : ($acount->account_owner == 2 ? 'Wife' : 'Joint');
+			$headerAccountOwnerArray[] =  $account_owner;
+			$headerAccountTitleArray[] = $acount->account_owner == 1 ? 'Husband '.$acount->account_title : ($acount->account_owner == 2 ? 'Wife '.$acount->account_title : 'Joint '.$acount->account_title);
+			
+		}
+		
+		foreach($current_income_account as $income_src)
+		{
+			$headerIncomeSrcArray[] = $income_src->client_name;
+		}
+		$headerIncomeSrcArray[] = 'Gross Income';
+		$headerIncomeSrcArray[] = 'Taxable Income';
+		echo "<pre>";print_r(array_merge($headerAccountOwnerArray,$headerAccountTitleArray,$headerIncomeSrcArray));die;
+		//------
 		
 		$pdf = app('dompdf.wrapper');
 		$contxt = stream_context_create([

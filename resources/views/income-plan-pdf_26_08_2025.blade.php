@@ -99,7 +99,7 @@ $c=0;
 			</tr>
 		</table>
 
-		<table style="margin-top: 100px;">
+		<table>
 			<tr>
 				<!-- Left Side -->
 				<td width="50%" style="border-right: 1px solid #3490CD;">
@@ -121,7 +121,7 @@ $c=0;
 			</tr>
 		</table>
 
-		<table style="margin-top: 200px;">
+		<table>
 			<tr>
 				<td style="background-color: #3490CD;padding: 10px;text-align: center;color: #fff;font-size: 12px;">
 					Information and interactive calculators are made available as self-help tools for independent use. Simplicity Group does not guarantee their applicability to any individual circumstances. The Simplicity Group encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide. The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent current or future performance of any specific financial product. No guarantees are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the greater the risk.<br>
@@ -336,7 +336,6 @@ $c=0;
 			www.TheFidelityMutual.com
 		</p>
 	</div>
-	
 	<div style="page-break-after: always;">
 		<table class="calc-report">
 			<thead>
