@@ -340,7 +340,14 @@ $c=0;
 	<div style="page-break-after: always;">
 		<table class="calc-report">
 			<thead>
-				<tr>
+			<tr>
+			    @if(!empty($excelheaderArray))
+					@foreach($excelheaderArray as $header)
+					<th>{{ $header ?? '' }}</th>
+					@endforeach
+				@endif
+			</tr>
+				{{--<tr>
 					<th>Year</th>
 					<th>Wife</th>
 					<th>Husband</th>
@@ -365,10 +372,15 @@ $c=0;
 					<th>Tax Rates</th>
 					<th>IRS Partner</th>
 					<th>Total Estate</th>
-				</tr>
+				</tr>--}}
 			</thead>
 			<tbody>
-				<tr>
+				@if(!empty($excelheaderValueArray))
+					@foreach($excelheaderValueArray as $headerVal)
+					<td>{{ $headerVal ?? '' }}</td>
+					@endforeach
+				@endif
+				{{--<tr>
 					<td>1</td>
 					<td>70</td>
 					<td>71</td>
@@ -393,7 +405,7 @@ $c=0;
 					<td>15,000</td>
 					<td>15,000</td>
 					<td>4,021,745</td>
-				</tr>
+				</tr>--}}
 			</tbody>
 		</table>
 	</div>
