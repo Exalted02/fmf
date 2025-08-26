@@ -76,6 +76,18 @@
   border-top-left-radius: 100%;
   z-index: 0;
 }
+.dropdown-header-icon {
+	position: absolute;
+    top: 40px;
+    right: 50px;
+    border: 1px solid #3490CD;
+    padding: 3px 4px 3px 8px;
+    border-radius: 50%;
+    background: #3490CD;
+}
+.dropdown-header-icon .dropdown-toggle i {
+    color: #fff;
+}
 .common-button {
     /* background-color: #3490CD; */
     /* border-color: #3490CD; */

@@ -72,7 +72,7 @@ Route::middleware(['auth','verified'])->group(function () {
 	Route::post('/delete-roth-calculator', [DashboardController::class, 'delete_roth_calculator'])->name('delete-roth-calculator');
 	
 });
-	Route::get('/income-plan-pdf', [PdfController::class, 'incomePlan']);
+	Route::get('/income-plan-pdf', [PdfController::class, 'incomePlan'])->name('income-plan-pdf');
 
 
 
