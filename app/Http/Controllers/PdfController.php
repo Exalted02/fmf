@@ -79,7 +79,7 @@ class PdfController extends Controller
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
         $pdf->getDomPDF()->setHttpContext($contxt);
-		$pdf->loadView('income-plan-pdf', $data);
+		$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
 		
 		return view('income-plan-pdf', $data);
 		return $pdf->download('income-plan.pdf');
