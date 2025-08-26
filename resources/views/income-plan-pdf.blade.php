@@ -68,6 +68,12 @@ $c=0;
 			padding: 5px;
 			font-size: 20px;
 		}
+		.calc-report td, .calc-report th {
+			font-size: 10px;
+			word-wrap: break-word;
+			text-align: center;
+			background-color: #F3F4F6;
+		}
 		
 		.section-title { text-align: center; font-weight: bold; font-size: 20px; margin-bottom: 10px; }
         .subtotal { font-weight: bold; }
@@ -329,6 +335,66 @@ $c=0;
 			267-280-3660 <br>
 			www.TheFidelityMutual.com
 		</p>
+	</div>
+	<div style="page-break-after: always;">
+		<table class="calc-report">
+			<thead>
+				<tr>
+					<th>Year</th>
+					<th>Wife</th>
+					<th>Husband</th>
+					<th>Savings</th>
+					<th>#1 NQ</th>
+					<th>Income</th>
+					<th>#2 401K</th>
+					<th>RMD</th>
+					<th>RMD</th>
+					<th>#3 Wife's Annuity</th>
+					<th>RMD</th>
+					<th>RMD</th>
+					<th>#4 Husband's Annuity</th>
+					<th>RMD</th>
+					<th>Wife SS</th>
+					<th>Husband SS</th>
+					<th>Gross Income</th>
+					<th>Taxable Income</th>
+					<th>Income Goal</th>
+					<th>Gap from Assets</th>
+					<th>IRMAA</th>
+					<th>Tax Rates</th>
+					<th>IRS Partner</th>
+					<th>Total Estate</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>70</td>
+					<td>71</td>
+					<td>75,000</td>
+					<td>466,824</td>
+					<td>26,375</td>
+					<td>156,400</td>
+					<td></td>
+					<td></td>
+					<td>2,377,000</td>
+					<td></td>
+					<td></td>
+					<td>840,130</td>
+					<td>35,772</td>
+					<td>25,764</td>
+					<td>87,911</td>
+					<td>87,911</td>
+					<td>125,000</td>
+					<td>64,000</td>
+					<td></td>
+					<td>12%</td>
+					<td>15,000</td>
+					<td>15,000</td>
+					<td>4,021,745</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>
