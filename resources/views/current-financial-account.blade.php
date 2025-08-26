@@ -54,15 +54,15 @@
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
-										<label for="" class="col-form-label">Age income start</label>
-										<input class="form-control" name="age_income_start[]" type="text" placeholder="Age income start" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-										
+										<label for="" class="col-form-label">Amount value</label>
+										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" onkeypress="return isNumberKey(event,this)">
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
-										<label for="" class="col-form-label">Amount value</label>
-										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" onkeypress="return isNumberKey(event,this)">
+										<label for="" class="col-form-label">Age income start</label>
+										<input class="form-control" name="age_income_start[]" type="text" placeholder="Age income start" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+										
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
@@ -113,15 +113,15 @@
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
-										<label for="" class="col-form-label">Age income start</label>
-										<input class="form-control" name="age_income_start[]" type="text" placeholder="Age income start" value="{{ $record->age_income_start ?? ''}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-										
+										<label for="" class="col-form-label">Amount value</label>
+										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" value="{{ $record->account_value ?? ''}}" onkeypress="return isNumberKey(event,this)">
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
-										<label for="" class="col-form-label">Amount value</label>
-										<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" value="{{ $record->account_value ?? ''}}" onkeypress="return isNumberKey(event,this)">
+										<label for="" class="col-form-label">Age income start</label>
+										<input class="form-control" name="age_income_start[]" type="text" placeholder="Age income start" value="{{ $record->age_income_start ?? ''}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+										
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
@@ -229,15 +229,15 @@
 		</div>
 		<div class="col-lg-3 col-md-3">
 			<div class="input-block">
-				<label for="" class="col-form-label">Age income start</label>
-				<input class="form-control" name="age_income_start[]" type="text" placeholder="Age income start" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-				
+				<label for="" class="col-form-label">Amount value</label>
+				<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" onkeypress="return isNumberKey(event,this)">
 			</div>
 		</div>
 		<div class="col-lg-3 col-md-3">
 			<div class="input-block">
-				<label for="" class="col-form-label">Amount value</label>
-				<input class="form-control" name="account_value[]" type="text" placeholder="Amount value" onkeypress="return isNumberKey(event,this)">
+				<label for="" class="col-form-label">Age income start</label>
+				<input class="form-control" name="age_income_start[]" type="text" placeholder="Age income start" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+				
 			</div>
 		</div>
 		<div class="col-lg-3 col-md-3">
