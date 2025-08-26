@@ -67,8 +67,8 @@
 			<div class="dropdown dropdown-action dropdown-header-icon">
 				<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-bars"></i></a>
 				<div class="dropdown-menu dropdown-menu-right">
-					<a class="dropdown-item edit-product-code" href="{{ route('logout') }}"><i class="fa-solid fa-power-off m-r-5"></i> Logout</a>
 					<a class="dropdown-item edit-product-code" href="{{ route('income-plan-pdf') }}"><i class="fa-solid fa-file-pdf m-r-5"></i> Download PDF</a>
+					<a class="dropdown-item edit-product-code" href="{{ route('logout') }}"><i class="fa-solid fa-power-off m-r-5"></i> Logout</a>
 				</div>
 			</div>
 			@endif
