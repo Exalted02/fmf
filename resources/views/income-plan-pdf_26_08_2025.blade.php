@@ -336,7 +336,6 @@ $c=0;
 			www.TheFidelityMutual.com
 		</p>
 	</div>
-	
 	<div style="page-break-after: always;">
 		<table class="calc-report">
 			<thead>
