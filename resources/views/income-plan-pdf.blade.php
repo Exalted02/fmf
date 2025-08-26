@@ -39,6 +39,7 @@ $subTotalHusband = 0;
 $subTotalWife = 0;
 $subTotalJoint = 0;
 $subTotalCurrent = 0;
+$incomeTotal = 0;
 $h=0;
 $w=0;
 $j=0;
@@ -46,6 +47,14 @@ $c=0;
 //echo "<pre>";print_r($husbandAsset);
 //echo "<pre>";print_r($wifeAsset);
 //echo "<pre>";print_r($jointAsset);die;
+
+if($current_income_account->isNotEmpty())
+{
+	foreach($current_income_account as $income_account)
+	{
+		$incomeTotal  += $income_account->income_amount;
+	}
+}
 @endphp
 <!DOCTYPE html>
 <html>
@@ -303,7 +312,7 @@ $c=0;
 			</tr>
 			<tr>
 				<td></td>
-				<td class="totals right">Income Total $<span id="tot_current_income"></span></td>
+				<td class="totals right">Income Total $ {{ number_format($incomeTotal) }}</td>
 			</tr>
 		</table>
 
@@ -337,7 +346,7 @@ $c=0;
 		</p>
 	</div>
 	
-	<div style="page-break-after: always;">
+	{{--<div style="page-break-after: always;">
 		<table class="calc-report">
 			<thead>
 			<tr>
@@ -347,32 +356,7 @@ $c=0;
 					@endforeach
 				@endif
 			</tr>
-				{{--<tr>
-					<th>Year</th>
-					<th>Wife</th>
-					<th>Husband</th>
-					<th>Savings</th>
-					<th>#1 NQ</th>
-					<th>Income</th>
-					<th>#2 401K</th>
-					<th>RMD</th>
-					<th>RMD</th>
-					<th>#3 Wife's Annuity</th>
-					<th>RMD</th>
-					<th>RMD</th>
-					<th>#4 Husband's Annuity</th>
-					<th>RMD</th>
-					<th>Wife SS</th>
-					<th>Husband SS</th>
-					<th>Gross Income</th>
-					<th>Taxable Income</th>
-					<th>Income Goal</th>
-					<th>Gap from Assets</th>
-					<th>IRMAA</th>
-					<th>Tax Rates</th>
-					<th>IRS Partner</th>
-					<th>Total Estate</th>
-				</tr>--}}
+				
 			</thead>
 			<tbody>
 				@if(!empty($excelheaderValueArray))
@@ -380,35 +364,10 @@ $c=0;
 					<td>{{ $headerVal ?? '' }}</td>
 					@endforeach
 				@endif
-				{{--<tr>
-					<td>1</td>
-					<td>70</td>
-					<td>71</td>
-					<td>75,000</td>
-					<td>466,824</td>
-					<td>26,375</td>
-					<td>156,400</td>
-					<td></td>
-					<td></td>
-					<td>2,377,000</td>
-					<td></td>
-					<td></td>
-					<td>840,130</td>
-					<td>35,772</td>
-					<td>25,764</td>
-					<td>87,911</td>
-					<td>87,911</td>
-					<td>125,000</td>
-					<td>64,000</td>
-					<td></td>
-					<td>12%</td>
-					<td>15,000</td>
-					<td>15,000</td>
-					<td>4,021,745</td>
-				</tr>--}}
+				
 			</tbody>
 		</table>
-	</div>
+	</div>--}}
 </body>
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -416,6 +375,7 @@ $c=0;
 $(document).ready(function(){
 	var subTotalCurrent = $('#subTotalCurrent').val();
 	var s_total = Number(subTotalCurrent).toLocaleString('en-IN');
+	//alert(s_total);
 	$('#tot_current_income').text(s_total);
 });
 </script>
