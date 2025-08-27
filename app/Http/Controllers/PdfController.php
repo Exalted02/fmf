@@ -94,6 +94,7 @@ class PdfController extends Controller
 		$wife_ss = '';
 		$husband_ss = '';
 		$previous_annuity = '';
+		$previous_wife_annuity = '';
 		
 		for($i=0; $i<=25; $i++)
 		{
@@ -170,7 +171,25 @@ class PdfController extends Controller
 					}
 				}
 				
-				
+				if (stripos($acount->account_title, 'Annuity') !== false)
+				{
+					if($acount->account_owner == 1)
+					{
+						$previous_husb_annuity = $acount->account_value;
+					}
+					
+					if($acount->account_owner == 2)
+					{
+						if($i==0)
+						{
+							$previous_wife_annuity = $acount->account_value;
+						}
+						else
+						{
+							
+						}
+					}
+				}
 				//---------------------------------
 				
 				//$row[] = $acount->account_value;
@@ -214,6 +233,8 @@ class PdfController extends Controller
 						//echo $i.' '.$account_value;die;
 						$previous_annuity =  $wife_annuity_value;
 					}*/
+					
+					
 					
 					if($new_husband_age >=74 && $new_wife_age >= 73)
 					{
