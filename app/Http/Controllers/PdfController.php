@@ -17,6 +17,7 @@ class PdfController extends Controller
 		{
 			return redirect('login');
 		}
+		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
@@ -92,7 +93,7 @@ class PdfController extends Controller
 		$k401 = '';
 		$wife_ss = '';
 		$husband_ss = '';
-		
+		$previous_annuity = '';
 		
 		for($i=0; $i<=25; $i++)
 		{
@@ -147,11 +148,28 @@ class PdfController extends Controller
 					{
 						$k401 =  $acount->account_value;
 					}
-					else{
-						$k401 =  $k401 * 1.05; 
-						$account_value = number_format($k401);
+					else
+					{
+						$k401_previous =  $k401;
+						
+						if($new_husband_age >=74 && $new_wife_age >= 73)
+						{
+							$k401 =  round(($k401 * 1.05) - $rmd); 
+							$account_value = number_format($k401);
+							
+							$percentRmd = percent_k401_yearly()[$i];
+							$rmd = $k401_previous / $percentRmd;
+						}
+						else
+						{
+							$rmd = 0;
+							$k401 =  $k401 * 1.05; 
+							$account_value = number_format($k401);
+						}
+						
 					}
 				}
+				
 				
 				//---------------------------------
 				
@@ -165,15 +183,53 @@ class PdfController extends Controller
 				
 				if (stripos($acount->account_title, '401K') !== false)
 				{
-					$row[] = 'rmd';
-					$row[] = '';
+					if($new_husband_age >=74 && $new_wife_age >= 73)
+					{
+						$percentRmd = percent_k401_yearly()[$i];
+						//echo $k401_previous; die;
+						
+						$row[] = number_format($k401_previous / $percentRmd);
+						$row[] = percent_k401_yearly()[$i];
+					}
+					else
+					{
+						$row[] = '';
+						$row[] = '';
+					}
 				}
 				
 				if (stripos($acount->account_title, 'Annuity') !== false)
 				{
+					
 					//$row[] = $acount->account_value;
-					$row[] = 'rmd';
-					$row[] = 'rmd/income';
+					/*if($i==0)
+					{
+						$account_value = $acount->account_value;
+						$previous_annuity =  $acount->account_value;
+					}
+					else{
+						
+						$wife_annuity_value = $previous_annuity * 1.045;
+						//$account_value = number_format($wife_annuity_value);
+						//echo $i.' '.$account_value;die;
+						$previous_annuity =  $wife_annuity_value;
+					}*/
+					
+					if($new_husband_age >=74 && $new_wife_age >= 73)
+					{
+						$percentRmd = percent_k401_yearly()[$i];
+						//echo $k401_previous; die;
+						
+						$row[] = number_format($previous_annuity / $percentRmd);
+						$row[] = '$134,175';
+					}
+					else 
+					{
+						$row[] = '';
+						$row[] = '';
+						$previous_annuity = $acount->account_value;
+					}
+					
 				}
 				//$headerAccountOwnerValueArray[] = $acount->account_value;
 				$finance_account_value = $finance_account_value +$acount->account_value;
