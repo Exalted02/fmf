@@ -50,7 +50,26 @@ class PdfController extends Controller
 			}
 			
 			
-			$headerAccountTitleArray[] = $acount->account_owner == 1 ? 'Husband '.$acount->account_title : ($acount->account_owner == 2 ? 'Wife '.$acount->account_title : 'Joint '.$acount->account_title);
+			$headTitle = $acount->account_owner == 1 ? 'Husband '.$acount->account_title : ($acount->account_owner == 2 ? 'Wife '.$acount->account_title : 'Joint '.$acount->account_title);
+			
+			$headerAccountTitleArray[] = $headTitle;
+			
+			if (stripos($acount->account_title, 'nq') !== false)
+			{
+				$headerAccountTitleArray[] = 'Income';
+			}
+			
+			if (stripos($acount->account_title, '401K') !== false)
+			{
+				$headerAccountTitleArray[] = 'RMD';
+				$headerAccountTitleArray[] = 'Value';
+			}
+			
+			if (stripos($acount->account_title, 'Annuity') !== false)
+			{
+				$headerAccountTitleArray[] = 'RMD';
+				$headerAccountTitleArray[] = 'RMD/Income';
+			}
 			
 			// respective values of above titles
 			/*$ageData = Client_portfolio_Desires::where('id', $acount->sl_no)->first();
@@ -92,6 +111,8 @@ class PdfController extends Controller
 					$row[] = $wifeAge + $j;
 				}
 				
+				$new_husband_age = $husbandAge + $j;
+				$new_wife_age = $wifeAge + $j;
 				//----- calculation part ----------
 				$account_value = $acount->account_value;
 				
@@ -136,6 +157,24 @@ class PdfController extends Controller
 				
 				//$row[] = $acount->account_value;
 				$row[] = $account_value;
+				
+				if (stripos($acount->account_title, 'nq') !== false)
+				{
+					$row[] = '$26375';
+				}
+				
+				if (stripos($acount->account_title, '401K') !== false)
+				{
+					$row[] = 'rmd';
+					$row[] = '';
+				}
+				
+				if (stripos($acount->account_title, 'Annuity') !== false)
+				{
+					//$row[] = $acount->account_value;
+					$row[] = 'rmd';
+					$row[] = 'rmd/income';
+				}
 				//$headerAccountOwnerValueArray[] = $acount->account_value;
 				$finance_account_value = $finance_account_value +$acount->account_value;
 				
