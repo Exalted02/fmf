@@ -42,7 +42,6 @@ class PdfController extends Controller
 		$headerAccountOwnerArray[] = 'Year';
 		foreach($current_financial_account as $key=>$acount)
 		{
-			
 			$account_owner = $acount->account_owner == 1 ? 'Husband' : ($acount->account_owner == 2 ? 'Wife' : 'Joint');
 			if(!in_array($account_owner, $owner))
 			{
@@ -54,28 +53,166 @@ class PdfController extends Controller
 			$headerAccountTitleArray[] = $acount->account_owner == 1 ? 'Husband '.$acount->account_title : ($acount->account_owner == 2 ? 'Wife '.$acount->account_title : 'Joint '.$acount->account_title);
 			
 			// respective values of above titles
-			$ageData = Client_portfolio_Desires::where('id', $acount->sl_no)->first();
+			/*$ageData = Client_portfolio_Desires::where('id', $acount->sl_no)->first();
 			$husbandAge = $ageData ? $ageData->client_age : '';
 			$wifeAge = $ageData ? $ageData->partner_age : '';
 			if($key == 0)
 			{
-				$headerAccountOwnerValueArray[] = $key+1;
+				$headerAccountOwnerValueArray[] = $key;
 				$headerAccountOwnerValueArray[] = $husbandAge;
 				$headerAccountOwnerValueArray[] = $wifeAge;
 			}
 			
 			$headerAccountOwnerValueArray[] = $acount->account_value;
-			$finance_account_value = $finance_account_value +$acount->account_value;
+			$finance_account_value = $finance_account_value +$acount->account_value;*/
 		}
+		
+		$j=0;
+		$savings = '';
+		$nq = '';
+		$k401 = '';
+		$wife_ss = '';
+		$husband_ss = '';
+		
+		
+		for($i=0; $i<=25; $i++)
+		{
+			$row = [];
+			foreach($current_financial_account as $key=>$acount)
+			{
+				$ageData = Client_portfolio_Desires::where('id', $acount->sl_no)->first();
+				$husbandAge = $ageData ? $ageData->client_age : '';
+				$wifeAge = $ageData ? $ageData->partner_age : '';
+				
+				
+				if($key == 0)
+				{
+					$row[] = $i;
+					$row[] = $husbandAge + $j;
+					$row[] = $wifeAge + $j;
+				}
+				
+				//----- calculation part ----------
+				$account_value = $acount->account_value;
+				
+				//if(strpos($acount->account_title, 'Savings') !== false)
+				if (stripos($acount->account_title, 'Savings') !== false) 
+				{
+					if($i==0)
+					{
+						$savings =  $acount->account_value;
+					}
+					else{
+						$savings =  $savings * 1.0275;
+						$account_value = number_format($savings);
+					}
+				}
+				
+				if (stripos($acount->account_title, 'nq') !== false) 
+				{
+					if($i==0)
+					{
+						$nq =  $acount->account_value;
+					}
+					else{
+						$nq =  ($nq * 1.035) - 26375; // subtract ftom income (F)
+						$account_value = number_format($nq);
+					}
+				}
+				
+				if (stripos($acount->account_title, '401k') !== false) 
+				{
+					if($i==0)
+					{
+						$k401 =  $acount->account_value;
+					}
+					else{
+						$k401 =  $k401 * 1.05; 
+						$account_value = number_format($k401);
+					}
+				}
+				
+				//---------------------------------
+				
+				//$row[] = $acount->account_value;
+				$row[] = $account_value;
+				//$headerAccountOwnerValueArray[] = $acount->account_value;
+				$finance_account_value = $finance_account_value +$acount->account_value;
+				
+			}
+			
+			foreach($current_income_account as $income_src)
+			{
+				$account_value = $income_src->income_amount;
+				if (stripos($income_src->client_name, 'wife ss') !== false)
+				{
+					if($i==0)
+					{
+						$wife_ss =  $income_src->income_amount;
+					}
+					else{
+						$wife_ss =  $wife_ss * 1.025; 
+						$account_value = number_format($wife_ss);
+					}
+				}
+				
+				if (stripos($income_src->client_name, 'husband ss') !== false) 
+				{
+					if($i==0)
+					{
+						$husband_ss =  $income_src->income_amount;
+					}
+					else{
+						$husband_ss =  $husband_ss * 1.025; 
+						$account_value = number_format($husband_ss);
+					}
+				}
+				
+				$row[] = $account_value;
+				//$row[] = $income_src->income_amount;
+				//$headerIncomeValueArray[] = $income_src->income_amount;
+				$gross_income = $gross_income + $income_src->income_amount;
+				$taxable_income = $taxable_income + $income_src->income_amount;
+			}
+			$row[] = $gross_income;
+			$row[] = $taxable_income;
+			$row[] = '';
+			$row[] = '';
+			$row[] = '';
+			$row[] = '';
+			$row[] = '';
+			$row[] = $finance_account_value;
+			
+			$headerAccountOwnerValueArray[$i] = $row;
+			
+			$j++;
+		}
+		
 		
 		foreach($current_income_account as $income_src)
 		{
 			$headerIncomeArray[] = $income_src->client_name;
 			
 			// respective values of above titles
-			$headerIncomeValueArray[] = $income_src->income_amount;
+			/*$headerIncomeValueArray[] = $income_src->income_amount;
 			$gross_income = $gross_income + $income_src->income_amount;
-			$taxable_income = $taxable_income + $income_src->income_amount;
+			$taxable_income = $taxable_income + $income_src->income_amount;*/
+		}
+		
+		for($i=1; $i<=25; $i++)
+		{
+			$row = [];
+			foreach($current_income_account as $income_src)
+			{
+				
+				$row[] = $income_src->income_amount;
+				//$headerIncomeValueArray[] = $income_src->income_amount;
+				$gross_income = $gross_income + $income_src->income_amount;
+				$taxable_income = $taxable_income + $income_src->income_amount;
+				
+				
+			}
+			$headerIncomeValueArray[$i] = $row;
 		}
 		
 		if($current_income_account->isNotEmpty())
@@ -92,17 +229,22 @@ class PdfController extends Controller
 			$headerIncomeValueArray[] = $gross_income;
 			$headerIncomeValueArray[] = $taxable_income;
 			
-			$headerIncomeValueArray[] = ''; // income goal
-			$headerIncomeValueArray[] = ''; // Gap From Assets
-			$headerIncomeValueArray[] = ''; // IRMAA
-			$headerIncomeValueArray[] = ''; // Tax Rates
-			$headerIncomeValueArray[] = ''; // Irs Partner
-			$headerIncomeValueArray[] = $finance_account_value; // Total Estate
+			//$headerIncomeValueArray[] = ''; // income goal
+			//$headerIncomeValueArray[] = ''; // Gap From Assets
+			//$headerIncomeValueArray[] = ''; // IRMAA
+			//$headerIncomeValueArray[] = ''; // Tax Rates
+			//$headerIncomeValueArray[] = ''; // Irs Partner
+			//$headerIncomeValueArray[] = $finance_account_value; // Total Estate
 		}
 		
 		$headerArray = array_merge($headerAccountOwnerArray,$headerAccountTitleArray,$headerIncomeArray);
 		
-		$headerValueArray = array_merge($headerAccountOwnerValueArray,$headerIncomeValueArray);
+		//echo "<pre>";print_r($headerAccountOwnerValueArray);die;
+		//echo "<pre>";print_r($headerIncomeValueArray);die;
+		
+		
+		//$headerValueArray = array_merge($headerAccountOwnerValueArray,$headerIncomeValueArray);
+		$headerValueArray = $headerAccountOwnerValueArray;
 		//echo "<pre>";print_r($headerArray);
 		//echo "<pre>";print_r($headerValueArray);die;
 		//------
@@ -131,7 +273,7 @@ class PdfController extends Controller
             "excelheaderValueArray" => $headerValueArray,
         ];
 		
-		
+		//echo "<pre>";print_r($headerValueArray);die;
 		
 		$pdf = app('dompdf.wrapper');
 		$contxt = stream_context_create([
@@ -142,10 +284,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        $pdf->getDomPDF()->setHttpContext($contxt);
-		$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
+        //$pdf->getDomPDF()->setHttpContext($contxt);
+		//$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
 		
-		//return view('income-plan-pdf', $data);
+		return view('income-plan-pdf', $data);
 		return $pdf->download('income-plan.pdf');
 	}
 }

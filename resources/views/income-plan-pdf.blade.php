@@ -346,7 +346,7 @@ if($current_income_account->isNotEmpty())
 		</p>
 	</div>
 	
-	{{--<div style="page-break-after: always;">
+	<div style="page-break-after: always;">
 		<table class="calc-report">
 			<thead>
 			<tr>
@@ -359,15 +359,21 @@ if($current_income_account->isNotEmpty())
 				
 			</thead>
 			<tbody>
+			
 				@if(!empty($excelheaderValueArray))
-					@foreach($excelheaderValueArray as $headerVal)
-					<td>{{ $headerVal ?? '' }}</td>
+					@foreach($excelheaderValueArray as $excelheaderValue)
+						<tr>
+						@foreach($excelheaderValue as $headerVal)
+						<td>{{ $headerVal ?? '' }}</td>
+						@endforeach
+						</tr>
 					@endforeach
 				@endif
-				
+			
+			
 			</tbody>
 		</table>
-	</div>--}}
+	</div>
 </body>
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
