@@ -335,14 +335,7 @@ class PdfController extends Controller
 				$desired_gross_income_retirement = $portfolio_Desire_data ? $portfolio_Desire_data->desired_gross_income_retirement : 0 ; 
 				$COLA = $portfolio_Desire_data ? $portfolio_Desire_data->COLA : 0;
 				
-				if($i==0)
-				{
-					$income_goal = $desired_gross_income_retirement;
-				}
-				else
-				{
-					$income_goal = round($income_goal * (1 + $COLA / 100));
-				}
+				
 				//------------------------
 				$row[] = $account_value;
 				//$row[] = $income_src->income_amount;
@@ -350,16 +343,43 @@ class PdfController extends Controller
 				//$gross_income = $gross_income + $income_src->income_amount;
 				
 				$gross_income = $nq_icome + $k401_rmd + $wife_annuity_rmd_inc + $husband_annuity_rmd_inc + $wife_ss + $husband_ss;
-				
 				$taxable_income = $gross_income;
-				
-				//echo 'HII '.$income_goal;
 			}
+			
+			if($i==0)
+			{
+				$income_goal = $desired_gross_income_retirement;
+			}
+			else
+			{
+				$income_goal = round($income_goal * (1 + $COLA / 100));
+			}
+			
+			// calculation for IRMAA
+			$irmaaVal = 0;
+		    if($taxable_income > 212000 && $taxable_income <= 266000)
+			{
+				$irmaaVal = 6216;
+			}
+			else if($taxable_income > 266000 && $taxable_income <= 334000)
+			{
+				$irmaaVal = 8880;
+			}
+			else if($taxable_income > 334000 && $taxable_income <= 400000)
+			{
+				$irmaaVal = 11541.60;
+			}
+			else if($taxable_income > 400000 && $taxable_income <= 750000)
+			{
+				$irmaaVal = 1419040;
+			}
+			//--
+			
 			$row[] = number_format($gross_income);
 			$row[] = number_format($taxable_income);
 			$row[] = number_format($income_goal);
 			$row[] = '';
-			$row[] = '';
+			$row[] = number_format($irmaaVal);
 			$row[] = '';
 			$row[] = '';
 			$row[] = $finance_account_value;
