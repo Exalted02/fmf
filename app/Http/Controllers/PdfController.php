@@ -69,7 +69,10 @@ class PdfController extends Controller
 			if (stripos($acount->account_title, 'Annuity') !== false)
 			{
 				$headerAccountTitleArray[] = 'RMD';
-				$headerAccountTitleArray[] = 'RMD/Income';
+				if($acount->account_owner == 2)
+				{
+					$headerAccountTitleArray[] = 'RMD/Income';
+				}
 			}
 			
 			// respective values of above titles
@@ -175,18 +178,58 @@ class PdfController extends Controller
 				{
 					if($acount->account_owner == 1)
 					{
-						$previous_husb_annuity = $acount->account_value;
+						if($i==0)
+						{
+							$husband_annuity = $acount->account_value;
+							
+						}
+						else
+						{
+							$previous_husband_annuity =  $husband_annuity;
+							if($new_husband_age >=74 && $new_wife_age >= 73)
+							{
+								$percentRmd = percent_k401_yearly()[$i];
+								
+								$rmd_husband = $previous_husband_annuity / $percentRmd;
+								
+								$husband_annuity = ($husband_annuity * 1.045) - $rmd_husband;
+								$account_value = number_format($husband_annuity);
+							}
+							else
+							{
+								$husband_annuity = $husband_annuity * 1.045;
+								$account_value = number_format($husband_annuity);
+							}
+						}
 					}
 					
 					if($acount->account_owner == 2)
 					{
 						if($i==0)
 						{
-							$previous_wife_annuity = $acount->account_value;
+							//$previous_wife_annuity = $acount->account_value;
+							$wife_annuity = $acount->account_value;
+							
 						}
 						else
 						{
-							
+							$previous_wife_annuity =  $wife_annuity;
+							if($new_husband_age >=74 && $new_wife_age >= 73)
+							{
+								$percentRmd = percent_k401_yearly()[$i];
+								
+								$rmd_wife = $previous_wife_annuity / $percentRmd;
+								
+								$wife_annuity = ($wife_annuity * 1.045) - $rmd_wife;
+								$account_value = number_format($wife_annuity);
+							}
+							else
+							{
+								//$previous_wife_annuity =  $wife_annuity;
+								$wife_annuity = $wife_annuity * 1.045;
+								
+								$account_value = number_format($wife_annuity);
+							}
 						}
 					}
 				}
@@ -219,35 +262,22 @@ class PdfController extends Controller
 				
 				if (stripos($acount->account_title, 'Annuity') !== false)
 				{
-					
-					//$row[] = $acount->account_value;
-					/*if($i==0)
-					{
-						$account_value = $acount->account_value;
-						$previous_annuity =  $acount->account_value;
-					}
-					else{
-						
-						$wife_annuity_value = $previous_annuity * 1.045;
-						//$account_value = number_format($wife_annuity_value);
-						//echo $i.' '.$account_value;die;
-						$previous_annuity =  $wife_annuity_value;
-					}*/
-					
-					
-					
 					if($new_husband_age >=74 && $new_wife_age >= 73)
 					{
 						$percentRmd = percent_k401_yearly()[$i];
-						//echo $k401_previous; die;
-						
-						$row[] = number_format($previous_annuity / $percentRmd);
-						$row[] = '$134,175';
+						$row[] = number_format($previous_wife_annuity / $percentRmd);
+						if($acount->account_owner == 2)
+						{
+							$row[] = '$134,475';
+						}
 					}
 					else 
 					{
 						$row[] = '';
-						$row[] = '';
+						if($acount->account_owner == 2)
+						{
+							$row[] = '';
+						}
 						$previous_annuity = $acount->account_value;
 					}
 					
