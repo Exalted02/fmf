@@ -326,6 +326,9 @@ class PdfController extends Controller
 				//$row[] = $income_src->income_amount;
 				//$headerIncomeValueArray[] = $income_src->income_amount;
 				$gross_income = $gross_income + $income_src->income_amount;
+				
+				$gross_income = 26375 + 
+				
 				$taxable_income = $taxable_income + $income_src->income_amount;
 			}
 			$row[] = $gross_income;
