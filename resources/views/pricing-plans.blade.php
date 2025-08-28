@@ -32,9 +32,6 @@ $yearly_billing = App\Models\Pricing_plan::where('plan_type',2)->get();
 									@foreach($monthly_billing as $monthly)
 										<li><i class="fa fa-square"></i>{{ $monthly->plan_name ?? ''}}</li>
 									@endforeach
-										{{--<li><i class="fa fa-square"></i>24/7 Priority Support</li>
-										<li><i class="fa fa-square"></i>Full Platform Access</li>
-										<li><i class="fa fa-square"></i>Free Updates</li>--}}
 									</ul>
 								</div>
 								<button class="select-btn selected-btn">SELECTED</button>
@@ -48,10 +45,6 @@ $yearly_billing = App\Models\Pricing_plan::where('plan_type',2)->get();
 									@foreach($yearly_billing as $yearly)
 										<li><i class="fa fa-square"></i>{{ $yearly->plan_name ?? '' }}</li>
 									@endforeach
-										{{--<li><i class="fa fa-square"></i>24/7 Priority Support</li>
-										{{--<li><i class="fa fa-square"></i>Full Platform Access</li>
-										<li><i class="fa fa-square"></i>Free Updates</li>
-										<li class="text-uppercase"><i class="fa fa-square"></i>Annual Discount $419.89</li>--}}
 									</ul>
 								</div>
 								<button class="select-btn">SELECT</button>
