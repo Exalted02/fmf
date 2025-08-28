@@ -181,18 +181,14 @@ class PdfController extends Controller
 						if($i==0)
 						{
 							$husband_annuity = $acount->account_value;
-							
 						}
 						else
 						{
 							$previous_husband_annuity =  $husband_annuity;
-							if($new_husband_age >=74 && $new_wife_age >= 73)
+							if($new_husband_age >=73 && $new_wife_age >= 72)
 							{
-								$percentRmd = percent_k401_yearly()[$i];
-								
-								$rmd_husband = $previous_husband_annuity / $percentRmd;
-								
-								$husband_annuity = ($husband_annuity * 1.045) - $rmd_husband;
+								$rmd_husband = $previous_husband_annuity * 0.055932;
+								$husband_annuity = $previous_husband_annuity * 1.045 - $rmd_husband;
 								$account_value = number_format($husband_annuity);
 							}
 							else
@@ -262,23 +258,35 @@ class PdfController extends Controller
 				
 				if (stripos($acount->account_title, 'Annuity') !== false)
 				{
-					if($new_husband_age >=74 && $new_wife_age >= 73)
+					if($acount->account_owner == 1)
 					{
-						$percentRmd = percent_k401_yearly()[$i];
-						$row[] = number_format($previous_wife_annuity / $percentRmd);
-						if($acount->account_owner == 2)
+						if($new_husband_age >=73 && $new_wife_age >= 72)
 						{
-							$row[] = '$134,475';
+							//$percentRmd = percent_k401_yearly()[$i];
+							$row[] = number_format($previous_husband_annuity * 0.055932);
 						}
-					}
-					else 
-					{
-						$row[] = '';
-						if($acount->account_owner == 2)
+						else 
 						{
 							$row[] = '';
+							//$previous_annuity = $acount->account_value;
 						}
-						$previous_annuity = $acount->account_value;
+					}
+					
+					if($acount->account_owner == 2)
+					{
+						if($new_husband_age >=74 && $new_wife_age >= 73)
+						{
+							$percentRmd = percent_k401_yearly()[$i];
+							$row[] = number_format($previous_wife_annuity / $percentRmd);
+							$row[] = '$134,475';
+							
+						}
+						else 
+						{
+							$row[] = '';
+							$row[] = '';
+							//$previous_annuity = $acount->account_value;
+						}
 					}
 					
 				}
