@@ -140,8 +140,9 @@ class PdfController extends Controller
 					{
 						$nq =  $acount->account_value;
 					}
-					else{
-						$nq =  ($nq * 1.035) - 26375; // subtract ftom income (F)
+					else
+					{
+						$nq =  ($nq * 1.035) - 26375; // subtract from income (F)
 						$account_value = number_format($nq);
 					}
 				}
@@ -298,8 +299,12 @@ class PdfController extends Controller
 					}
 					
 				}
-				//$headerAccountOwnerValueArray[] = $acount->account_value;
-				$finance_account_value = $finance_account_value +$acount->account_value;
+				
+				$finance_account_value = $finance_account_value + $acount->account_value;
+				if($i > 0)
+				{
+					$finance_account_value = $savings + $nq + $k401 +$wife_annuity + $husband_annuity;
+				}
 				
 			}
 			
@@ -404,6 +409,18 @@ class PdfController extends Controller
 			{
 				$tax_rate = 37; // %
 			}
+			
+			
+			//------- irs partner -----
+			$irs_partner = 0;
+			if($i==0)
+			{
+				$irs_partner = round(($income_goal * $tax_rate) / 100);
+			}
+			else 
+			{
+				$irs_partner = round(($taxable_income * $tax_rate) / 100);
+			}
 			//-------
 			
 			$row[] = number_format($gross_income);
@@ -412,8 +429,8 @@ class PdfController extends Controller
 			$row[] = '';
 			$row[] = number_format($irmaaVal);
 			$row[] = $tax_rate .'%';
-			$row[] = '';
-			$row[] = $finance_account_value;
+			$row[] = number_format($irs_partner);
+			$row[] = number_format($finance_account_value);
 			
 			$headerAccountOwnerValueArray[$i] = $row;
 			
