@@ -74,20 +74,6 @@ class PdfController extends Controller
 					$headerAccountTitleArray[] = 'RMD/Income';
 				}
 			}
-			
-			// respective values of above titles
-			/*$ageData = Client_portfolio_Desires::where('id', $acount->sl_no)->first();
-			$husbandAge = $ageData ? $ageData->client_age : '';
-			$wifeAge = $ageData ? $ageData->partner_age : '';
-			if($key == 0)
-			{
-				$headerAccountOwnerValueArray[] = $key;
-				$headerAccountOwnerValueArray[] = $husbandAge;
-				$headerAccountOwnerValueArray[] = $wifeAge;
-			}
-			
-			$headerAccountOwnerValueArray[] = $acount->account_value;
-			$finance_account_value = $finance_account_value +$acount->account_value;*/
 		}
 		
 		$j=0;
