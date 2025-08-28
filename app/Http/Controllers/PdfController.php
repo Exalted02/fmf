@@ -119,7 +119,7 @@ class PdfController extends Controller
 				$new_husband_age = $husbandAge + $j;
 				$new_wife_age = $wifeAge + $j;
 				//----- calculation part ----------
-				$account_value = $acount->account_value;
+				$account_value = number_format($acount->account_value);
 				
 				//if(strpos($acount->account_title, 'Savings') !== false)
 				if (stripos($acount->account_title, 'Savings') !== false) 
@@ -237,7 +237,7 @@ class PdfController extends Controller
 				
 				if (stripos($acount->account_title, 'nq') !== false)
 				{
-					$row[] = '$26375';
+					$row[] = '$ 26375';
 					$nq_icome = 26375;
 				}
 				
@@ -300,7 +300,11 @@ class PdfController extends Controller
 					
 				}
 				
-				$finance_account_value = $finance_account_value + $acount->account_value;
+				if (stripos($acount->account_title, 'Savings') !== false || stripos($acount->account_title, 'nq') !== false || stripos($acount->account_title, '401k') !== false || stripos($acount->account_title, 'Annuity') !== false) 
+				{
+					$finance_account_value = $finance_account_value + $acount->account_value;
+				}
+				
 				if($i > 0)
 				{
 					$finance_account_value = $savings + $nq + $k401 +$wife_annuity + $husband_annuity;
@@ -310,7 +314,7 @@ class PdfController extends Controller
 			
 			foreach($current_income_account as $income_src)
 			{
-				$account_value = $income_src->income_amount;
+				$account_value = number_format($income_src->income_amount);
 				if (stripos($income_src->client_name, 'wife ss') !== false)
 				{
 					if($i==0)
