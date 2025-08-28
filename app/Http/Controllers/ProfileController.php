@@ -13,11 +13,7 @@ class ProfileController extends Controller
 {
 	public function welcome()
     {
-		if(Auth::user()){
-			return view('dashboard');
-		}else{
-			return view('auth.login');
-		}
+		return redirect('/login');
     }
     /**
      * Display the user's profile form.

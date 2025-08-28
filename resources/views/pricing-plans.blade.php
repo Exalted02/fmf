@@ -34,7 +34,7 @@ $yearly_billing = App\Models\Pricing_plan::where('plan_type',2)->get();
 									@endforeach
 									</ul>
 								</div>
-								<button class="select-btn selected-btn">SELECTED</button>
+								<button class="select-btn selected-btn" data-price="159.99" data-plan="monthly">SELECTED</button>
 							</div>
 
 							<!-- Annual Billing -->
@@ -47,7 +47,7 @@ $yearly_billing = App\Models\Pricing_plan::where('plan_type',2)->get();
 									@endforeach
 									</ul>
 								</div>
-								<button class="select-btn">SELECT</button>
+								<button class="select-btn" data-price="1080.10" data-plan="annual">SELECT</button>
 							</div>
 						</div>
 					</section>
@@ -59,7 +59,7 @@ $yearly_billing = App\Models\Pricing_plan::where('plan_type',2)->get();
 					<div class="col-md-12">
 						<div class="d-flex justify-between submit-section mt-2 mb-5">
 							<button class="btn common-cancel-button">Back</button>
-							<a href="{{route('portfolio-desires')}}"><button class="btn btn-primary common-button">Pay $159.99</button></a>
+							<a href="{{route('portfolio-desires')}}"><button id="payBtn" class="btn btn-primary common-button">Pay $159.99</button></a>
 						</div>
 					</div>
 				</div>
@@ -69,5 +69,24 @@ $yearly_billing = App\Models\Pricing_plan::where('plan_type',2)->get();
 	</div>
 @endsection 
 @section('scripts')
+<script>
+$(document).ready(function(){
 
+    $(".select-btn").on("click", function(){
+
+        // Reset all buttons
+        $(".select-btn").removeClass("selected-btn").text("SELECT");
+
+        // Highlight selected
+        $(this).addClass("selected-btn").text("SELECTED");
+
+        // Get price from selected button
+        var price = $(this).data("price");
+
+        // Update Pay button text
+        $("#payBtn").text("Pay $" + price);
+    });
+
+});
+</script>
 @endsection 
