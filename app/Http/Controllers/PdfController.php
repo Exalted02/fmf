@@ -373,14 +373,45 @@ class PdfController extends Controller
 			{
 				$irmaaVal = 1419040;
 			}
-			//--
+			
+			//---- tax rate percent --
+			$tax_rate = 0;
+			if($taxable_income > 0 && $taxable_income <= 23850)
+			{
+				$tax_rate = 10; // %
+			}
+			else if($taxable_income >= 23851 && $taxable_income <= 96950)
+			{
+				$tax_rate = 12; // %
+			}
+			else if($taxable_income >= 96951 && $taxable_income <= 206700)
+			{
+				$tax_rate = 22; // %
+			}
+			else if($taxable_income >= 206701 && $taxable_income <= 394600)
+			{
+				$tax_rate = 24; // %
+			}
+			else if($taxable_income >= 394601 && $taxable_income <= 501050)
+			{
+				$tax_rate = 32; // %
+			}
+			else if($taxable_income >= 501051 && $taxable_income <= 751600)
+			{
+				$tax_rate = 35; // %
+			}
+			else if($taxable_income >=751601)
+			{
+				$tax_rate = 37; // %
+			}
+			//-------
 			
 			$row[] = number_format($gross_income);
 			$row[] = number_format($taxable_income);
 			$row[] = number_format($income_goal);
 			$row[] = '';
 			$row[] = number_format($irmaaVal);
-			$row[] = '';
+			$row[] = $tax_rate .'%';
 			$row[] = '';
 			$row[] = $finance_account_value;
 			
