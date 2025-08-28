@@ -94,8 +94,8 @@ class PdfController extends Controller
 		$savings = '';
 		$nq = '';
 		$k401 = '';
-		$wife_ss = '';
-		$husband_ss = '';
+		$wife_ss = 0;
+		$husband_ss = 0;
 		$previous_annuity = '';
 		$previous_wife_annuity = '';
 		
@@ -237,6 +237,7 @@ class PdfController extends Controller
 				if (stripos($acount->account_title, 'nq') !== false)
 				{
 					$row[] = '$26375';
+					$nq_icome = 26375;
 				}
 				
 				if (stripos($acount->account_title, '401K') !== false)
@@ -322,6 +323,7 @@ class PdfController extends Controller
 					if($i==0)
 					{
 						$husband_ss =  $income_src->income_amount;
+						//echo $income_src->income_amount;die;
 					}
 					else{
 						$husband_ss =  $husband_ss * 1.025; 
@@ -329,18 +331,33 @@ class PdfController extends Controller
 					}
 				}
 				
+				// calculation for income goal
+				$desired_gross_income_retirement = $portfolio_Desire_data ? $portfolio_Desire_data->desired_gross_income_retirement : 0 ; 
+				$COLA = $portfolio_Desire_data ? $portfolio_Desire_data->COLA : 0;
+				
+				if($i==0)
+				{
+					$income_goal = $desired_gross_income_retirement;
+				}
+				else
+				{
+					$income_goal = round($income_goal * (1 + $COLA / 100));
+				}
+				//------------------------
 				$row[] = $account_value;
 				//$row[] = $income_src->income_amount;
 				//$headerIncomeValueArray[] = $income_src->income_amount;
-				$gross_income = $gross_income + $income_src->income_amount;
-				//echo $k401_rmd .'='. $wife_annuity_rmd_inc .'='.$husband_annuity_rmd_inc.'='.$wife_ss.'=>'.$husband_ss; die;
-				//$gross_income = 26375 + $k401_rmd + $wife_annuity_rmd_inc + $husband_annuity_rmd_inc + $wife_ss + $husband_ss;
+				//$gross_income = $gross_income + $income_src->income_amount;
 				
-				$taxable_income = $taxable_income + $income_src->income_amount;
+				$gross_income = $nq_icome + $k401_rmd + $wife_annuity_rmd_inc + $husband_annuity_rmd_inc + $wife_ss + $husband_ss;
+				
+				$taxable_income = $gross_income;
+				
+				//echo 'HII '.$income_goal;
 			}
 			$row[] = number_format($gross_income);
-			$row[] = $taxable_income;
-			$row[] = '';
+			$row[] = number_format($taxable_income);
+			$row[] = number_format($income_goal);
 			$row[] = '';
 			$row[] = '';
 			$row[] = '';
