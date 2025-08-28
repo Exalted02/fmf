@@ -248,9 +248,12 @@ class PdfController extends Controller
 						
 						$row[] = number_format($k401_previous / $percentRmd);
 						$row[] = percent_k401_yearly()[$i];
+						
+						$k401_rmd = $k401_previous / $percentRmd;
 					}
 					else
 					{
+						$k401_rmd = 0;
 						$row[] = '';
 						$row[] = '';
 					}
@@ -264,9 +267,11 @@ class PdfController extends Controller
 						{
 							//$percentRmd = percent_k401_yearly()[$i];
 							$row[] = number_format($previous_husband_annuity * 0.055932);
+							$husband_annuity_rmd_inc = $previous_husband_annuity * 0.055932;
 						}
 						else 
 						{
+							$husband_annuity_rmd_inc = 0;
 							$row[] = '';
 							//$previous_annuity = $acount->account_value;
 						}
@@ -279,10 +284,12 @@ class PdfController extends Controller
 							$percentRmd = percent_k401_yearly()[$i];
 							$row[] = number_format($previous_wife_annuity / $percentRmd);
 							$row[] = '$134,475';
+							$wife_annuity_rmd_inc = 134475;
 							
 						}
 						else 
 						{
+							$wife_annuity_rmd_inc = 0;
 							$row[] = '';
 							$row[] = '';
 							//$previous_annuity = $acount->account_value;
@@ -326,12 +333,12 @@ class PdfController extends Controller
 				//$row[] = $income_src->income_amount;
 				//$headerIncomeValueArray[] = $income_src->income_amount;
 				$gross_income = $gross_income + $income_src->income_amount;
-				
-				$gross_income = 26375 + 
+				//echo $k401_rmd .'='. $wife_annuity_rmd_inc .'='.$husband_annuity_rmd_inc.'='.$wife_ss.'=>'.$husband_ss; die;
+				//$gross_income = 26375 + $k401_rmd + $wife_annuity_rmd_inc + $husband_annuity_rmd_inc + $wife_ss + $husband_ss;
 				
 				$taxable_income = $taxable_income + $income_src->income_amount;
 			}
-			$row[] = $gross_income;
+			$row[] = number_format($gross_income);
 			$row[] = $taxable_income;
 			$row[] = '';
 			$row[] = '';
