@@ -19,6 +19,7 @@ class PdfController extends Controller
 		}
 		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
+		//$lastId = 4;
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
@@ -88,6 +89,10 @@ class PdfController extends Controller
 		$wife_annuity = 0;
 		$husband_annuity = 0;
 		$COLA = 0;
+		$nq_icome =0;
+		$k401_rmd =0;
+		$wife_annuity_rmd_inc =0;
+		$husband_annuity_rmd_inc =0;
 		
 		for($i=0; $i<=25; $i++)
 		{
