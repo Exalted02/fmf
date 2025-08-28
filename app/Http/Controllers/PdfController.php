@@ -39,6 +39,7 @@ class PdfController extends Controller
 		$gross_income = 0;
 		$taxable_income = 0;
 		$finance_account_value =0;
+		$desired_gross_income_retirement = 0;
 		
 		$headerAccountOwnerArray[] = 'Year';
 		foreach($current_financial_account as $key=>$acount)
@@ -77,13 +78,16 @@ class PdfController extends Controller
 		}
 		
 		$j=0;
-		$savings = '';
-		$nq = '';
-		$k401 = '';
+		$savings = 0;
+		$nq = 0;
+		$k401 = 0;
 		$wife_ss = 0;
 		$husband_ss = 0;
 		$previous_annuity = '';
 		$previous_wife_annuity = '';
+		$wife_annuity = 0;
+		$husband_annuity = 0;
+		$COLA = 0;
 		
 		for($i=0; $i<=25; $i++)
 		{
@@ -223,7 +227,7 @@ class PdfController extends Controller
 				
 				if (stripos($acount->account_title, 'nq') !== false)
 				{
-					$row[] = '$ 26375';
+					$row[] = '$26375';
 					$nq_icome = 26375;
 				}
 				
@@ -523,10 +527,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        //$pdf->getDomPDF()->setHttpContext($contxt);
-		//$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
+        $pdf->getDomPDF()->setHttpContext($contxt);
+		$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
 		
-		return view('income-plan-pdf', $data);
+		//return view('income-plan-pdf', $data);
 		return $pdf->download('income-plan.pdf');
 	}
 }
