@@ -19,6 +19,7 @@ class PdfController extends Controller
 		}
 		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
+		//$lastId = 4;
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
@@ -42,6 +43,7 @@ class PdfController extends Controller
 		$desired_gross_income_retirement = 0;
 		
 		$headerAccountOwnerArray[] = 'Year';
+		$v = 0;
 		foreach($current_financial_account as $key=>$acount)
 		{
 			$account_owner = $acount->account_owner == 1 ? 'Husband' : ($acount->account_owner == 2 ? 'Wife' : 'Joint');
@@ -61,11 +63,23 @@ class PdfController extends Controller
 				$headerAccountTitleArray[] = 'Income';
 			}
 			
-			if (stripos($acount->account_title, '401K') !== false)
+			// here header loop extends according to tax_qualification fields
+			if($acount->tax_qualification == 1)
+			{
+				$headerAccountTitleArray[] = 'RMD';
+				if($v==0)
+				{
+					$headerAccountTitleArray[] = 'Value';
+				}
+				
+				$v++;
+			}
+			
+			/*if (stripos($acount->account_title, '401K') !== false)
 			{
 				$headerAccountTitleArray[] = 'RMD';
 				$headerAccountTitleArray[] = 'Value';
-			}
+			}*/
 			
 			if (stripos($acount->account_title, 'Annuity') !== false)
 			{
@@ -75,6 +89,7 @@ class PdfController extends Controller
 					$headerAccountTitleArray[] = 'RMD/Income';
 				}
 			}
+			
 		}
 		
 		$j=0;
@@ -94,7 +109,10 @@ class PdfController extends Controller
 		$husband_annuity_rmd_inc =0;
 		$current_inc_value =0;
 		$previous_income_arr = [];
+		$previous_tax_quali_arr = [];
+		$previous_tax_quali_data_arr = [];
 		$sum_current_inc = 0;
+		$current_tax_value = 0;
 		
 		for($i=0; $i<=25; $i++)
 		{
@@ -145,13 +163,48 @@ class PdfController extends Controller
 				}
 				
 				// here loop should extends according to tax_qualification fields
-				/*if($acount->tax_qualification == 1)
+				if($acount->tax_qualification == 1)
 				{
-					
-				}*/
+					if($i==0)
+					{
+						//$k401 =  $acount->account_value;
+						$previous_tax_quali_arr[$key] = $acount->account_value;
+					}
+					else
+					{
+						//$k401_previous =  $k401;
+						
+						if($new_husband_age >=74 && $new_wife_age >= 73)
+						{
+							$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd);
+							$account_value = number_format($current_tax_value);
+							$percentRmd = percent_k401_yearly()[$i];
+							$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
+							$previous_tax_quali_arr[$k] = $current_tax_value;
+							
+							/*$k401 =  round(($k401 * 1.05) - $rmd); 
+							$account_value = number_format($k401);
+							
+							$percentRmd = percent_k401_yearly()[$i];
+							$rmd = $k401_previous / $percentRmd;*/
+						}
+						else
+						{
+							$rmd = 0;
+							$current_tax_value = $previous_tax_quali_arr[$key] * 10.5;
+							$account_value = number_format($current_tax_value); 
+							$previous_tax_quali_arr[$key] = $current_tax_value;
+							
+							/*$rmd = 0;
+							$k401 =  $k401 * 1.05; 
+							$account_value = number_format($k401);*/
+						}
+						
+					}
+				}
 				
-				
-				if (stripos($acount->account_title, '401k') !== false) 
+				//-- 29-08-2025-----
+				/*if (stripos($acount->account_title, '401k') !== false) 
 				{
 					if($i==0)
 					{
@@ -177,7 +230,8 @@ class PdfController extends Controller
 						}
 						
 					}
-				}
+				}*/
+				//-----------------
 				
 				if (stripos($acount->account_title, 'Annuity') !== false)
 				{
@@ -245,7 +299,33 @@ class PdfController extends Controller
 					$nq_icome = 26375;
 				}
 				
-				if (stripos($acount->account_title, '401K') !== false)
+				// calculation for tax_qualification = 1 (IRA) RMD and Income
+				if($acount->tax_qualification == 1)
+				{
+					if($new_husband_age >=74 && $new_wife_age >= 73)
+					{
+						$percentRmd = percent_k401_yearly()[$i];
+						//echo $k401_previous; die;
+						
+						$row[] = number_format($previous_tax_quali_data_arr[$key] / $percentRmd);
+						if($i==0)
+						{
+							$row[] = percent_k401_yearly()[$i];
+						}
+						
+						$k401_rmd = $previous_tax_quali_data_arr[$key] / $percentRmd;
+					}
+					else
+					{
+						$k401_rmd = 0;
+						$row[] = '';
+						$row[] = '';
+					}
+					
+				}
+				
+				//-- 29-08-2025------
+				/*if (stripos($acount->account_title, '401K') !== false)
 				{
 					if($new_husband_age >=74 && $new_wife_age >= 73)
 					{
@@ -263,7 +343,8 @@ class PdfController extends Controller
 						$row[] = '';
 						$row[] = '';
 					}
-				}
+				}*/
+				//-----------
 				
 				if (stripos($acount->account_title, 'Annuity') !== false)
 				{
@@ -312,6 +393,12 @@ class PdfController extends Controller
 				if($i > 0)
 				{
 					$finance_account_value = $savings + $nq + $k401 +$wife_annuity + $husband_annuity;
+				}
+				
+				//------ store data to another array for tax_qualification
+				
+				foreach ($previous_tax_quali_arr as $val) {
+					$previous_tax_quali_data_arr[] = $val;
 				}
 				
 			}
