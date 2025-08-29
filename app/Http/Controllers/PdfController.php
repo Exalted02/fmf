@@ -19,7 +19,7 @@ class PdfController extends Controller
 		}
 		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
-		//$lastId = 4;
+		$lastId = 4;
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
@@ -44,6 +44,7 @@ class PdfController extends Controller
 		
 		$headerAccountOwnerArray[] = 'Year';
 		$v = 0;
+		$vs = 0;
 		foreach($current_financial_account as $key=>$acount)
 		{
 			$account_owner = $acount->account_owner == 1 ? 'Husband' : ($acount->account_owner == 2 ? 'Wife' : 'Joint');
@@ -69,11 +70,13 @@ class PdfController extends Controller
 				$headerAccountTitleArray[] = 'RMD';
 				if($v==0)
 				{
-					$headerAccountTitleArray[] = 'Value';
+					//$headerAccountTitleArray[] = 'Value';
 				}
 				
 				$v++;
 			}
+			
+			
 			
 			/*if (stripos($acount->account_title, '401K') !== false)
 			{
@@ -91,6 +94,8 @@ class PdfController extends Controller
 			}
 			
 		}
+		
+		$headerAccountTitleArray[] = 'Value';
 		
 		$j=0;
 		$savings = 0;
@@ -173,6 +178,9 @@ class PdfController extends Controller
 					else
 					{
 						//$k401_previous =  $k401;
+						foreach ($previous_tax_quali_arr as $val) {
+							$previous_tax_quali_data_arr[] = $val;
+						}
 						
 						if($new_husband_age >=74 && $new_wife_age >= 73)
 						{
@@ -191,7 +199,7 @@ class PdfController extends Controller
 						else
 						{
 							$rmd = 0;
-							$current_tax_value = $previous_tax_quali_arr[$key] * 10.5;
+							$current_tax_value = $previous_tax_quali_arr[$key] * 1.05;
 							$account_value = number_format($current_tax_value); 
 							$previous_tax_quali_arr[$key] = $current_tax_value;
 							
@@ -308,18 +316,17 @@ class PdfController extends Controller
 						//echo $k401_previous; die;
 						
 						$row[] = number_format($previous_tax_quali_data_arr[$key] / $percentRmd);
-						if($i==0)
-						{
-							$row[] = percent_k401_yearly()[$i];
-						}
+
+						//$row[] = percent_k401_yearly()[$i];
 						
 						$k401_rmd = $previous_tax_quali_data_arr[$key] / $percentRmd;
+						$vs++;
 					}
 					else
 					{
 						$k401_rmd = 0;
 						$row[] = '';
-						$row[] = '';
+						//$row[] = '';
 					}
 					
 				}
@@ -397,12 +404,22 @@ class PdfController extends Controller
 				
 				//------ store data to another array for tax_qualification
 				
-				foreach ($previous_tax_quali_arr as $val) {
+				/*foreach ($previous_tax_quali_arr as $val) {
 					$previous_tax_quali_data_arr[] = $val;
-				}
+				}*/
 				
 			}
 			
+			
+			if($new_husband_age >=74 && $new_wife_age >= 73)
+			{
+				$row[] = percent_k401_yearly()[$i];	
+			}
+			else
+			{
+				$row[] = '';
+			}
+
 			
 			foreach($current_income_account as $k=>$income_src)
 			{
