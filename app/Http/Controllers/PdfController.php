@@ -19,7 +19,6 @@ class PdfController extends Controller
 		}
 		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
-		//$lastId = 4;
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
@@ -93,6 +92,9 @@ class PdfController extends Controller
 		$k401_rmd =0;
 		$wife_annuity_rmd_inc =0;
 		$husband_annuity_rmd_inc =0;
+		$current_inc_value =0;
+		$previous_income_arr = [];
+		$sum_current_inc = 0;
 		
 		for($i=0; $i<=25; $i++)
 		{
@@ -141,6 +143,13 @@ class PdfController extends Controller
 						$account_value = number_format($nq);
 					}
 				}
+				
+				// here loop should extends according to tax_qualification fields
+				/*if($acount->tax_qualification == 1)
+				{
+					
+				}*/
+				
 				
 				if (stripos($acount->account_title, '401k') !== false) 
 				{
@@ -307,10 +316,26 @@ class PdfController extends Controller
 				
 			}
 			
-			foreach($current_income_account as $income_src)
+			
+			foreach($current_income_account as $k=>$income_src)
 			{
 				$account_value = number_format($income_src->income_amount);
-				if (stripos($income_src->client_name, 'wife ss') !== false)
+				if($i==0)
+				{
+					$previous_income_arr[$k] = $income_src->income_amount;
+					$sum_current_inc = $sum_current_inc + $income_src->income_amount;
+				}
+				else
+				{
+					$current_inc_value =  $previous_income_arr[$k] * 1.025; 
+					$account_value = number_format($current_inc_value);
+					$previous_income_arr[$k] = $current_inc_value;
+					$sum_current_inc = $sum_current_inc + $current_inc_value;
+				}
+				
+				
+				
+				/*if (stripos($income_src->client_name, 'wife ss') !== false)
 				{
 					if($i==0)
 					{
@@ -333,7 +358,7 @@ class PdfController extends Controller
 						$husband_ss =  $husband_ss * 1.025; 
 						$account_value = number_format($husband_ss);
 					}
-				}
+				}*/
 				
 				// calculation for income goal
 				$desired_gross_income_retirement = $portfolio_Desire_data ? $portfolio_Desire_data->desired_gross_income_retirement : 0 ; 
@@ -344,9 +369,12 @@ class PdfController extends Controller
 				$row[] = $account_value;
 				//$row[] = $income_src->income_amount;
 				//$headerIncomeValueArray[] = $income_src->income_amount;
-				//$gross_income = $gross_income + $income_src->income_amount;
 				
-				$gross_income = $nq_icome + $k401_rmd + $wife_annuity_rmd_inc + $husband_annuity_rmd_inc + $wife_ss + $husband_ss;
+				
+				//$gross_income = $nq_icome + $k401_rmd + $wife_annuity_rmd_inc + $husband_annuity_rmd_inc + $wife_ss + $husband_ss;
+				//$taxable_income = $gross_income;
+				
+				$gross_income = $nq_icome + $k401_rmd + $wife_annuity_rmd_inc + $husband_annuity_rmd_inc + $sum_current_inc;
 				$taxable_income = $gross_income;
 			}
 			
@@ -532,10 +560,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        $pdf->getDomPDF()->setHttpContext($contxt);
-		$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
+        //$pdf->getDomPDF()->setHttpContext($contxt);
+		//$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
 		
-		//return view('income-plan-pdf', $data);
+		return view('income-plan-pdf', $data);
 		return $pdf->download('income-plan.pdf');
 	}
 }

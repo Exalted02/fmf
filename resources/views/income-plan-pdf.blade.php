@@ -359,7 +359,6 @@ if($current_income_account->isNotEmpty())
 				
 			</thead>
 			<tbody>
-			
 				@if(!empty($excelheaderValueArray))
 					@foreach($excelheaderValueArray as $excelheaderValue)
 						<tr>
@@ -369,8 +368,6 @@ if($current_income_account->isNotEmpty())
 						</tr>
 					@endforeach
 				@endif
-			
-			
 			</tbody>
 		</table>
 	</div>
