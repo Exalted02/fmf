@@ -19,7 +19,7 @@ class PdfController extends Controller
 		}
 		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
-		$lastId = 4;
+		$lastId = 5;
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
@@ -65,9 +65,10 @@ class PdfController extends Controller
 			}
 			
 			// here header loop extends according to tax_qualification fields
-			if($acount->tax_qualification == 1)
+			 //&& preg_match('/\bsavings?\b/i', $acount->account_title)
+			if($acount->tax_qualification == 1 && stripos($acount->account_title, 'Annuity') === false)
 			{
-				$headerAccountTitleArray[] = 'RMD';
+				$headerAccountTitleArray[] = 'RMD_j';
 				if($v==0)
 				{
 					//$headerAccountTitleArray[] = 'Value';
@@ -142,7 +143,9 @@ class PdfController extends Controller
 				$account_value = number_format($acount->account_value);
 				
 				//if(strpos($acount->account_title, 'Savings') !== false)
-				if (stripos($acount->account_title, 'Savings') !== false) 
+				//if ($acount->tax_qualification == 2 && stripos($acount->account_title, 'Savings') !== false)
+
+				if ($acount->tax_qualification == 2 && preg_match('/\bsavings?\b/i', $acount->account_title))
 				{
 					if($i==0)
 					{
@@ -174,9 +177,11 @@ class PdfController extends Controller
 					{
 						//$k401 =  $acount->account_value;
 						$previous_tax_quali_arr[$key] = $acount->account_value;
+						//$account_value = $acount->account_value;
 					}
 					else
 					{
+						//echo $i.'###'.$acount->account_title;die;
 						//$k401_previous =  $k401;
 						foreach ($previous_tax_quali_arr as $val) {
 							$previous_tax_quali_data_arr[] = $val;
@@ -308,7 +313,7 @@ class PdfController extends Controller
 				}
 				
 				// calculation for tax_qualification = 1 (IRA) RMD and Income
-				if($acount->tax_qualification == 1)
+				if($acount->tax_qualification == 1   && stripos($acount->account_title, 'Annuity') === false)
 				{
 					if($new_husband_age >=74 && $new_wife_age >= 73)
 					{
