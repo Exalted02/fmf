@@ -36,11 +36,6 @@ class PdfController extends Controller
 		return view('income-plan-pdf', $data);
 		return $pdf->download('income-plan.pdf');
 	}
-	public function rothConversionPage()
-	{
-		$data = [];
-		return $data;
-	}
 	public function current_financial_account_page()
 	{
 		
@@ -684,6 +679,11 @@ class PdfController extends Controller
             "excelheaderValueArray" => $headerValueArray,
         ];
 		
+		return $data;
+	}
+	public function rothConversionPage()
+	{
+		$data = [];
 		return $data;
 	}
 }
