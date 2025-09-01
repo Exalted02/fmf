@@ -94,7 +94,7 @@ class PdfController extends Controller
 			 //&& preg_match('/\bsavings?\b/i', $acount->account_title)
 			if($acount->tax_qualification == 1 && stripos($acount->account_title, 'Annuity') === false)
 			{
-				$headerAccountTitleArray[] = 'RMD_j';
+				$headerAccountTitleArray[] = 'RMD';
 				if($v==0)
 				{
 					//$headerAccountTitleArray[] = 'Value';
