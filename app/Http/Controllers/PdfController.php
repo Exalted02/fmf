@@ -18,6 +18,32 @@ class PdfController extends Controller
 			return redirect('login');
 		}
 		
+		$data = $this->current_financial_account_page();
+		
+		$pdf = app('dompdf.wrapper');
+		$contxt = stream_context_create([
+            'ssl' => [
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                'allow_self_signed' => TRUE,
+            ]
+        ]);
+		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
+        //$pdf->getDomPDF()->setHttpContext($contxt);
+		//$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
+		
+		$this->rothConversionPage();
+		return view('income-plan-pdf', $data);
+		return $pdf->download('income-plan.pdf');
+	}
+	public function rothConversionPage()
+	{
+		$data = [];
+		return $data;
+	}
+	public function current_financial_account_page()
+	{
+		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
 		$lastId = 5;
 		
@@ -562,7 +588,7 @@ class PdfController extends Controller
 			$row[] = number_format($gross_income);
 			$row[] = number_format($taxable_income);
 			$row[] = number_format($income_goal);
-			$row[] = '';
+			$row[] = number_format($income_goal - $gross_income);
 			$row[] = number_format($irmaaVal);
 			$row[] = $tax_rate .'%';
 			$row[] = number_format($irs_partner);
@@ -658,28 +684,6 @@ class PdfController extends Controller
             "excelheaderValueArray" => $headerValueArray,
         ];
 		
-		//echo "<pre>";print_r($headerValueArray);die;
-		
-		$pdf = app('dompdf.wrapper');
-		$contxt = stream_context_create([
-            'ssl' => [
-                'verify_peer' => FALSE,
-                'verify_peer_name' => FALSE,
-                'allow_self_signed' => TRUE,
-            ]
-        ]);
-		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        //$pdf->getDomPDF()->setHttpContext($contxt);
-		//$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
-		
-		$this->rothConversionPage();
-		return view('income-plan-pdf', $data);
-		return $pdf->download('income-plan.pdf');
-	}
-	public function rothConversionPage()
-	{
-		$data = [];
-		$title = 'Roth Conversion';
 		return $data;
 	}
 }
