@@ -562,7 +562,7 @@ class PdfController extends Controller
 			$row[] = number_format($gross_income);
 			$row[] = number_format($taxable_income);
 			$row[] = number_format($income_goal);
-			$row[] = '';
+			$row[] = number_format($income_goal - $gross_income);
 			$row[] = number_format($irmaaVal);
 			$row[] = $tax_rate .'%';
 			$row[] = number_format($irs_partner);
