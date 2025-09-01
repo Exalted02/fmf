@@ -145,6 +145,8 @@ class PdfController extends Controller
 		for($i=0; $i<=25; $i++)
 		{
 			$row = [];
+			$finance_account_value = 0;
+			
 			foreach($current_financial_account as $key=>$acount)
 			{
 				$ageData = Client_portfolio_Desires::where('id', $acount->sl_no)->first();
@@ -172,10 +174,12 @@ class PdfController extends Controller
 					if($i==0)
 					{
 						$savings =  $acount->account_value;
+						$finance_account_value = $finance_account_value + $savings;
 					}
 					else{
 						$savings =  $savings * 1.0275;
 						$account_value = number_format($savings);
+						$finance_account_value = $finance_account_value + $savings;
 					}
 				}
 				
@@ -184,11 +188,13 @@ class PdfController extends Controller
 					if($i==0)
 					{
 						$nq =  $acount->account_value;
+						$finance_account_value = $finance_account_value + $nq;
 					}
 					else
 					{
 						$nq =  ($nq * 1.035) - 26375; // subtract from income (F)
 						$account_value = number_format($nq);
+						$finance_account_value = $finance_account_value + $nq;
 					}
 				}
 				
@@ -216,6 +222,8 @@ class PdfController extends Controller
 							$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
 							$previous_tax_quali_arr[$k] = $current_tax_value;
 							
+							//$finance_account_value = $finance_account_value + $current_tax_value;
+							
 							/*$k401 =  round(($k401 * 1.05) - $rmd); 
 							$account_value = number_format($k401);
 							
@@ -229,11 +237,13 @@ class PdfController extends Controller
 							$account_value = number_format($current_tax_value); 
 							$previous_tax_quali_arr[$key] = $current_tax_value;
 							
+							//$finance_account_value = $finance_account_value + $current_tax_value;
+							
 							/*$rmd = 0;
 							$k401 =  $k401 * 1.05; 
 							$account_value = number_format($k401);*/
 						}
-						
+						//echo $finance_account_value;die;
 					}
 				}
 				
@@ -274,6 +284,7 @@ class PdfController extends Controller
 						if($i==0)
 						{
 							$husband_annuity = $acount->account_value;
+							$finance_account_value = $finance_account_value + $husband_annuity;
 						}
 						else
 						{
@@ -283,11 +294,14 @@ class PdfController extends Controller
 								$rmd_husband = $previous_husband_annuity * 0.055932;
 								$husband_annuity = $previous_husband_annuity * 1.045 - $rmd_husband;
 								$account_value = number_format($husband_annuity);
+								$finance_account_value = $finance_account_value + $husband_annuity;
 							}
 							else
 							{
 								$husband_annuity = $husband_annuity * 1.045;
 								$account_value = number_format($husband_annuity);
+								
+								$finance_account_value = $finance_account_value + $husband_annuity;
 							}
 						}
 					}
@@ -298,6 +312,7 @@ class PdfController extends Controller
 						{
 							//$previous_wife_annuity = $acount->account_value;
 							$wife_annuity = $acount->account_value;
+							$finance_account_value = $finance_account_value + $wife_annuity;
 							
 						}
 						else
@@ -311,6 +326,7 @@ class PdfController extends Controller
 								
 								$wife_annuity = ($wife_annuity * 1.045) - $rmd_wife;
 								$account_value = number_format($wife_annuity);
+								$finance_account_value = $finance_account_value + $wife_annuity;
 							}
 							else
 							{
@@ -318,6 +334,8 @@ class PdfController extends Controller
 								$wife_annuity = $wife_annuity * 1.045;
 								
 								$account_value = number_format($wife_annuity);
+								
+								$finance_account_value = $finance_account_value + $wife_annuity;
 							}
 						}
 					}
@@ -401,7 +419,7 @@ class PdfController extends Controller
 					{
 						if($new_husband_age >=74 && $new_wife_age >= 73)
 						{
-							$annual_income_value = Current_financial_account::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->where('account_owner', 2)->where('account_title','LIKE', '%Annuity%')->first();
+							$annual_income_value = Current_financial_account::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->where('account_owner', 2)->where('account_title','LIKE', '%annuity%')->first();
 							$wife_annuity_rmd_inc = $annual_income_value ? $annual_income_value->annual_income_value : 0;
 							
 							$percentRmd = percent_k401_yearly()[$i];
@@ -424,7 +442,7 @@ class PdfController extends Controller
 					
 				}
 				
-				if (stripos($acount->account_title, 'Savings') !== false || stripos($acount->account_title, 'nq') !== false || stripos($acount->account_title, '401k') !== false || stripos($acount->account_title, 'Annuity') !== false) 
+				/*if (stripos($acount->account_title, 'Savings') !== false || stripos($acount->account_title, 'nq') !== false || stripos($acount->account_title, '401k') !== false || stripos($acount->account_title, 'Annuity') !== false) 
 				{
 					$finance_account_value = $finance_account_value + $acount->account_value;
 				}
@@ -432,7 +450,7 @@ class PdfController extends Controller
 				if($i > 0)
 				{
 					$finance_account_value = $savings + $nq + $k401 +$wife_annuity + $husband_annuity;
-				}
+				}*/
 				
 				//------ store data to another array for tax_qualification
 				
