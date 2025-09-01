@@ -679,6 +679,7 @@ class PdfController extends Controller
 	public function rothConversionPage()
 	{
 		$data = [];
+		$title = 'Roth Conversion';
 		return $data;
 	}
 }
