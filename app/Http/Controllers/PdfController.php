@@ -140,6 +140,7 @@ class PdfController extends Controller
 		$previous_tax_quali_data_arr = [];
 		$sum_current_inc = 0;
 		$current_tax_value = 0;
+		$annual_income_value = 0;
 		
 		for($i=0; $i<=25; $i++)
 		{
@@ -202,7 +203,6 @@ class PdfController extends Controller
 					}
 					else
 					{
-						//echo $i.'###'.$acount->account_title;die;
 						//$k401_previous =  $k401;
 						foreach ($previous_tax_quali_arr as $val) {
 							$previous_tax_quali_data_arr[] = $val;
@@ -401,10 +401,16 @@ class PdfController extends Controller
 					{
 						if($new_husband_age >=74 && $new_wife_age >= 73)
 						{
+							$annual_income_value = Current_financial_account::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->where('account_owner', 2)->where('account_title','LIKE', '%Annuity%')->first();
+							$wife_annuity_rmd_inc = $annual_income_value ? $annual_income_value->annual_income_value : 0;
+							
 							$percentRmd = percent_k401_yearly()[$i];
 							$row[] = number_format($previous_wife_annuity / $percentRmd);
-							$row[] = '$134,475';
-							$wife_annuity_rmd_inc = 134475;
+							$row[] = $wife_annuity_rmd_inc;
+							//$row[] = '$134,475';
+							//$wife_annuity_rmd_inc = 134475;
+							
+							
 							
 						}
 						else 
