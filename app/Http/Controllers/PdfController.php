@@ -40,7 +40,7 @@ class PdfController extends Controller
 	{
 		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
-		$lastId = 5;
+		//$lastId = 5;
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
@@ -141,6 +141,8 @@ class PdfController extends Controller
 		$sum_current_inc = 0;
 		$current_tax_value = 0;
 		$annual_income_value = 0;
+		$previous_savings = [];
+		$previous_nq = [];
 		
 		for($i=0; $i<=25; $i++)
 		{
@@ -175,11 +177,19 @@ class PdfController extends Controller
 					{
 						$savings =  $acount->account_value;
 						$finance_account_value = $finance_account_value + $savings;
+						$previous_savings[$key] = $savings;
 					}
 					else{
-						$savings =  $savings * 1.0275;
+						//echo $previous_savings[$key];die;
+						$savings =  $previous_savings[$key] * 1.0275;
 						$account_value = number_format($savings);
+						$previous_savings[$key] = $savings;
 						$finance_account_value = $finance_account_value + $savings;
+						
+						//------ 01-09-2025---
+						//$savings =  $savings * 1.0275;
+						//$account_value = number_format($savings);
+						//$finance_account_value = $finance_account_value + $savings;
 					}
 				}
 				
@@ -189,12 +199,18 @@ class PdfController extends Controller
 					{
 						$nq =  $acount->account_value;
 						$finance_account_value = $finance_account_value + $nq;
+						$previous_nq[$key] =  $nq;
 					}
 					else
 					{
-						$nq =  ($nq * 1.035) - 26375; // subtract from income (F)
+						$nq =  ($previous_nq[$key] * 1.035) - 26375; // subtract from income (F)
 						$account_value = number_format($nq);
+						$previous_nq[$key] = $nq;
 						$finance_account_value = $finance_account_value + $nq;
+						//----- 01-09-2025------
+						//$nq =  ($nq * 1.035) - 26375; // subtract from income (F)
+						//$account_value = number_format($nq);
+						//$finance_account_value = $finance_account_value + $nq;
 					}
 				}
 				
