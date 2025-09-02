@@ -3,6 +3,7 @@ use Carbon\Carbon;
 $headerCount = count($excelheaderArray)-1;
 //echo "<pre>";print_r($excelheaderArray);die;
 //echo "<pre>";print_r($excelheaderValueArray);die;
+//echo "<pre>";print_r(husband_roth_tax_conversion());die;
 $husbandAsset = [];
 $wifeAsset = [];
 $jointAsset = [];
@@ -484,7 +485,9 @@ $total_estate = 0;
 			$a12 = 0;
 			$a14 = 0;
 			$a17 = 0;
-			$a20 = 0
+			$a20 = 0;
+			$index17_previous = 0;
+			$index19_previous = 0;
 		@endphp
 		<table class="calc-report">
 			<thead>
@@ -506,19 +509,33 @@ $total_estate = 0;
 			</thead>
 			<tbody>
 				@for($col = 1; $col <= 13; $col++)
+					@php 
+						$index12_previous = 0;
+					@endphp
 					<td>
-						<table border="0">
+						<table border="1">
 							@for($row = 1; $row <= 9; $row++)
 								
 									@php
-										$a12 = round(803952 * 0.21);
-										$a14 =  803952 + $a12;
-										$a17 =  round($a14 * 1.05);
+										//$a12 = 0;
+										//$a14 = 0;
+										//$a17 = 0;
+										//$a20 = 0;
+										
+										//if($col==3)
+										//{
+											$a12 = round(803952 * 0.21);
+											$a14 =  803952 + $a12;
+											$a17 =  round($a14 * 1.05);
+											$a20_pre = round($a17/6);
+										//}
+										
 										$a20 =  round($a17/6);
+										$index = $col.$row;
 									@endphp
 								
 								<tr>
-									<td>
+									<td style="height:10px;">
 									@if($col == 1 && $row == 1)
 										{{ number_format($a12) }}
 									@endif
@@ -546,32 +563,46 @@ $total_estate = 0;
 										{{ number_format($a20) }}
 									@endif
 									
-									@if($col == 2 && $row == 1)
-										 IRA
-									@endif
+									{{ husband_roth_tax_conversion()[$index] ?? '' }}
 									
-									@if($col == 2 && $row == 2)
-										Fee .95
-									@endif
-									
-									@if($col == 2 && $row == 3)
-										Roth Conversion
-									@endif
-									
-									@if($col == 2 && $row == 4)
-										Roth Tax Paid
-									@endif
-									
-									@if($col == 2 && $row == 5)
-										Ira Value
-									@endif
-									
-									@if($col == 2 && $row == 6)
-										Total Value
-									@endif
-									
-									@if($col == 2 && $row == 7)
-										RMD
+									@if($col >= 3 && $col<=9)
+									    @if($row == 1)
+											{{ $index17_previous == 0 ? number_format($a17) : number_format(round($index17_previous-$index19_previous)) }}
+											@php
+										     if($index17_previous == 0 && $index19_previous == 0){										$index12_previous = $a17;
+											   }
+											   else{
+												   $index12_previous = $index17_previous-$index19_previous;
+											   }
+											@endphp
+										@elseif($row == 2)
+										   {{ number_format(round($index12_previous*0.0095)) }}
+										   @php 
+											  $index13_previous = $index12_previous*0.0095;
+											@endphp
+										@elseif(($col >=3 && $col <= 8) && $row ==3)
+											{{ number_format($a20) ?? '' }}
+										@elseif($row == 4)
+											{{ number_format(round($a20*0.22)) }}
+											@php 
+											    $index15_previous = $a20*0.22;
+											@endphp
+										@elseif($row == 5)
+											{{ number_format(round($a20-$index15_previous)) }}
+										@elseif($row == 6)
+										{{ number_format(round(($index12_previous-$index13_previous-$a20) * 1.05)) }}
+											@php
+											    $index17_previous = ($index12_previous-$index13_previous-$a20) * 1.05;
+											@endphp
+										@elseif($row == 7)
+											@php
+											    $index18_previous = 0;
+											@endphp
+										@elseif($row == 8)
+											@php
+												$index19_previous = 0;
+											@endphp
+										@endif
 									@endif
 									</td>
 								</tr>

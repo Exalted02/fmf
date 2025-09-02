@@ -579,5 +579,18 @@ use App\Models\Followup_remarks;
 		];
 		//return $array;
 	}
+	function husband_roth_tax_conversion()
+	{
+		return [
+			'21' =>'IRA',
+			'22' =>'Fee .95',
+			'23' =>'Roth Conversion',
+			'24' =>'Roth Tax Paid',
+			'25' =>'Roth Account',
+			'26' =>'Ira Value',
+			'27' =>'Total Value',
+			'28' =>'RMD',
+		];
+	}
 
 ?>
