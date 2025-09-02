@@ -30,17 +30,17 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        //$pdf->getDomPDF()->setHttpContext($contxt);
-		//$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
+        $pdf->getDomPDF()->setHttpContext($contxt);
+		$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
 		
-		return view('income-plan-pdf', $data);
+		//return view('income-plan-pdf', $data);
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page()
 	{
 		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
-		$lastId = 5;
+		//$lastId = 4;
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		

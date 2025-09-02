@@ -355,7 +355,14 @@ $total_estate = 0;
 			www.TheFidelityMutual.com
 		</p>
 	</div>
-	
+	@php 
+	$total_wife_rmd_inc_key = '';
+	$total_husband_rmd_inc_key = '';
+	$total_inc_tax_key = '';
+	$total_IRMAA_key = '';
+	$total_irs_partner_key = '';
+	$total_estate_key = '';
+	@endphp
 	<div style="page-break-after: always;">
 		<table class="calc-report">
 			<thead>
@@ -477,7 +484,7 @@ $total_estate = 0;
 			</tbody>
 		</table>
 		</hr>
-		<div>
+		{{--<div>
 			<h2><strong style="margin-left:200px;">Husband Roth Conversion From Taxable To Free Tax</strong></h2>
 		</div>
 		</hr>
@@ -611,7 +618,7 @@ $total_estate = 0;
 					</td>
 				@endfor
 			</tbody>
-		</table>
+		</table>--}}
 	</div>
 </body>
 </html>
