@@ -18,6 +18,7 @@ class PdfController extends Controller
 			return redirect('login');
 		}
 		
+		// $rothConversionData = $this->rothConversionPage();
 		$data = $this->current_financial_account_page();
 		
 		$pdf = app('dompdf.wrapper');
@@ -32,7 +33,6 @@ class PdfController extends Controller
         //$pdf->getDomPDF()->setHttpContext($contxt);
 		//$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
 		
-		$this->rothConversionPage();
 		return view('income-plan-pdf', $data);
 		return $pdf->download('income-plan.pdf');
 	}
@@ -725,6 +725,10 @@ class PdfController extends Controller
 	public function rothConversionPage()
 	{
 		$data = [];
+		$headerAge = [];
+		$headerAge[] = 'Roth Conversion';
+		$headerAge[] = '';
+		// dd($headerAge);
 		return $data;
 	}
 }
