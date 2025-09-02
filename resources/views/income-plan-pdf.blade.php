@@ -480,10 +480,16 @@ $total_estate = 0;
 			<h2><strong style="margin-left:200px;">Husband Roth Conversion From Taxable To Free Tax</strong></h2>
 		</div>
 		</hr>
+		@php 
+			$a12 = 0;
+			$a14 = 0;
+			$a17 = 0;
+			$a20 = 0
+		@endphp
 		<table class="calc-report">
 			<thead>
 				<tr>
-					<th>Roth Conversion</br>$803952</br>21%</th>
+					<th>Roth Conversion</br>$803952</br>21% Bonus</th>
 					<th></th>
 					<th>70</br>Yr 1</th>
 					<th>71</br>Yr 2</th>
@@ -499,9 +505,80 @@ $total_estate = 0;
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td></td>
-				</tr>
+				@for($col = 1; $col <= 13; $col++)
+					<td>
+						<table border="0">
+							@for($row = 1; $row <= 9; $row++)
+								
+									@php
+										$a12 = round(803952 * 0.21);
+										$a14 =  803952 + $a12;
+										$a17 =  round($a14 * 1.05);
+										$a20 =  round($a17/6);
+									@endphp
+								
+								<tr>
+									<td>
+									@if($col == 1 && $row == 1)
+										{{ number_format($a12) }}
+									@endif
+									
+									@if($col == 1 && $row == 2)
+										{{ number_format($a14) }}
+									@endif
+									
+									@if($col == 1 && $row == 3)
+										5%
+									@endif
+									
+									@if($col == 1 && $row == 4)
+										Cons. Growth
+									@endif
+									
+									@if($col == 1 && $row == 5)
+										{{ number_format($a17) }}
+									@endif
+									@if($col == 1 && $row == 7)
+										Conversion
+									@endif
+									
+									@if($col == 1 && $row == 8)
+										{{ number_format($a20) }}
+									@endif
+									
+									@if($col == 2 && $row == 1)
+										 IRA
+									@endif
+									
+									@if($col == 2 && $row == 2)
+										Fee .95
+									@endif
+									
+									@if($col == 2 && $row == 3)
+										Roth Conversion
+									@endif
+									
+									@if($col == 2 && $row == 4)
+										Roth Tax Paid
+									@endif
+									
+									@if($col == 2 && $row == 5)
+										Ira Value
+									@endif
+									
+									@if($col == 2 && $row == 6)
+										Total Value
+									@endif
+									
+									@if($col == 2 && $row == 7)
+										RMD
+									@endif
+									</td>
+								</tr>
+							@endfor
+						</table>
+					</td>
+				@endfor
 			</tbody>
 		</table>
 	</div>
