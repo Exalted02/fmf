@@ -58,6 +58,8 @@ if($current_income_account->isNotEmpty())
 	}
 }
 
+$total_wife_rmd_inc = 0;
+$total_husband_rmd_inc = 0;
 $total_inc_tax = 0;
 $total_IRMAA = 0;
 $total_irs_partner = 0;
@@ -360,6 +362,19 @@ $total_estate = 0;
 			    @if(!empty($excelheaderArray))
 					@foreach($excelheaderArray as $h=>$header)
 					<th>{{ $header ?? '' }}</th>
+					
+					@if($header == 'Wife RMD/Income')
+						@php
+							$total_wife_rmd_inc_key = $h;
+						@endphp
+					@endif
+					
+					@if($header == 'Husband RMD/Income')
+						@php
+							$total_husband_rmd_inc_key = $h;
+						@endphp
+					@endif
+					
 					@if($header == 'Taxable Income')
 						@php
 							$total_inc_tax_key = $h;
@@ -390,6 +405,20 @@ $total_estate = 0;
 			@if(!empty($excelheaderValueArray))
 				@foreach($excelheaderValueArray as $key=>$excelheaderValue)
 					@foreach($excelheaderValue as $k=>$headerVal)
+						@if($total_wife_rmd_inc_key == $k)
+							@php
+							$total_wife_rmd = (int) str_replace(',', '', $headerVal);
+								$total_wife_rmd_inc = $total_wife_rmd_inc + $total_wife_rmd;
+							@endphp 
+						@endif
+						
+						@if($total_husband_rmd_inc_key == $k)
+							@php
+							$total_husband_rmd = (int) str_replace(',', '', $headerVal);
+								$total_husband_rmd_inc = $total_husband_rmd_inc + $total_husband_rmd;
+							@endphp 
+						@endif
+						
 						@if($total_inc_tax_key == $k)
 							@php
 							$total_inc_tax_numeric = (int) str_replace(',', '', $headerVal);
@@ -423,12 +452,12 @@ $total_estate = 0;
 			<tbody>
 				@if(!empty($excelheaderValueArray))
 					@foreach($excelheaderValueArray as $key=>$excelheaderValue)
-					@if(($key >=0 && $key < 6) || ($key >15 && $key < 18) || ($key >20 && $key <= 25))
-						<tr>
-						@foreach($excelheaderValue as $k=>$headerVal)
-						<td>{{ $headerVal ?? '' }}</td>
-						@endforeach
-						</tr>
+						@if(($key >=0 && $key < 6) || ($key >15 && $key < 18) || ($key >20 && $key <= 25))
+							<tr>
+							@foreach($excelheaderValue as $k=>$headerVal)
+							<td>{{ $headerVal ?? '' }}</td>
+							@endforeach
+							</tr>
 						@endif
 					@endforeach
 					<tr><td>&nbsp;</td></tr>
@@ -437,7 +466,7 @@ $total_estate = 0;
 						@if($key == 0)
 						<tr>
 							@foreach($excelheaderValue as $subkey=>$headerVal)
-								<td><strong>{{ $total_inc_tax_key == $subkey ? number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ? number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ? number_format($total_irs_partner) : ($total_estate_key == $subkey ? number_format($total_estate) : '') )) }}</strong></td>
+								<td><strong>{{ $total_inc_tax_key == $subkey ? number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ? number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ? number_format($total_irs_partner) : ($total_estate_key == $subkey ? number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ? number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ? number_format($total_husband_rmd_inc) : '' ) ) ) )) }}</strong></td>
 							@endforeach
 						</tr>
 						@endif

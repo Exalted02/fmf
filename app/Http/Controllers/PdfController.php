@@ -90,12 +90,6 @@ class PdfController extends Controller
 			if($acount->tax_qualification == 1 && stripos($acount->account_title, 'Annuity') === false)
 			{
 				$headerAccountTitleArray[] = 'RMD';
-				if($v==0)
-				{
-					//$headerAccountTitleArray[] = 'Value';
-				}
-				
-				$v++;
 			}
 			
 			
@@ -106,12 +100,17 @@ class PdfController extends Controller
 				$headerAccountTitleArray[] = 'Value';
 			}*/
 			
-			if (stripos($acount->account_title, 'Annuity') !== false)
+			if(stripos($acount->account_title, 'Annuity') !== false)
 			{
-				$headerAccountTitleArray[] = 'RMD';
+				if($acount->account_owner == 1)
+				{
+					$headerAccountTitleArray[] = 'Husband RMD/Income';
+				}
+				//$headerAccountTitleArray[] = 'RMD';
 				if($acount->account_owner == 2)
 				{
-					$headerAccountTitleArray[] = 'RMD/Income';
+					$headerAccountTitleArray[] = 'RMD';
+					$headerAccountTitleArray[] = 'Wife RMD/Income';
 				}
 			}
 			
@@ -639,11 +638,6 @@ class PdfController extends Controller
 		foreach($current_income_account as $income_src)
 		{
 			$headerIncomeArray[] = $income_src->client_name;
-			
-			// respective values of above titles
-			/*$headerIncomeValueArray[] = $income_src->income_amount;
-			$gross_income = $gross_income + $income_src->income_amount;
-			$taxable_income = $taxable_income + $income_src->income_amount;*/
 		}
 		
 		for($i=1; $i<=25; $i++)
@@ -656,8 +650,6 @@ class PdfController extends Controller
 				//$headerIncomeValueArray[] = $income_src->income_amount;
 				$gross_income = $gross_income + $income_src->income_amount;
 				$taxable_income = $taxable_income + $income_src->income_amount;
-				
-				
 			}
 			$headerIncomeValueArray[$i] = $row;
 		}
