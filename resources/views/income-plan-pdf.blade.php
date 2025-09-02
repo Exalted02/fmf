@@ -475,6 +475,35 @@ $total_estate = 0;
 				@endif
 			</tbody>
 		</table>
+		</hr>
+		<div>
+			<h2><strong style="margin-left:200px;">Husband Roth Conversion From Taxable To Free Tax</strong></h2>
+		</div>
+		</hr>
+		<table class="calc-report">
+			<thead>
+				<tr>
+					<th>Roth Conversion</br>$803952</br>21%</th>
+					<th></th>
+					<th>70</br>Yr 1</th>
+					<th>71</br>Yr 2</th>
+					<th>72</br>Yr 3</th>
+					<th>73</br>Yr 4</th>
+					<th>74</br>Yr 5</th>
+					<th>75</br>Yr 6</th>
+					<th>76</br>Yr 7</th>
+					<th>77</br>Yr 8</th>
+					<th>Annual Converted</th>
+					<th>Year End Roth Value</th>
+					<th>Year End Account Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>
