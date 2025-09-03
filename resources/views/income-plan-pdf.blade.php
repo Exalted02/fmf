@@ -65,6 +65,10 @@ $total_inc_tax = 0;
 $total_IRMAA = 0;
 $total_irs_partner = 0;
 $total_estate = 0;
+
+$currentYear = date('Y');
+$age = 70;
+//echo $birthYear = $currentYear - $age; die;
 @endphp
 <!DOCTYPE html>
 <html>

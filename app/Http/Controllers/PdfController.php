@@ -174,6 +174,10 @@ class PdfController extends Controller
 					
 					$new_husband_age = $husbandAge + $j;
 					$new_wife_age = $wifeAge + $j;
+					
+					$currentYear = date('Y');
+					$husband_dob = $currentYear - $new_husband_age;
+					//echo $husband_dob; die;
 					//----- calculation part ----------
 					$account_value = number_format($acount->account_value);
 					
@@ -224,7 +228,7 @@ class PdfController extends Controller
 					}
 					
 					// here loop should extends according to tax_qualification fields
-					if($acount->tax_qualification == 1)
+					if($acount->tax_qualification == 1    && stripos($acount->account_title, 'Annuity') === false)
 					{
 						if($i==0)
 						{
@@ -241,11 +245,18 @@ class PdfController extends Controller
 							
 							if($new_husband_age >=74 && $new_wife_age >= 73)
 							{
-								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd);
-								$account_value = number_format($current_tax_value);
 								$percentRmd = percent_k401_yearly()[$i];
 								$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
-								$previous_tax_quali_arr[$k] = $current_tax_value;
+								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd);
+								//echo $rmd;die;
+								$account_value = number_format($current_tax_value);
+								$percentRmd = percent_k401_yearly()[$i];
+								
+								
+								
+								//$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
+								//$previous_tax_quali_arr[$k] = $current_tax_value;
+								
 								
 								//$finance_account_value = $finance_account_value + $current_tax_value;
 								
@@ -384,18 +395,33 @@ class PdfController extends Controller
 							$percentRmd = percent_k401_yearly()[$i];
 							//echo $k401_previous; die;
 							
-							$row[] = number_format($previous_tax_quali_data_arr[$key] / $percentRmd);
+							//------ 03-09-2025----
+							$row[] = number_format($previous_tax_quali_arr[$key] / $percentRmd);
 
-							//$row[] = percent_k401_yearly()[$i];
+							$k401_rmd = $previous_tax_quali_arr[$key] / $percentRmd;
 							
-							$k401_rmd = $previous_tax_quali_data_arr[$key] / $percentRmd;
+							$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
+							$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd);
+							$previous_tax_quali_arr[$key] = $current_tax_value;
+							
+							//-------------------------
+							
+							//-------- previous ----
+							//$row[] = number_format($previous_tax_quali_data_arr[$key] / $percentRmd);
+
+							//$k401_rmd = $previous_tax_quali_data_arr[$key] / $percentRmd;
+							//-----------------
 							$vs++;
 						}
 						else
 						{
+							$rmd = 0;
 							$k401_rmd = 0;
 							$row[] = '';
 							//$row[] = '';
+							
+							$current_tax_value = $previous_tax_quali_arr[$key] * 1.05;
+							//$previous_tax_quali_arr[$key] = $current_tax_value;
 						}
 						
 					}
