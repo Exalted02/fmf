@@ -718,6 +718,7 @@ class PdfController extends Controller
             "current_income_account" => $current_income_account,
             "excelheaderArray" => $headerArray,
             "excelheaderValueArray" => $headerValueArray,
+            "lastId" => $lastId,
         ];
 		
 		return $data;

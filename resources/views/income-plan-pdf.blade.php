@@ -69,6 +69,11 @@ $total_estate = 0;
 $currentYear = date('Y');
 $age = 70;
 //echo $birthYear = $currentYear - $age; die;
+
+$current_finance_husband_data = App\Models\Current_financial_account::where('sl_no', $lastId)->where('account_owner', 2)->where('account_title', 'LIKE', '%Annuity%')->first();
+
+$husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
+
 @endphp
 <!DOCTYPE html>
 <html>
@@ -517,6 +522,7 @@ $age = 70;
 			</tbody>
 		</table>
 		</hr>
+		@if(!empty($current_finance_husband_data))
 		<div>
 			<h2><strong style="margin-left:200px;">Husband Roth Conversion From Taxable To Free Tax</strong></h2>
 		</div>
@@ -529,10 +535,12 @@ $age = 70;
 			$index17_previous = 0;
 			$index19_previous = 0;
 		@endphp
+		
+		
 		<table class="calc-report">
 			<thead>
 				<tr>
-					<th>Roth Conversion</br>$803952</br>21% Bonus</th>
+					<th>Roth Conversion</br>${{ $husband_account_value ?? ''}}</br>21% Bonus</th>
 					<th></th>
 					<th>70</br>Yr 1</th>
 					<th>71</br>Yr 2</th>
@@ -553,7 +561,7 @@ $age = 70;
 						$index12_previous = 0;
 					@endphp
 					<td>
-						<table border="0">
+						<table border="1">
 							@for($row = 1; $row <= 9; $row++)
 								
 									@php
@@ -564,8 +572,9 @@ $age = 70;
 										
 										//if($col==3)
 										//{
-											$a12 = round(803952 * 0.21);
-											$a14 =  803952 + $a12;
+											$h_acc_value = $husband_account_value ?? '';
+											$a12 = round($h_acc_value * 0.21);
+											$a14 =  $h_acc_value + $a12;
 											$a17 =  round($a14 * 1.05);
 											$a20_pre = round($a17/6);
 										//}
@@ -606,7 +615,7 @@ $age = 70;
 									{{ husband_roth_tax_conversion()[$index] ?? '' }}
 									
 									@if($col >= 3 && $col<=9)
-									    @if($row == 1)
+									    @if($row == 1 && $col<=8)
 											{{ $index17_previous == 0 ? number_format($a17) : number_format(round($index17_previous-$index19_previous)) }}
 											@php
 										     if($index17_previous == 0 && $index19_previous == 0){										$index12_previous = $a17;
@@ -615,26 +624,32 @@ $age = 70;
 												   $index12_previous = $index17_previous-$index19_previous;
 											   }
 											@endphp
-										@elseif($row == 2)
+										@elseif($row == 2 && $col<=8)
 										   {{ number_format(round($index12_previous*0.0095)) }}
 										   @php 
 											  $index13_previous = $index12_previous*0.0095;
 											@endphp
 										@elseif(($col >=3 && $col <= 8) && $row ==3)
 											{{ number_format($a20) ?? '' }}
-										@elseif($row == 4)
+										@elseif($row == 4 && $col<=8)
 											{{ number_format(round($a20*0.22)) }}
 											@php 
 											    $index15_previous = $a20*0.22;
 											@endphp
-										@elseif($row == 5)
+										@elseif($row == 5 && $col<=8)
 											{{ number_format(round($a20-$index15_previous)) }}
-										@elseif($row == 6)
+											@php
+											if($col == 3)
+											{
+												$C16 = round($a20-$index15_previous);
+											}
+											@endphp
+										@elseif($row == 6 && $col<=8)
 										{{ number_format(round(($index12_previous-$index13_previous-$a20) * 1.05)) }}
 											@php
 											    $index17_previous = ($index12_previous-$index13_previous-$a20) * 1.05;
 											@endphp
-										@elseif($row == 7)
+										@elseif($row == 7 && $col<=8)
 											@php
 											    $index18_previous = 0;
 											@endphp
@@ -661,19 +676,78 @@ $age = 70;
 												@if($col == 9)
 												
 													{{ number_format(distribution_period()[76][1]) }}
+													
+													@php 
+													   $h_19 = distribution_period()[76][1];
+													@endphp
 												
 												@endif
-											
+										@endif
+										
+										@if($row==1 && $col==9)
+										{{ number_format(round($index17_previous - distribution_period()[76][1])) }}
+										@php 
+										  $i12 = round($index17_previous - distribution_period()[76][1]);
+										@endphp
+										
+										@endif
+										
+										@if($row==2 && $col==9)
+											{{ number_format($i12 * 0.0095) }}
+										
+											@php 
+											  $i13 = $i12 * 0.0095;
+											@endphp
+										@endif
+										
+										@if($row==3 && $col==9)
+											{{ number_format($i12 - $i13) }}
+										
+											@php 
+											  $i14 = $i12 - $i13;
+											@endphp
+										@endif
+										@if($row==4 && $col==9)
+											{{ number_format($i14 * 0.22) }}
+										
+											@php 
+											  $i15 = $i14 * 0.22;
+											@endphp
+										@endif
+										
+										@if($row==5 && $col==9)
+											{{ number_format($i14 - $i15) }}
+										
+											@php 
+											  $i16 = $i14 - $i15;
+											@endphp
+										@endif
+										
+										@if($row==6 && $col==9)
+											{{ number_format($i12 - $i13 - $i14) }}
+										
+											@php 
+											  $i17 = $i12 - $i13 - $i14;
+											@endphp
+										@endif
+									@endif
+									
+									@if($col>9)
+										@if($col==11 && $row<=7)
+											year{{$row}}
 										@endif
 									@endif
 									</td>
 								</tr>
 							@endfor
+							
+							
 						</table>
 					</td>
 				@endfor
 			</tbody>
 		</table>
+		@endif
 	</div>
 </body>
 </html>
