@@ -176,8 +176,16 @@ class PdfController extends Controller
 					$new_wife_age = $wifeAge + $j;
 					
 					$currentYear = date('Y');
-					$husband_dob = $currentYear - $new_husband_age;
+					$husband_dob = $currentYear - $husbandAge;
 					//echo $husband_dob; die;
+					$husband_age_rmd = 74;
+					$wife_age_rmd = 73;
+					if($husband_dob >= 1960)
+					{
+						$husband_age_rmd = 76;
+						$wife_age_rmd = 75;
+					}
+					//echo $husband_age_rmd.' '.$wife_age_rmd; die;
 					//----- calculation part ----------
 					$account_value = number_format($acount->account_value);
 					
@@ -243,7 +251,7 @@ class PdfController extends Controller
 								$previous_tax_quali_data_arr[] = $val;
 							}*/
 							
-							if($new_husband_age >=74 && $new_wife_age >= 73)
+							if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 							{
 								$percentRmd = percent_k401_yearly()[$i];
 								$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
@@ -325,7 +333,7 @@ class PdfController extends Controller
 							else
 							{
 								$previous_husband_annuity =  $husband_annuity;
-								if($new_husband_age >=73 && $new_wife_age >= 72)
+								if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 								{
 									$rmd_husband = $previous_husband_annuity * 0.055932;
 									$husband_annuity = $previous_husband_annuity * 1.045 - $rmd_husband;
@@ -354,7 +362,7 @@ class PdfController extends Controller
 							else
 							{
 								$previous_wife_annuity =  $wife_annuity;
-								if($new_husband_age >=74 && $new_wife_age >= 73)
+								if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 								{
 									$percentRmd = percent_k401_yearly()[$i];
 									
@@ -390,7 +398,7 @@ class PdfController extends Controller
 					// calculation for tax_qualification = 1 (IRA) RMD and Income
 					if($acount->tax_qualification == 1   && stripos($acount->account_title, 'Annuity') === false)
 					{
-						if($new_husband_age >=74 && $new_wife_age >= 73)
+						if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 						{
 							$percentRmd = percent_k401_yearly()[$i];
 							//echo $k401_previous; die;
@@ -452,7 +460,7 @@ class PdfController extends Controller
 					{
 						if($acount->account_owner == 1)
 						{
-							if($new_husband_age >=73 && $new_wife_age >= 72)
+							if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 							{
 								//$percentRmd = percent_k401_yearly()[$i];
 								$row[] = number_format($previous_husband_annuity * 0.055932);
@@ -468,7 +476,7 @@ class PdfController extends Controller
 						
 						if($acount->account_owner == 2)
 						{
-							if($new_husband_age >=74 && $new_wife_age >= 73)
+							if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 							{
 								$annual_income_value = Current_financial_account::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->where('account_owner', 2)->where('account_title','LIKE', '%annuity%')->first();
 								$wife_annuity_rmd_inc = $annual_income_value ? $annual_income_value->annual_income_value : 0;
@@ -512,7 +520,7 @@ class PdfController extends Controller
 				}
 				
 				
-				if($new_husband_age >=74 && $new_wife_age >= 73)
+				if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 				{
 					$row[] = percent_k401_yearly()[$i];	
 				}
