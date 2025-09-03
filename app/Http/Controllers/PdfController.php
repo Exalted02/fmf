@@ -239,9 +239,9 @@ class PdfController extends Controller
 						else
 						{
 							//$k401_previous =  $k401;
-							foreach ($previous_tax_quali_arr as $val) {
+							/*foreach ($previous_tax_quali_arr as $val) {
 								$previous_tax_quali_data_arr[] = $val;
-							}
+							}*/
 							
 							if($new_husband_age >=74 && $new_wife_age >= 73)
 							{
