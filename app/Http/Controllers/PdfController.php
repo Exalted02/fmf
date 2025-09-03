@@ -18,6 +18,8 @@ class PdfController extends Controller
 			return redirect('login');
 		}
 		
+		
+		//echo "<pre>";print_r(distribution_period());die;
 		// $rothConversionData = $this->rothConversionPage();
 		$data = $this->current_financial_account_page();
 		
@@ -30,10 +32,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        $pdf->getDomPDF()->setHttpContext($contxt);
-		$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
+        //$pdf->getDomPDF()->setHttpContext($contxt);
+		//$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
 		
-		//return view('income-plan-pdf', $data);
+		return view('income-plan-pdf', $data);
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page()
@@ -262,12 +264,12 @@ class PdfController extends Controller
 							
 							if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 							{
-								$percentRmd = distribution_period()[$new_wife_age];
+								$percentRmd = distribution_period()[$new_wife_age][0];
 								$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
 								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd);
 								//echo $rmd;die;
 								$account_value = number_format($current_tax_value);
-								$percentRmd = distribution_period()[$new_wife_age];
+								$percentRmd = distribution_period()[$new_wife_age][0];
 								
 								
 								
@@ -345,7 +347,7 @@ class PdfController extends Controller
 								$previous_wife_annuity =  $wife_annuity;
 								if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 								{
-									$percentRmd = distribution_period()[$new_wife_age];
+									$percentRmd = distribution_period()[$new_wife_age][0];
 									
 									$rmd_wife = $previous_wife_annuity / $percentRmd;
 									
@@ -409,8 +411,7 @@ class PdfController extends Controller
 					{
 						if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 						{
-							$percentRmd = distribution_period()[$new_wife_age];
-							//echo $k401_previous; die;
+							$percentRmd = distribution_period()[$new_wife_age][0];
 							
 							//------ 03-09-2025----
 							$row[] = number_format($previous_tax_quali_arr[$key] / $percentRmd);
@@ -472,7 +473,7 @@ class PdfController extends Controller
 								$annual_income_value = Current_financial_account::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->where('account_owner', 2)->where('account_title','LIKE', '%annuity%')->first();
 								$wife_annuity_rmd_inc = $annual_income_value ? $annual_income_value->annual_income_value : 0;
 								
-								$percentRmd = distribution_period()[$new_wife_age];
+								$percentRmd = distribution_period()[$new_wife_age][0];
 								$row[] = number_format($previous_wife_annuity / $percentRmd);
 								$row[] = $wife_annuity_rmd_inc;
 								//$row[] = '$134,475';
@@ -516,7 +517,7 @@ class PdfController extends Controller
 				
 				if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 				{
-					$row[] = distribution_period()[$new_wife_age];	
+					$row[] = distribution_period()[$new_wife_age][0];	
 				}
 				else
 				{

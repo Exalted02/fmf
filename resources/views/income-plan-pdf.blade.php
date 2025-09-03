@@ -641,6 +641,10 @@ $age = 70;
 										@elseif($row == 8)
 											@php
 												$index19_previous = 0;
+												if($col == 6)
+												{
+													{{ }}
+												}
 											@endphp
 										@endif
 									@endif
