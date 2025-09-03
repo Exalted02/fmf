@@ -30,10 +30,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        $pdf->getDomPDF()->setHttpContext($contxt);
-		$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
+        //$pdf->getDomPDF()->setHttpContext($contxt);
+		//$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
 		
-		//return view('income-plan-pdf', $data);
+		return view('income-plan-pdf', $data);
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page()
@@ -69,10 +69,20 @@ class PdfController extends Controller
 		foreach($current_financial_account as $key=>$acount)
 		{
 			$account_owner = $acount->account_owner == 1 ? 'Husband' : ($acount->account_owner == 2 ? 'Wife' : 'Joint');
-			if(!in_array($account_owner, $owner))
+			/*if(!in_array($account_owner, $owner))
 			{
 				$headerAccountOwnerArray[] =  $account_owner;
 				$owner[] = $account_owner;
+			}*/
+			
+			if($key == 0)
+			{
+				$headerAccountOwnerArray[] = 'Husband';
+			}
+			
+			if($key == 1)
+			{
+				$headerAccountOwnerArray[] = 'Wife';
 			}
 			
 			

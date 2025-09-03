@@ -96,7 +96,7 @@ $total_estate = 0;
 		
 		.section-title { text-align: center; font-weight: bold; font-size: 20px; margin-bottom: 10px; }
         .subtotal { font-weight: bold; }
-        .totals { font-weight: bold; font-size: 14px; }
+        .totals { font-weight: bold; font-size: 22px; }
         .right { text-align: right; }
     </style>
 </head>
@@ -143,9 +143,13 @@ $total_estate = 0;
 		<table style="margin-top: 200px;">
 			<tr>
 				<td style="background-color: #3490CD;padding: 10px;text-align: center;color: #fff;font-size: 12px;">
-					Information and interactive calculators are made available as self-help tools for independent use. Simplicity Group does not guarantee their applicability to any individual circumstances. The Simplicity Group encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide. The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent current or future performance of any specific financial product. No guarantees are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the greater the risk.<br>
+					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.<br>
 
-					This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.
+					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences.
 				</td>
 			</tr>
 		</table>
@@ -239,6 +243,21 @@ $total_estate = 0;
 			</tbody>
 		</table>
 	</div>
+	
+	<table style="margin-top: 200px;">
+		<tr>
+			<td style="background-color: ;padding: 10px;text-align: left;color: ;font-size: 14px;">
+				The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+				Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+				The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+				are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+				greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
+
+				Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
+			</td>
+		</tr>
+	</table>
+	
 	<div style="page-break-after: always;">
 		<div class="section-title"></div>
 		<table>
@@ -315,21 +334,21 @@ $total_estate = 0;
 		</table>
 
 		<!-- Totals -->
-		<table>
+		{{--<table>
 			<tr>
 				<td width="70%"></td>
-				<td class="totals right">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</td>
+				<td class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</td>
 			</tr>
 			<tr>
 				<td></td>
-				<td class="totals right">Income Total $ {{ number_format($incomeTotal) }}</td>
+				<td class="totals">Income Total $ {{ number_format($incomeTotal) }}</td>
 			</tr>
-		</table>
+		</table>--}}
 
 		<!-- Current Income Accounts -->
 		<table>
 			<tr>
-				<td width="100%" valign="top">
+				<td width="50%" valign="top">
 					<strong>Current Income Accounts</strong><br>
 					@if($current_income_account->isNotEmpty())
 						@foreach($current_income_account as $income_account)
@@ -346,6 +365,16 @@ $total_estate = 0;
 				</td>
 			</tr>
 			<input type="hidden" id="subTotalCurrent" value="{{ $subTotalCurrent ?? 0 }}">
+		</table>
+		<table>
+			<tr>
+				<td width="38%"></td>
+				<td class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td class="totals">Income Total $ {{ number_format($incomeTotal) }}</td>
+			</tr>
 		</table>
 
 		<br><br>
@@ -460,13 +489,13 @@ $total_estate = 0;
 			<tbody>
 				@if(!empty($excelheaderValueArray))
 					@foreach($excelheaderValueArray as $key=>$excelheaderValue)
-						@if(($key >=0 && $key < 6) || ($key >15 && $key < 18) || ($key >20 && $key <= 25))
+						
 							<tr>
 							@foreach($excelheaderValue as $k=>$headerVal)
 							<td>{{ $headerVal ?? '' }}</td>
 							@endforeach
 							</tr>
-						@endif
+						
 					@endforeach
 					<tr><td>&nbsp;</td></tr>
 					
