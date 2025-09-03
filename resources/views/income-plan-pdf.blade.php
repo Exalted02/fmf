@@ -553,7 +553,7 @@ $age = 70;
 						$index12_previous = 0;
 					@endphp
 					<td>
-						<table border="1">
+						<table border="0">
 							@for($row = 1; $row <= 9; $row++)
 								
 									@php
@@ -641,11 +641,29 @@ $age = 70;
 										@elseif($row == 8)
 											@php
 												$index19_previous = 0;
-												if($col == 6)
-												{
-													{{ }}
-												}
 											@endphp
+												@if($col == 6)
+													{{ number_format(distribution_period()[73][1]) }}
+												@endif
+												
+												@if($col == 7)
+												
+											       {{ number_format(distribution_period()[74][1]) }}
+												
+												@endif
+												
+												@if($col == 8)
+												
+													{{ number_format(distribution_period()[75][1]) }}
+												
+												@endif
+												
+												@if($col == 9)
+												
+													{{ number_format(distribution_period()[76][1]) }}
+												
+												@endif
+											
 										@endif
 									@endif
 									</td>

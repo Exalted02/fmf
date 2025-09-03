@@ -17,9 +17,7 @@ class PdfController extends Controller
 		{
 			return redirect('login');
 		}
-		
-		
-		//echo "<pre>";print_r(distribution_period());die;
+
 		// $rothConversionData = $this->rothConversionPage();
 		$data = $this->current_financial_account_page();
 		
