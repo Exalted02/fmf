@@ -122,6 +122,11 @@ class PdfController extends Controller
 					$headerAccountTitleArray[] = 'RMD';
 					$headerAccountTitleArray[] = 'Wife RMD/Income';
 				}
+				
+				if($acount->account_owner == 3)
+				{
+					$headerAccountTitleArray[] = 'Joint RMD/Income';
+				}
 			}
 			
 		}
@@ -143,6 +148,7 @@ class PdfController extends Controller
 		$k401_rmd =0;
 		$wife_annuity_rmd_inc =0;
 		$husband_annuity_rmd_inc =0;
+		$joint_annuity_rmd_inc =0;
 		$current_inc_value =0;
 		$previous_income_arr = [];
 		$previous_tax_quali_arr = [];
@@ -291,34 +297,6 @@ class PdfController extends Controller
 						}
 					}
 					
-					//-- 29-08-2025-----
-					/*if (stripos($acount->account_title, '401k') !== false) 
-					{
-						if($i==0)
-						{
-							$k401 =  $acount->account_value;
-						}
-						else
-						{
-							$k401_previous =  $k401;
-							
-							if($new_husband_age >=74 && $new_wife_age >= 73)
-							{
-								$k401 =  round(($k401 * 1.05) - $rmd); 
-								$account_value = number_format($k401);
-								
-								$percentRmd = percent_k401_yearly()[$i];
-								$rmd = $k401_previous / $percentRmd;
-							}
-							else
-							{
-								$rmd = 0;
-								$k401 =  $k401 * 1.05; 
-								$account_value = number_format($k401);
-							}
-							
-						}
-					}*/
 					//-----------------
 					
 					if (stripos($acount->account_title, 'Annuity') !== false)
@@ -383,6 +361,33 @@ class PdfController extends Controller
 								}
 							}
 						}
+						
+						//---- 03-09-2025------
+						if($acount->account_owner == 3)
+						{
+							if($i==0)
+							{
+								$joint_annuity = $acount->account_value;
+								$finance_account_value = $finance_account_value + $joint_annuity;
+							}
+							else
+							{
+								$previous_joint_annuity =  $joint_annuity;
+								if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+								{
+									$rmd_husband = $previous_joint_annuity * 0.055932;
+									$joint_annuity = $previous_joint_annuity * 1.045 - $rmd_husband;
+									$account_value = number_format($joint_annuity);
+									$finance_account_value = $finance_account_value + $joint_annuity;
+								}
+								else
+								{
+									$joint_annuity = $joint_annuity * 1.045;
+									$account_value = number_format($joint_annuity);
+									$finance_account_value = $finance_account_value + $joint_annuity;
+								}
+							}
+						}
 					}
 					//---------------------------------
 					
@@ -434,28 +439,6 @@ class PdfController extends Controller
 						
 					}
 					
-					//-- 29-08-2025------
-					/*if (stripos($acount->account_title, '401K') !== false)
-					{
-						if($new_husband_age >=74 && $new_wife_age >= 73)
-						{
-							$percentRmd = percent_k401_yearly()[$i];
-							//echo $k401_previous; die;
-							
-							$row[] = number_format($k401_previous / $percentRmd);
-							$row[] = percent_k401_yearly()[$i];
-							
-							$k401_rmd = $k401_previous / $percentRmd;
-						}
-						else
-						{
-							$k401_rmd = 0;
-							$row[] = '';
-							$row[] = '';
-						}
-					}*/
-					//-----------
-					
 					if (stripos($acount->account_title, 'Annuity') !== false)
 					{
 						if($acount->account_owner == 1)
@@ -499,24 +482,23 @@ class PdfController extends Controller
 							}
 						}
 						
+						if($acount->account_owner == 3)
+						{
+							if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+							{
+								//$percentRmd = percent_k401_yearly()[$i];
+								$row[] = number_format($previous_joint_annuity * 0.055932);
+								$joint_annuity_rmd_inc = $previous_joint_annuity * 0.055932;
+							}
+							else 
+							{
+								$joint_annuity_rmd_inc = 0;
+								$row[] = '';
+								//$previous_annuity = $acount->account_value;
+							}
+						}
+						
 					}
-					
-					/*if (stripos($acount->account_title, 'Savings') !== false || stripos($acount->account_title, 'nq') !== false || stripos($acount->account_title, '401k') !== false || stripos($acount->account_title, 'Annuity') !== false) 
-					{
-						$finance_account_value = $finance_account_value + $acount->account_value;
-					}
-					
-					if($i > 0)
-					{
-						$finance_account_value = $savings + $nq + $k401 +$wife_annuity + $husband_annuity;
-					}*/
-					
-					//------ store data to another array for tax_qualification
-					
-					/*foreach ($previous_tax_quali_arr as $val) {
-						$previous_tax_quali_data_arr[] = $val;
-					}*/
-					
 				}
 				
 				
@@ -545,33 +527,6 @@ class PdfController extends Controller
 						$previous_income_arr[$k] = $current_inc_value;
 						$sum_current_inc = $sum_current_inc + $current_inc_value;
 					}
-					
-					
-					
-					/*if (stripos($income_src->client_name, 'wife ss') !== false)
-					{
-						if($i==0)
-						{
-							$wife_ss =  $income_src->income_amount;
-						}
-						else{
-							$wife_ss =  $wife_ss * 1.025; 
-							$account_value = number_format($wife_ss);
-						}
-					}
-					
-					if (stripos($income_src->client_name, 'husband ss') !== false) 
-					{
-						if($i==0)
-						{
-							$husband_ss =  $income_src->income_amount;
-							//echo $income_src->income_amount;die;
-						}
-						else{
-							$husband_ss =  $husband_ss * 1.025; 
-							$account_value = number_format($husband_ss);
-						}
-					}*/
 					
 					// calculation for income goal
 					$desired_gross_income_retirement = $portfolio_Desire_data ? $portfolio_Desire_data->desired_gross_income_retirement : 0 ; 
