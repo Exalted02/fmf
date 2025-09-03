@@ -30,10 +30,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        //$pdf->getDomPDF()->setHttpContext($contxt);
-		//$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
+        $pdf->getDomPDF()->setHttpContext($contxt);
+		$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
 		
-		return view('income-plan-pdf', $data);
+		//return view('income-plan-pdf', $data);
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page()
@@ -159,10 +159,13 @@ class PdfController extends Controller
 		$previous_savings = [];
 		$previous_nq = [];
 		
+		
+		
 		for($i=0; $i<=25; $i++)
 		{
 				$row = [];
 				$finance_account_value = 0;
+				$gross_income = 0;
 				
 				foreach($current_financial_account as $key=>$acount)
 				{
@@ -398,6 +401,7 @@ class PdfController extends Controller
 					{
 						$row[] = '$26375';
 						$nq_icome = 26375;
+						$gross_income = $gross_income + $nq_icome;
 					}
 					
 					// calculation for tax_qualification = 1 (IRA) RMD and Income
@@ -416,6 +420,8 @@ class PdfController extends Controller
 							$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
 							$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd);
 							$previous_tax_quali_arr[$key] = $current_tax_value;
+							
+							$gross_income = $gross_income + $rmd;
 							
 							//-------------------------
 							
@@ -448,11 +454,13 @@ class PdfController extends Controller
 								//$percentRmd = percent_k401_yearly()[$i];
 								$row[] = number_format($previous_husband_annuity * 0.055932);
 								$husband_annuity_rmd_inc = $previous_husband_annuity * 0.055932;
+								$gross_income = $gross_income + $husband_annuity_rmd_inc;
 							}
 							else 
 							{
 								$husband_annuity_rmd_inc = 0;
 								$row[] = '';
+								$gross_income = $gross_income + $husband_annuity_rmd_inc;
 								//$previous_annuity = $acount->account_value;
 							}
 						}
@@ -470,7 +478,7 @@ class PdfController extends Controller
 								//$row[] = '$134,475';
 								//$wife_annuity_rmd_inc = 134475;
 								
-								
+								$gross_income = $gross_income + $wife_annuity_rmd_inc;
 								
 							}
 							else 
@@ -478,6 +486,7 @@ class PdfController extends Controller
 								$wife_annuity_rmd_inc = 0;
 								$row[] = '';
 								$row[] = '';
+								$gross_income = $gross_income + $wife_annuity_rmd_inc;
 								//$previous_annuity = $acount->account_value;
 							}
 						}
@@ -489,11 +498,14 @@ class PdfController extends Controller
 								//$percentRmd = percent_k401_yearly()[$i];
 								$row[] = number_format($previous_joint_annuity * 0.055932);
 								$joint_annuity_rmd_inc = $previous_joint_annuity * 0.055932;
+								
+								$gross_income = $gross_income + $joint_annuity_rmd_inc;
 							}
 							else 
 							{
 								$joint_annuity_rmd_inc = 0;
 								$row[] = '';
+								$gross_income = $gross_income + $joint_annuity_rmd_inc;
 								//$previous_annuity = $acount->account_value;
 							}
 						}
@@ -519,6 +531,7 @@ class PdfController extends Controller
 					{
 						$previous_income_arr[$k] = $income_src->income_amount;
 						$sum_current_inc = $sum_current_inc + $income_src->income_amount;
+						$gross_income = $gross_income + $income_src->income_amount;
 					}
 					else
 					{
@@ -526,6 +539,8 @@ class PdfController extends Controller
 						$account_value = number_format($current_inc_value);
 						$previous_income_arr[$k] = $current_inc_value;
 						$sum_current_inc = $sum_current_inc + $current_inc_value;
+						
+						$gross_income = $gross_income + $current_inc_value;
 					}
 					
 					// calculation for income goal
@@ -537,12 +552,7 @@ class PdfController extends Controller
 					$row[] = $account_value;
 					//$row[] = $income_src->income_amount;
 					//$headerIncomeValueArray[] = $income_src->income_amount;
-					
-					
-					//$gross_income = $nq_icome + $k401_rmd + $wife_annuity_rmd_inc + $husband_annuity_rmd_inc + $wife_ss + $husband_ss;
-					//$taxable_income = $gross_income;
-					
-					$gross_income = $nq_icome + $k401_rmd + $wife_annuity_rmd_inc + $husband_annuity_rmd_inc + $sum_current_inc;
+					//$gross_income = $nq_icome + $k401_rmd + $wife_annuity_rmd_inc + $husband_annuity_rmd_inc + $sum_current_inc;
 					$taxable_income = $gross_income;
 				}
 				
