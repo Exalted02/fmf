@@ -722,11 +722,23 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 												}
 												
 											@endphp
-										@elseif($row == 7 && $col<=8)
-											@php
-											    $index18_previous = 0;
-											@endphp
-											{{ $M_20 ?? 0 }}
+										@elseif($row == 7 && $col<=9)
+											@if($col==3)
+											$ {{ number_format($m_14) }}
+											@elseif($col==4)
+											$ {{ number_format($m_15) }}
+											@elseif($col==5)
+											$ {{ number_format($m_16) }}
+											@elseif($col==6)
+											$ {{ number_format($m_17) }}
+											@elseif($col==7)
+											$ {{ number_format($m_18) }}
+											@elseif($col==8)
+											$ {{ number_format($m_19) }}
+											@elseif($col==9)
+											$ {{ number_format($m_20) }}
+											@endif
+											
 										@elseif($row == 8)
 											@php
 												$index19_previous = 0;

@@ -18,8 +18,10 @@ class PdfController extends Controller
 			return redirect('login');
 		}
 
-		// $rothConversionData = $this->rothConversionPage();
+		$roth = $this->rothConversionPage();
+		
 		$data = $this->current_financial_account_page();
+		//echo "<pre>";print_r($data);die;
 		
 		$pdf = app('dompdf.wrapper');
 		$contxt = stream_context_create([
@@ -33,7 +35,7 @@ class PdfController extends Controller
         //$pdf->getDomPDF()->setHttpContext($contxt);
 		//$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
 		
-		return view('income-plan-pdf', $data);
+		return view('income-plan-pdf', $data, $roth);
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page()
@@ -730,8 +732,18 @@ class PdfController extends Controller
 		$headerAge[] = 'Roth Conversion';
 		$headerAge[] = '';
 		//-calculation of total value-husband roth calculation---
+		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
+		$current_finance_husband_data = Current_financial_account::where('sl_no', $lastId)->where('account_owner', 2)->where('account_title', 'LIKE', '%Annuity%')->first();
 		$husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
 		
+		$a12 = 0;
+		$a14 = 0;
+		$a17 = 0;
+		$a20 = 0;
+		$J_16 = 0;
+		$index17_previous = 0;
+		$index19_previous = 0;
+			
 		for($col = 1; $col <= 13; $col++)
 		{
 			$index12_previous = 0;
@@ -835,6 +847,30 @@ class PdfController extends Controller
 							$H_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
 						}
 					}
+					elseif($row == 8)
+					{
+						$index19_previous = 0;
+						if($col == 9)
+						$h_19 = distribution_period()[76][1];
+					}
+					
+					if($row==1 && $col==9)
+					$i12 = round($index17_previous - distribution_period()[76][1]);
+					
+					if($row==2 && $col==9)
+					$i13 = $i12 * 0.0095;
+					
+					if($row==3 && $col==9)
+					$i14 = $i12 - $i13;
+					
+					if($row==4 && $col==9)
+					$i15 = $i14 * 0.22;
+					
+					if($row==5 && $col==9)
+					$i16 = $i14 - $i15;
+				
+					if($row==6 && $col==9)
+					$i17 = $i12 - $i13 - $i14;
 				}
 				
 				if($col>10)
@@ -891,6 +927,14 @@ class PdfController extends Controller
 		}
 		//-------------------------------------------------------
 		// dd($headerAge);
-		return $data;
+		return [
+			'm_14'=>$M_14,
+			'm_15'=>$M_15,
+			'm_16'=>$M_16,
+			'm_17'=>$M_17,
+			'm_18'=>$M_18,
+			'm_19'=>$M_19,
+			'm_20'=>$M_20,
+		];
 	}
 }
