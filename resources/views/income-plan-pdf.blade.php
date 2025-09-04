@@ -70,7 +70,7 @@ $currentYear = date('Y');
 $age = 70;
 //echo $birthYear = $currentYear - $age; die;
 
-$current_finance_husband_data = App\Models\Current_financial_account::where('sl_no', $lastId)->where('account_owner', 1)->where('account_title', 'LIKE', '%Annuity%')->first();
+$current_finance_husband_data = App\Models\Current_financial_account::where('sl_no', $lastId)->where('account_owner', 2)->where('account_title', 'LIKE', '%Annuity%')->first();
 
 $husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
 
@@ -105,7 +105,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 		
 		.section-title { text-align: center; font-weight: bold; font-size: 20px; margin-bottom: 10px; }
         .subtotal { font-weight: bold; }
-        .totals { font-weight: bold; font-size: 22px; }
+        .totals { font-weight: bold; font-size: 26px; }
         .right { text-align: right; }
     </style>
 </head>
@@ -149,7 +149,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 			</tr>
 		</table>
 
-		<table style="margin-top: 200px;">
+		<table style="margin-top: 40px;">
 			<tr>
 				<td style="background-color: #3490CD;padding: 10px;text-align: left;color: #fff;font-size: 12px;">
 					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
@@ -253,7 +253,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 		</table>
 	</div>
 	
-	<table style="margin-top: 200px;">
+	<table style="margin-top: 30px;">
 		<tr>
 			<td style="background-color: ;padding: 10px;text-align: left;color: ;font-size: 14px;">
 				The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
@@ -393,6 +393,21 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 			www.TheFidelityMutual.com
 		</p>
 	</div>
+	</br>
+	<table style="margin-top: 5px;">
+		<tr>
+			<td style="background-color: ;padding: 10px;text-align: left;color: ;font-size: 14px;">
+				The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+				Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+				The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+				are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+				greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
+
+				Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
+			</td>
+		</tr>
+	</table>
+	</br></br>
 	@php 
 	$total_wife_rmd_inc_key = '';
 	$total_husband_rmd_inc_key = '';
