@@ -149,7 +149,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 			</tr>
 		</table>
 
-		<table style="margin-top: 40px;">
+		<table style="margin-top: 100px;">
 			<tr>
 				<td style="background-color: #3490CD;padding: 10px;text-align: left;color: #fff;font-size: 12px;">
 					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
