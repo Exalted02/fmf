@@ -21,7 +21,6 @@ class PdfController extends Controller
 		$roth = $this->rothConversionPage();
 		
 		$data = $this->current_financial_account_page();
-		//echo "<pre>";print_r($data);die;
 		
 		$pdf = app('dompdf.wrapper');
 		$contxt = stream_context_create([

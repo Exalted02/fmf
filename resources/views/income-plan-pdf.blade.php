@@ -151,7 +151,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 
 		<table style="margin-top: 100px;">
 			<tr>
-				<td style="background-color: #3490CD;padding: 10px;text-align: left;color: #fff;font-size: 12px;">
+				<td style="background-color: ;padding: 10px;text-align: left;color: ;font-size: 12px;">
 					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
 					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
 					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
@@ -255,7 +255,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 	
 	<table style="margin-top: 30px;">
 		<tr>
-			<td style="background-color: ;padding: 10px;text-align: left;color: ;font-size: 14px;">
+			<td style="background-color: ;padding: 10px;text-align: left;color: ;font-size: 12px;">
 				The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
 				Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
 				The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
@@ -396,7 +396,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 	</br>
 	<table style="margin-top: 5px;">
 		<tr>
-			<td style="background-color: ;padding: 10px;text-align: left;color: ;font-size: 14px;">
+			<td style="background-color: ;padding: 10px;text-align: left;color: ;font-size: 12px;">
 				The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
 				Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
 				The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
@@ -556,7 +556,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 		<table class="calc-report">
 			<thead>
 				<tr>
-					<th>Roth Conversion</br>${{ $husband_account_value ?? ''}}</br>21% Bonus</th>
+					<th>Roth Conversion</br>${{ number_format($husband_account_value) ?? ''}}</br>21% Bonus</th>
 					<th></th>
 					<th>70</br>Yr 1</th>
 					<th>71</br>Yr 2</th>
@@ -577,7 +577,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 						$index12_previous = 0;
 					@endphp
 					<td>
-						<table border="1">
+						<table border="0">
 							@for($row = 1; $row <= 9; $row++)
 								
 									@php
@@ -600,7 +600,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 									@endphp
 								
 								<tr>
-									<td style="height:10px;">
+									<td style="height:10px;text-align: left">
 									@if($col == 1 && $row == 1)
 										$ {{ number_format($a12) }}
 									@endif
@@ -926,6 +926,12 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 											@endif
 										@endif
 									
+									@endif
+									
+									@if($col==3 && $row==9)
+										<strong>IRA $ {{ number_format($husband_account_value) }}</strong>
+									@elseif($col==10 && $row==9)
+									<strong>Tax Free $ {{ number_format($m_20) }}</strong>
 									@endif
 									</td>
 								</tr>
