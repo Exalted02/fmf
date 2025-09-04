@@ -726,6 +726,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 											@php
 											    $index18_previous = 0;
 											@endphp
+											{{ $M_20 ?? 0 }}
 										@elseif($row == 8)
 											@php
 												$index19_previous = 0;
@@ -807,7 +808,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 									
 									@if($col>10)
 										@if($col==11 && $row<=7)
-											year{{$row}}
+											Year {{$row}}
 										@endif
 										
 										@if($col==12)
@@ -866,7 +867,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 											@if($row == 1)
 												${{ number_format(round($C_17+$L_14))  }}
 												@php 
-												  $M_14 = $C_17+$L_14;
+													$M_14 = $C_17+$L_14;
 												@endphp
 											@endif
 											
@@ -906,7 +907,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 											@endif
 											
 											@if($row == 7)
-												${{ number_format(round(($J_16+$L_20) * 1.05))  }}
+												${{ number_format( round(($J_16+$L_20) * 1.05) )  }}
 												@php 
 												  $M_20 = ($J_16+$L_20) * 1.05;
 												@endphp

@@ -729,6 +729,167 @@ class PdfController extends Controller
 		$headerAge = [];
 		$headerAge[] = 'Roth Conversion';
 		$headerAge[] = '';
+		//-calculation of total value-husband roth calculation---
+		$husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
+		
+		for($col = 1; $col <= 13; $col++)
+		{
+			$index12_previous = 0;
+			for($row = 1; $row <= 9; $row++)
+			{
+				$h_acc_value = $husband_account_value ?? '';
+				$a12 = round($h_acc_value * 0.21);
+				$a14 =  $h_acc_value + $a12;
+				$a17 =  round($a14 * 1.05);
+				$a20_pre = round($a17/6);
+				
+				$a20 =  round($a17/6);
+				$index = $col.$row;
+				if($col >= 3 && $col<=9)
+				{
+					if($row == 1 && $col<=8)
+					{
+						if($index17_previous == 0 && $index19_previous == 0)
+						{		
+							$index12_previous = $a17;
+						}
+						else{
+						   $index12_previous = $index17_previous-$index19_previous;
+						}
+					}
+					elseif($row == 2 && $col<=8)
+					{
+						$index13_previous = $index12_previous*0.0095;
+					}
+					elseif(($col >=3 && $col <= 8) && $row ==3)
+					{
+						
+					}
+					elseif($row == 4 && $col<=8)
+					{
+						$index15_previous = $a20*0.22;
+					}
+					elseif($row == 5 && $col<=8)
+					{
+						if($col == 3)
+						{
+							$C16 = round($a20-$index15_previous);
+						}
+						
+						if($col == 4)
+						{
+							$D_16= $a20-$index15_previous;
+						}
+						
+						if($col == 5)
+						{
+							$E_16= $a20-$index15_previous;
+						}
+						
+						if($col == 6)
+						{
+							$F_16= $a20-$index15_previous;
+						}
+						
+						if($col == 7)
+						{
+							$G_16= $a20-$index15_previous;
+						}
+						
+						if($col == 8)
+						{
+							$H_16= $a20-$index15_previous;
+						}
+					}
+					elseif($row == 6 && $col<=8)
+					{
+						$index17_previous = ($index12_previous-$index13_previous-$a20) * 1.05;
+												
+						if($col == 3)
+						{
+							$C_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
+						}
+						
+						if($col == 4)
+						{
+							$D_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
+						}
+						
+						if($col == 5)
+						{
+							$E_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
+						}
+						
+						if($col == 6)
+						{
+							$F_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
+						}
+						
+						if($col == 7)
+						{
+							$G_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
+						}
+						
+						if($col == 8)
+						{
+							$H_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
+						}
+					}
+				}
+				
+				if($col>10)
+				{
+					if($col==12)
+					{
+						if($row == 1)
+						$L_14 = $C16*1.05;
+						
+						if($row == 2)
+						$L_15 = ($L_14+ $D_16) * 1.05;
+					
+						if($row == 3)
+						$L_16 = ($L_15+ $E_16) * 1.05;
+						
+						if($row == 4)
+						$L_17 = ($L_16+ $F_16) * 1.05;
+						
+						if($row == 5)
+						$L_18 = ($L_17+ $G_16) * 1.05;
+					
+						if($row == 6)
+						$L_19 = ($L_18+ $H_16) * 1.05;
+						
+						if($row == 7)
+						$L_20 = ($L_19+ $i16) * 1.05;
+					}
+					
+					if($col==13)
+					{
+						if($row == 1)
+						$M_14 = $C_17+$L_14;
+						
+						if($row == 2)
+						$M_15 = $D_17+$L_15;
+						
+						if($row == 3)
+						$M_16 = $E_17+$L_16;
+						
+						if($row == 4)
+						$M_17 = $F_17+$L_17;
+						
+						if($row == 5)
+						$M_18 = $G_17+$L_18;
+						
+						if($row == 6)
+						$M_19 = $H_17+$L_19;
+						
+						if($row == 7)
+						$M_20 = ($J_16+$L_20) * 1.05;
+					}
+				}
+			}
+		}
+		//-------------------------------------------------------
 		// dd($headerAge);
 		return $data;
 	}
