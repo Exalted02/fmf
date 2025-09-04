@@ -602,11 +602,11 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 								<tr>
 									<td style="height:10px;">
 									@if($col == 1 && $row == 1)
-										{{ number_format($a12) }}
+										$ {{ number_format($a12) }}
 									@endif
 									
 									@if($col == 1 && $row == 2)
-										{{ number_format($a14) }}
+										$ {{ number_format($a14) }}
 									@endif
 									
 									@if($col == 1 && $row == 3)
@@ -618,21 +618,21 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 									@endif
 									
 									@if($col == 1 && $row == 5)
-										{{ number_format($a17) }}
+										$ {{ number_format($a17) }}
 									@endif
 									@if($col == 1 && $row == 7)
 										Conversion
 									@endif
 									
 									@if($col == 1 && $row == 8)
-										{{ number_format($a20) }}
+										$ {{ number_format($a20) }}
 									@endif
 									
 									{{ husband_roth_tax_conversion()[$index] ?? '' }}
 									
 									@if($col >= 3 && $col<=9)
 									    @if($row == 1 && $col<=8)
-											{{ $index17_previous == 0 ? number_format($a17) : number_format(round($index17_previous-$index19_previous)) }}
+											$ {{ $index17_previous == 0 ? number_format($a17) : number_format(round($index17_previous-$index19_previous)) }}
 											@php
 										     if($index17_previous == 0 && $index19_previous == 0){										$index12_previous = $a17;
 											   }
@@ -641,19 +641,19 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 											   }
 											@endphp
 										@elseif($row == 2 && $col<=8)
-										   {{ number_format(round($index12_previous*0.0095)) }}
+										   $ {{ number_format(round($index12_previous*0.0095)) }}
 										   @php 
 											  $index13_previous = $index12_previous*0.0095;
 											@endphp
 										@elseif(($col >=3 && $col <= 8) && $row ==3)
-											{{ number_format($a20) ?? '' }}
+											$ {{ number_format($a20) ?? '' }}
 										@elseif($row == 4 && $col<=8)
-											{{ number_format(round($a20*0.22)) }}
+											$ {{ number_format(round($a20*0.22)) }}
 											@php 
 											    $index15_previous = $a20*0.22;
 											@endphp
 										@elseif($row == 5 && $col<=8)
-											{{ number_format(round($a20-$index15_previous)) }}
+											$ {{ number_format(round($a20-$index15_previous)) }}
 											@php
 											if($col == 3)
 											{
@@ -687,7 +687,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 											
 											@endphp
 										@elseif($row == 6 && $col<=8)
-										{{ number_format(round(($index12_previous-$index13_previous-$a20) * 1.05)) }}
+										$ {{ number_format(round(($index12_previous-$index13_previous-$a20) * 1.05)) }}
 											@php
 											    $index17_previous = ($index12_previous-$index13_previous-$a20) * 1.05;
 												
@@ -731,24 +731,24 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 												$index19_previous = 0;
 											@endphp
 												@if($col == 6)
-													{{ number_format(distribution_period()[73][1]) }}
+													$ {{ number_format(distribution_period()[73][1]) }}
 												@endif
 												
 												@if($col == 7)
 												
-											       {{ number_format(distribution_period()[74][1]) }}
+											       $ {{ number_format(distribution_period()[74][1]) }}
 												
 												@endif
 												
 												@if($col == 8)
 												
-													{{ number_format(distribution_period()[75][1]) }}
+													$ {{ number_format(distribution_period()[75][1]) }}
 												
 												@endif
 												
 												@if($col == 9)
 												
-													{{ number_format(distribution_period()[76][1]) }}
+													$ {{ number_format(distribution_period()[76][1]) }}
 													
 													@php 
 													   $h_19 = distribution_period()[76][1];
@@ -758,7 +758,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 										@endif
 										
 										@if($row==1 && $col==9)
-										{{ number_format(round($index17_previous - distribution_period()[76][1])) }}
+										$ {{ number_format(round($index17_previous - distribution_period()[76][1])) }}
 										@php 
 										  $i12 = round($index17_previous - distribution_period()[76][1]);
 										@endphp
@@ -766,7 +766,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 										@endif
 										
 										@if($row==2 && $col==9)
-											{{ number_format($i12 * 0.0095) }}
+											$ {{ number_format($i12 * 0.0095) }}
 										
 											@php 
 											  $i13 = $i12 * 0.0095;
@@ -774,14 +774,14 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 										@endif
 										
 										@if($row==3 && $col==9)
-											{{ number_format($i12 - $i13) }}
+											$ {{ number_format($i12 - $i13) }}
 										
 											@php 
 											  $i14 = $i12 - $i13;
 											@endphp
 										@endif
 										@if($row==4 && $col==9)
-											{{ number_format($i14 * 0.22) }}
+											$ {{ number_format($i14 * 0.22) }}
 										
 											@php 
 											  $i15 = $i14 * 0.22;
@@ -789,7 +789,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 										@endif
 										
 										@if($row==5 && $col==9)
-											{{ number_format($i14 - $i15) }}
+											$ {{ number_format($i14 - $i15) }}
 										
 											@php 
 											  $i16 = $i14 - $i15;
@@ -797,7 +797,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 										@endif
 										
 										@if($row==6 && $col==9)
-											{{ number_format($i12 - $i13 - $i14) }}
+											$ {{ number_format($i12 - $i13 - $i14) }}
 										
 											@php 
 											  $i17 = $i12 - $i13 - $i14;
