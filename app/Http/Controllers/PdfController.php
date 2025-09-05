@@ -41,7 +41,6 @@ class PdfController extends Controller
 	{
 		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
-		$lastId = 8;
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
@@ -732,8 +731,8 @@ class PdfController extends Controller
 		$headerAge[] = '';
 		//-calculation of total value-husband roth calculation---
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
-		$lastId = 8;
-		$current_finance_husband_data = Current_financial_account::where('sl_no', $lastId)->where('account_owner', 2)->where('account_title', 'LIKE', '%Annuity%')->first();
+		
+		$current_finance_husband_data = Current_financial_account::where('sl_no', $lastId)->where('account_owner', 1)->where('account_title', 'LIKE', '%Annuity%')->first();
 		$husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
 		
 		$m_14 = 0;

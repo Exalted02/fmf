@@ -70,7 +70,7 @@ $currentYear = date('Y');
 $age = 70;
 //echo $birthYear = $currentYear - $age; die;
 
-$current_finance_husband_data = App\Models\Current_financial_account::where('sl_no', $lastId)->where('account_owner', 2)->where('account_title', 'LIKE', '%Annuity%')->first();
+$current_finance_husband_data = App\Models\Current_financial_account::where('sl_no', $lastId)->where('account_owner', 1)->where('account_title', 'LIKE', '%Annuity%')->first();
 
 $husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
 
@@ -540,7 +540,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 				@endif
 			</tbody>
 		</table>
-		</hr>
+		</br></br>
 		@if(!empty($current_finance_husband_data))
 		<div>
 			<h2><strong style="margin-left:200px;">Husband Roth Conversion From Taxable To Free Tax</strong></h2>
