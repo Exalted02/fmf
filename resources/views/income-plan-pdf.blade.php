@@ -550,7 +550,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 			</tbody>
 		</table>
 	
-		<table class="footer">
+		{{--<table class="footer">
 			<tr>
 				<td style="background-color: ;padding: 10px;text-align: left;font-size: 12px;">
 					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
@@ -562,7 +562,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
 				</td>
 			</tr>
-		</table>
+		</table>--}}
 	</div>	
 	<div style="page-break-after: always;">
 		@if(!empty($current_finance_husband_data))
