@@ -322,10 +322,29 @@ class DashboardController extends Controller
 	{
 		$data = [];
 		$sl_no = Session::get('sl_no');
+		
+		$has_current_income = Session::get('has_current_income');
+		$has_income_source = Session::get('has_income_source');
+		$has_roth = Session::get('has_roth');
+		$has_roth_year = Session::get('has_roth_year');
+		
 		if(!empty($sl_no))
 		{
 			$record = Roth_conversion_year::where('sl_no', $sl_no)->first();
 			$data['records'] = $record;
+			
+			if(empty($has_current_income) && empty($has_income_source) && empty($has_roth) && empty($has_roth_year))
+			{
+				return redirect('current-financial-account');
+			}
+			else if(!empty($has_current_income) && empty($has_income_source) && empty($has_roth) && empty($has_roth_year))
+			{
+				return redirect('income-sources');
+			}
+			else if(!empty($has_current_income) && !empty($has_income_source) && empty($has_roth) && empty($has_roth_year))
+			{
+				return redirect('roth-calculator');
+			}
 		}
 		else
 		{
@@ -342,6 +361,7 @@ class DashboardController extends Controller
 		$model->year = $request->year ?? null;
 		$model->rmd_age = $request->rmd_age == true ? 1: 0;
 		$model->save();
+		Session::put('has_roth_year', 1);
 		//Session::forget('sl_no');
 		Session::forget('has_current_income');
 		Session::forget('has_income_source');
