@@ -25,8 +25,8 @@
 						<div class="row">
 							<div class="col-lg-4 col-md-4">
 								<div class="input-block">
-									<label for="" class="col-form-label">Year</label>
-									<select class="select" id="year" name="year">
+									<label for="year" class="col-form-label">Year</label>
+									<select class="select form-control" id="year" name="year">
 										<option value="">Select Year</option>
 										<option value="1">year 1</option>
 										<option value="2">year 2</option>
@@ -43,8 +43,11 @@
 							</div>
 							<div class="col-lg-4 col-md-4">
 								<div class="input-block">
-									<label for="" class="col-form-label">RMD Age's</label>
-									<input type="checkbox" name="rmd_age" name="rmd_age">
+									<label class="col-form-label">RMD Age's</label>
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" id="rmd_age" name="rmd_age">
+										<label class="form-check-label" for="rmd_age">73/75</label>
+									</div>
 									<div class="rmd-age-error-text"></div>
 								</div>
 							</div>
