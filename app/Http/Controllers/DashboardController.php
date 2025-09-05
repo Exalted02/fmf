@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Subscriptions;
 use App\Models\Client_portfolio_Desires;
 use App\Models\Guaranteed_income_sources;
 use App\Models\Roth_conversion_calculators;
@@ -12,6 +13,7 @@ use App\Models\Roth_conversion_calculator_yearly_rule;
 use Illuminate\Support\Facades\Session;
 use App\Models\Current_financial_account;
 use App\Models\Roth_conversion_year;
+use Stripe\Price;
 
 class DashboardController extends Controller
 {
@@ -23,7 +25,22 @@ class DashboardController extends Controller
     public function pricing_plans()
     {
 		$data = [];
-        return view('pricing-plans', $data);
+		
+		// Set your secret key
+		\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+		
+        $user = User::with(['get_subscription','get_subscription.subscription_items'])->where('id', auth()->user()->id)->orderBy('id', 'DESC')->first();
+        $last_subscription = Subscriptions::where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->first();
+		// dd($user);
+		// Retrieve the price from Stripe
+    //    $price = Price::retrieve($plan->stripe_plan);
+        // Get the unit amount of the price
+    //    $amount = $price->unit_amount/100;
+		//dd($amount);
+        $intent = auth()->user()->createSetupIntent();
+		
+		return view("pricing-plans", compact("data", "intent", "user", "last_subscription"));
+        //return view('pricing-plans', $data);
     }
     public function portfolio_desires()
     {

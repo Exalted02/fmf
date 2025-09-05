@@ -73,9 +73,9 @@ Route::middleware(['auth','verified'])->group(function () {
 	Route::get('/roth-calculator-year', [DashboardController::class, 'roth_calculator_year'])->name('roth-calculator-year');
 	Route::post('/roth-calculator-year', [DashboardController::class, 'roth_calculator_year_save'])->name('roth-calculator-year');
 	
+	Route::post('subscription', [DashboardController::class, 'subscription'])->name("subscription.create");
 });
 	Route::get('/income-plan-pdf', [PdfController::class, 'incomePlan'])->name('income-plan-pdf');
-
 
 
 require __DIR__.'/auth.php';
