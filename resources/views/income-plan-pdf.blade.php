@@ -113,7 +113,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 		
 		.footer {
 			position: fixed;
-            bottom: 50px;
+            bottom: 90px;
             left: 0;
             right: 0;
             text-align: center;

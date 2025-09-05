@@ -55,7 +55,7 @@ $yearly_billing = App\Models\Pricing_plan::where('plan_type',2)->get();
 				<div class="login-head">Payment Method</div>
 				<p class="text-center">Dynamic payment gateway content will come here</p>
 				
-				<div class="row mt-4">
+				{{--<div class="row mt-4">
 					<div class="col-md-12">
 						@if(auth()->user()->subscribed())
 							@if($last_subscription->ends_at > \Carbon\Carbon::now()->toDateTimeString())
@@ -118,7 +118,7 @@ $yearly_billing = App\Models\Pricing_plan::where('plan_type',2)->get();
 							</div>
 						</div>
 					@endif
-				</div>
+				</div>--}}
 			</div>
 		</div>
 	</div>
