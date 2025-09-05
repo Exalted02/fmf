@@ -44,7 +44,7 @@ class DashboardController extends Controller
     }
     public function portfolio_desires()
     {
-		Session::put('sl_no', 9);
+		//Session::put('sl_no', 9);
 		$data = [];
 		$id = Session::get('sl_no');
 		$data['record'] = '';
@@ -283,9 +283,6 @@ class DashboardController extends Controller
 		}
 		
 		Session::put('has_roth', 1);
-		//Session::forget('sl_no');
-		//Session::forget('has_current_income');
-		//Session::forget('has_income_source');
 		return response()->json(['message'=>'success']);
 	}
 	public function current_financial_account_save(Request $request)
@@ -379,9 +376,10 @@ class DashboardController extends Controller
 		$model->rmd_age = $request->rmd_age == true ? 1: 0;
 		$model->save();
 		Session::put('has_roth_year', 1);
-		//Session::forget('sl_no');
+		Session::forget('sl_no');
 		Session::forget('has_current_income');
 		Session::forget('has_income_source');
+		Session::forget('has_roth_year');
 		return response()->json(['message'=>'success']);
 	}
 }
