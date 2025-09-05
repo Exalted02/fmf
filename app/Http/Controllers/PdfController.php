@@ -31,10 +31,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        //$pdf->getDomPDF()->setHttpContext($contxt);
-		//$pdf->loadView('income-plan-pdf', $data)->setPaper('a4', 'landscape');
+        $pdf->getDomPDF()->setHttpContext($contxt);
+		$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
 		
-		return view('income-plan-pdf', $data, $roth);
+		//return view('income-plan-pdf', $data, $roth);
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page()
@@ -743,6 +743,14 @@ class PdfController extends Controller
 		$m_19 = 0;
 		$m_20 = 0;
 		
+		$M_14 = 0;
+		$M_15 = 0;
+		$M_16 = 0;
+		$M_17 = 0;
+		$M_18 = 0;
+		$M_19 = 0;
+		$M_20 = 0;
+		
 		$a12 = 0;
 		$a14 = 0;
 		$a17 = 0;
@@ -751,183 +759,186 @@ class PdfController extends Controller
 		$index17_previous = 0;
 		$index19_previous = 0;
 			
-		for($col = 1; $col <= 13; $col++)
+		if(!empty($husband_account_value))
 		{
-			$index12_previous = 0;
-			for($row = 1; $row <= 9; $row++)
+			for($col = 1; $col <= 13; $col++)
 			{
-				$h_acc_value = $husband_account_value ?? '';
-				$a12 = round($h_acc_value * 0.21);
-				$a14 =  $h_acc_value + $a12;
-				$a17 =  round($a14 * 1.05);
-				$a20_pre = round($a17/6);
-				
-				$a20 =  round($a17/6);
-				$index = $col.$row;
-				if($col >= 3 && $col<=9)
+				$index12_previous = 0;
+				for($row = 1; $row <= 9; $row++)
 				{
-					if($row == 1 && $col<=8)
-					{
-						if($index17_previous == 0 && $index19_previous == 0)
-						{		
-							$index12_previous = $a17;
-						}
-						else{
-						   $index12_previous = $index17_previous-$index19_previous;
-						}
-					}
-					elseif($row == 2 && $col<=8)
-					{
-						$index13_previous = $index12_previous*0.0095;
-					}
-					elseif(($col >=3 && $col <= 8) && $row ==3)
-					{
-						
-					}
-					elseif($row == 4 && $col<=8)
-					{
-						$index15_previous = $a20*0.22;
-					}
-					elseif($row == 5 && $col<=8)
-					{
-						if($col == 3)
-						{
-							$C16 = round($a20-$index15_previous);
-						}
-						
-						if($col == 4)
-						{
-							$D_16= $a20-$index15_previous;
-						}
-						
-						if($col == 5)
-						{
-							$E_16= $a20-$index15_previous;
-						}
-						
-						if($col == 6)
-						{
-							$F_16= $a20-$index15_previous;
-						}
-						
-						if($col == 7)
-						{
-							$G_16= $a20-$index15_previous;
-						}
-						
-						if($col == 8)
-						{
-							$H_16= $a20-$index15_previous;
-						}
-					}
-					elseif($row == 6 && $col<=8)
-					{
-						$index17_previous = ($index12_previous-$index13_previous-$a20) * 1.05;
-												
-						if($col == 3)
-						{
-							$C_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
-						}
-						
-						if($col == 4)
-						{
-							$D_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
-						}
-						
-						if($col == 5)
-						{
-							$E_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
-						}
-						
-						if($col == 6)
-						{
-							$F_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
-						}
-						
-						if($col == 7)
-						{
-							$G_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
-						}
-						
-						if($col == 8)
-						{
-							$H_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
-						}
-					}
-					elseif($row == 8)
-					{
-						$index19_previous = 0;
-						if($col == 9)
-						$h_19 = distribution_period()[76][1];
-					}
+					$h_acc_value = $husband_account_value ?? '';
+					$a12 = round($h_acc_value * 0.21);
+					$a14 =  $h_acc_value + $a12;
+					$a17 =  round($a14 * 1.05);
+					$a20_pre = round($a17/6);
 					
-					if($row==1 && $col==9)
-					$i12 = round($index17_previous - distribution_period()[76][1]);
-					
-					if($row==2 && $col==9)
-					$i13 = $i12 * 0.0095;
-					
-					if($row==3 && $col==9)
-					$i14 = $i12 - $i13;
-					
-					if($row==4 && $col==9)
-					$i15 = $i14 * 0.22;
-					
-					if($row==5 && $col==9)
-					$i16 = $i14 - $i15;
-				
-					if($row==6 && $col==9)
-					$i17 = $i12 - $i13 - $i14;
-				}
-				
-				if($col>10)
-				{
-					if($col==12)
+					$a20 =  round($a17/6);
+					$index = $col.$row;
+					if($col >= 3 && $col<=9)
 					{
-						if($row == 1)
-						$L_14 = $C16*1.05;
+						if($row == 1 && $col<=8)
+						{
+							if($index17_previous == 0 && $index19_previous == 0)
+							{		
+								$index12_previous = $a17;
+							}
+							else{
+							   $index12_previous = $index17_previous-$index19_previous;
+							}
+						}
+						elseif($row == 2 && $col<=8)
+						{
+							$index13_previous = $index12_previous*0.0095;
+						}
+						elseif(($col >=3 && $col <= 8) && $row ==3)
+						{
+							
+						}
+						elseif($row == 4 && $col<=8)
+						{
+							$index15_previous = $a20*0.22;
+						}
+						elseif($row == 5 && $col<=8)
+						{
+							if($col == 3)
+							{
+								$C16 = round($a20-$index15_previous);
+							}
+							
+							if($col == 4)
+							{
+								$D_16= $a20-$index15_previous;
+							}
+							
+							if($col == 5)
+							{
+								$E_16= $a20-$index15_previous;
+							}
+							
+							if($col == 6)
+							{
+								$F_16= $a20-$index15_previous;
+							}
+							
+							if($col == 7)
+							{
+								$G_16= $a20-$index15_previous;
+							}
+							
+							if($col == 8)
+							{
+								$H_16= $a20-$index15_previous;
+							}
+						}
+						elseif($row == 6 && $col<=8)
+						{
+							$index17_previous = ($index12_previous-$index13_previous-$a20) * 1.05;
+													
+							if($col == 3)
+							{
+								$C_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
+							}
+							
+							if($col == 4)
+							{
+								$D_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
+							}
+							
+							if($col == 5)
+							{
+								$E_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
+							}
+							
+							if($col == 6)
+							{
+								$F_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
+							}
+							
+							if($col == 7)
+							{
+								$G_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
+							}
+							
+							if($col == 8)
+							{
+								$H_17 = ($index12_previous-$index13_previous-$a20) * 1.05;
+							}
+						}
+						elseif($row == 8)
+						{
+							$index19_previous = 0;
+							if($col == 9)
+							$h_19 = distribution_period()[76][1];
+						}
 						
-						if($row == 2)
-						$L_15 = ($L_14+ $D_16) * 1.05;
+						if($row==1 && $col==9)
+						$i12 = round($index17_previous - distribution_period()[76][1]);
+						
+						if($row==2 && $col==9)
+						$i13 = $i12 * 0.0095;
+						
+						if($row==3 && $col==9)
+						$i14 = $i12 - $i13;
+						
+						if($row==4 && $col==9)
+						$i15 = $i14 * 0.22;
+						
+						if($row==5 && $col==9)
+						$i16 = $i14 - $i15;
 					
-						if($row == 3)
-						$L_16 = ($L_15+ $E_16) * 1.05;
-						
-						if($row == 4)
-						$L_17 = ($L_16+ $F_16) * 1.05;
-						
-						if($row == 5)
-						$L_18 = ($L_17+ $G_16) * 1.05;
-					
-						if($row == 6)
-						$L_19 = ($L_18+ $H_16) * 1.05;
-						
-						if($row == 7)
-						$L_20 = ($L_19+ $i16) * 1.05;
+						if($row==6 && $col==9)
+						$i17 = $i12 - $i13 - $i14;
 					}
 					
-					if($col==13)
+					if($col>10)
 					{
-						if($row == 1)
-						$M_14 = $C_17+$L_14;
+						if($col==12)
+						{
+							if($row == 1)
+							$L_14 = $C16*1.05;
+							
+							if($row == 2)
+							$L_15 = ($L_14+ $D_16) * 1.05;
 						
-						if($row == 2)
-						$M_15 = $D_17+$L_15;
+							if($row == 3)
+							$L_16 = ($L_15+ $E_16) * 1.05;
+							
+							if($row == 4)
+							$L_17 = ($L_16+ $F_16) * 1.05;
+							
+							if($row == 5)
+							$L_18 = ($L_17+ $G_16) * 1.05;
 						
-						if($row == 3)
-						$M_16 = $E_17+$L_16;
+							if($row == 6)
+							$L_19 = ($L_18+ $H_16) * 1.05;
+							
+							if($row == 7)
+							$L_20 = ($L_19+ $i16) * 1.05;
+						}
 						
-						if($row == 4)
-						$M_17 = $F_17+$L_17;
-						
-						if($row == 5)
-						$M_18 = $G_17+$L_18;
-						
-						if($row == 6)
-						$M_19 = $H_17+$L_19;
-						
-						if($row == 7)
-						$M_20 = ($J_16+$L_20) * 1.05;
+						if($col==13)
+						{
+							if($row == 1)
+							$M_14 = $C_17+$L_14;
+							
+							if($row == 2)
+							$M_15 = $D_17+$L_15;
+							
+							if($row == 3)
+							$M_16 = $E_17+$L_16;
+							
+							if($row == 4)
+							$M_17 = $F_17+$L_17;
+							
+							if($row == 5)
+							$M_18 = $G_17+$L_18;
+							
+							if($row == 6)
+							$M_19 = $H_17+$L_19;
+							
+							if($row == 7)
+							$M_20 = ($J_16+$L_20) * 1.05;
+						}
 					}
 				}
 			}
