@@ -11,6 +11,7 @@ use App\Models\Roth_conversion_calculators;
 use App\Models\Roth_conversion_calculator_yearly_rule;
 use Illuminate\Support\Facades\Session;
 use App\Models\Current_financial_account;
+use App\Models\Roth_conversion_year;
 
 class DashboardController extends Controller
 {
@@ -265,9 +266,9 @@ class DashboardController extends Controller
 		}
 		
 		Session::put('has_roth', 1);
-		Session::forget('sl_no');
-		Session::forget('has_current_income');
-		Session::forget('has_income_source');
+		//Session::forget('sl_no');
+		//Session::forget('has_current_income');
+		//Session::forget('has_income_source');
 		return response()->json(['message'=>'success']);
 	}
 	public function current_financial_account_save(Request $request)
@@ -320,6 +321,31 @@ class DashboardController extends Controller
 	public function roth_calculator_year()
 	{
 		$data = [];
+		$sl_no = Session::get('sl_no');
+		if(!empty($sl_no))
+		{
+			$record = Roth_conversion_year::where('sl_no', $sl_no)->first();
+			$data['records'] = $record;
+			
+		}
+		else
+		{
+			return redirect('portfolio-desires');
+		}
 		return view('roth-calculator-year', $data);
+	}
+	public function roth_calculator_year_save(Request $request)
+	{
+		//echo "<pre>";print_r($request->all());die;
+		$model = new Roth_conversion_year();
+		$model->sl_no = Session::get('sl_no');
+		$model->user_id = auth()->user()->id;
+		$model->year = $request->year ?? null;
+		$model->rmd_age = $request->rmd_age == true ? 1: 0;
+		$model->save();
+		//Session::forget('sl_no');
+		Session::forget('has_current_income');
+		Session::forget('has_income_source');
+		return response()->json(['message'=>'success']);
 	}
 }

@@ -195,6 +195,9 @@
 							<div class="triangle-up active">
 								<span class="triangle-number">4</span>
 							</div>
+							<div class="triangle-up">
+								<span class="triangle-number">5</span>
+							</div>
 						</div>
 
 						<div class="step-content mt-3">
@@ -286,6 +289,7 @@
 <script>
 $(document).ready(function(){
 	$('.save-roth-calculator').on('click', function(e){
+		
 		e.preventDefault();
 		var conversion_start_age = $('#conversion_start_age').val();
 		var conversion_finish_age = $('#conversion_finish_age').val();
@@ -358,7 +362,7 @@ $(document).ready(function(){
 		if(isValid)
 		{
 			var URL = "{{ route('roth-calculator') }}";
-			
+			alert('hello');
 			$.ajax({
 				url: URL,
 				type: "POST",

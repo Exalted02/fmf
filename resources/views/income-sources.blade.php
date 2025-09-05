@@ -186,6 +186,9 @@
 							<div class="triangle-up">
 								<span class="triangle-number">4</span>
 							</div>
+							<div class="triangle-up">
+								<span class="triangle-number">5</span>
+							</div>
 						</div>
 
 						<div class="step-content mt-3">

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('content')
+@php 
+//echo "<pre>";print_r($records);die;
+
+@endphp
     <!-- Page Wrapper -->
     <div class="container">
     
@@ -28,27 +32,21 @@
 									<label for="year" class="col-form-label">Year</label>
 									<select class="select form-control" id="year" name="year">
 										<option value="">Select Year</option>
-										<option value="1">year 1</option>
-										<option value="2">year 2</option>
-										<option value="3">year 3</option>
-										<option value="4">year 4</option>
-										<option value="5">year 5</option>
-										<option value="6">year 6</option>
-										<option value="7">year 7</option>
-										<option value="8">year 8</option>
-										<option value="9">year 9</option>
+										@for($i=1;$i<=9;$i++)
+										<option value="{{ $i }}" {{ isset($records->year) && $records->year == $i ? 'selected' : '' }}>year {{ $i}}</option>
+										@endfor
 									</select>
-									<div class="rmd_start_age_error error-text"></div>
+									<div class="year_error error-text"></div>
 								</div>
 							</div>
 							<div class="col-lg-4 col-md-4">
 								<div class="input-block">
 									<label class="col-form-label">RMD Age's</label>
 									<div class="form-check">
-										<input type="checkbox" class="form-check-input" id="rmd_age" name="rmd_age">
+										<input type="checkbox" class="form-check-input" id="rmd_age" name="rmd_age" {{ isset($records->rmd_age ) && $records->rmd_age == 1 ? 'checked' : '' }}>
 										<label class="form-check-label" for="rmd_age">73/75</label>
 									</div>
-									<div class="rmd-age-error-text"></div>
+									<div class="rmd_age_error error-text"></div>
 								</div>
 							</div>
 						</div>
@@ -57,7 +55,7 @@
 						<div class="col-md-12">
 							<div class="d-flex justify-between submit-section mt-2 mb-5">
 								<button class="btn btn-primary common-button" onclick="goBackAndReload()"><i class="fa fa-arrow-left"></i> Previous</button>
-								<a href="javascript:void(0)"><button class="btn btn-primary common-button save-roth-calculator">Next <i class="fa fa-arrow-right"></i></button></a>
+								<a href="javascript:void(0)"><button class="btn btn-primary common-button save-roth-calculator-year">Next <i class="fa fa-arrow-right"></i></button></a>
 							</div>
 						</div>
 					</div>
@@ -101,89 +99,38 @@
 
 <script>
 $(document).ready(function(){
-	$('.save-roth-calculator').on('click', function(e){
+	$('.save-roth-calculator-year').on('click', function(e){
 		e.preventDefault();
-		var conversion_start_age = $('#conversion_start_age').val();
-		var conversion_finish_age = $('#conversion_finish_age').val();
-		var conversion_annual_fee = $('#conversion_annual_fee').val();
-		var rmd_start_age = $('#rmd_start_age').val();
-		var rmd_finish_age = $('#rmd_finish_age').val();
-		var rmd_tax_free_income = $('#rmd_tax_free_income').val();
+		var year = $('#year').val();
 		
-		var investment_amount_arr = [];
-		var bonus_arr = [];
-		var assumed_return_arr = [];
+		const rmd_age = $("#rmd_age").is(":checked");
 		
-		$('.conversion_start_age_error').text('');
-		$('.conversion_finish_age_error').text('');
-		$('.conversion_annual_fee_error').text('');
-		$('.rmd_start_age_error').text('');
-		$('.rmd_finish_age_error').text('');
-		$('.rmd_tax_free_income_error').text('');
+		$('.year_error').text('');
+		$('.rmd_age_error').text('');
+		
 		
 		let isValid = true;
 		$('.invalid-feedback').hide();
 		$('.form-control').removeClass('is-invalid');
-		if (conversion_start_age === '')
+		if (year === '')
 		{
-			$('.conversion_start_age_error').text('Enter start age');
+			$('.year_error').text('Select year');
 			isValid = false;
 		}
-		if (conversion_finish_age === '')
-		{
-			$('.conversion_finish_age_error').text('Enter finish age');
-			isValid = false;
-		}
-		if (conversion_annual_fee === '')
-		{
-			$('.conversion_annual_fee_error').text('Enter annual fee');
-			isValid = false;
-		}
-		if (rmd_start_age === '')
-		{
-			$('.rmd_start_age_error').text('Enter start age');
-			isValid = false;
-		}
-		if (rmd_finish_age === '')
-		{
-			$('.rmd_finish_age_error').text('Enter finish age');
-			isValid = false;
-		}
-		if (rmd_tax_free_income === '')
-		{
-			$('.rmd_tax_free_income_error').text('Enter tax free income');
-			isValid = false;
-		}
-		
-		
-		
-		$('input[name="investment_amount[]"]').each(function() {
-            investment_amount_arr.push($(this).val().trim());
-        });
-		
-		$('input[name="bonus[]"]').each(function() {
-            bonus_arr.push($(this).val().trim());
-           
-        });
-		
-		$('input[name="assumed_return[]"]').each(function() {
-            assumed_return_arr.push($(this).val().trim());
-           
-        });
 		
 		if(isValid)
 		{
-			var URL = "{{ route('roth-calculator') }}";
+			var URL = "{{ route('roth-calculator-year') }}";
 			
 			$.ajax({
 				url: URL,
 				type: "POST",
-				data: {conversion_start_age:conversion_start_age,conversion_finish_age:conversion_finish_age,conversion_annual_fee:conversion_annual_fee,rmd_start_age:rmd_start_age,rmd_finish_age:rmd_finish_age,rmd_tax_free_income:rmd_tax_free_income,investment_amount_arr:investment_amount_arr,bonus_arr:bonus_arr,assumed_return_arr:assumed_return_arr,_token:csrfToken},
+				data: {year:year,rmd_age:rmd_age,_token:csrfToken},
 				dataType: 'json',
 				success: function(response) {
 					if(response.message == 'success')
 					{
-						window.location.href= "{{ route('roth-calculator-year') }}";
+						//window.location.href= "{{ route('roth-calculator-year') }}";
 						//window.location.href= "{{ route('portfolio-desires') }}";
 					}
 				},
