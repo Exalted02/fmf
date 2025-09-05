@@ -326,7 +326,6 @@ class DashboardController extends Controller
 		{
 			$record = Roth_conversion_year::where('sl_no', $sl_no)->first();
 			$data['records'] = $record;
-			
 		}
 		else
 		{

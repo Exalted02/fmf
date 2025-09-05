@@ -371,7 +371,7 @@ $(document).ready(function(){
 				success: function(response) {
 					if(response.message == 'success')
 					{
-						alert('alert');
+						//alert('alert');
 						window.location.href= "{{ route('roth-calculator-year') }}";
 						//window.location.href= "{{ route('portfolio-desires') }}";
 					}
