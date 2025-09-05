@@ -70,6 +70,7 @@ Route::middleware(['auth','verified'])->group(function () {
 	Route::get('/roth-calculator', [DashboardController::class, 'roth_calculator'])->name('roth-calculator');
 	Route::post('/roth-calculator', [DashboardController::class, 'roth_calculator_save'])->name('roth-calculator');
 	Route::post('/delete-roth-calculator', [DashboardController::class, 'delete_roth_calculator'])->name('delete-roth-calculator');
+	Route::get('/roth-calculator-year', [DashboardController::class, 'roth_calculator_year'])->name('roth-calculator-year');
 	
 });
 	Route::get('/income-plan-pdf', [PdfController::class, 'incomePlan'])->name('income-plan-pdf');

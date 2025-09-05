@@ -26,7 +26,7 @@ class DashboardController extends Controller
     }
     public function portfolio_desires()
     {
-		//Session::put('sl_no', 9);
+		Session::put('sl_no', 9);
 		$data = [];
 		$id = Session::get('sl_no');
 		$data['record'] = '';
@@ -316,5 +316,10 @@ class DashboardController extends Controller
 	public function delete_roth_calculator(Request $request)
 	{
 		Roth_conversion_calculator_yearly_rule::where('id', $request->id)->delete();
+	}
+	public function roth_calculator_year()
+	{
+		$data = [];
+		return view('roth-calculator-year', $data);
 	}
 }
