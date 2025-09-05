@@ -362,7 +362,7 @@ $(document).ready(function(){
 		if(isValid)
 		{
 			var URL = "{{ route('roth-calculator') }}";
-			alert('hello');
+			
 			$.ajax({
 				url: URL,
 				type: "POST",

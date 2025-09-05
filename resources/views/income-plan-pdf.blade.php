@@ -74,6 +74,9 @@ $current_finance_husband_data = App\Models\Current_financial_account::where('sl_
 
 $husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
 
+$roth_year_data = App\Models\Roth_conversion_year::where('sl_no', $lastId)->first();
+$roth_yr = $roth_year_data ? $roth_year_data->year : '';
+
 @endphp
 <!DOCTYPE html>
 <html>
@@ -544,13 +547,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 		</div>
 		</hr>
 		@php 
-			$m_14 = 0;
-			$m_15 = 0;
-			$m_16 = 0;
-			$m_17 = 0;
-			$m_18 = 0;
-			$m_19 = 0;
-			$m_20 = 0;
+		
 			$a12 = 0;
 			$a14 = 0;
 			$a17 = 0;
@@ -558,6 +555,12 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 			$J_16 = 0;
 			$index17_previous = 0;
 			$index19_previous = 0;
+			$C16=0;$D_16=0;$E_16=0;$F_16=0;$G_16=0;$H_16=0;$C_17=0;$D_17=0;
+			$E_17=0;$F_17=0;$G_17=0;$H_17=0;$h_19=0;$i12=0;$i13=0;$i14=0;$i15=0;
+			$i16=0;$i17=0;$L_14=0;$L_15=0;$L_16=0;$L_17=0;$L_18=0;$L_19=0;$L_20=0;
+			$M_14=0;$M_15=0;$M_16=0;$M_17=0;$M_18=0;$M_19=0;$J_16=0;$M_20=0;
+			
+			$max_yr = 2+$roth_yr;
 		@endphp
 		
 		
@@ -638,7 +641,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 									
 									{{ husband_roth_tax_conversion()[$index] ?? '' }}
 									
-									@if($col >= 3 && $col<=9)
+									@if($col >= 3 && $col<=$max_yr)
 									    @if($row == 1 && $col<=8)
 											$ {{ $index17_previous == 0 ? number_format($a17) : number_format(round($index17_previous-$index19_previous)) }}
 											@php
@@ -827,113 +830,114 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 									@endif
 									
 									@if($col>10)
-										@if($col==11 && $row<=7)
-											Year {{$row}}
+										@if($row<=$roth_yr)
+											@if($col==11 && $row<=7)
+												Year {{$row}}
+											@endif
+											
+											@if($col==12)
+												@if($row == 1)
+													${{ number_format(round($C16*1.05))  }}
+													@php 
+													  $L_14 = $C16*1.05;
+													@endphp
+												@endif
+												
+												@if($row == 2)
+													${{ number_format(round($L_14+ $D_16) * 1.05)  }}
+													@php 
+													  $L_15 = ($L_14+ $D_16) * 1.05;
+													@endphp
+												@endif
+												
+												@if($row == 3)
+													${{ number_format(round($L_15+ $E_16) * 1.05)  }}
+													@php 
+													  $L_16 = ($L_15+ $E_16) * 1.05;
+													@endphp
+												@endif
+												
+												@if($row == 4)
+													${{ number_format(round($L_16+ $F_16) * 1.05)  }}
+													@php 
+													  $L_17 = ($L_16+ $F_16) * 1.05;
+													@endphp
+												@endif
+												
+												@if($row == 5)
+													${{ number_format(round($L_17+ $G_16) * 1.05)  }}
+													@php 
+													  $L_18 = ($L_17+ $G_16) * 1.05;
+													@endphp
+												@endif
+												
+												@if($row == 6)
+													${{ number_format(round($L_18+ $H_16) * 1.05)  }}
+													@php 
+													  $L_19 = ($L_18+ $H_16) * 1.05;
+													@endphp
+												@endif
+												
+												@if($row == 7)
+												  ${{ number_format(round($L_19+ $i16) * 1.05)  }}
+													@php 
+													  $L_20 = ($L_19+ $i16) * 1.05;
+													@endphp
+												@endif
+												
+											@endif
+											
+											@if($col==13)
+												@if($row == 1)
+													${{ number_format(round($C_17+$L_14))  }}
+													@php 
+														$M_14 = $C_17+$L_14;
+													@endphp
+												@endif
+												
+												@if($row == 2)
+													${{ number_format(round($D_17+$L_15))  }}
+													@php 
+													  $M_15 = $D_17+$L_15;
+													@endphp
+												@endif
+												
+												@if($row == 3)
+													${{ number_format(round($E_17+$L_16))  }}
+													@php 
+													  $M_16 = $E_17+$L_16;
+													@endphp
+												@endif
+												
+												@if($row == 4)
+													${{ number_format(round($F_17+$L_17))  }}
+													@php 
+													  $M_17 = $F_17+$L_17;
+													@endphp
+												@endif
+												
+												@if($row == 5)
+													${{ number_format(round($G_17+$L_18))  }}
+													@php 
+													  $M_18 = $G_17+$L_18;
+													@endphp
+												@endif
+												
+												@if($row == 6)
+													${{ number_format(round($H_17+$L_19))  }}
+													@php 
+													  $M_19 = $H_17+$L_19;
+													@endphp
+												@endif
+												
+												@if($row == 7)
+													${{ number_format( round(($J_16+$L_20) * 1.05) )  }}
+													@php 
+													  $M_20 = ($J_16+$L_20) * 1.05;
+													@endphp
+												@endif
+											@endif
 										@endif
-										
-										@if($col==12)
-											@if($row == 1)
-												${{ number_format(round($C16*1.05))  }}
-												@php 
-												  $L_14 = $C16*1.05;
-												@endphp
-											@endif
-											
-											@if($row == 2)
-												${{ number_format(round($L_14+ $D_16) * 1.05)  }}
-												@php 
-												  $L_15 = ($L_14+ $D_16) * 1.05;
-												@endphp
-											@endif
-											
-											@if($row == 3)
-												${{ number_format(round($L_15+ $E_16) * 1.05)  }}
-												@php 
-												  $L_16 = ($L_15+ $E_16) * 1.05;
-												@endphp
-											@endif
-											
-											@if($row == 4)
-												${{ number_format(round($L_16+ $F_16) * 1.05)  }}
-												@php 
-												  $L_17 = ($L_16+ $F_16) * 1.05;
-												@endphp
-											@endif
-											
-											@if($row == 5)
-												${{ number_format(round($L_17+ $G_16) * 1.05)  }}
-												@php 
-												  $L_18 = ($L_17+ $G_16) * 1.05;
-												@endphp
-											@endif
-											
-											@if($row == 6)
-												${{ number_format(round($L_18+ $H_16) * 1.05)  }}
-												@php 
-												  $L_19 = ($L_18+ $H_16) * 1.05;
-												@endphp
-											@endif
-											
-											@if($row == 7)
-											  ${{ number_format(round($L_19+ $i16) * 1.05)  }}
-												@php 
-												  $L_20 = ($L_19+ $i16) * 1.05;
-												@endphp
-											@endif
-											
-										@endif
-										
-										@if($col==13)
-											@if($row == 1)
-												${{ number_format(round($C_17+$L_14))  }}
-												@php 
-													$M_14 = $C_17+$L_14;
-												@endphp
-											@endif
-											
-											@if($row == 2)
-												${{ number_format(round($D_17+$L_15))  }}
-												@php 
-												  $M_15 = $D_17+$L_15;
-												@endphp
-											@endif
-											
-											@if($row == 3)
-												${{ number_format(round($E_17+$L_16))  }}
-												@php 
-												  $M_16 = $E_17+$L_16;
-												@endphp
-											@endif
-											
-											@if($row == 4)
-												${{ number_format(round($F_17+$L_17))  }}
-												@php 
-												  $M_17 = $F_17+$L_17;
-												@endphp
-											@endif
-											
-											@if($row == 5)
-												${{ number_format(round($G_17+$L_18))  }}
-												@php 
-												  $M_18 = $G_17+$L_18;
-												@endphp
-											@endif
-											
-											@if($row == 6)
-												${{ number_format(round($H_17+$L_19))  }}
-												@php 
-												  $M_19 = $H_17+$L_19;
-												@endphp
-											@endif
-											
-											@if($row == 7)
-												${{ number_format( round(($J_16+$L_20) * 1.05) )  }}
-												@php 
-												  $M_20 = ($J_16+$L_20) * 1.05;
-												@endphp
-											@endif
-										@endif
-									
 									@endif
 									
 									@if($col==3 && $row==9)
