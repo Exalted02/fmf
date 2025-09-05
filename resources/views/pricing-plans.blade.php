@@ -54,7 +54,20 @@ $yearly_billing = App\Models\Pricing_plan::where('plan_type',2)->get();
 				</div>
 				<div class="login-head">Payment Method</div>
 				<p class="text-center">Dynamic payment gateway content will come here</p>
-				
+				<div class="row mt-4">
+					<div class="col-md-12">
+						<div class="form-grid">
+							<div class="row mt-4">
+								<div class="col-md-12">
+									<div class="d-flex justify-between submit-section mt-2 mb-5">
+										<button class="btn common-cancel-button">Back</button>
+										<a href="{{route('portfolio-desires')}}"><button class="btn btn-primary common-button">Pay $159.99</button></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				{{--<div class="row mt-4">
 					<div class="col-md-12">
 						@if(auth()->user()->subscribed())

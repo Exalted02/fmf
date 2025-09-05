@@ -25,7 +25,7 @@ class DashboardController extends Controller
     public function pricing_plans()
     {
 		$data = [];
-		
+		/*
 		// Set your secret key
 		\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 		
@@ -37,10 +37,10 @@ class DashboardController extends Controller
         // Get the unit amount of the price
     //    $amount = $price->unit_amount/100;
 		//dd($amount);
-        $intent = auth()->user()->createSetupIntent();
+        $intent = auth()->user()->createSetupIntent();*/
 		
-		return view("pricing-plans", compact("data", "intent", "user", "last_subscription"));
-        //return view('pricing-plans', $data);
+		// return view("pricing-plans", compact("data", "intent", "user", "last_subscription"));
+        return view('pricing-plans', $data);
     }
     public function portfolio_desires()
     {
