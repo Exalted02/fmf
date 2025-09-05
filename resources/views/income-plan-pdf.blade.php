@@ -107,6 +107,16 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
         .subtotal { font-weight: bold; }
         .totals { font-weight: bold; font-size: 26px; }
         .right { text-align: right; }
+		
+		.footer {
+			position: fixed;
+            bottom: 50px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: #000;
+		}
     </style>
 </head>
 <body>
@@ -149,9 +159,9 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 			</tr>
 		</table>
 
-		<table style="margin-top: 100px;">
+		<table class="footer">
 			<tr>
-				<td style="background-color: ;padding: 10px;text-align: left;color: ;font-size: 12px;">
+				<td style="background-color: ;padding: 10px;text-align: left;font-size: 12px;">
 					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
 					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
 					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
@@ -251,21 +261,21 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 				</tr>
 			</tbody>
 		</table>
-	</div>
-	
-	<table style="margin-top: 30px;">
-		<tr>
-			<td style="background-color: ;padding: 10px;text-align: left;color: ;font-size: 12px;">
-				The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
-				Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
-				The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
-				are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
-				greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
+		<table class="footer">
+			<tr>
+				<td style="background-color: ;padding: 10px;text-align: left;font-size: 12px;">
+					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
 
-				Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
-			</td>
-		</tr>
-	</table>
+					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
+				</td>
+			</tr>
+		</table>
+	
+	</div>
 	
 	<div style="page-break-after: always;">
 		<div class="section-title"></div>
@@ -344,7 +354,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 		</table>
 
 		<!-- Totals -->
-		<table style="margin-left: -198px;">
+		<table style="margin-left: -200px;">
 			<tr>
 				<td width="70%"></td>
 				<td class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</td>
@@ -393,22 +403,21 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 			267-280-3660 <br>
 			www.TheFidelityMutual.com
 		</p>
-	</div>
-	</br>
-	<table style="margin-top: 5px;">
-		<tr>
-			<td style="background-color: ;padding: 10px;text-align: left;color: ;font-size: 12px;">
-				The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
-				Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
-				The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
-				are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
-				greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
+		<table class="footer">
+			<tr>
+				<td style="background-color: ;padding: 10px;text-align: left;font-size: 12px;">
+					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
 
-				Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
-			</td>
-		</tr>
-	</table>
-	</br></br>
+					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
+				</td>
+			</tr>
+		</table>
+	</div>
+	
 	@php 
 	$total_wife_rmd_inc_key = '';
 	$total_husband_rmd_inc_key = '';
@@ -538,6 +547,22 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 			</tbody>
 		</table>
 		</hr>
+	
+		<table class="footer">
+			<tr>
+				<td style="background-color: ;padding: 10px;text-align: left;font-size: 12px;">
+					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
+
+					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
+				</td>
+			</tr>
+		</table>
+	</div>	
+	<div style="page-break-after: always;">
 		@if(!empty($current_finance_husband_data))
 		<div>
 			<h2><strong style="margin-left:200px;">Husband Roth Conversion From Taxable To Free Tax</strong></h2>
@@ -608,7 +633,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 									@endphp
 								
 								<tr>
-									<td style="height:10px;text-align: center;font-size:10px">
+									<td style="height:10px;text-align: left">
 									@if($col == 1 && $row == 1)
 										$ {{ number_format($a12) }}
 									@endif
@@ -952,6 +977,20 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 			</tbody>
 		</table>
 		@endif
+		
+		<table class="footer">
+			<tr>
+				<td style="padding: 10px;text-align: left;font-size: 12px;">
+					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
+
+					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
+				</td>
+			</tr>
+		</table>
 	</div>
 </body>
 </html>
