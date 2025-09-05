@@ -339,11 +339,12 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 					#2 Savings &nbsp;&nbsp; $76,400 <br><br>--}}
 					<span class="subtotal">Subtotal ${{ number_format($subTotalJoint) }}</span>
 				</td>
+				
 			</tr>
 		</table>
 
 		<!-- Totals -->
-		{{--<table>
+		<table style="margin-left: -198px;">
 			<tr>
 				<td width="70%"></td>
 				<td class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</td>
@@ -352,7 +353,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 				<td></td>
 				<td class="totals">Income Total $ {{ number_format($incomeTotal) }}</td>
 			</tr>
-		</table>--}}
+		</table>
 
 		<!-- Current Income Accounts -->
 		<table>
@@ -375,7 +376,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 			</tr>
 			<input type="hidden" id="subTotalCurrent" value="{{ $subTotalCurrent ?? 0 }}">
 		</table>
-		<table>
+		{{--<table>
 			<tr>
 				<td width="38%"></td>
 				<td class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</td>
@@ -384,7 +385,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 				<td></td>
 				<td class="totals">Income Total $ {{ number_format($incomeTotal) }}</td>
 			</tr>
-		</table>
+		</table>--}}
 
 		<br><br>
 		<p>
@@ -543,6 +544,13 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 		</div>
 		</hr>
 		@php 
+			$m_14 = 0;
+			$m_15 = 0;
+			$m_16 = 0;
+			$m_17 = 0;
+			$m_18 = 0;
+			$m_19 = 0;
+			$m_20 = 0;
 			$a12 = 0;
 			$a14 = 0;
 			$a17 = 0;
@@ -600,7 +608,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 									@endphp
 								
 								<tr>
-									<td style="height:10px;text-align: left">
+									<td style="height:10px;text-align: center;font-size:10px">
 									@if($col == 1 && $row == 1)
 										$ {{ number_format($a12) }}
 									@endif

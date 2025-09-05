@@ -26,6 +26,7 @@ class DashboardController extends Controller
     }
     public function portfolio_desires()
     {
+		//Session::put('sl_no', 9);
 		$data = [];
 		$id = Session::get('sl_no');
 		$data['record'] = '';
