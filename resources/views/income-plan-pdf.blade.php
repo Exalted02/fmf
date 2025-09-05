@@ -113,7 +113,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 		
 		.footer {
 			position: fixed;
-            bottom: 90px;
+            bottom: 110px;
             left: 0;
             right: 0;
             text-align: center;
@@ -549,23 +549,10 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 				@endif
 			</tbody>
 		</table>
-	
-		{{--<table class="footer">
-			<tr>
-				<td style="background-color: ;padding: 10px;text-align: left;font-size: 12px;">
-					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
-					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
-					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
-					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
-					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
-
-					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
-				</td>
-			</tr>
-		</table>--}}
 	</div>	
+	
+	@if(!empty($current_finance_husband_data))
 	<div style="page-break-after: always;">
-		@if(!empty($current_finance_husband_data))
 		<div>
 			<h2><strong style="margin-left:200px;">Husband Roth Conversion From Taxable To Free Tax</strong></h2>
 		</div>
@@ -613,7 +600,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 						$index12_previous = 0;
 					@endphp
 					<td>
-						<table border="0">
+						<table class="calc-report">
 							@for($row = 1; $row <= 9; $row++)
 								
 									@php
@@ -980,7 +967,6 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 				@endfor
 			</tbody>
 		</table>
-		@endif
 		
 		<table class="footer">
 			<tr>
@@ -996,6 +982,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 			</tr>
 		</table>
 	</div>
+	@endif
 </body>
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
