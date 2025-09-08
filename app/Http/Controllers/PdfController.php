@@ -42,7 +42,7 @@ class PdfController extends Controller
 		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
 		
-		$lastId = 9;
+		//$lastId = 9;
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
@@ -162,7 +162,7 @@ class PdfController extends Controller
 		$annual_income_value = 0;
 		$previous_savings = [];
 		$previous_nq = [];
-		
+		$rmd = [];
 		
 		
 		for($i=0; $i<=25; $i++)
@@ -266,9 +266,10 @@ class PdfController extends Controller
 							
 							if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 							{
+								//echo $rmd[$key];die;
 								$percentRmd = distribution_period()[$new_wife_age][0];
-								$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
-								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd);
+								//$rmd[$key] = $previous_tax_quali_arr[$key] / $percentRmd;
+								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key]);
 								//echo $rmd;die;
 								$account_value = number_format($current_tax_value);
 								$percentRmd = distribution_period()[$new_wife_age][0];
@@ -289,7 +290,7 @@ class PdfController extends Controller
 							}
 							else
 							{
-								$rmd = 0;
+								$rmd[$key] = 0;
 								$current_tax_value = $previous_tax_quali_arr[$key] * 1.05;
 								$account_value = number_format($current_tax_value); 
 								$previous_tax_quali_arr[$key] = $current_tax_value;
@@ -420,11 +421,13 @@ class PdfController extends Controller
 
 							$k401_rmd = $previous_tax_quali_arr[$key] / $percentRmd;
 							
-							$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
-							$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd);
+							//$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
+							$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key]);
+							$rmd[$key] = $previous_tax_quali_arr[$key] / $percentRmd;
+							
 							$previous_tax_quali_arr[$key] = $current_tax_value;
 							
-							$gross_income = $gross_income + $rmd;
+							$gross_income = $gross_income + $rmd[$key];
 							
 							//-------------------------
 							
@@ -437,7 +440,7 @@ class PdfController extends Controller
 						}
 						else
 						{
-							$rmd = 0;
+							$rmd[$key] = 0;
 							$k401_rmd = 0;
 							$row[] = '';
 							//$row[] = '';
