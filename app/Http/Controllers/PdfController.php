@@ -202,9 +202,6 @@ class PdfController extends Controller
 					//----- calculation part ----------
 					$account_value = number_format($acount->account_value);
 					
-					//if(strpos($acount->account_title, 'Savings') !== false)
-					//if ($acount->tax_qualification == 2 && stripos($acount->account_title, 'Savings') !== false)
-
 					if ($acount->tax_qualification == 2 && preg_match('/\bsavings?\b/i', $acount->account_title))
 					{
 						if($i==0)
@@ -219,11 +216,6 @@ class PdfController extends Controller
 							$account_value = number_format($savings);
 							$previous_savings[$key] = $savings;
 							$finance_account_value = $finance_account_value + $savings;
-							
-							//------ 01-09-2025---
-							//$savings =  $savings * 1.0275;
-							//$account_value = number_format($savings);
-							//$finance_account_value = $finance_account_value + $savings;
 						}
 					}
 					
@@ -241,10 +233,7 @@ class PdfController extends Controller
 							$account_value = number_format($nq);
 							$previous_nq[$key] = $nq;
 							$finance_account_value = $finance_account_value + $nq;
-							//----- 01-09-2025------
-							//$nq =  ($nq * 1.035) - 26375; // subtract from income (F)
-							//$account_value = number_format($nq);
-							//$finance_account_value = $finance_account_value + $nq;
+							
 						}
 					}
 					
@@ -259,14 +248,8 @@ class PdfController extends Controller
 						}
 						else
 						{
-							//$k401_previous =  $k401;
-							/*foreach ($previous_tax_quali_arr as $val) {
-								$previous_tax_quali_data_arr[] = $val;
-							}*/
-							
 							if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 							{
-								//echo $rmd[$key];die;
 								$percentRmd = distribution_period()[$new_wife_age][0];
 								//$rmd[$key] = $previous_tax_quali_arr[$key] / $percentRmd;
 								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key]);
@@ -274,19 +257,6 @@ class PdfController extends Controller
 								$account_value = number_format($current_tax_value);
 								$percentRmd = distribution_period()[$new_wife_age][0];
 								
-								
-								
-								//$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
-								//$previous_tax_quali_arr[$k] = $current_tax_value;
-								
-								
-								//$finance_account_value = $finance_account_value + $current_tax_value;
-								
-								/*$k401 =  round(($k401 * 1.05) - $rmd); 
-								$account_value = number_format($k401);
-								
-								$percentRmd = percent_k401_yearly()[$i];
-								$rmd = $k401_previous / $percentRmd;*/
 							}
 							else
 							{
@@ -294,12 +264,6 @@ class PdfController extends Controller
 								$current_tax_value = $previous_tax_quali_arr[$key] * 1.05;
 								$account_value = number_format($current_tax_value); 
 								$previous_tax_quali_arr[$key] = $current_tax_value;
-								
-								//$finance_account_value = $finance_account_value + $current_tax_value;
-								
-								/*$rmd = 0;
-								$k401 =  $k401 * 1.05; 
-								$account_value = number_format($k401);*/
 							}
 							//echo $finance_account_value;die;
 						}
@@ -429,13 +393,6 @@ class PdfController extends Controller
 							
 							$gross_income = $gross_income + $rmd[$key];
 							
-							//-------------------------
-							
-							//-------- previous ----
-							//$row[] = number_format($previous_tax_quali_data_arr[$key] / $percentRmd);
-
-							//$k401_rmd = $previous_tax_quali_data_arr[$key] / $percentRmd;
-							//-----------------
 							$vs++;
 						}
 						else
