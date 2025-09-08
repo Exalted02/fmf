@@ -163,8 +163,10 @@
 					<div class="row mt-4">
 						<div class="col-md-12">
 							<div class="d-flex justify-between submit-section mt-2 mb-5">
-								<button class="btn btn-primary common-button">Next <i class="fa fa-arrow-right"></i></button>
-								{{--<a href="{{route('income-sources')}}"><button class="btn btn-primary common-button">Next <i class="fa fa-arrow-right"></i></button></a>--}}
+								<a href="javascript:void(0);"><button class="btn btn-primary common-button back-page"> <i class="fa fa-arrow-left"></i> Back</button></a>
+								
+								<button class="btn btn-primary common-button save-portfolio-desire">Next <i class="fa fa-arrow-right"></i></button>
+								
 							</div>
 						</div>
 					</div>
@@ -208,7 +210,7 @@
 @section('scripts')
 <script>
  $(document).ready(function(){
-	$('.common-button').on('click', function(e){
+	$('.save-portfolio-desire').on('click', function(e){
 		e.preventDefault();
 		var client_name = $('#client_name').val().trim();
 		var client_age = $('#client_age').val();
@@ -317,6 +319,9 @@
 			});
 		}
 	});
+ });
+ $(document).on('click','.back-page', function(){
+	 window.location.href = "{{route('pricing-plans')}}";
  });
  
 </script>
