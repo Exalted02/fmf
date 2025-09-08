@@ -433,6 +433,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 	$rmd_position_keys = [];
 	$total_rmd_inc = [];
 	$count_rmd = 0;
+	$total_rmd_value = 0;
 	
 	@endphp
 	<div style="page-break-after: always;">
@@ -453,17 +454,17 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 						
 					
 					
-					@if($header == 'RMD' && $count_rmd <= 0)
+					@if($header == 'RMD' && $count_rmd == 0)
 						@php
 							$rmd_position_keys[] = $h;
 							$total_rmd_inc[$h] = 0;
-							$count_rmd-= 1;
 						@endphp
 					@endif
 					
 					@if($header == 'Wife RMD/Income')
 						@php
 							$total_wife_rmd_inc_key = $h;
+							$count_rmd =0;
 						@endphp
 					@endif
 					
@@ -502,10 +503,6 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 							$total_estate_key = $h;
 						@endphp
 					@endif
-					
-					@php 
-						//echo $h.' hello '.$count_rmd;
-					@endphp 
 					
 					@endforeach
 				@endif
@@ -593,7 +590,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 								<td><strong>{{ $total_inc_tax_key == $subkey ?   '$' . number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ?  '$' . number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ?  '$' . number_format($total_irs_partner) : ($total_estate_key == $subkey ?  '$' . number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ?  '$' . number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ?  '$' . number_format($total_husband_rmd_inc) : ($total_joint_rmd_inc_key == $subkey ?  '$' . number_format($total_joint_rmd_inc) : '') ) ) ) )) }}
 								
 								@if(in_array($subkey, $rmd_position_keys))
-									${{ '$' . number_format($total_rmd_inc[$subkey]) }}
+									${{ number_format($total_rmd_inc[$subkey]) }}
 								@endif
 								</strong></td>
 							@endforeach
@@ -604,10 +601,18 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 				@endif
 			</tbody>
 		</table>
+		
 	</div>
-	@php 
-	  echo "<pre>";print_r($rmd_position_keys);die;
-	@endphp
+	@if(!empty($total_rmd_inc))
+		@foreach($total_rmd_inc as $val)
+			@php 
+				$total_rmd_value = $total_rmd_value + $val;
+			@endphp
+		@endforeach
+	@endif
+	<div class="row">
+			<div style="margin-left:450px;"><strong>Total RMD: {{ '$ '. number_format($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc + $total_joint_rmd_inc)}}</strong></div>
+	</div>
 	
 	@if(!empty($current_finance_husband_data))
 	<div style="page-break-after: always;">
