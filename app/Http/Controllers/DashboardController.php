@@ -25,7 +25,7 @@ class DashboardController extends Controller
     public function pricing_plans()
     {
 		$data = [];
-		
+		//echo auth()->user()->id; die;
 		/*
 		// Set your secret key
 		\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -45,7 +45,6 @@ class DashboardController extends Controller
     }
     public function portfolio_desires()
     {
-		//Session::put('sl_no', 9);
 		$data = [];
 		$id = Session::get('sl_no');
 		$data['record'] = '';
@@ -54,7 +53,7 @@ class DashboardController extends Controller
 			$record = Client_portfolio_Desires::where('id', $id)->first();
 			$data['record'] = $record;
 		}
-		Session::forget('has_roth');
+		//Session::forget('has_roth');
 		return view('portfolio-desires', $data);
     }
 	public function current_financial_account()
@@ -109,12 +108,13 @@ class DashboardController extends Controller
 		
 		if(!empty($sl_no))
 		{
+			
 			$result = Roth_conversion_calculators::where('sl_no', $sl_no)->first();
 			$data['results'] = $result;
-			
 			$roth_id = $result ? $result->id : '';
 			
 			$record = Roth_conversion_calculator_yearly_rule::where('roth_id', $roth_id)->get();
+			//echo "<pre>";print_r($record);die;
 			$data['records'] = $record;
 			
 			if(empty($has_current_income) && empty($has_income_source) && empty($has_roth))
@@ -240,6 +240,7 @@ class DashboardController extends Controller
 			$model->rmd_finish_age  = $request->rmd_finish_age;
 			$model->rmd_tax_free_income  = $request->rmd_tax_free_income;
 			$model->save();
+			$roth_id = $sl_no;
 		}
 		else 
 		{
@@ -263,7 +264,7 @@ class DashboardController extends Controller
 		
 		if($sl_no != '')
 		{
-			Roth_conversion_calculator_yearly_rule::where('roth_id', $id)->delete();
+			Roth_conversion_calculator_yearly_rule::where('roth_id', $roth_id)->delete();
 		}
 		
 		$countrecord = count($investment_amount);

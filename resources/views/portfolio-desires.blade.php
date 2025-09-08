@@ -321,9 +321,9 @@
 	});
  });
  $(document).on('click','.back-page', function(){
-	 //alert('hi');
-	 var pricingPlansUrl = "{{ route('pricing-plans') }}";
-	 window.location.href = pricingPlansUrl;
+	
+	var pricingPlansUrl = "{{ route('pricing-plans') }}";
+	window.location.href = pricingPlansUrl;
  });
  
 </script>

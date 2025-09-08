@@ -629,9 +629,10 @@ class PdfController extends Controller
 				}
 				//-------
 				
+				$row[] = number_format($income_goal);
 				$row[] = number_format($gross_income);
 				$row[] = number_format($taxable_income);
-				$row[] = number_format($income_goal);
+				//$row[] = number_format($income_goal);
 				$row[] = number_format($income_goal - $gross_income);
 				$row[] = number_format($irmaaVal);
 				$row[] = $tax_rate .'%';
@@ -666,9 +667,10 @@ class PdfController extends Controller
 		
 		if($current_income_account->isNotEmpty())
 		{
+			$headerIncomeArray[] = 'Income Goal';
 			$headerIncomeArray[] = 'Gross Income';
 			$headerIncomeArray[] = 'Taxable Income';
-			$headerIncomeArray[] = 'Income Goal';
+			//$headerIncomeArray[] = 'Income Goal';
 			$headerIncomeArray[] = 'Gap From Assets';
 			$headerIncomeArray[] = 'IRMAA';
 			$headerIncomeArray[] = 'Tax Rates';
