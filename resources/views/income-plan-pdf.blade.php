@@ -429,6 +429,8 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 	$total_irs_partner_key = '';
 	$total_estate_key = '';
 	$rmd_position_keys = [];
+	$total_rmd_inc = [];
+	
 	@endphp
 	<div style="page-break-after: always;">
 		<table class="calc-report">
@@ -441,6 +443,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 					@if($header == 'RMD')
 						@php
 							$rmd_position_keys[] = $h;
+							$total_rmd_inc[$h] = 0;
 						@endphp
 					@endif
 					
@@ -486,6 +489,14 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 			@if(!empty($excelheaderValueArray))
 				@foreach($excelheaderValueArray as $key=>$excelheaderValue)
 					@foreach($excelheaderValue as $k=>$headerVal)
+					
+						@if(in_array($k, $rmd_position_keys))
+							@php
+								$total_rmd_val = (int) str_replace(',', '', $headerVal);
+								$total_rmd_inc[$k] = $total_rmd_inc[$k] + $total_rmd_val;
+							@endphp
+						@endif
+					
 						@if($total_wife_rmd_inc_key == $k)
 							@php
 							$total_wife_rmd = (int) str_replace(',', '', $headerVal);
@@ -547,7 +558,12 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 						@if($key == 0)
 						<tr>
 							@foreach($excelheaderValue as $subkey=>$headerVal)
-								<td><strong>{{ $total_inc_tax_key == $subkey ? number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ? number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ? number_format($total_irs_partner) : ($total_estate_key == $subkey ? number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ? number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ? number_format($total_husband_rmd_inc) : '' ) ) ) )) }}</strong></td>
+								<td><strong>{{ $total_inc_tax_key == $subkey ?  number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ? number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ? number_format($total_irs_partner) : ($total_estate_key == $subkey ? number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ? number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ? number_format($total_husband_rmd_inc) : '' ) ) ) )) }}
+								
+								@if(in_array($subkey, $rmd_position_keys))
+									${{ number_format($total_rmd_inc[$subkey]) }}
+								@endif
+								</strong></td>
 							@endforeach
 						</tr>
 						@endif
@@ -556,7 +572,11 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 				@endif
 			</tbody>
 		</table>
-	</div>	
+	</div>
+	@php 
+		echo "<pre>";print_r($rmd_position_keys);
+		echo "<pre>";print_r($total_rmd_inc);
+	@endphp	
 	
 	@if(!empty($current_finance_husband_data))
 	<div style="page-break-after: always;">

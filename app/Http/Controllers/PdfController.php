@@ -42,7 +42,7 @@ class PdfController extends Controller
 		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
 		
-		//$lastId = 9;
+		$lastId = 8;
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
@@ -103,7 +103,7 @@ class PdfController extends Controller
 			 //&& preg_match('/\bsavings?\b/i', $acount->account_title)
 			if($acount->tax_qualification == 1 && stripos($acount->account_title, 'Annuity') === false)
 			{
-				$headerAccountTitleArray[] = 'RMD_k';
+				$headerAccountTitleArray[] = 'RMD';
 			}
 			
 			
