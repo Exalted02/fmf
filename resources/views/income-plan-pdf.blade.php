@@ -428,6 +428,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 	$total_IRMAA_key = '';
 	$total_irs_partner_key = '';
 	$total_estate_key = '';
+	$rmd_position_keys = [];
 	@endphp
 	<div style="page-break-after: always;">
 		<table class="calc-report">
@@ -436,6 +437,12 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 			    @if(!empty($excelheaderArray))
 					@foreach($excelheaderArray as $h=>$header)
 					<th>{{ $header ?? '' }}</th>
+					
+					@if($header == 'RMD')
+						@php
+							$rmd_position_keys[] = $h;
+						@endphp
+					@endif
 					
 					@if($header == 'Wife RMD/Income')
 						@php

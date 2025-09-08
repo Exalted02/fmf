@@ -31,16 +31,18 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        $pdf->getDomPDF()->setHttpContext($contxt);
-		$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
+        //$pdf->getDomPDF()->setHttpContext($contxt);
+		//$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
 		
-		//return view('income-plan-pdf', $data, $roth);
+		return view('income-plan-pdf', $data, $roth);
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page()
 	{
 		
 		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
+		
+		$lastId = 9;
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
@@ -101,7 +103,7 @@ class PdfController extends Controller
 			 //&& preg_match('/\bsavings?\b/i', $acount->account_title)
 			if($acount->tax_qualification == 1 && stripos($acount->account_title, 'Annuity') === false)
 			{
-				$headerAccountTitleArray[] = 'RMD';
+				$headerAccountTitleArray[] = 'RMD_k';
 			}
 			
 			
