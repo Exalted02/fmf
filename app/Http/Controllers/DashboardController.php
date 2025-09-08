@@ -25,6 +25,7 @@ class DashboardController extends Controller
     public function pricing_plans()
     {
 		$data = [];
+		
 		/*
 		// Set your secret key
 		\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -376,10 +377,10 @@ class DashboardController extends Controller
 		$model->rmd_age = $request->rmd_age == true ? 1: 0;
 		$model->save();
 		Session::put('has_roth_year', 1);
-		Session::forget('sl_no');
-		Session::forget('has_current_income');
-		Session::forget('has_income_source');
-		Session::forget('has_roth_year');
+		//Session::forget('sl_no');
+		//Session::forget('has_current_income');
+		//Session::forget('has_income_source');
+		//Session::forget('has_roth_year');
 		return response()->json(['message'=>'success']);
 	}
 }
