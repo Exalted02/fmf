@@ -61,6 +61,7 @@ if($current_income_account->isNotEmpty())
 
 $total_wife_rmd_inc = 0;
 $total_husband_rmd_inc = 0;
+$total_joint_rmd_inc = 0;
 $total_inc_tax = 0;
 $total_IRMAA = 0;
 $total_irs_partner = 0;
@@ -424,12 +425,14 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 	@php 
 	$total_wife_rmd_inc_key = '';
 	$total_husband_rmd_inc_key = '';
+	$total_joint_rmd_inc_key = '';
 	$total_inc_tax_key = '';
 	$total_IRMAA_key = '';
 	$total_irs_partner_key = '';
 	$total_estate_key = '';
 	$rmd_position_keys = [];
 	$total_rmd_inc = [];
+	$count_rmd = 0;
 	
 	@endphp
 	<div style="page-break-after: always;">
@@ -440,10 +443,21 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 					@foreach($excelheaderArray as $h=>$header)
 					<th>{{ $header ?? '' }}</th>
 					
-					@if($header == 'RMD')
+					
+					
+					@if(stripos($header, 'Wife') !== false && stripos($header, 'Annuity') !== false)
+						@php 
+							$count_rmd = 1;
+						@endphp
+					@endif
+						
+					
+					
+					@if($header == 'RMD' && $count_rmd <= 0)
 						@php
 							$rmd_position_keys[] = $h;
 							$total_rmd_inc[$h] = 0;
+							$count_rmd-= 1;
 						@endphp
 					@endif
 					
@@ -456,6 +470,12 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 					@if($header == 'Husband RMD/Income')
 						@php
 							$total_husband_rmd_inc_key = $h;
+						@endphp
+					@endif
+					
+					@if($header == 'Joint RMD/Income')
+						@php
+							$total_joint_rmd_inc_key = $h;
 						@endphp
 					@endif
 					
@@ -482,6 +502,11 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 							$total_estate_key = $h;
 						@endphp
 					@endif
+					
+					@php 
+						echo $h.' hello '.$count_rmd;
+					@endphp 
+					
 					@endforeach
 				@endif
 			</tr>
@@ -508,6 +533,13 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 							@php
 							$total_husband_rmd = (int) str_replace(',', '', $headerVal);
 								$total_husband_rmd_inc = $total_husband_rmd_inc + $total_husband_rmd;
+							@endphp 
+						@endif
+						
+						@if($total_joint_rmd_inc_key == $k)
+							@php
+							$total_joint_rmd = (int) str_replace(',', '', $headerVal);
+								$total_joint_rmd_inc = $total_joint_rmd_inc + $total_joint_rmd;
 							@endphp 
 						@endif
 						
@@ -558,7 +590,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 						@if($key == 0)
 						<tr>
 							@foreach($excelheaderValue as $subkey=>$headerVal)
-								<td><strong>{{ $total_inc_tax_key == $subkey ?  number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ? number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ? number_format($total_irs_partner) : ($total_estate_key == $subkey ? number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ? number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ? number_format($total_husband_rmd_inc) : '' ) ) ) )) }}
+								<td><strong>{{ $total_inc_tax_key == $subkey ?  number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ? number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ? number_format($total_irs_partner) : ($total_estate_key == $subkey ? number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ? number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ? number_format($total_husband_rmd_inc) : ($total_joint_rmd_inc_key == $subkey ? $total_joint_rmd_inc : '') ) ) ) )) }}
 								
 								@if(in_array($subkey, $rmd_position_keys))
 									${{ number_format($total_rmd_inc[$subkey]) }}
@@ -574,9 +606,8 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 		</table>
 	</div>
 	@php 
-		echo "<pre>";print_r($rmd_position_keys);
-		echo "<pre>";print_r($total_rmd_inc);
-	@endphp	
+	  echo "<pre>";print_r($rmd_position_keys);die;
+	@endphp
 	
 	@if(!empty($current_finance_husband_data))
 	<div style="page-break-after: always;">
