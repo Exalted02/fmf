@@ -64,6 +64,8 @@ class PdfController extends Controller
 		$desired_gross_income_retirement = 0;
 		
 		$headerAccountOwnerArray[] = 'Year';
+		$headerAccountOwnerArray[] = 'Husband';
+		$headerAccountOwnerArray[] = 'Wife';
 		$v = 0;
 		$vs = 0;
 		foreach($current_financial_account as $key=>$acount)
@@ -75,7 +77,7 @@ class PdfController extends Controller
 				$owner[] = $account_owner;
 			}*/
 			
-			if($key == 0)
+			/*if($key == 0)
 			{
 				$headerAccountOwnerArray[] = 'Husband';
 			}
@@ -83,7 +85,7 @@ class PdfController extends Controller
 			if($key == 1)
 			{
 				$headerAccountOwnerArray[] = 'Wife';
-			}
+			}*/
 			
 			
 			$headTitle = $acount->account_owner == 1 ? 'Husband '.$acount->account_title : ($acount->account_owner == 2 ? 'Wife '.$acount->account_title : 'Joint '.$acount->account_title);
