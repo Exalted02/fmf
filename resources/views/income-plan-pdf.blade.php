@@ -597,22 +597,37 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 						</tr>
 						@endif
 					@endforeach
+					<tr><td>&nbsp;</td></tr>
+					@if(!empty($total_rmd_inc))
+						@foreach($total_rmd_inc as $val)
+							@php 
+								$total_rmd_value = $total_rmd_value + $val;
+							@endphp
+						@endforeach
+					@endif
 					
+					@foreach($excelheaderValueArray as $key=>$excelheaderValue)
+						@if($key == 0)
+						<tr>
+						@foreach($excelheaderValue as $subkey=>$headerVal)
+							<td>
+							@if($subkey == 6)
+							<strong>Total RMD: {{ '$ '. number_format($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc + $total_joint_rmd_inc)}}</strong>
+							@endif
+							</td>
+						@endforeach
+						</tr>
+						@endif
+					@endforeach
 				@endif
 			</tbody>
 		</table>
 		
 	</div>
-	@if(!empty($total_rmd_inc))
-		@foreach($total_rmd_inc as $val)
-			@php 
-				$total_rmd_value = $total_rmd_value + $val;
-			@endphp
-		@endforeach
-	@endif
-	<div class="row">
+	
+	{{--<div class="row">
 			<div style="margin-left:450px;"><strong>Total RMD: {{ '$ '. number_format($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc + $total_joint_rmd_inc)}}</strong></div>
-	</div>
+	</div>--}}
 	
 	@if(!empty($current_finance_husband_data))
 	<div style="page-break-after: always;">

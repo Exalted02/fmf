@@ -163,7 +163,7 @@
 					<div class="row mt-4">
 						<div class="col-md-12">
 							<div class="d-flex justify-between submit-section mt-2 mb-5">
-								<a href="javascript:void(0);"><button class="btn btn-primary common-button back-page"> <i class="fa fa-arrow-left"></i> Back</button></a>
+							{{--<a href="javascript:void(0);"><button class="btn btn-primary common-button back-page"> <i class="fa fa-arrow-left"></i> Back</button></a>--}}
 								
 								<button class="btn btn-primary common-button save-portfolio-desire">Next <i class="fa fa-arrow-right"></i></button>
 								
