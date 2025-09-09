@@ -45,6 +45,11 @@ class DashboardController extends Controller
     }
     public function portfolio_desires()
     {
+		$exists_record = Client_portfolio_Desires::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->first();
+		if($exists_record){
+			Session::put('sl_no', $exists_record->id);
+		}		
+		
 		$data = [];
 		$id = Session::get('sl_no');
 		$data['record'] = '';

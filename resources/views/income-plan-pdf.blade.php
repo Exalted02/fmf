@@ -437,6 +437,22 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 	
 	@endphp
 	<div style="page-break-after: always;">
+		<table>
+			<tr>
+				<td class="section-title">
+					Current Allocation Plan Details
+				</td>
+			</tr>
+		</table>
+		<table class="">
+			<thead>
+				<tr>
+					<td>
+						Desired Income ${{$desired_retirement_income}}
+					</td>
+				</tr>
+			</thead>
+		</table>
 		<table class="calc-report">
 			<thead>
 			<tr>
@@ -492,7 +508,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 						@endphp
 					@endif
 					
-					@if($header == 'Irs Partner')
+					@if($header == 'IRS Partner')
 						@php
 							$total_irs_partner_key = $h;
 						@endphp
