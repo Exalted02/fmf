@@ -56,6 +56,7 @@ Route::middleware(['auth','verified'])->group(function () {
 	Route::get('/pricing-plans', [DashboardController::class, 'pricing_plans'])->name('pricing-plans');
 	
 	Route::get('/portfolio-desires', [DashboardController::class, 'portfolio_desires'])->name('portfolio-desires');
+	Route::get('/portfolio-desires/{id}', [DashboardController::class, 'portfolio_desires_by_id'])->name('portfolio-desires-by-id');
 	Route::post('/portfolio-desires', [DashboardController::class, 'portfolio_desires_save'])->name('portfolio-desires');
 	
 	Route::get('/current-financial-account', [DashboardController::class, 'current_financial_account'])->name('current-financial-account');

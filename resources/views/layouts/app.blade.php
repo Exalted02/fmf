@@ -67,15 +67,15 @@
 			<div class="dropdown dropdown-action dropdown-header-icon">
 				<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-bars"></i></a>
 				<div class="dropdown-menu dropdown-menu-right">
-					<a class="dropdown-item edit-product-code" href="{{ route('income-plan-pdf') }}"><i class="fa-solid fa-file-pdf m-r-5"></i> Download PDF</a>
-					<a class="dropdown-item edit-product-code" href="{{ route('logout') }}"><i class="fa-solid fa-power-off m-r-5"></i> Logout</a>
+					<a class="dropdown-item" href="{{ route('income-plan-pdf') }}"><i class="fa-solid fa-file-pdf m-r-5"></i> Download PDF</a>
+					<a class="dropdown-item" href="{{ route('logout') }}"><i class="fa-solid fa-power-off m-r-5"></i> Logout</a>
 					<hr class="m-5-0">
 					@php
 						$client = \App\Models\Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('status', 1)->get();
 					@endphp
 					<div class="dropdown-user">
 						@foreach($client as $client_val)
-							<a class="dropdown-item edit-product-code" href="{{ route('logout') }}"><i class="fa-regular fa-user m-r-5"></i> {{$client_val->client_name}}</a>
+							<a class="dropdown-item" href="{{ route('portfolio-desires-by-id', ['id' => $client_val->id]) }}"><i class="fa-regular fa-user m-r-5"></i> {{$client_val->client_name}}</a>
 						@endforeach
 					</div>
 				</div>

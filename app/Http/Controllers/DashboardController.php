@@ -43,12 +43,17 @@ class DashboardController extends Controller
 		// return view("pricing-plans", compact("data", "intent", "user", "last_subscription"));
         return view('pricing-plans', $data);
     }
+    public function portfolio_desires_by_id($id)
+    {
+		Session::put('sl_no', $id);
+		return redirect()->route('portfolio-desires');
+    }
     public function portfolio_desires()
     {
-		$exists_record = Client_portfolio_Desires::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->first();
+		/*$exists_record = Client_portfolio_Desires::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->first();
 		if($exists_record){
 			Session::put('sl_no', $exists_record->id);
-		}		
+		}*/	
 		
 		$data = [];
 		$id = Session::get('sl_no');

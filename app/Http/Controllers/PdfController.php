@@ -8,6 +8,7 @@ use PDF;
 use App\Models\Client_portfolio_Desires;
 use App\Models\Current_financial_account;
 use App\Models\Guaranteed_income_sources;
+use Illuminate\Support\Facades\Session;
 
 class PdfController extends Controller
 {
@@ -17,10 +18,18 @@ class PdfController extends Controller
 		{
 			return redirect('login');
 		}
-
-		$roth = $this->rothConversionPage();
+		
+		$sl_no = Session::get('sl_no');
+		if(!empty($sl_no))
+		{
+			$lastId = $sl_no;
+		}else{
+			$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
+		}
+		
+		$roth = $this->rothConversionPage($lastId);
 		//echo "<pre>";print_r($roth);die;
-		$data = $this->current_financial_account_page();
+		$data = $this->current_financial_account_page($lastId);
 		
 		$pdf = app('dompdf.wrapper');
 		$contxt = stream_context_create([
@@ -37,10 +46,10 @@ class PdfController extends Controller
 		// return view('income-plan-pdf', $data, $roth);
 		return $pdf->download('income-plan.pdf');
 	}
-	public function current_financial_account_page()
+	public function current_financial_account_page($lastId)
 	{
 		
-		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
+		// $lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
 		
 		//$lastId = 8;
 		
@@ -689,14 +698,14 @@ class PdfController extends Controller
 		
 		return $data;
 	}
-	public function rothConversionPage()
+	public function rothConversionPage($lastId)
 	{
 		$data = [];
 		$headerAge = [];
 		$headerAge[] = 'Roth Conversion';
 		$headerAge[] = '';
 		//-calculation of total value-husband roth calculation---
-		$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
+		// $lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
 		
 		$current_finance_husband_data = Current_financial_account::where('sl_no', $lastId)->where('account_owner', 1)->where('account_title', 'LIKE', '%Annuity%')->first();
 		$husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
