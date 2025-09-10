@@ -24,4 +24,8 @@ class Client_portfolio_Desires extends Model
 		'RIPG',
 		'status', 
     ];
+	public function get_representative_details()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }

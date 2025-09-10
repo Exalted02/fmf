@@ -31,6 +31,9 @@
 .ml-10px {
 	margin-left: 10px !important;
 }
+.m-5-0 {
+	margin: 5px 0;
+}
 .gap-10px {
 	gap: 10px;
 }
@@ -87,6 +90,10 @@
 }
 .dropdown-header-icon .dropdown-toggle i {
     color: #fff;
+}
+.dropdown-user {
+	max-height: 200px;
+	overflow-y: scroll;
 }
 .common-button {
     /* background-color: #3490CD; */

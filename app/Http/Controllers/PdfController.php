@@ -34,7 +34,7 @@ class PdfController extends Controller
         $pdf->getDomPDF()->setHttpContext($contxt);
 		$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
 		
-		//return view('income-plan-pdf', $data, $roth);
+		// return view('income-plan-pdf', $data, $roth);
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page()
@@ -44,7 +44,7 @@ class PdfController extends Controller
 		
 		//$lastId = 8;
 		
-		$portfolio_Desire_data = Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('id', $lastId)->first();
+		$portfolio_Desire_data = Client_portfolio_Desires::with(['get_representative_details'])->where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
 		$current_financial_account = Current_financial_account::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->get();
 		
@@ -664,7 +664,7 @@ class PdfController extends Controller
 		
 		$data = [
 			"created_at" => $portfolio_Desire_data->created_at ?? '',
-			"client_nm" => $portfolio_Desire_data->client_name ?? '',
+			"client_nm" => $portfolio_Desire_data->get_representative_details->name ?? '',
 			"partner_nm" => $portfolio_Desire_data->partner_name ?? '',
             "current_position" => $portfolio_Desire_data->current_portfolio_value ?? '',
             "current_age" => $portfolio_Desire_data->client_age ?? '',
