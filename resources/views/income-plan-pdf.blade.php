@@ -76,7 +76,7 @@ $current_finance_husband_data = App\Models\Current_financial_account::where('sl_
 $husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
 
 $roth_year_data = App\Models\Roth_conversion_year::where('sl_no', $lastId)->first();
-$roth_yr = $roth_year_data ? $roth_year_data->year : '';
+$roth_yr = $roth_year_data ? $roth_year_data->year : 0;
 
 @endphp
 <!DOCTYPE html>
@@ -121,6 +121,12 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
             font-size: 12px;
             color: #000;
 		}
+		.mt-5 {
+			margin-top: 5px;
+		}
+		.mt-10 {
+			margin-top: 10px;
+		}
     </style>
 </head>
 <body>
@@ -152,10 +158,10 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 				<!-- Right Side -->
 				<td width="50%" style="padding-left: 20px;">
 					<p><strong style="color: #3490CD;">Prepared For:</strong><br>
-					Client and Partner</p>
+					{{ $client_nm ?? ''}} and {{ $partner_nm ?? ''}}</p>
 
 					<p><strong style="color: #3490CD;">Agent/Representative:</strong><br>
-					{{ $client_nm ?? ''}}</p>
+					{{ $representative ?? ''}}</p>
 
 					<p><strong style="color: #3490CD;">Date Prepared:</strong>
 					{{ Carbon::parse($created_at)->format('d/m/Y') }}</p>
@@ -298,8 +304,10 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 		<table>
 			<tr>
 				<!-- Wife's Accounts -->
-				<td width="50%" valign="top">
-					<strong>Wife's Accounts</strong><br>
+				<td width="20%" valign="top">
+				</td>
+				<td width="40%" valign="top">
+					<strong>{{ $partner_nm ?? ''}}'s Accounts</strong><br>
 					@if(!empty($wifeAsset))
 						@foreach($wifeAsset as $val)
 							@php 
@@ -307,17 +315,17 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 								$subTotalWife += $val['account_value'];
 								$w++;
 							@endphp
-							#{{ $w }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; $ {{ number_format($val['account_value']) }} <br>
+							<div class="mt-5">#{{ $w }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
 					@endif
 					{{--#1 Variable Annuity &nbsp;&nbsp; $2,377,000 <br>
 					#2 401k T-IRA &nbsp;&nbsp; $156,000 <br><br>--}}
-					<span class="subtotal">Subtotal $ {{ number_format($subTotalWife) }}</span>
+					<div class="subtotal mt-10">Subtotal $ {{ number_format($subTotalWife) }}</div>
 				</td>
 
 				<!-- Husband's Accounts -->
-				<td width="50%" valign="top">
-					<strong>Husband's Accounts</strong><br>
+				<td width="40%" valign="top">
+					<strong>{{ $client_nm ?? ''}}'s Accounts</strong><br>
 					@if(!empty($husbandAsset))
 						@foreach($husbandAsset as $val)
 							@php 
@@ -325,11 +333,11 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 								$subTotalHusband += $val['account_value'];
 								$h++;
 							@endphp
-							#{{ $h }} {{ $val['account_title'] }}&nbsp; {{ $tax_quali ?? '' }}&nbsp;&nbsp; $ {{ number_format($val['account_value']) }} <br>
+							<div class="mt-5">#{{ $h }} {{ $val['account_title'] }}&nbsp; {{ $tax_quali ?? '' }}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
 					@endif
 					{{--#1 Variable Annuity &nbsp;&nbsp; $803,952 <br><br>--}}
-					<span class="subtotal">Subtotal ${{ number_format($subTotalHusband) }}</span>
+					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalHusband) }}</div>
 				</td>
 			</tr>
 		</table>
@@ -337,7 +345,9 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 		<!-- Joint Accounts -->
 		<table>
 			<tr>
-				<td width="100%" valign="top">
+				<td width="20%" valign="top">
+				</td>
+				<td width="40%" valign="top">
 					<strong>Joint Accounts</strong><br>
 					@if(!empty($jointAsset))
 						@foreach($jointAsset as $val)
@@ -346,46 +356,51 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : '';
 								$subTotalJoint += $val['account_value'];
 								$j++;
 							@endphp
-							#{{ $j }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; $ {{ number_format($val['account_value']) }} <br>
+							<div class="mt-5">#{{ $j }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
 					@endif
 					{{--#1 Variable Annuity &nbsp;&nbsp; $440,400 <br>
 					#2 Savings &nbsp;&nbsp; $76,400 <br><br>--}}
-					<span class="subtotal">Subtotal ${{ number_format($subTotalJoint) }}</span>
+					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalJoint) }}</div>
 				</td>
-				
+				<td width="40%" valign="top">
+				</td>
 			</tr>
 		</table>
 
 		<!-- Totals -->
-		<table style="margin-left: -200px;">
+		<table>
 			<tr>
-				<td width="70%"></td>
+				<td width="60%"></td>
 				<td class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</td>
 			</tr>
 			<tr>
 				<td></td>
-				<td class="totals">Income Total $ {{ number_format($incomeTotal) }}</td>
+				<td class="totals">Income Total ${{ number_format($incomeTotal) }}</td>
 			</tr>
 		</table>
 
 		<!-- Current Income Accounts -->
 		<table>
 			<tr>
-				<td width="50%" valign="top">
+				<td width="20%" valign="top">
+				</td>
+				<td width="40%" valign="top">
 					<strong>Current Income Accounts</strong><br>
 					@if($current_income_account->isNotEmpty())
 						@foreach($current_income_account as $income_account)
 						@php 
 							$subTotalCurrent += $income_account->income_amount;
 						@endphp
-						{{ $income_account->client_name ?? ''}} &nbsp;&nbsp; ${{  number_format($income_account->income_amount) }} <br>
+						<div class="mt-5">{{ $income_account->client_name ?? ''}} &nbsp;&nbsp; ${{  number_format($income_account->income_amount) }} </div>
 						@endforeach
 					@endif
 					{{--Wife SS &nbsp;&nbsp; $35,772 <br>
 					Husband SS &nbsp;&nbsp; $25,764 <br><br>--}}
 					
-					<span class="subtotal">Subtotal $ {{ number_format($subTotalCurrent)}}</span>
+					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalCurrent)}}</div>
+				</td>
+				<td width="40%" valign="top">
 				</td>
 			</tr>
 			<input type="hidden" id="subTotalCurrent" value="{{ $subTotalCurrent ?? 0 }}">

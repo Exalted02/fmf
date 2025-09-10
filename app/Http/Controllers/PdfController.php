@@ -486,14 +486,14 @@ class PdfController extends Controller
 				}
 				
 				
-				if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+				/*if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 				{
 					//$row[] = distribution_period()[$new_wife_age][0];	
 				}
 				else
 				{
 					//$row[] = '';
-				}
+				}*/
 
 				
 				foreach($current_income_account as $k=>$income_src)
@@ -673,7 +673,8 @@ class PdfController extends Controller
 		
 		$data = [
 			"created_at" => $portfolio_Desire_data->created_at ?? '',
-			"client_nm" => $portfolio_Desire_data->get_representative_details->name ?? '',
+			"representative" => $portfolio_Desire_data->get_representative_details->name ?? '',
+			"client_nm" => $portfolio_Desire_data->client_name ?? '',
 			"partner_nm" => $portfolio_Desire_data->partner_name ?? '',
             "current_position" => $portfolio_Desire_data->current_portfolio_value ?? '',
             "current_age" => $portfolio_Desire_data->client_age ?? '',
