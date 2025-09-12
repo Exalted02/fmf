@@ -311,6 +311,11 @@
 						//window.location.href= "{{ route('income-sources') }}";
 						window.location.href= "{{ route('current-financial-account') }}";
 					}
+					
+					if(response.message == 'error')
+					{
+						$('.client_name_error').text('Client name already exists');
+					}
 				},
 				error: function(xhr) {
 					// Handle validation errors

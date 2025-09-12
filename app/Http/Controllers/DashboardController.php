@@ -147,6 +147,13 @@ class DashboardController extends Controller
 	{
 		//echo "<pre>";print_r($request->all());die;
 		$id = Session::get('sl_no');
+		
+		$ifClientExists = Client_portfolio_Desires::where('client_name', $request->client_name)->exists();
+		if($ifClientExists)
+		{
+			return response()->json(['message'=>'error']);
+		}
+		
 		$RIPG = null;
 		if(!empty($request->RIPG))
 		{

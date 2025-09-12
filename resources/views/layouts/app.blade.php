@@ -74,6 +74,7 @@
 						$client = \App\Models\Client_portfolio_Desires::where('user_id', auth()->user()->id)->where('status', 1)->get();
 					@endphp
 					<div class="dropdown-user">
+					    <a class="dropdown-item" href="{{ route('portfolio-desires-by-id', ['id' => 0]) }}"><i class="fa-regular fa-plus m-r-5"></i>Add new plan</a>
 						@foreach($client as $client_val)
 							<a class="dropdown-item" href="{{ route('portfolio-desires-by-id', ['id' => $client_val->id]) }}"><i class="fa-regular fa-user m-r-5"></i> {{$client_val->client_name}}</a>
 						@endforeach
