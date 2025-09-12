@@ -40,10 +40,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        //$pdf->getDomPDF()->setHttpContext($contxt);
-		//$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
+        $pdf->getDomPDF()->setHttpContext($contxt);
+		$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
 		
-		return view('income-plan-pdf', $data, $roth);
+		//return view('income-plan-pdf', $data, $roth);
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page($lastId)

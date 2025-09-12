@@ -78,6 +78,10 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 $roth_year_data = App\Models\Roth_conversion_year::where('sl_no', $lastId)->first();
 $roth_yr = $roth_year_data ? $roth_year_data->year : 0;
 
+$current_finance_wife_data = App\Models\Current_financial_account::where('sl_no', $lastId)->where('account_owner', 2)->where('account_title', 'LIKE', '%Annuity%')->first();
+
+$wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->account_value : '';
+
 @endphp
 <!DOCTYPE html>
 <html>
@@ -766,7 +770,7 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : 0;
 									    @if($row == 1 && $col<=8)
 											$ {{ $index17_previous == 0 ? number_format($a17) : number_format(round($index17_previous-$index19_previous)) }}
 											@php
-										     if($index17_previous == 0 && $index19_previous == 0){										$index12_previous = $a17;
+										     if($index17_previous == 0 && $index19_previous == 0){								$index12_previous = $a17;
 											   }
 											   else{
 												   $index12_previous = $index17_previous-$index19_previous;
@@ -1089,6 +1093,91 @@ $roth_yr = $roth_year_data ? $roth_year_data->year : 0;
 					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
 				</td>
 			</tr>
+		</table>
+	</div>
+	@endif
+	
+	@if(!empty($current_finance_wife_data))
+	<div style="page-break-after: always;">
+		<div>
+			<h2><strong style="margin-left:200px;">Wife Roth Conversion From Taxable To Free Tax</strong></h2>
+		</div>
+		@php 
+			$a12 = 0;
+			$a15 = 0;
+			$a18 = 0;
+		
+		@endphp
+		</hr>
+		<table class="calc-report">
+			<thead>
+				<tr>
+					<th>Roth Conversion</br>${{ number_format($wife_account_value) ?? ''}}</br>21% Bonus</th>
+					<th></th>
+					<th></th>
+					<th>69</br>End of ></th>
+					<th>69</br>Yr 1</th>
+					<th>70</br>Yr 2</th>
+					<th>71</br>Yr 3</th>
+					<th>72</br>Yr 4</th>
+					<th>73</br>Yr 5</th>
+					<th>74</br>Yr 6</th>
+					<th>75</br>Yr 7</th>
+					<th>76</br>Yr 8</th>
+					<th></th>
+					<th>Annual Converted</th>
+					<th>Year End Roth Value</th>
+					<th>Total Account Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for($col = 1; $col <= 16; $col++)
+					<td>
+						<table class="calc-report" border="0">
+							@for($row = 1; $row <= 9; $row++)
+							@php 
+								$index = $col.$row;
+								
+								$w_acc_value = $wife_account_value ?? '';
+								$a12 = round($w_acc_value * 0.21);
+								$a15 = $wife_account_value + $a12;
+								
+								$a18 = round($a15 * (1 + 0.05));
+							@endphp
+							<tr>
+								<td>
+								
+									@if($col == 1 && $row == 1)
+										$ {{ number_format($a12) }}
+									@elseif($col == 1 && $row == 3)
+										$ {{ number_format($a15) }}
+									@elseif($col == 1 && $row == 4)
+										5%
+									@elseif($col == 1 && $row == 5)
+										Conservative growth
+									@elseif($col == 1 && $row == 6)
+									  $ {{ number_format($a18) }}
+									@elseif($col == 1 && $row == 8)
+									  $ {{ number_format($a18/9) }}
+									@elseif($col == 2 && $row == 4)
+									  2650.00 %
+									@elseif($col == 4 && $row == 1)
+									  $ {{ number_format($a15) }} 
+									@elseif($col == 3)
+									{{ wife_roth_tax_conversion()[$index] ?? '' }}
+									@endif
+									
+									
+									
+									
+								</td>
+							</tr>
+							@endfor
+						</table>
+					</td>
+				@endfor
+			</tbody>
+		
 		</table>
 	</div>
 	@endif

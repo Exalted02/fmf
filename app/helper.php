@@ -625,5 +625,20 @@ use App\Models\Followup_remarks;
 			'28' =>'RMD',
 		];
 	}
+	
+	function wife_roth_tax_conversion()
+	{
+		return [
+			'31' =>'401K/IRA',
+			'32' =>'Fee .95',
+			'33' =>'Roth Conversion',
+			'34' =>'Roth Tax Paid',
+			'35' =>'Roth Account',
+			'36' =>'Ira Value',
+			'37' =>'Total Account Value',
+			'38' =>'RMD',
+			'39' =>'Income',
+		];
+	}
 
 ?>
