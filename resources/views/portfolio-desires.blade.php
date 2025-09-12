@@ -319,7 +319,6 @@
 				},
 				error: function(xhr) {
 					// Handle validation errors
-					
 				}
 			});
 		}
