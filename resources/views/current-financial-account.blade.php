@@ -321,6 +321,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		var account_owner_arr = [];
 		var account_title_arr = [];
+		var rmd_start_age_arr = [];
 		var tax_qualification_arr = [];
 		var age_income_start_arr = [];
 		var account_value_arr = [];
@@ -357,6 +358,17 @@ $(document).ready(function(){
             } else {
 				$(this).removeClass('is-invalid');
 				account_title_arr.push($(this).val().trim());
+			}
+			
+        });
+		
+		$('input[name="rmd_start_age[]"]').each(function() {
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).addClass('is-invalid');
+                isValid = false;
+            } else {
+				$(this).removeClass('is-invalid');
+				rmd_start_age_arr.push($(this).val().trim());
 			}
 			
         });
@@ -415,7 +427,7 @@ $(document).ready(function(){
 		$.ajax({
 				url: URL,
 				type: "POST",
-				data: {account_owner_arr:account_owner_arr,account_title_arr:account_title_arr,tax_qualification_arr:tax_qualification_arr,age_income_start_arr:age_income_start_arr,account_value_arr:account_value_arr,annual_income_value_arr:annual_income_value_arr,_token:csrfToken},
+				data: {account_owner_arr:account_owner_arr,account_title_arr:account_title_arr,rmd_start_age_arr:rmd_start_age_arr,tax_qualification_arr:tax_qualification_arr,age_income_start_arr:age_income_start_arr,account_value_arr:account_value_arr,annual_income_value_arr:annual_income_value_arr,_token:csrfToken},
 				dataType: 'json',
 				success: function(response) {
 					if(response.message == 'success')

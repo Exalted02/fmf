@@ -55,7 +55,7 @@
 						<div class="col-md-12">
 							<div class="d-flex justify-between submit-section mt-2 mb-5">
 								<button class="btn btn-primary common-button" onclick="goBackAndReload()"><i class="fa fa-arrow-left"></i> Previous</button>
-								<a href="javascript:void(0)"><button class="btn btn-primary common-button save-roth-calculator-year">Next <i class="fa fa-arrow-right"></i></button></a>
+								<a href="javascript:void(0)"><button class="btn btn-primary common-button save-roth-calculator-year">Save <i class="fa fa-arrow-right"></i></button></a>
 							</div>
 						</div>
 					</div>
