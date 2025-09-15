@@ -40,10 +40,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        //$pdf->getDomPDF()->setHttpContext($contxt);
-		//$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
+        $pdf->getDomPDF()->setHttpContext($contxt);
+		$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
 		
-		return view('income-plan-pdf', $data, $roth);
+		//return view('income-plan-pdf', $data, $roth);
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page($lastId)
@@ -288,6 +288,7 @@ class PdfController extends Controller
 							//$k401 =  $acount->account_value;
 							$previous_tax_quali_arr[$key] = $acount->account_value;
 							//$account_value = $acount->account_value;
+							$finance_account_value = $finance_account_value + $acount->account_value;
 						}
 						else
 						{
@@ -303,6 +304,8 @@ class PdfController extends Controller
 								$percentRmd = distribution_period()[$new_husband_age][0];
 								//$percentRmd = distribution_period()[$new_wife_age][0]; 15-09-2025
 								
+								$finance_account_value = $finance_account_value + $current_tax_value;
+								
 							}
 							else if($new_wife_age >= $wife_age_rmd  && $acount->account_owner == 2)
 							{
@@ -312,6 +315,8 @@ class PdfController extends Controller
 								//echo "<pre>";print_r($rmd);die;
 								$account_value = number_format($current_tax_value);
 								$percentRmd = distribution_period()[$new_wife_age][0];
+								
+								$finance_account_value = $finance_account_value + $current_tax_value;
 							}
 							else
 							{
@@ -319,6 +324,8 @@ class PdfController extends Controller
 								$current_tax_value = $previous_tax_quali_arr[$key] * 1.05;
 								$account_value = number_format($current_tax_value); 
 								$previous_tax_quali_arr[$key] = $current_tax_value;
+								
+								$finance_account_value = $finance_account_value + $current_tax_value;
 							}
 							//echo $finance_account_value;die;
 						}
