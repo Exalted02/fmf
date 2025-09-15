@@ -40,10 +40,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        $pdf->getDomPDF()->setHttpContext($contxt);
-		$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
+        //$pdf->getDomPDF()->setHttpContext($contxt);
+		//$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
 		
-		//return view('income-plan-pdf', $data, $roth);
+		return view('income-plan-pdf', $data, $roth);
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page($lastId)
@@ -75,8 +75,8 @@ class PdfController extends Controller
 		$desired_gross_income_retirement = 0;
 		
 		$headerAccountOwnerArray[] = 'Year';
-		$headerAccountOwnerArray[] = 'Husband';
-		$headerAccountOwnerArray[] = 'Wife';
+		$headerAccountOwnerArray[] = $portfolio_Desire_data->client_name ?? '';
+		$headerAccountOwnerArray[] = $portfolio_Desire_data->partner_name ?? '';
 		$v = 0;
 		$vs = 0;
 		foreach($current_financial_account as $key=>$acount)
@@ -645,7 +645,7 @@ class PdfController extends Controller
 			$headerIncomeArray[] = 'Gap From Assets';
 			$headerIncomeArray[] = 'IRMAA';
 			$headerIncomeArray[] = 'Tax Rates';
-			$headerIncomeArray[] = 'Irs Partner';
+			$headerIncomeArray[] = 'IRS Partner';
 			$headerIncomeArray[] = 'Total Estate';
 			
 			$headerIncomeValueArray[] = $gross_income;

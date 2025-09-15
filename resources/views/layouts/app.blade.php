@@ -76,7 +76,7 @@
 					<div class="dropdown-user">
 					    <a class="dropdown-item" href="{{ route('portfolio-desires-by-id', ['id' => 0]) }}"><i class="fa-regular fa-plus m-r-5"></i>Add new plan</a>
 						@foreach($client as $client_val)
-							<a class="dropdown-item" href="{{ route('portfolio-desires-by-id', ['id' => $client_val->id]) }}"><i class="fa-regular fa-user m-r-5"></i> {{$client_val->client_name}}</a>
+							<a class="dropdown-item" href="{{ route('portfolio-desires-by-id', ['id' => $client_val->id]) }}"><i class="fa-regular fa-user m-r-5"></i> {{$client_val->client_name}}_{{ Carbon\Carbon::parse($client_val->created_at)->format('d_m_Y')}}</a>
 						@endforeach
 					</div>
 				</div>
