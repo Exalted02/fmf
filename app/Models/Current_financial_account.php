@@ -14,6 +14,7 @@ class Current_financial_account extends Model
         'user_id',
 		'account_owner',
 		'account_title',
+		'rmd_start_age',
 		'tax_qualification',
 		'age_income_start',
 		'account_value',
