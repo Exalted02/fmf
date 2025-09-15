@@ -199,13 +199,45 @@ class PdfController extends Controller
 					
 					$currentYear = date('Y');
 					$husband_dob = $currentYear - $husbandAge;
+					
+					$wife_dob = $currentYear - $wifeAge;
 					//echo $husband_dob; die;
-					$husband_age_rmd = 74;
-					$wife_age_rmd = 73;
-					if($husband_dob >= 1960)
+					//$husband_age_rmd = 74; // 15-09-2025
+					//$wife_age_rmd = 73; // 15-09-2025
+					
+					$husband_age_rmd = $acount->age_income_start ?? '';
+					$wife_age_rmd = $acount->age_income_start ?? '';
+					
+					$rmd_start_age  = $acount->rmd_start_age ?? '';
+					//if($husband_dob >= 1960)
+						
+					if(($husband_dob >= 1960 && $acount->account_owner==1) || ($wife_dob >= 1960 && $acount->account_owner==2))
 					{
-						$husband_age_rmd = 76;
+						$husband_age_rmd = 75;
 						$wife_age_rmd = 75;
+						
+						$rmd_start_age = 75;
+					}
+					
+					//----- rmd age calculation-------
+					if($acount->account_owner == 1)
+					{
+						$husband_age_rmd = $acount->rmd_start_age ?? '';
+						$husband_dob = $currentYear - $husband_age_rmd;
+						if($husband_dob >= 1960)
+						{
+							$husband_age_rmd = 75;
+						}
+					}
+					
+					if($acount->account_owner == 2)
+					{
+						$wife_age_rmd = $acount->rmd_start_age ?? '';
+						$wife_dob = $currentYear - $wife_age_rmd;
+						if($wife_dob >= 1960)
+						{
+							$wife_age_rmd = 75;
+						}
 					}
 					
 					//----- calculation part ----------
@@ -246,7 +278,7 @@ class PdfController extends Controller
 						}
 					}
 					
-					// here loop should extends according to tax_qualification fields
+					// here loop should extends according to tax_qualification fields = 1 and has no Annuity
 					if($acount->tax_qualification == 1    && stripos($acount->account_title, 'Annuity') === false)
 					{
 						if($i==0)
@@ -257,15 +289,27 @@ class PdfController extends Controller
 						}
 						else
 						{
-							if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+							//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+							
+							if($new_husband_age >=$husband_age_rmd && $acount->account_owner == 1)
 							{
 								$percentRmd = distribution_period()[$new_wife_age][0];
 								//$rmd[$key] = $previous_tax_quali_arr[$key] / $percentRmd;
 								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key]);
-								//echo $rmd;die;
+								//echo "<pre>";print_r($rmd);die;
+								$account_value = number_format($current_tax_value);
+								$percentRmd = distribution_period()[$new_husband_age][0];
+								//$percentRmd = distribution_period()[$new_wife_age][0]; 15-09-2025
+								
+							}
+							else if($new_wife_age >= $wife_age_rmd  && $acount->account_owner == 2)
+							{
+								$percentRmd = distribution_period()[$new_wife_age][0];
+								//$rmd[$key] = $previous_tax_quali_arr[$key] / $percentRmd;
+								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key]);
+								//echo "<pre>";print_r($rmd);die;
 								$account_value = number_format($current_tax_value);
 								$percentRmd = distribution_period()[$new_wife_age][0];
-								
 							}
 							else
 							{
@@ -278,7 +322,7 @@ class PdfController extends Controller
 						}
 					}
 					
-					//-----------------
+					//--tax_qualification=1 and has annuity-----
 					
 					if (stripos($acount->account_title, 'Annuity') !== false)
 					{
@@ -292,7 +336,9 @@ class PdfController extends Controller
 							else
 							{
 								$previous_husband_annuity =  $husband_annuity;
-								if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+								//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+									
+								if($new_husband_age >=$husband_age_rmd && $acount->account_owner == 1)
 								{
 									$rmd_husband = $previous_husband_annuity * 0.055932;
 									$husband_annuity = $previous_husband_annuity * 1.045 - $rmd_husband;
@@ -321,7 +367,9 @@ class PdfController extends Controller
 							else
 							{
 								$previous_wife_annuity =  $wife_annuity;
-								if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+								//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+									
+								if($new_husband_age >=$wife_age_rmd  && $acount->account_owner == 2)
 								{
 									$percentRmd = distribution_period()[$new_wife_age][0];
 									
@@ -354,7 +402,9 @@ class PdfController extends Controller
 							else
 							{
 								$previous_joint_annuity =  $joint_annuity;
-								if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+								//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+									
+								if($new_husband_age >=$rmd_start_age && $new_wife_age >= $rmd_start_age)
 								{
 									$rmd_husband = $previous_joint_annuity * 0.055932;
 									$joint_annuity = $previous_joint_annuity * 1.045 - $rmd_husband;
@@ -382,10 +432,31 @@ class PdfController extends Controller
 						$gross_income = $gross_income + $nq_icome;
 					}
 					
-					// calculation for tax_qualification = 1 (IRA) RMD and Income
+					// calculation for tax_qualification = 1 (IRA) RMD and Income has no Annuity
 					if($acount->tax_qualification == 1   && stripos($acount->account_title, 'Annuity') === false)
 					{
-						if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+						//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+							
+						if($new_husband_age >=$husband_age_rmd && $acount->account_owner == 1)
+						{
+							$percentRmd = distribution_period()[$new_wife_age][0];
+							
+							//------ 03-09-2025----
+							$row[] = number_format($previous_tax_quali_arr[$key] / $percentRmd);
+
+							$k401_rmd = $previous_tax_quali_arr[$key] / $percentRmd;
+							
+							//$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
+							$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key]);
+							$rmd[$key] = $previous_tax_quali_arr[$key] / $percentRmd;
+							
+							$previous_tax_quali_arr[$key] = $current_tax_value;
+							
+							$gross_income = $gross_income + $rmd[$key];
+							
+							$vs++;
+						}
+						else if($new_wife_age >= $wife_age_rmd  && $acount->account_owner == 2)
 						{
 							$percentRmd = distribution_period()[$new_wife_age][0];
 							
@@ -417,11 +488,15 @@ class PdfController extends Controller
 						
 					}
 					
+					
+					// calculation for tax_qualification = 1 (IRA) RMD and Income has Annuity
 					if (stripos($acount->account_title, 'Annuity') !== false)
 					{
 						if($acount->account_owner == 1)
 						{
-							if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+							//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+								
+							if($new_husband_age >=$wife_age_rmd)
 							{
 								//$percentRmd = percent_k401_yearly()[$i];
 								$row[] = number_format($previous_husband_annuity * 0.055932);
@@ -439,7 +514,9 @@ class PdfController extends Controller
 						
 						if($acount->account_owner == 2)
 						{
-							if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+							//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+								
+							if($new_wife_age >= $wife_age_rmd)
 							{
 								$annual_income_value = Current_financial_account::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->where('account_owner', 2)->where('account_title','LIKE', '%annuity%')->first();
 								$wife_annuity_rmd_inc = $annual_income_value ? $annual_income_value->annual_income_value : 0;
@@ -465,6 +542,8 @@ class PdfController extends Controller
 						
 						if($acount->account_owner == 3)
 						{
+							//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
+								
 							if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 							{
 								//$percentRmd = percent_k401_yearly()[$i];

@@ -42,13 +42,13 @@
 										</div>
 									</div>
 								</div>
-								{{--<div class="col-lg-3 col-md-3">
+								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
 										<label for="" class="col-form-label">RMD start age</label>
 										<input class="form-control" name="rmd_start_age[]" type="text" placeholder="RMD start age" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										
 									</div>
-								</div>--}}
+								</div>
 								<div class="col-lg-2 col-md-2">
 									<div class="">
 										<label for="" class="col-form-label">Tax qualification</label>
@@ -108,13 +108,13 @@
 										</div>
 									</div>
 								</div>
-								{{--<div class="col-lg-3 col-md-3">
+								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
 										<label for="" class="col-form-label">RMD start age</label>
 										<input class="form-control" name="rmd_start_age[]" type="text" placeholder="RMD start age" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										
 									</div>
-								</div>--}}
+								</div>
 								<div class="col-lg-2 col-md-2">
 									<div class="">
 										<label for="" class="col-form-label">Tax qualification</label>
@@ -232,6 +232,12 @@
 				<span class="currency-symbol"></span>
 				<input class="form-control" name="account_title[]" type="text" placeholder="Account title">
 				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3">
+			<div class="input-block">
+				<label for="" class="col-form-label">RMD start age</label>
+				<input class="form-control" name="rmd_start_age[]" type="text" placeholder="RMD start age" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 			</div>
 		</div>
 		<div class="col-lg-2 col-md-2">

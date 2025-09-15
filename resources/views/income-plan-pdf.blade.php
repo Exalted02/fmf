@@ -1098,7 +1098,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 	@endif
 	
 	@if(!empty($current_finance_wife_data))
-	<div style="page-break-after: always;">
+	{{--<div style="page-break-after: always;">
 		<div>
 			<h2><strong style="margin-left:200px;">Wife Roth Conversion From Taxable To Free Tax</strong></h2>
 		</div>
@@ -1179,7 +1179,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 			</tbody>
 		
 		</table>
-	</div>
+	</div>--}}
 	@endif
 </body>
 </html>
