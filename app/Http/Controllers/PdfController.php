@@ -205,7 +205,7 @@ class PdfController extends Controller
 					//$husband_age_rmd = 74; // 15-09-2025
 					//$wife_age_rmd = 73; // 15-09-2025
 					
-					$husband_age_rmd = $acount->age_income_start ?? '';
+					/*$husband_age_rmd = $acount->age_income_start ?? '';
 					$wife_age_rmd = $acount->age_income_start ?? '';
 					
 					$rmd_start_age  = $acount->rmd_start_age ?? '';
@@ -217,9 +217,11 @@ class PdfController extends Controller
 						$wife_age_rmd = 75;
 						
 						$rmd_start_age = 75;
-					}
+					}*/
 					
 					//----- rmd age calculation-------
+					$husband_age_rmd = 0;
+					$wife_age_rmd = 0;
 					if($acount->account_owner == 1)
 					{
 						$husband_age_rmd = $acount->rmd_start_age ?? '';
@@ -496,7 +498,7 @@ class PdfController extends Controller
 						{
 							//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 								
-							if($new_husband_age >=$wife_age_rmd)
+							if($new_husband_age >=$husband_age_rmd)
 							{
 								//$percentRmd = percent_k401_yearly()[$i];
 								$row[] = number_format($previous_husband_annuity * 0.055932);
