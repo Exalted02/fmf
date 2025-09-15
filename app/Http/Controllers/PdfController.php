@@ -634,7 +634,7 @@ class PdfController extends Controller
 				}
 				else if($taxable_income > 400000 && $taxable_income <= 750000)
 				{
-					$irmaaVal = 1419040;
+					$irmaaVal = 14190.40;
 				}
 				
 				//---- tax rate percent --
