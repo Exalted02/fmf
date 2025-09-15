@@ -51,7 +51,7 @@ class PdfController extends Controller
 		
 		// $lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
 		
-		//$lastId = 8;
+		//echo $lastId; die;
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::with(['get_representative_details'])->where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
@@ -224,7 +224,7 @@ class PdfController extends Controller
 					$wife_age_rmd = '0000';
 					if($acount->account_owner == 1)
 					{
-						$husband_age_rmd = $acount->rmd_start_age ?? '';
+						$husband_age_rmd = $acount->rmd_start_age ?? '0000';
 						$husband_dob = $currentYear - $husband_age_rmd;
 						if($husband_dob >= 1960)
 						{
@@ -234,7 +234,8 @@ class PdfController extends Controller
 					
 					if($acount->account_owner == 2)
 					{
-						$wife_age_rmd = $acount->rmd_start_age ?? '';
+						$wife_age_rmd = $acount->rmd_start_age ?? '0000';
+						
 						$wife_dob = $currentYear - $wife_age_rmd;
 						if($wife_dob >= 1960)
 						{
