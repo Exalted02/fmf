@@ -40,10 +40,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        $pdf->getDomPDF()->setHttpContext($contxt);
-		$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
+        //$pdf->getDomPDF()->setHttpContext($contxt);
+		//$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
 		
-		//return view('income-plan-pdf', $data, $roth);
+		return view('income-plan-pdf', $data, $roth);
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page($lastId)
@@ -797,6 +797,7 @@ class PdfController extends Controller
 		$headerAge[] = '';
 		//-calculation of total value-husband roth calculation---
 		// $lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
+		$lastId = 16;
 		
 		$current_finance_husband_data = Current_financial_account::where('sl_no', $lastId)->where('account_owner', 1)->where('account_title', 'LIKE', '%Annuity%')->first();
 		$husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';

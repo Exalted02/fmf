@@ -77,6 +77,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 
 $roth_year_data = App\Models\Roth_conversion_year::where('sl_no', $lastId)->first();
 $roth_yr = $roth_year_data ? $roth_year_data->year : 0;
+//$roth_yr = 8;
 
 $current_finance_wife_data = App\Models\Current_financial_account::where('sl_no', $lastId)->where('account_owner', 2)->where('account_title', 'LIKE', '%Annuity%')->first();
 
@@ -881,17 +882,28 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 											@endphp
 												@if($col == 6)
 													$ {{ number_format(distribution_period()[73][1]) }}
+													@php
+													    $index19_previous= distribution_period()[73][1];
+													@endphp
 												@endif
 												
 												@if($col == 7)
 												
 											       $ {{ number_format(distribution_period()[74][1]) }}
+												   
+												   @php
+													 $index19_previous= distribution_period()[74][1];
+													@endphp
 												
 												@endif
 												
 												@if($col == 8)
 												
 													$ {{ number_format(distribution_period()[75][1]) }}
+													
+													@php
+													 $index19_previous= distribution_period()[75][1];
+													@endphp
 												
 												@endif
 												
@@ -907,7 +919,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 										@endif
 										
 										@if($row==1 && $col==9)
-										$ {{ number_format(round($index17_previous - distribution_period()[76][1])) }}
+										$ {{ number_format(round($index17_previous - distribution_period()[75][1])) }}
 										@php 
 										  $i12 = round($index17_previous - distribution_period()[76][1]);
 										@endphp

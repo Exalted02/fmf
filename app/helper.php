@@ -617,7 +617,7 @@ use App\Models\Followup_remarks;
 		return [
 			'21' =>'IRA',
 			'22' =>'Fee .95',
-			'23' =>'Roth Conversion',
+			'23' =>'Roth Conver.',
 			'24' =>'Roth Tax Paid',
 			'25' =>'Roth Account',
 			'26' =>'Ira Value',
