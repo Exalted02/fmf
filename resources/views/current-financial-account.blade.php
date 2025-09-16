@@ -111,7 +111,7 @@
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
 										<label for="" class="col-form-label">RMD start age</label>
-										<input class="form-control" name="rmd_start_age[]" type="text" placeholder="RMD start age" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+										<input class="form-control" name="rmd_start_age[]" type="text" placeholder="RMD start age"  value="{{ $record->rmd_start_age ?? ''}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										
 									</div>
 								</div>
