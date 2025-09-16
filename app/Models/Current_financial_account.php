@@ -13,6 +13,7 @@ class Current_financial_account extends Model
         'sl_no',
         'user_id',
 		'account_owner',
+		'owner_name',
 		'account_title',
 		'rmd_start_age',
 		'tax_qualification',

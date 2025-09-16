@@ -317,6 +317,7 @@ class DashboardController extends Controller
 		//echo "<pre>";print_r($request->all());die;
 		
 		$account_owner = $request->input('account_owner_arr', []);
+		$owner_name = $request->input('owner_name_arr', []);
 		$account_title = $request->input('account_title_arr', []);
 		$rmd_start_age = $request->input('rmd_start_age_arr', []);
 		$tax_qualification = $request->input('tax_qualification_arr', []);
@@ -337,6 +338,7 @@ class DashboardController extends Controller
 			$model->sl_no = $sl_no ?? null;
 			$model->user_id = auth()->user()->id;
 			$model->account_owner = $account_owner[$index] ?? null;
+			$model->owner_name = $owner_name[$index] ?? null;
 			$model->account_title =  $account_title[$index] ?? null;
 			$model->rmd_start_age = $rmd_start_age[$index] ?? null;
 			$model->tax_qualification = $tax_qualification[$index] ?? null;

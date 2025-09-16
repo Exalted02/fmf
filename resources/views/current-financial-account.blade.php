@@ -35,6 +35,15 @@
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
+										<label for="" class="col-form-label">Owner name</label>
+										<div class="input-dollar-s">
+										<span class="currency-symbol"></span>
+										<input class="form-control" name="owner_name[]" type="text" placeholder="Owner name">
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
 										<label for="" class="col-form-label">Account title</label>
 										<div class="input-dollar-s">
 										<span class="currency-symbol"></span>
@@ -97,6 +106,15 @@
 											<option value="2" {{ !empty($record->account_owner) && $record->account_owner == 2 ? 'selected' : ''}}>Wife</option>
 											<option value="3" {{ !empty($record->account_owner) && $record->account_owner == 3 ? 'selected' : ''}}>Joint</option>
 										</select>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
+										<label for="" class="col-form-label">Owner name</label>
+										<div class="input-dollar-s">
+										<span class="currency-symbol"></span>
+										<input class="form-control" name="owner_name[]" value="{{ $record->owner_name ?? ''}}" type="text" placeholder="Owner name">
+										</div>
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
@@ -227,6 +245,15 @@
 		</div>
 		<div class="col-lg-3 col-md-3">
 			<div class="input-block">
+				<label for="" class="col-form-label">Owner name</label>
+				<div class="input-dollar-s">
+				<span class="currency-symbol"></span>
+				<input class="form-control" name="owner_name[]" type="text" placeholder="Owner name">
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3">
+			<div class="input-block">
 				<label for="" class="col-form-label">Account title</label>
 				<div class="input-dollar-s">
 				<span class="currency-symbol"></span>
@@ -320,6 +347,7 @@ $(document).ready(function(){
 	$('.save-account').on('click', function(e){
 		e.preventDefault();
 		var account_owner_arr = [];
+		var owner_name_arr = [];
 		var account_title_arr = [];
 		var rmd_start_age_arr = [];
 		var tax_qualification_arr = [];
@@ -350,6 +378,16 @@ $(document).ready(function(){
        });
 	   
 	   //alert(account_owner_arr);
+	   $('input[name="owner_name[]"]').each(function() {
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).addClass('is-invalid');
+                isValid = false;
+            } else {
+				$(this).removeClass('is-invalid');
+				owner_name_arr.push($(this).val().trim());
+			}
+			
+        });
 		
 		$('input[name="account_title[]"]').each(function() {
             if ($(this).val() === "" || $(this).val() === null) {
@@ -427,7 +465,7 @@ $(document).ready(function(){
 		$.ajax({
 				url: URL,
 				type: "POST",
-				data: {account_owner_arr:account_owner_arr,account_title_arr:account_title_arr,rmd_start_age_arr:rmd_start_age_arr,tax_qualification_arr:tax_qualification_arr,age_income_start_arr:age_income_start_arr,account_value_arr:account_value_arr,annual_income_value_arr:annual_income_value_arr,_token:csrfToken},
+				data: {account_owner_arr:account_owner_arr,owner_name_arr:owner_name_arr,account_title_arr:account_title_arr,rmd_start_age_arr:rmd_start_age_arr,tax_qualification_arr:tax_qualification_arr,age_income_start_arr:age_income_start_arr,account_value_arr:account_value_arr,annual_income_value_arr:annual_income_value_arr,_token:csrfToken},
 				dataType: 'json',
 				success: function(response) {
 					if(response.message == 'success')

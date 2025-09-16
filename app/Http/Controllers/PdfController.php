@@ -99,7 +99,7 @@ class PdfController extends Controller
 			}*/
 			
 			
-			$headTitle = $acount->account_owner == 1 ? 'Husband '.$acount->account_title : ($acount->account_owner == 2 ? 'Wife '.$acount->account_title : 'Joint '.$acount->account_title);
+			$headTitle = $acount->account_owner == 1 ? $acount->owner_name.' '.$acount->account_title : ($acount->account_owner == 2 ? $acount->owner_name.' '.$acount->account_title : $acount->owner_name.' '.$acount->account_title);
 			
 			$headerAccountTitleArray[] = $headTitle;
 			
@@ -127,18 +127,21 @@ class PdfController extends Controller
 			{
 				if($acount->account_owner == 1)
 				{
-					$headerAccountTitleArray[] = 'Husband RMD/Income';
+					//$headerAccountTitleArray[] = 'Husband RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/Income';
 				}
 				//$headerAccountTitleArray[] = 'RMD';
 				if($acount->account_owner == 2)
 				{
 					$headerAccountTitleArray[] = 'RMD';
-					$headerAccountTitleArray[] = 'Wife RMD/Income';
+					//$headerAccountTitleArray[] = 'Wife RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/Income';
 				}
 				
 				if($acount->account_owner == 3)
 				{
-					$headerAccountTitleArray[] = 'Joint RMD/Income';
+					//$headerAccountTitleArray[] = 'Joint RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/Income';
 				}
 			}
 			
@@ -797,7 +800,6 @@ class PdfController extends Controller
 		$headerAge[] = '';
 		//-calculation of total value-husband roth calculation---
 		// $lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
-		$lastId = 16;
 		
 		$current_finance_husband_data = Current_financial_account::where('sl_no', $lastId)->where('account_owner', 1)->where('account_title', 'LIKE', '%Annuity%')->first();
 		$husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
