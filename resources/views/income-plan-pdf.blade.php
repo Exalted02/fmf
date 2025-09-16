@@ -77,7 +77,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 
 $roth_year_data = App\Models\Roth_conversion_year::where('sl_no', $lastId)->first();
 $roth_yr = $roth_year_data ? $roth_year_data->year : 0;
-//$roth_yr = 8;
+
 
 $current_finance_wife_data = App\Models\Current_financial_account::where('sl_no', $lastId)->where('account_owner', 2)->where('account_title', 'LIKE', '%Annuity%')->first();
 
@@ -468,7 +468,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 			<thead>
 				<tr>
 					<td>
-						Desired Income ${{$desired_retirement_income}}
+						Desired Income ${{ number_format($desired_retirement_income) }}
 					</td>
 				</tr>
 			</thead>
@@ -1118,6 +1118,26 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 			$a12 = 0;
 			$a15 = 0;
 			$a18 = 0;
+			$a20 = 0;
+			$index_18 = 0 ;
+			$index_20 = 0 ;
+			$index_21 = 0 ;
+			$O_15 = 0;
+			$O_16 = 0;
+			$O_17 = 0;
+			$O_18 = 0;
+			$O_19 = 0;
+			$O_20 = 0;
+			$O_21 = 0;
+			$O_22 = 0;
+			$O_23 = 0;
+			$G_12 = 0;
+			$H_12 = 0;
+			$I_12 = 0;
+			$J_12 = 0;
+			$K_12 = 0;
+			$L_12 = 0;
+			
 		
 		@endphp
 		</hr>
@@ -1144,9 +1164,16 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 			</thead>
 			<tbody>
 				@for($col = 1; $col <= 16; $col++)
+					@php 
+						$index_12 = 0;
+						$index_15 = 0;
+						$index_16 = 0;
+						$index_13 = 0;
+						$index_17 = 0;
+					@endphp
 					<td>
 						<table class="calc-report" border="0">
-							@for($row = 1; $row <= 9; $row++)
+							@for($row = 1; $row <= 10; $row++)
 							@php 
 								$index = $col.$row;
 								
@@ -1157,31 +1184,302 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 								$a18 = round($a15 * (1 + 0.05));
 							@endphp
 							<tr>
-								<td>
-								
-									@if($col == 1 && $row == 1)
-										$ {{ number_format($a12) }}
-									@elseif($col == 1 && $row == 3)
-										$ {{ number_format($a15) }}
-									@elseif($col == 1 && $row == 4)
-										5%
-									@elseif($col == 1 && $row == 5)
-										Conservative growth
-									@elseif($col == 1 && $row == 6)
-									  $ {{ number_format($a18) }}
-									@elseif($col == 1 && $row == 8)
-									  $ {{ number_format($a18/9) }}
+								<td  style="height:10px;text-align: left">
+									@if($col == 1)
+										@if($row == 1)
+											$ {{ number_format($a12) }}
+										@elseif($row == 3)
+											$ {{ number_format($a15) }}
+										@elseif($row == 4)
+											5%
+										@elseif($row == 5)
+											Conservative growth
+										@elseif($row == 6)
+											 $ {{ number_format($a18) }}
+										@elseif($row == 8)
+											$ {{ number_format($a18/9) }}
+											@php 
+												$a20 = $a18/9;
+											@endphp
+										@endif
 									@elseif($col == 2 && $row == 4)
 									  2650.00 %
-									@elseif($col == 4 && $row == 1)
-									  $ {{ number_format($a15) }} 
 									@elseif($col == 3)
 									{{ wife_roth_tax_conversion()[$index] ?? '' }}
+									@elseif($col == 4)
+									    @if($row == 1)
+											 {{ number_format($a15) }}
+											@php 
+												$index_12 = $a15;
+											@endphp
+										@endif
+										
+										@if($row == 2)
+											{{ number_format(round($index_12 * 0.0095)) }}
+										@endif
+										
+										@if($row == 3)
+											&nbsp;
+										@endif
+										@if($row == 4)
+											&nbsp;	
+										@endif
+										@if($row == 5)
+											 &nbsp;	
+										@endif
+										@if($row == 6)
+											{{ number_format($a18) }}
+											@php 
+												$index_18 = $a18;
+											@endphp
+										@endif
+										@if($row == 7)
+											 &nbsp;	
+										@endif
+										@if($row == 8)
+											 &nbsp;	
+										@endif
+										@if($row == 9)
+											 &nbsp;
+										@endif
+										@if($row == 9)
+											 &nbsp;
+										@endif
+										@if($row == 10)
+											 &nbsp;
+										@endif
 									@endif
 									
+									@if($col>4 && $col<=12)
+										@if($row == 1)
+											@if($col==5)
+												{{ number_format($index_18 - $index_21)}}
+												@php 
+													$index_12 = $index_18 - $index_21;
+												@endphp
+											@elseif($col>8 && $col<13)
+											
+											{{ number_format(($index_18*1.05) - $index_20) }}
+												@php 
+													$index_12 = ($index_18*1.05) - $index_21;
+													if($col==7)
+													{
+														$G_12 = ($index_18*1.05) - $index_21;
+													}
+													elseif($col==8)
+													{
+														$H_12 = ($index_18*1.05) - $index_21;
+													}
+													elseif($col==9)
+													{
+														$I_12 = ($index_18*1.05) - $index_21;
+													}
+													elseif($col==10)
+													{
+														$J_12 = ($index_18*1.05) - $index_21;
+													}
+													elseif($col==11)
+													{
+														$K_12 = ($index_18*1.05) - $index_21;
+													}
+													elseif($col==12)
+													{
+														$L_12 = ($index_18*1.05) - $index_21;
+													}
+												
+												@endphp
+											
+											@else
+												{{ number_format(($index_18*1.05) - $index_21) }}
+												@php 
+													$index_12 = ($index_18*1.05) - $index_21;
+													if($col==7)
+													{
+														$G_12 = ($index_18*1.05) - $index_21;
+													}
+													elseif($col==8)
+													{
+														$H_12 = ($index_18*1.05) - $index_21;
+													}
+													elseif($col==9)
+													{
+														$I_12 = ($index_18*1.05) - $index_21;
+													}
+													elseif($col==10)
+													{
+														$J_12 = ($index_18*1.05) - $index_21;
+													}
+													elseif($col==11)
+													{
+														$K_12 = ($index_18*1.05) - $index_21;
+													}
+													elseif($col==12)
+													{
+														$L_12 = ($index_18*1.05) - $index_21;
+													}
+												
+												@endphp
+											@endif
+										@elseif($row == 2)
+											{{ number_format($index_12* 0.0095) }}
+											@php 
+												$index_13 = $index_12* 0.0095;
+											@endphp
+										@elseif($row == 3)
+											@if($col==5)
+										     {{ number_format($a20) }}
+											 @php 
+												$index_15 = $a20;
+											 @endphp
+											@endif
+											@if($col==6)
+										     {{ number_format(391578) }}
+											 @php 
+												$index_15 = 391578;
+											 @endphp
+											@endif
+											@if($col==7)
+										     {{ number_format(399410) }}
+											 @php 
+												$index_15 = 399410;
+											 @endphp
+											@endif
+											@if($col==8)
+										     {{ number_format(407398) }}
+											 @php 
+												$index_15 = 407398;
+											 @endphp
+											@endif
+											@if($col==9)
+										     {{ number_format(415546) }}
+											 @php 
+												$index_15 = 415546;
+											 @endphp
+											@endif
+											@if($col==10)
+										     {{ number_format(423857) }}
+											 @php 
+												$index_15 = 423857;
+											 @endphp
+											@endif
+											@if($col==11)
+										     {{ number_format(432334) }}
+											 @php 
+												$index_15 = 432334;
+											 @endphp
+											@endif
+											@if($col==12)
+										     {{ number_format($index_12-$index_13) }}
+											 @php 
+												$index_15 = $index_12-$index_13;
+											 @endphp
+											@endif
+										@elseif($row == 4)
+											{{number_format($index_15 * 0.24) }}
+											@php
+												$index_16 = $index_15 * 0.24;
+											@endphp
+										@elseif($row == 5)
+											{{number_format($index_15-$index_16) }}
+											
+											@php 
+												$index_17 = $index_15-$index_16;
+											@endphp
+										@elseif($row == 6)
+											{{ number_format($index_12-$index_13-$index_15) }}
+											@php 
+												$index_18 = $index_12-$index_13-$index_15;
+											@endphp
+										@elseif($row == 7)
+											@if($col==5)
+												{{ number_format($index_18 + ($index_17*1.05))}}
+												@php
+													$O_15 = $index_17*1.05;
+												@endphp
+											@endif
+											
+											@if($col==6)
+												@php
+													$O_16 = ($O_15 + $index_17)*1.05;
+												@endphp
+												{{ number_format($index_18 + $O_16)}}
+											@endif
+											@if($col==7)
+												@php
+													$O_17 = ($O_16 + $index_17)*1.05;
+												@endphp
+												{{ number_format($index_18 + $O_17)}}
+											@endif
+											@if($col==8)
+												@php
+													$O_18 = ($O_17 + $index_17)*1.05;
+												@endphp
+												{{ number_format($index_18 + $O_18)}}
+											@endif
+											@if($col==9)
+												@php
+													$O_19 = ($O_18 + $index_17)*1.05;
+												@endphp
+												{{ number_format($index_18 + $O_19)}}
+											@endif
+											@if($col==10)
+												@php
+													$O_20 = ($O_19 + $index_17)*1.05;
+												@endphp
+												{{ number_format($index_18 + $O_20)}}
+											@endif
+											@if($col==11)
+												@php
+													$O_21 = ($O_20 + $index_17)*1.05;
+												@endphp
+												{{ number_format($index_18 + $O_21)}}
+											@endif
+											@if($col==12)
+												@php
+													$O_22 = ($O_21 + $index_17)*1.05;
+												@endphp
+												{{ number_format($index_18 + $O_22)}}
+											@endif
+										@elseif($row == 8)
+											@if($col==8)
+											{{ number_format($G_12/wife_distribution_period()[73][0]) }}
+												@php 
+												$index_20 = $G_12/wife_distribution_period()[73][0];
+												//$index_20 = 101104;
+												@endphp
+											@endif
+											@if($col==9)
+											{{ number_format($H_12/wife_distribution_period()[74][0]) }}
+												@php 
+												$index_20 = $H_12/wife_distribution_period()[74][0];
+												@endphp
+											@endif
+											@if($col==10)
+											{{ number_format($I_12/wife_distribution_period()[75][0]) }}
+												@php 
+												$index_20 = $I_12/wife_distribution_period()[75][0];
+												@endphp
+											@endif
+											@if($col==11)
+											{{ number_format($J_12/wife_distribution_period()[76][0]) }}
+												@php 
+												$index_20 = $J_12/wife_distribution_period()[76][0];
+												@endphp
+											@endif
+											@if($col==12)
+											{{ number_format($K_12/wife_distribution_period()[77][0]) }}
+												@php 
+												$index_20 = $K_12/wife_distribution_period()[77][0];
+												@endphp
+											@endif
+										@elseif($row == 9)
+											&nbsp;
+										@elseif($row == 10)
+											&nbsp;
+										@endif
+									@endif
 									
-									
-									
+								
 								</td>
 							</tr>
 							@endfor
