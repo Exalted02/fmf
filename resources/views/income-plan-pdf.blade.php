@@ -1199,7 +1199,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 					@endphp
 					<td>
 						<table class="calc-report" border="0">
-							@for($row = 1; $row <= 11; $row++)
+							@for($row = 1; $row <= 14; $row++)
 							@php 
 								$index = $col.$row;
 								
@@ -1210,7 +1210,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 								$a18 = round($a15 * (1 + 0.05));
 							@endphp
 							<tr>
-								<td class="wife-cal"  style="{{ $col==3 ? 'height:10px;width:100px;text-align:left' : ($col==13 ? 'height:10px;width:70px;text-align: left' : ($col==14 ? 'height:10px;text-align: center': 'height:10px;text-align: left')) }}">
+								<td class="wife-cal"  style="{{ $col==3 ? 'height:10px;width:100px;text-align:left' : ($col==13 ? 'height:10px;width:70px;text-align: left' : 'height:10px;width:0px;text-align: center') }}">
 									@if($col == 1)
 										@if($row == 1)
 											$ {{ number_format($a12) }}
@@ -1234,7 +1234,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 									{{ wife_roth_tax_conversion()[$index] ?? '' }}
 									@elseif($col == 4)
 									    @if($row == 1)
-											 {{ number_format($a15) }}
+											  {{ number_format($a15) }}
 											@php 
 												$index_12 = $a15;
 											@endphp
@@ -1543,6 +1543,9 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 												$tot_amt_val++;
 											@endphp
 										@endif
+									@endif
+									@if($col==13 && $row==13)
+										<strong>Tax Free $ {{ number_format($P_22) ?? ''}}</strong>
 									@endif
 								</td>
 							</tr>
