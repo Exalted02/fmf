@@ -1154,7 +1154,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 			$J_12 = 0;
 			$K_12 = 0;
 			$L_12 = 0;
-			
+			$roth_year_start = 15;
 		
 		@endphp
 		</hr>
@@ -1190,7 +1190,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 					@endphp
 					<td>
 						<table class="calc-report" border="0">
-							@for($row = 1; $row <= 10; $row++)
+							@for($row = 1; $row <= 11; $row++)
 							@php 
 								$index = $col.$row;
 								
@@ -1201,7 +1201,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 								$a18 = round($a15 * (1 + 0.05));
 							@endphp
 							<tr>
-								<td class="wife-cal"  style="{{ $col==3 ? 'height:10px;width:80px;text-align:left' : 'height:10px;text-align: left' }}">
+								<td class="wife-cal"  style="{{ $col==3 ? 'height:10px;width:100px;text-align:left' : ($col==13 ? 'height:10px;width:70px;text-align: left' : ($col==14 ? 'height:10px;text-align: center': 'height:10px;text-align: left')) }}">
 									@if($col == 1)
 										@if($row == 1)
 											$ {{ number_format($a12) }}
@@ -1457,7 +1457,9 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 												@endphp
 												{{ number_format($index_18 + $O_22)}}
 											@endif
+											
 										@elseif($row == 8)
+											<strong>
 											@if($col==8)
 											{{ number_format($G_12/wife_distribution_period()[73][0]) }}
 												@php 
@@ -1489,14 +1491,32 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 												$index_20 = $K_12/wife_distribution_period()[77][0];
 												@endphp
 											@endif
+											</strong>
 										@elseif($row == 9)
 											&nbsp;
 										@elseif($row == 10)
 											&nbsp;
 										@endif
 									@endif
-									
-								
+									@if($col==13 && $row==7)
+										@php
+											$O_23 = ($O_22 + $index_17)*1.05;
+										@endphp
+										{{ number_format($index_18 + $O_23)}}
+									@endif
+									@if($col==14)
+										@if($row>2 && $row<11)
+											Year {{$row-2}}
+										@endif
+									@endif
+									@if($col==15)
+										@if($row>2 && $row<11)
+											$ {{  number_format(${"O_".$roth_year_start}) }}
+											@php 
+												$roth_year_start++;
+											@endphp
+										@endif
+									@endif
 								</td>
 							</tr>
 							@endfor
