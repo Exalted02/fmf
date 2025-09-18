@@ -400,11 +400,18 @@ class DashboardController extends Controller
 	public function roth_calculator_year_save(Request $request)
 	{
 		//echo "<pre>";print_r($request->all());die;
+		$sl_no = Session::get('sl_no');
+		if($sl_no != '')
+		{
+			Roth_conversion_year::where('sl_no', $sl_no)->delete();
+		}
+		
 		$model = new Roth_conversion_year();
 		$model->sl_no = Session::get('sl_no');
 		$model->user_id = auth()->user()->id;
 		$model->year = $request->year ?? null;
 		$model->rmd_age = $request->rmd_age == true ? 1: 0;
+		$model->show_specific_year = $request->show_specific_year ?? null;
 		$model->save();
 		Session::put('has_roth_year', 1);
 		//Session::forget('sl_no');

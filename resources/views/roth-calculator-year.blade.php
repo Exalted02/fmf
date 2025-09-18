@@ -42,7 +42,7 @@
 							<div class="col-lg-4 col-md-4">
 								<div class="input-block">
 									<label for="year" class="col-form-label">Show specific year</label>
-									<input type="text" name="show_specific_year" class="form-control" id="show_specific_year">
+									<input type="text" name="show_specific_year" class="form-control" id="show_specific_year" value="{{ $records->show_specific_year ?? '' }}">
 									<div class="show_specific_year_error error-text"></div>
 								</div>
 							</div>
@@ -127,11 +127,11 @@ $(document).ready(function(){
 			isValid = false;
 		}
 		
-		if(show_specific_year === '')
+		/*if(show_specific_year === '')
 		{
 			$('.show_specific_year_error').text('This field required');
 			isValid = false;
-		}
+		}*/
 		
 		
 		if(isValid)
@@ -141,7 +141,7 @@ $(document).ready(function(){
 			$.ajax({
 				url: URL,
 				type: "POST",
-				data: {year:year,rmd_age:rmd_age,_token:csrfToken},
+				data: {year:year,show_specific_year:show_specific_year,rmd_age:rmd_age,_token:csrfToken},
 				dataType: 'json',
 				success: function(response) {
 					if(response.message == 'success')

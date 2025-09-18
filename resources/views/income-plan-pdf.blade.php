@@ -79,6 +79,10 @@ $roth_year_data = App\Models\Roth_conversion_year::where('sl_no', $lastId)->firs
 $roth_yr = $roth_year_data ? $roth_year_data->year : 0;
 
 
+$show_specific_year = $roth_year_data->show_specific_year ? explode(';', $roth_year_data->show_specific_year) : [];
+//echo "<pre>";print_r($show_specific_year);die;
+
+
 $current_finance_wife_data = App\Models\Current_financial_account::where('sl_no', $lastId)->where('account_owner', 2)->where('account_title', 'LIKE', '%Annuity%')->first();
 
 $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->account_value : '';
@@ -117,7 +121,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
         .totals { font-weight: bold; font-size: 26px; }
         .right { text-align: right; }
 		
-		.footer {
+		/*.footer {
 			position: fixed;
             bottom: 110px;
             left: 0;
@@ -125,7 +129,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
             text-align: center;
             font-size: 12px;
             color: #000;
-		}
+		}*/
 		.mt-5 {
 			margin-top: 5px;
 		}
@@ -609,13 +613,22 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 			<tbody>
 				@if(!empty($excelheaderValueArray))
 					@foreach($excelheaderValueArray as $key=>$excelheaderValue)
-						
+						@if(!empty($show_specific_year))
+							@if(in_array($key, $show_specific_year))
+								<tr>
+								@foreach($excelheaderValue as $k=>$headerVal)
+								<td>{{ $headerVal ?? '' }}</td>
+								@endforeach
+								</tr>
+							@endif
+						@else
 							<tr>
-							@foreach($excelheaderValue as $k=>$headerVal)
-							<td>{{ $headerVal ?? '' }}</td>
-							@endforeach
+								@foreach($excelheaderValue as $k=>$headerVal)
+								<td>{{ $headerVal ?? '' }}</td>
+								@endforeach
 							</tr>
-						
+						@endif
+							
 					@endforeach
 					<tr><td>&nbsp;</td></tr>
 					
