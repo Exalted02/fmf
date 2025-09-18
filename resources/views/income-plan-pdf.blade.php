@@ -121,7 +121,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
         .totals { font-weight: bold; font-size: 26px; }
         .right { text-align: right; }
 		
-		.footer {
+		/*.footer {
 			position: fixed;
             bottom: 110px;
             left: 0;
@@ -129,12 +129,16 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
             text-align: center;
             font-size: 12px;
             color: #000;
-		}
+		}*/
 		.mt-5 {
 			margin-top: 5px;
 		}
 		.mt-10 {
 			margin-top: 10px;
+		}
+		
+		.wife-cal {
+			
 		}
     </style>
 </head>
@@ -1123,7 +1127,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 	@endif
 	
 	@if(!empty($current_finance_wife_data))
-	{{--<div style="page-break-after: always;">
+	<div style="page-break-after: always;">
 		<div>
 			<h2><strong style="margin-left:200px;">Wife Roth Conversion From Taxable To Free Tax</strong></h2>
 		</div>
@@ -1197,7 +1201,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 								$a18 = round($a15 * (1 + 0.05));
 							@endphp
 							<tr>
-								<td  style="height:10px;text-align: left">
+								<td class="wife-cal"  style="{{ $col==3 ? 'height:10px;width:80px;text-align:left' : 'height:10px;text-align: left' }}">
 									@if($col == 1)
 										@if($row == 1)
 											$ {{ number_format($a12) }}
@@ -1502,7 +1506,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 			</tbody>
 		
 		</table>
-	</div>--}}
+	</div>
 	@endif
 </body>
 </html>
