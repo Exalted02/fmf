@@ -103,7 +103,9 @@ class PdfController extends Controller
 			
 			$headerAccountTitleArray[] = $headTitle;
 			
-			if (stripos($acount->account_title, 'nq') !== false)
+			//if (stripos($acount->account_title, 'nq') !== false)
+				
+			if ($acount->tax_qualification == 2 && !preg_match('/\bsavings?\b/i', $acount->account_title))
 			{
 				$headerAccountTitleArray[] = 'Income';
 			}
@@ -266,7 +268,8 @@ class PdfController extends Controller
 						}
 					}
 					
-					if (stripos($acount->account_title, 'nq') !== false) 
+					//if (stripos($acount->account_title, 'nq') !== false)
+					if ($acount->tax_qualification == 2 && !preg_match('/\bsavings?\b/i', $acount->account_title))
 					{
 						if($i==0)
 						{
@@ -300,7 +303,8 @@ class PdfController extends Controller
 							
 							if($new_husband_age >=$husband_age_rmd && $acount->account_owner == 1)
 							{
-								$percentRmd = distribution_period()[$new_wife_age][0];
+								//echo $new_husband_age; die;
+								$percentRmd = distribution_period()[$new_husband_age][0];
 								//$rmd[$key] = $previous_tax_quali_arr[$key] / $percentRmd;
 								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key]);
 								//echo "<pre>";print_r($rmd);die;
@@ -439,7 +443,9 @@ class PdfController extends Controller
 					//$row[] = $acount->account_value;
 					$row[] = $account_value;
 					
-					if (stripos($acount->account_title, 'nq') !== false)
+					//if (stripos($acount->account_title, 'nq') !== false)
+						
+					if ($acount->tax_qualification == 2 && !preg_match('/\bsavings?\b/i', $acount->account_title))
 					{
 						$row[] = '$26375';
 						$nq_icome = 26375;
@@ -453,7 +459,7 @@ class PdfController extends Controller
 							
 						if($new_husband_age >=$husband_age_rmd && $acount->account_owner == 1)
 						{
-							$percentRmd = distribution_period()[$new_wife_age][0];
+							$percentRmd = distribution_period()[$new_husband_age][0];
 							
 							//------ 03-09-2025----
 							$row[] = number_format($previous_tax_quali_arr[$key] / $percentRmd);
