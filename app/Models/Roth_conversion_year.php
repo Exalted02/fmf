@@ -14,5 +14,6 @@ class Roth_conversion_year extends Model
         'user_id',
         'year',
         'rmd_age',
+        'show_specific_year',
     ];
 }

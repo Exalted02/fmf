@@ -41,6 +41,13 @@
 							</div>
 							<div class="col-lg-4 col-md-4">
 								<div class="input-block">
+									<label for="year" class="col-form-label">Show specific year</label>
+									<input type="text" name="show_specific_year" class="form-control" id="show_specific_year">
+									<div class="show_specific_year_error error-text"></div>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4">
+								<div class="input-block">
 									<label class="col-form-label">RMD Age's</label>
 									<div class="form-check">
 										<input type="checkbox" class="form-check-input" id="rmd_age" name="rmd_age" {{ isset($records->rmd_age ) && $records->rmd_age == 1 ? 'checked' : '' }}>
@@ -49,6 +56,7 @@
 									<div class="rmd_age_error error-text"></div>
 								</div>
 							</div>
+							
 						</div>
 					</div>
 					<div class="row mt-4">
@@ -102,6 +110,7 @@ $(document).ready(function(){
 	$('.save-roth-calculator-year').on('click', function(e){
 		e.preventDefault();
 		var year = $('#year').val();
+		var show_specific_year = $('#show_specific_year').val();
 		
 		const rmd_age = $("#rmd_age").is(":checked");
 		
@@ -117,6 +126,13 @@ $(document).ready(function(){
 			$('.year_error').text('Select year');
 			isValid = false;
 		}
+		
+		if(show_specific_year === '')
+		{
+			$('.show_specific_year_error').text('This field required');
+			isValid = false;
+		}
+		
 		
 		if(isValid)
 		{
@@ -143,6 +159,9 @@ $(document).ready(function(){
 		}
 	});
 	
+});
+document.getElementById("show_specific_year").addEventListener("input", function () {
+    this.value = this.value.replace(/[^0-9;]/g, ''); 
 });
 </script>
 @endsection
