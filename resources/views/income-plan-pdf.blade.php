@@ -121,7 +121,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
         .totals { font-weight: bold; font-size: 26px; }
         .right { text-align: right; }
 		
-		/*.footer {
+		.footer {
 			position: fixed;
             bottom: 110px;
             left: 0;
@@ -129,7 +129,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
             text-align: center;
             font-size: 12px;
             color: #000;
-		}*/
+		}
 		.mt-5 {
 			margin-top: 5px;
 		}
