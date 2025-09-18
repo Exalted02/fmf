@@ -1155,6 +1155,15 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 			$K_12 = 0;
 			$L_12 = 0;
 			$roth_year_start = 15;
+			$P_15 = 0;
+			$P_16 = 0;
+			$P_17 = 0;
+			$P_18 = 0;
+			$P_19 = 0;
+			$P_20 = 0;
+			$P_21 = 0;
+			$P_22 = 0;
+			$tot_amt_val = 15;
 		
 		@endphp
 		</hr>
@@ -1412,48 +1421,58 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 												{{ number_format($index_18 + ($index_17*1.05))}}
 												@php
 													$O_15 = $index_17*1.05;
+													
+													$P_15 = $index_18 + ($index_17*1.05);
 												@endphp
 											@endif
 											
 											@if($col==6)
 												@php
 													$O_16 = ($O_15 + $index_17)*1.05;
+													
+													$P_16 = $index_18 + $O_16;
 												@endphp
 												{{ number_format($index_18 + $O_16)}}
 											@endif
 											@if($col==7)
 												@php
 													$O_17 = ($O_16 + $index_17)*1.05;
+													$P_17 = $index_18 + $O_17;
 												@endphp
 												{{ number_format($index_18 + $O_17)}}
 											@endif
 											@if($col==8)
 												@php
 													$O_18 = ($O_17 + $index_17)*1.05;
+													$P_18 = $index_18 + $O_18;
 												@endphp
 												{{ number_format($index_18 + $O_18)}}
 											@endif
 											@if($col==9)
 												@php
 													$O_19 = ($O_18 + $index_17)*1.05;
+													$P_19 = $index_18 + $O_19;
 												@endphp
 												{{ number_format($index_18 + $O_19)}}
 											@endif
 											@if($col==10)
 												@php
 													$O_20 = ($O_19 + $index_17)*1.05;
+													$P_20 = $index_18 + $O_20;
 												@endphp
 												{{ number_format($index_18 + $O_20)}}
 											@endif
 											@if($col==11)
 												@php
 													$O_21 = ($O_20 + $index_17)*1.05;
+													$P_21 = $index_18 + $O_21;
 												@endphp
 												{{ number_format($index_18 + $O_21)}}
 											@endif
 											@if($col==12)
 												@php
 													$O_22 = ($O_21 + $index_17)*1.05;
+													$P_22 = $index_18 + $O_22;
 												@endphp
 												{{ number_format($index_18 + $O_22)}}
 											@endif
@@ -1514,6 +1533,14 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 											$ {{  number_format(${"O_".$roth_year_start}) }}
 											@php 
 												$roth_year_start++;
+											@endphp
+										@endif
+									@endif
+									@if($col==16)
+										@if($row>2 && $row<11)
+											$ {{  number_format(${"P_".$tot_amt_val}) }}
+											@php 
+												$tot_amt_val++;
 											@endphp
 										@endif
 									@endif
