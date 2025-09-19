@@ -1194,7 +1194,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 											@endphp
 										@endif
 									@elseif($col == 2 && $row == 4)
-									  2650.00 %
+									  &nbsp;&nbsp;&nbsp;
 									@elseif($col == 3)
 									{{ wife_roth_tax_conversion()[$index] ?? '' }}
 									@elseif($col == 4)
@@ -1564,7 +1564,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 										@endif
 									@endif
 									@if($col==13 && $row==13)
-										<strong>Tax Free $ {{ number_format($P_22) ?? ''}}</strong>
+										<strong>Tax Free $ {{ $wife_roth_yr == 1 ? number_format($P_15) : ($wife_roth_yr == 2 ? number_format($P_16) : ($wife_roth_yr == 3 ? number_format($P_17) : ($wife_roth_yr == 4 ? number_format($P_18) : ($wife_roth_yr == 5 ? number_format($P_19) : ($wife_roth_yr == 6 ? number_format($P_20): ($wife_roth_yr == 7 ? number_format($P_21):number_format($P_22) ))))))}}</strong>
 									@endif
 								</td>
 							</tr>
