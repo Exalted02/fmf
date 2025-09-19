@@ -1024,6 +1024,7 @@ class PdfController extends Controller
 		}
 		//-------------------------------------------------------
 		// dd($headerAge);
+		//echo $M_18; die;
 		return [
 			'm_14'=>$M_14,
 			'm_15'=>$M_15,
