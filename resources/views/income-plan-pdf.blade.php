@@ -78,7 +78,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 
 $roth_year_data = App\Models\Roth_conversion_year::where('sl_no', $lastId)->first();
 $roth_yr = $roth_year_data ? $roth_year_data->year : 0;
-$wife_roth_yr = $roth_year_data ? $roth_year_data->wife_roth_year : '';
+$wife_roth_yr = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife_roth_year : '';
 //echo $roth_yr; die;
 
 $show_specific_year = !empty($roth_year_data->show_specific_year) ? explode(';', $roth_year_data->show_specific_year) : [];
