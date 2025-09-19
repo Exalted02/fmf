@@ -1346,42 +1346,80 @@ $wife_max_year = $roth_yr+4;
 												$index_15 = $a18/$roth_yr;
 											 @endphp
 											@endif
-											@if($col==6)
-										     {{ number_format($a18/$roth_yr) }}
+											
+											@if($wife_max_year==6 && $col==6)
+										     {{ number_format($index_12-$index_13) }}
 											 @php 
-												$index_15 = $a18/$roth_yr;
+												$index_15 = $index_12-$index_13;
 											 @endphp
+											@elseif($col==6)
+												{{ number_format($a18/$roth_yr) }}
+												 @php 
+													$index_15 = $a18/$roth_yr;
+												 @endphp
 											@endif
-											@if($col==7)
-										     {{ number_format($a18/$roth_yr) }}
+											
+											@if($wife_max_year==7 && $col==7)
+										     {{ number_format($index_12-$index_13) }}
+												 @php 
+													$index_15 = $index_12-$index_13;
+												 @endphp
+											@elseif($col==7)
+												{{ number_format($a18/$roth_yr) }}
+												 @php 
+													$index_15 = $a18/$roth_yr;
+												 @endphp
+											@endif
+											
+											@if($wife_max_year==8 && $col==8)
+										     {{ number_format($index_12-$index_13) }}
 											 @php 
-												$index_15 = $a18/$roth_yr;
+												$index_15 = $index_12-$index_13;
 											 @endphp
+											@elseif($col==8)
+												{{ number_format($a18/$roth_yr) }}
+												@php 
+													$index_15 = $a18/$roth_yr;
+												@endphp
 											@endif
-											@if($col==8)
-										     {{ number_format($a18/$roth_yr) }}
+											
+											@if($wife_max_year==9 && $col==9)
+										     {{ number_format($index_12-$index_13) }}
 											 @php 
-												$index_15 = $a18/$roth_yr;
+												$index_15 = $index_12-$index_13;
 											 @endphp
+											@elseif($col==9)
+												{{ number_format($a18/$roth_yr) }}
+												 @php 
+													$index_15 = $a18/$roth_yr;
+												 @endphp
 											@endif
-											@if($col==9)
-										     {{ number_format($a18/$roth_yr) }}
+											
+											@if($wife_max_year==10 && $col==10)
+										     {{ number_format($index_12-$index_13) }}
 											 @php 
-												$index_15 = $a18/$roth_yr;
+												$index_15 = $index_12-$index_13;
 											 @endphp
+											@elseif($col==10)
+												{{ number_format($a18/$roth_yr) }}
+												 @php 
+													$index_15 = $a18/$roth_yr;
+												 @endphp
 											@endif
-											@if($col==10)
-										     {{ number_format($a18/$roth_yr) }}
+											
+											@if($wife_max_year==11 && $col==11)
+										     {{ number_format($index_12-$index_13) }}
 											 @php 
-												$index_15 = $a18/$roth_yr;
+												$index_15 = $index_12-$index_13;
 											 @endphp
+											@elseif($col==11)
+												{{ number_format($a18/$roth_yr) }}
+												 @php 
+													$index_15 = $a18/$roth_yr;
+												 @endphp
 											@endif
-											@if($col==11)
-										     {{ number_format($a18/$roth_yr) }}
-											 @php 
-												$index_15 = $a18/$roth_yr;
-											 @endphp
-											@endif
+											
+											
 											@if($col==12)
 										     {{ number_format($index_12-$index_13) }}
 											 @php 
@@ -1512,12 +1550,12 @@ $wife_max_year = $roth_yr+4;
 										{{ number_format($index_18 + $O_23)}}
 									@endif
 									@if($col==14)
-										@if($row>2 && $row<11)
+										@if($row>2 && $row<$wife_max_year-1)
 											Year {{$row-2}}
 										@endif
 									@endif
 									@if($col==15)
-										@if($row>2 && $row<11)
+										@if($row>2 && $row<$wife_max_year-1)
 											$ {{  number_format(${"O_".$roth_year_start}) }}
 											@php 
 												$roth_year_start++;
@@ -1525,7 +1563,7 @@ $wife_max_year = $roth_yr+4;
 										@endif
 									@endif
 									@if($col==16)
-										@if($row>2 && $row<11)
+										@if($row>2 && $row<$wife_max_year-1)
 											$ {{  number_format(${"P_".$tot_amt_val}) }}
 											@php 
 												$tot_amt_val++;
