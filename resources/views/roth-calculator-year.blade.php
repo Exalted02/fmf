@@ -29,14 +29,26 @@
 						<div class="row">
 							<div class="col-lg-4 col-md-4">
 								<div class="input-block">
-									<label for="year" class="col-form-label">Year</label>
+									<label for="year" class="col-form-label">Roth husband year</label>
 									<select class="select form-control" id="year" name="year">
 										<option value="">Select Year</option>
-										@for($i=1;$i<=9;$i++)
+										@for($i=1;$i<=8;$i++)
 										<option value="{{ $i }}" {{ isset($records->year) && $records->year == $i ? 'selected' : '' }}>year {{ $i}}</option>
 										@endfor
 									</select>
 									<div class="year_error error-text"></div>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4">
+								<div class="input-block">
+									<label for="year" class="col-form-label">Roth wife year</label>
+									<select class="select form-control" id="wife_roth_year" name="wife_roth_year">
+										<option value="">Select Year</option>
+										@for($i=1;$i<=8;$i++)
+										<option value="{{ $i }}" {{ isset($records->wife_roth_year) && $records->wife_roth_year == $i ? 'selected' : '' }}>year {{ $i}}</option>
+										@endfor
+									</select>
+									<div class="wife_roth_year_error error-text"></div>
 								</div>
 							</div>
 							<div class="col-lg-4 col-md-4">
@@ -110,11 +122,13 @@ $(document).ready(function(){
 	$('.save-roth-calculator-year').on('click', function(e){
 		e.preventDefault();
 		var year = $('#year').val();
+		var wife_roth_year = $('#wife_roth_year').val();
 		var show_specific_year = $('#show_specific_year').val();
 		
 		const rmd_age = $("#rmd_age").is(":checked");
 		
 		$('.year_error').text('');
+		$('.wife_roth_year_error').text('');
 		$('.rmd_age_error').text('');
 		
 		
@@ -123,7 +137,13 @@ $(document).ready(function(){
 		$('.form-control').removeClass('is-invalid');
 		if (year === '')
 		{
-			$('.year_error').text('Select year');
+			$('.year_error').text('Select husband year');
+			isValid = false;
+		}
+		
+		if (wife_roth_year === '')
+		{
+			$('.wife_roth_year_error').text('Select wife year');
 			isValid = false;
 		}
 		
@@ -141,7 +161,7 @@ $(document).ready(function(){
 			$.ajax({
 				url: URL,
 				type: "POST",
-				data: {year:year,show_specific_year:show_specific_year,rmd_age:rmd_age,_token:csrfToken},
+				data: {year:year,wife_roth_year:wife_roth_year,show_specific_year:show_specific_year,rmd_age:rmd_age,_token:csrfToken},
 				dataType: 'json',
 				success: function(response) {
 					if(response.message == 'success')
