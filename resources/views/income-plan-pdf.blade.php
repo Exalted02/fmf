@@ -4,6 +4,7 @@ $headerCount = count($excelheaderArray)-1;
 //echo "<pre>";print_r($excelheaderArray);die;
 //echo "<pre>";print_r($excelheaderValueArray);die;
 //echo "<pre>";print_r(husband_roth_tax_conversion());die;
+//echo "<pre>";print_r($plan_allocation_header);die;
 $husbandAsset = [];
 $wifeAsset = [];
 $jointAsset = [];
@@ -77,7 +78,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 
 $roth_year_data = App\Models\Roth_conversion_year::where('sl_no', $lastId)->first();
 $roth_yr = $roth_year_data ? $roth_year_data->year : 0;
-
+//echo $roth_yr; die;
 
 $show_specific_year = $roth_year_data->show_specific_year ? explode(';', $roth_year_data->show_specific_year) : [];
 //echo "<pre>";print_r($show_specific_year);die;
@@ -87,6 +88,7 @@ $current_finance_wife_data = App\Models\Current_financial_account::where('sl_no'
 
 $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->account_value : '';
 
+$wife_max_year = $roth_yr+4;
 @endphp
 <!DOCTYPE html>
 <html>
@@ -137,9 +139,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 			margin-top: 10px;
 		}
 		
-		.wife-cal {
-			
-		}
+		
     </style>
 </head>
 <body>
@@ -435,7 +435,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 			267-280-3660 <br>
 			www.TheFidelityMutual.com
 		</p>
-		<table class="footer">
+		{{--<table class="footer">
 			<tr>
 				<td style="background-color: ;padding: 10px;text-align: left;font-size: 12px;">
 					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
@@ -447,7 +447,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
 				</td>
 			</tr>
-		</table>
+		</table>--}}
 	</div>
 	
 	@php 
@@ -1174,14 +1174,14 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 					<th></th>
 					<th></th>
 					<th>69</br>End of ></th>
-					<th>69</br>Yr 1</th>
-					<th>70</br>Yr 2</th>
-					<th>71</br>Yr 3</th>
-					<th>72</br>Yr 4</th>
-					<th>73</br>Yr 5</th>
-					<th>74</br>Yr 6</th>
-					<th>75</br>Yr 7</th>
-					<th>76</br>Yr 8</th>
+					<th>70</br>Yr 1</th>
+					<th>71</br>Yr 2</th>
+					<th>72</br>Yr 3</th>
+					<th>73</br>Yr 4</th>
+					<th>74</br>Yr 5</th>
+					<th>75</br>Yr 6</th>
+					<th>76</br>Yr 7</th>
+					<th>77</br>Yr 8</th>
 					<th></th>
 					<th>Annual Converted</th>
 					<th>Year End Roth Value</th>
@@ -1223,7 +1223,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 										@elseif($row == 6)
 											 $ {{ number_format($a18) }}
 										@elseif($row == 8)
-											$ {{ number_format($a18/9) }}
+											$ {{ number_format($a18/$roth_yr) }}
 											@php 
 												$a20 = $a18/9;
 											@endphp
@@ -1276,7 +1276,7 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 										@endif
 									@endif
 									
-									@if($col>4 && $col<=12)
+									@if($col>4 && $col<=$roth_yr+4)
 										@if($row == 1)
 											@if($col==5)
 												{{ number_format($index_18 - $index_21)}}
@@ -1298,19 +1298,35 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 													}
 													elseif($col==9)
 													{
-														$I_12 = ($index_18*1.05) - $index_21;
+														//$I_12 = ($index_18*1.05) - $index_21;
+														
+														$I_12 = ($index_18*1.05) - $index_20;
+														
+														$index_12 = ($index_18*1.05) - $index_20;
 													}
 													elseif($col==10)
 													{
-														$J_12 = ($index_18*1.05) - $index_21;
+														//$J_12 = ($index_18*1.05) - $index_21;
+														
+														$J_12 = ($index_18*1.05) - $index_20;
+														
+														$index_12 = ($index_18*1.05) - $index_20;
 													}
 													elseif($col==11)
 													{
-														$K_12 = ($index_18*1.05) - $index_21;
+														//$K_12 = ($index_18*1.05) - $index_21;
+														
+														$K_12 = ($index_18*1.05) - $index_20;
+														
+														$index_12 = ($index_18*1.05) - $index_20;
 													}
 													elseif($col==12)
 													{
-														$L_12 = ($index_18*1.05) - $index_21;
+														//$L_12 = ($index_18*1.05) - $index_21;
+														
+														$L_12 = ($index_18*1.05) - $index_20;
+														
+														$index_12 = ($index_18*1.05) - $index_20;
 													}
 												
 												@endphp
@@ -1353,45 +1369,45 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 											@endphp
 										@elseif($row == 3)
 											@if($col==5)
-										     {{ number_format($a20) }}
+										     {{ number_format($a18/$roth_yr) }}
 											 @php 
-												$index_15 = $a20;
+												$index_15 = $a18/$roth_yr;
 											 @endphp
 											@endif
 											@if($col==6)
-										     {{ number_format(391578) }}
+										     {{ number_format($a18/$roth_yr) }}
 											 @php 
-												$index_15 = 391578;
+												$index_15 = $a18/$roth_yr;
 											 @endphp
 											@endif
 											@if($col==7)
-										     {{ number_format(399410) }}
+										     {{ number_format($a18/$roth_yr) }}
 											 @php 
-												$index_15 = 399410;
+												$index_15 = $a18/$roth_yr;
 											 @endphp
 											@endif
 											@if($col==8)
-										     {{ number_format(407398) }}
+										     {{ number_format($a18/$roth_yr) }}
 											 @php 
-												$index_15 = 407398;
+												$index_15 = $a18/$roth_yr;
 											 @endphp
 											@endif
 											@if($col==9)
-										     {{ number_format(415546) }}
+										     {{ number_format($a18/$roth_yr) }}
 											 @php 
-												$index_15 = 415546;
+												$index_15 = $a18/$roth_yr;
 											 @endphp
 											@endif
 											@if($col==10)
-										     {{ number_format(423857) }}
+										     {{ number_format($a18/$roth_yr) }}
 											 @php 
-												$index_15 = 423857;
+												$index_15 = $a18/$roth_yr;
 											 @endphp
 											@endif
 											@if($col==11)
-										     {{ number_format(432334) }}
+										     {{ number_format($a18/$roth_yr) }}
 											 @php 
-												$index_15 = 432334;
+												$index_15 = $a18/$roth_yr;
 											 @endphp
 											@endif
 											@if($col==12)
@@ -1558,6 +1574,25 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 		</table>
 	</div>
 	@endif
+	
+	{{--<div style="page-break-after: always;">
+		<div>
+			<h2><strong style="margin-left:200px;">Financial Allocation Plan Details Husband And Wife</strong></h2>
+		</div>
+		<table class="calc-report">
+			<thead>
+				<tr>
+				@if(!empty($plan_allocation_header))
+					@foreach($plan_allocation_header as $header)
+						<th>{{ $header }}</th>
+					@endforeach
+				@endif
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>--}}
 </body>
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

@@ -31,6 +31,9 @@ class PdfController extends Controller
 		//echo "<pre>";print_r($roth);die;
 		$data = $this->current_financial_account_page($lastId);
 		
+		$plan_details = $this->allocation_plan_details($lastId);
+		//echo "<pre>";print_r($plan_details);die;
+		
 		$pdf = app('dompdf.wrapper');
 		$contxt = stream_context_create([
             'ssl' => [
@@ -44,6 +47,7 @@ class PdfController extends Controller
 		//$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
 		
 		return view('income-plan-pdf', $data, $roth);
+		
 		return $pdf->download('income-plan.pdf');
 	}
 	public function current_financial_account_page($lastId)
@@ -1029,5 +1033,85 @@ class PdfController extends Controller
 			'm_19'=>$M_19,
 			'm_20'=>$M_20,
 		];
+	}
+	public function allocation_plan_details($lastId)
+	{
+		$portfolio_Desire_data = Client_portfolio_Desires::with(['get_representative_details'])->where('user_id', auth()->user()->id)->where('id', $lastId)->first();
+		
+		$current_financial_account = Current_financial_account::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->get();
+
+		$current_income_account = Guaranteed_income_sources::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->get();
+		$headerAccountOwnerArray = [];
+		$headerAccountTitleArray = [];
+		$headerIncomeArray = [];
+
+		$headerAccountOwnerArray[] = 'Year';
+		$headerAccountOwnerArray[] = $portfolio_Desire_data->client_name ?? '';
+		$headerAccountOwnerArray[] = $portfolio_Desire_data->partner_name ?? '';
+
+		foreach($current_financial_account as $key=>$acount)
+		{
+			$account_owner = $acount->account_owner == 1 ? 'Husband' : ($acount->account_owner == 2 ? 'Wife' : 'Joint');
+			
+			$headTitle = $acount->account_owner == 1 ? $acount->owner_name.' '.$acount->account_title : ($acount->account_owner == 2 ? $acount->owner_name.' '.$acount->account_title : $acount->owner_name.' '.$acount->account_title);
+			$headerAccountTitleArray[] = $headTitle;
+			
+			if ($acount->tax_qualification == 2 && !preg_match('/\bsavings?\b/i', $acount->account_title))
+			{
+				$headerAccountTitleArray[] = 'Income';
+			}
+			
+			if($acount->tax_qualification == 1 && stripos($acount->account_title, 'Annuity') === false)
+			{
+				$headerAccountTitleArray[] = 'RMD';
+			}
+		
+			if(stripos($acount->account_title, 'Annuity') !== false)
+			{
+				if($acount->account_owner == 1)
+				{
+					//$headerAccountTitleArray[] = 'Husband RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/Income';
+				}
+				//$headerAccountTitleArray[] = 'RMD';
+				if($acount->account_owner == 2)
+				{
+					$headerAccountTitleArray[] = 'RMD';
+					//$headerAccountTitleArray[] = 'Wife RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/Income';
+				}
+				
+				if($acount->account_owner == 3)
+				{
+					//$headerAccountTitleArray[] = 'Joint RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/Income';
+				}
+			}
+		}
+	
+		foreach($current_income_account as $income_src)
+		{
+			$headerIncomeArray[] = $income_src->client_name;
+		}
+		
+		if($current_income_account->isNotEmpty())
+		{
+			$headerIncomeArray[] = 'Income Goal';
+			$headerIncomeArray[] = 'Gross Income';
+			$headerIncomeArray[] = 'Taxable Income';
+			//$headerIncomeArray[] = 'Income Goal';
+			$headerIncomeArray[] = 'Gap From Assets';
+			$headerIncomeArray[] = 'IRMAA';
+			$headerIncomeArray[] = 'Tax Rates';
+			$headerIncomeArray[] = 'IRS Partner';
+			$headerIncomeArray[] = 'Total Estate';
+		}
+			
+		$headerArray = array_merge($headerAccountOwnerArray,$headerAccountTitleArray,$headerIncomeArray);
+		
+		$data = [
+			"plan_allocation_header"=> $headerArray,
+		];
+		return $data;
 	}
 }
