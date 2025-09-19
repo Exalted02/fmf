@@ -1175,7 +1175,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 								$a18 = round($a15 * (1 + 0.05));
 							@endphp
 							<tr>
-								<td class="wife-cal"  style="{{ $col==3 ? 'height:10px;width:100px;text-align:left' : ($col==13 ? 'height:10px;width:70px;text-align: left' : 'height:10px;width:0px;text-align: center') }}">
+								<td class="wife-cal"  style="{{ $col==2 ? 'display:none':($col==3 ? 'height:10px;width:100px;text-align:left' : ($col==13 ? 'height:10px;width:70px;text-align: left' : 'height:10px;width:0px;text-align: center')) }}">
 									@if($col == 1)
 										@if($row == 1)
 											$ {{ number_format($a12) }}
