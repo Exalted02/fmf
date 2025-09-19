@@ -123,7 +123,7 @@ $wife_max_year = $roth_yr+4;
         .totals { font-weight: bold; font-size: 26px; }
         .right { text-align: right; }
 		
-		/*.footer {
+		.footer {
 			position: fixed;
             bottom: 110px;
             left: 0;
@@ -136,7 +136,7 @@ $wife_max_year = $roth_yr+4;
 			margin-top: 0;
 			position: fixed;
 			bottom: 110px;
-		}*/
+		}
 		.mt-5 {
 			margin-top: 5px;
 		}
@@ -1572,6 +1572,20 @@ $wife_max_year = $roth_yr+4;
 				@endfor
 			</tbody>
 		
+		</table>
+		
+		<table class="footer">
+			<tr>
+				<td style="text-align: left;font-size: 12px;">
+					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
+
+					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
+				</td>
+			</tr>
 		</table>
 	</div>
 	@endif
