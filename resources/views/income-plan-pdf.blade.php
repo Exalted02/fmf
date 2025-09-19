@@ -78,7 +78,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 
 $roth_year_data = App\Models\Roth_conversion_year::where('sl_no', $lastId)->first();
 $roth_yr = $roth_year_data ? $roth_year_data->year : 0;
-$wife_roth_yr = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife_roth_year : '';
+$wife_roth = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife_roth_year : '';
 //echo $roth_yr; die;
 
 $show_specific_year = !empty($roth_year_data->show_specific_year) ? explode(';', $roth_year_data->show_specific_year) : [];
@@ -89,7 +89,8 @@ $current_finance_wife_data = App\Models\Current_financial_account::where('sl_no'
 
 $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->account_value : '';
 
-$wife_max_year = $wife_roth_yr != '' ? $wife_roth_yr+4 : 12;
+$wife_max_year = $wife_roth != '' ? $wife_roth+4 : 12;
+$wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife_roth_year : 8;
 @endphp
 <!DOCTYPE html>
 <html>
@@ -1187,7 +1188,7 @@ $wife_max_year = $wife_roth_yr != '' ? $wife_roth_yr+4 : 12;
 										@elseif($row == 6)
 											 $ {{ number_format($a18) }}
 										@elseif($row == 8)
-											$ {{ number_format($a18/$roth_yr) }}
+											$ {{ number_format($a18/$wife_roth_yr) }}
 											@php 
 												$a20 = $a18/9;
 											@endphp
@@ -1333,9 +1334,9 @@ $wife_max_year = $wife_roth_yr != '' ? $wife_roth_yr+4 : 12;
 											@endphp
 										@elseif($row == 3)
 											@if($col==5)
-										     {{ number_format($a18/$roth_yr) }}
+										     {{ number_format($a18/$wife_roth_yr) }}
 											 @php 
-												$index_15 = $a18/$roth_yr;
+												$index_15 = $a18/$wife_roth_yr;
 											 @endphp
 											@endif
 											
@@ -1345,9 +1346,9 @@ $wife_max_year = $wife_roth_yr != '' ? $wife_roth_yr+4 : 12;
 												$index_15 = $index_12-$index_13;
 											 @endphp
 											@elseif($col==6)
-												{{ number_format($a18/$roth_yr) }}
+												{{ number_format($a18/$wife_roth_yr) }}
 												 @php 
-													$index_15 = $a18/$roth_yr;
+													$index_15 = $a18/$wife_roth_yr;
 												 @endphp
 											@endif
 											
@@ -1357,9 +1358,9 @@ $wife_max_year = $wife_roth_yr != '' ? $wife_roth_yr+4 : 12;
 													$index_15 = $index_12-$index_13;
 												 @endphp
 											@elseif($col==7)
-												{{ number_format($a18/$roth_yr) }}
+												{{ number_format($a18/$wife_roth_yr) }}
 												 @php 
-													$index_15 = $a18/$roth_yr;
+													$index_15 = $a18/$wife_roth_yr;
 												 @endphp
 											@endif
 											
@@ -1369,9 +1370,9 @@ $wife_max_year = $wife_roth_yr != '' ? $wife_roth_yr+4 : 12;
 												$index_15 = $index_12-$index_13;
 											 @endphp
 											@elseif($col==8)
-												{{ number_format($a18/$roth_yr) }}
+												{{ number_format($a18/$wife_roth_yr) }}
 												@php 
-													$index_15 = $a18/$roth_yr;
+													$index_15 = $a18/$wife_roth_yr;
 												@endphp
 											@endif
 											
@@ -1381,9 +1382,9 @@ $wife_max_year = $wife_roth_yr != '' ? $wife_roth_yr+4 : 12;
 												$index_15 = $index_12-$index_13;
 											 @endphp
 											@elseif($col==9)
-												{{ number_format($a18/$roth_yr) }}
+												{{ number_format($a18/$wife_roth_yr) }}
 												 @php 
-													$index_15 = $a18/$roth_yr;
+													$index_15 = $a18/$wife_roth_yr;
 												 @endphp
 											@endif
 											
@@ -1393,9 +1394,9 @@ $wife_max_year = $wife_roth_yr != '' ? $wife_roth_yr+4 : 12;
 												$index_15 = $index_12-$index_13;
 											 @endphp
 											@elseif($col==10)
-												{{ number_format($a18/$roth_yr) }}
+												{{ number_format($a18/$wife_roth_yr) }}
 												 @php 
-													$index_15 = $a18/$roth_yr;
+													$index_15 = $a18/$wife_roth_yr;
 												 @endphp
 											@endif
 											
@@ -1405,9 +1406,9 @@ $wife_max_year = $wife_roth_yr != '' ? $wife_roth_yr+4 : 12;
 												$index_15 = $index_12-$index_13;
 											 @endphp
 											@elseif($col==11)
-												{{ number_format($a18/$roth_yr) }}
+												{{ number_format($a18/$wife_roth_yr) }}
 												 @php 
-													$index_15 = $a18/$roth_yr;
+													$index_15 = $a18/$wife_roth_yr;
 												 @endphp
 											@endif
 											
