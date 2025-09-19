@@ -165,11 +165,11 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
+						{{--<div class="row">
 							<div class="col-sm-12">
 								<button class="btn btn-primary add-btn mt-2">Calculate</button>
 							</div>
-						</div>
+						</div>--}}
 					</div>
 					<div class="row mt-4">
 						<div class="col-md-12">
