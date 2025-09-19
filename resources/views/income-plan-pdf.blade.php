@@ -131,6 +131,11 @@ $wife_max_year = $roth_yr+4;
             text-align: center;
             font-size: 12px;
             color: #000;
+		}
+		.fixed-company-name {
+			margin-top: 0;
+			position: fixed;
+			bottom: 110px;
 		}*/
 		.mt-5 {
 			margin-top: 5px;
@@ -321,7 +326,7 @@ $wife_max_year = $roth_yr+4;
 				<td width="40%" valign="top">
 					@if(!empty($wifeAsset))
 					<div>
-					<strong>{{ $partner_nm ?? ''}}'s Accounts</strong><br>
+					<strong style="text-decoration: underline;">{{ $partner_nm ?? ''}}'s Accounts</strong><br>
 						@foreach($wifeAsset as $val)
 							@php 
 								$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
@@ -336,7 +341,7 @@ $wife_max_year = $roth_yr+4;
 					<!-- Joint Accounts -->
 					@if(!empty($jointAsset))
 					<div style="margin-top: 20px;">
-						<strong>Joint Accounts</strong><br>
+						<strong style="text-decoration: underline;">Joint Accounts</strong><br>
 							@foreach($jointAsset as $val)
 								@php 
 									$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
@@ -351,7 +356,7 @@ $wife_max_year = $roth_yr+4;
 					<!-- Current income account -->
 					@if($current_income_account->isNotEmpty())
 					<div style="margin-top: 20px;">
-					<strong>Current Income Accounts</strong><br>
+					<strong style="text-decoration: underline;">Current Income Accounts</strong><br>
 						@foreach($current_income_account as $income_account)
 						@php 
 							$subTotalCurrent += $income_account->income_amount;
@@ -367,7 +372,7 @@ $wife_max_year = $roth_yr+4;
 				<td width="40%" valign="top">
 					@if(!empty($husbandAsset))
 					<div>	
-					<strong>{{ $client_nm ?? ''}}'s Accounts</strong><br>
+					<strong style="text-decoration: underline;">{{ $client_nm ?? ''}}'s Accounts</strong><br>
 						@foreach($husbandAsset as $val)
 							@php 
 								$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
@@ -388,7 +393,7 @@ $wife_max_year = $roth_yr+4;
 			<input type="hidden" id="subTotalCurrent" value="{{ $subTotalCurrent ?? 0 }}">
 		</table>
 		<br>
-		<p style="margin-top: 0;position: fixed;bottom: 110px;">
+		<p class="fixed-company-name">
 			Fidelity Mutual Financial: Advisor Darryl Stein <br>
 			267-280-3660 <br>
 			www.TheFidelityMutual.com
