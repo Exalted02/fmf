@@ -13,6 +13,7 @@ class Roth_conversion_year extends Model
         'sl_no',
         'user_id',
         'year',
+        'wife_roth_year',
         'rmd_age',
         'show_specific_year',
     ];

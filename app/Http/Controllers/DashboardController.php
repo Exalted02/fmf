@@ -410,6 +410,7 @@ class DashboardController extends Controller
 		$model->sl_no = Session::get('sl_no');
 		$model->user_id = auth()->user()->id;
 		$model->year = $request->year ?? null;
+		$model->wife_roth_year = $request->wife_roth_year ?? null;
 		$model->rmd_age = $request->rmd_age == true ? 1: 0;
 		$model->show_specific_year = $request->show_specific_year ?? null;
 		$model->save();

@@ -78,6 +78,7 @@ $husband_account_value = $current_finance_husband_data ? $current_finance_husban
 
 $roth_year_data = App\Models\Roth_conversion_year::where('sl_no', $lastId)->first();
 $roth_yr = $roth_year_data ? $roth_year_data->year : 0;
+$wife_roth_yr = $roth_year_data ? $roth_year_data->wife_roth_year : 0;
 //echo $roth_yr; die;
 
 $show_specific_year = $roth_year_data->show_specific_year ? explode(';', $roth_year_data->show_specific_year) : [];
@@ -88,7 +89,7 @@ $current_finance_wife_data = App\Models\Current_financial_account::where('sl_no'
 
 $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->account_value : '';
 
-$wife_max_year = $roth_yr+4;
+$wife_max_year = $wife_roth_yr+4;
 @endphp
 <!DOCTYPE html>
 <html>
@@ -1248,7 +1249,7 @@ $wife_max_year = $roth_yr+4;
 										@endif
 									@endif
 									
-									@if($col>4 && $col<=$roth_yr+4)
+									@if($col>4 && $col<=$wife_max_year)
 										@if($row == 1)
 											@if($col==5)
 												{{ number_format($index_18 - $index_21)}}
