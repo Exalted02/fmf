@@ -184,7 +184,7 @@ $wife_max_year = $roth_yr+4;
 
 		<table class="footer">
 			<tr>
-				<td style="background-color: ;padding: 10px;text-align: left;font-size: 12px;">
+				<td style="text-align: left;font-size: 12px;">
 					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
 					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
 					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
@@ -286,7 +286,7 @@ $wife_max_year = $roth_yr+4;
 		</table>
 		<table class="footer">
 			<tr>
-				<td style="background-color: ;padding: 10px;text-align: left;font-size: 12px;">
+				<td style="text-align: left;font-size: 12px;">
 					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
 					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
 					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
@@ -320,8 +320,8 @@ $wife_max_year = $roth_yr+4;
 				<td width="20%" valign="top">
 				</td>
 				<td width="40%" valign="top">
-					<strong>{{ $partner_nm ?? ''}}'s Accounts</strong><br>
 					@if(!empty($wifeAsset))
+					<strong>{{ $partner_nm ?? ''}}'s Accounts</strong><br>
 						@foreach($wifeAsset as $val)
 							@php 
 								$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
@@ -330,16 +330,14 @@ $wife_max_year = $roth_yr+4;
 							@endphp
 							<div class="mt-5">#{{ $w }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
-					@endif
-					{{--#1 Variable Annuity &nbsp;&nbsp; $2,377,000 <br>
-					#2 401k T-IRA &nbsp;&nbsp; $156,000 <br><br>--}}
 					<div class="subtotal mt-10">Subtotal $ {{ number_format($subTotalWife) }}</div>
+					@endif
 				</td>
 
 				<!-- Husband's Accounts -->
 				<td width="40%" valign="top">
-					<strong>{{ $client_nm ?? ''}}'s Accounts</strong><br>
 					@if(!empty($husbandAsset))
+					<strong>{{ $client_nm ?? ''}}'s Accounts</strong><br>
 						@foreach($husbandAsset as $val)
 							@php 
 								$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
@@ -348,21 +346,20 @@ $wife_max_year = $roth_yr+4;
 							@endphp
 							<div class="mt-5">#{{ $h }} {{ $val['account_title'] }}&nbsp; {{ $tax_quali ?? '' }}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
-					@endif
-					{{--#1 Variable Annuity &nbsp;&nbsp; $803,952 <br><br>--}}
 					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalHusband) }}</div>
+					@endif
 				</td>
 			</tr>
 		</table>
 
 		<!-- Joint Accounts -->
+		@if(!empty($jointAsset))
 		<table>
 			<tr>
 				<td width="20%" valign="top">
 				</td>
 				<td width="40%" valign="top">
 					<strong>Joint Accounts</strong><br>
-					@if(!empty($jointAsset))
 						@foreach($jointAsset as $val)
 							@php 
 								$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
@@ -371,64 +368,39 @@ $wife_max_year = $roth_yr+4;
 							@endphp
 							<div class="mt-5">#{{ $j }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
-					@endif
-					{{--#1 Variable Annuity &nbsp;&nbsp; $440,400 <br>
-					#2 Savings &nbsp;&nbsp; $76,400 <br><br>--}}
 					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalJoint) }}</div>
 				</td>
 				<td width="40%" valign="top">
 				</td>
 			</tr>
 		</table>
+		@endif
 
 		<!-- Totals -->
-		<table>
-			<tr>
-				<td width="60%"></td>
-				<td class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td class="totals">Income Total ${{ number_format($incomeTotal) }}</td>
-			</tr>
-		</table>
-
-		<!-- Current Income Accounts -->
 		<table>
 			<tr>
 				<td width="20%" valign="top">
 				</td>
 				<td width="40%" valign="top">
-					<strong>Current Income Accounts</strong><br>
 					@if($current_income_account->isNotEmpty())
+					<strong>Current Income Accounts</strong><br>
 						@foreach($current_income_account as $income_account)
 						@php 
 							$subTotalCurrent += $income_account->income_amount;
 						@endphp
 						<div class="mt-5">{{ $income_account->client_name ?? ''}} &nbsp;&nbsp; ${{  number_format($income_account->income_amount) }} </div>
 						@endforeach
-					@endif
-					{{--Wife SS &nbsp;&nbsp; $35,772 <br>
-					Husband SS &nbsp;&nbsp; $25,764 <br><br>--}}
-					
 					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalCurrent)}}</div>
+					@endif
 				</td>
-				<td width="40%" valign="top">
+				<td>
+					<div class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</div>
+					<div class="totals">Income Total ${{ number_format($incomeTotal) }}</div>
 				</td>
 			</tr>
 			<input type="hidden" id="subTotalCurrent" value="{{ $subTotalCurrent ?? 0 }}">
 		</table>
-		{{--<table>
-			<tr>
-				<td width="38%"></td>
-				<td class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td class="totals">Income Total $ {{ number_format($incomeTotal) }}</td>
-			</tr>
-		</table>--}}
-
+		
 		<br><br>
 		<p>
 			Fidelity Mutual Financial: Advisor Darryl Stein <br>
@@ -437,7 +409,7 @@ $wife_max_year = $roth_yr+4;
 		</p>
 		{{--<table class="footer">
 			<tr>
-				<td style="background-color: ;padding: 10px;text-align: left;font-size: 12px;">
+				<td style="text-align: left;font-size: 12px;">
 					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
 					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
 					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
@@ -1112,7 +1084,7 @@ $wife_max_year = $roth_yr+4;
 		
 		<table class="footer">
 			<tr>
-				<td style="padding: 10px;text-align: left;font-size: 12px;">
+				<td style="text-align: left;font-size: 12px;">
 					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
 					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
 					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
