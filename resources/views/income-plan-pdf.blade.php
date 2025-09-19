@@ -132,6 +132,11 @@ $wife_max_year = $wife_roth_yr+4;
             text-align: center;
             font-size: 12px;
             color: #000;
+		}
+		.fixed-company-name {
+			margin-top: 0;
+			position: fixed;
+			bottom: 110px;
 		}*/
 		.mt-5 {
 			margin-top: 5px;
@@ -302,14 +307,13 @@ $wife_max_year = $wife_roth_yr+4;
 	</div>
 	
 	<div style="page-break-after: always;">
-		<div class="section-title"></div>
 		<table>
 			<tr>
 				<td width="80%" class="section-title">
 					Current Financial Accounts
 				</td>
 				<td width="20%">
-					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="180">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="120">
 				</td>
 			</tr>
 		</table>
@@ -322,7 +326,8 @@ $wife_max_year = $wife_roth_yr+4;
 				</td>
 				<td width="40%" valign="top">
 					@if(!empty($wifeAsset))
-					<strong>{{ $partner_nm ?? ''}}'s Accounts</strong><br>
+					<div>
+					<strong style="text-decoration: underline;">{{ $partner_nm ?? ''}}'s Accounts</strong><br>
 						@foreach($wifeAsset as $val)
 							@php 
 								$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
@@ -331,14 +336,44 @@ $wife_max_year = $wife_roth_yr+4;
 							@endphp
 							<div class="mt-5">#{{ $w }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
-					<div class="subtotal mt-10">Subtotal $ {{ number_format($subTotalWife) }}</div>
+					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalWife) }}</div>
+					</div>
+					@endif
+					<!-- Joint Accounts -->
+					@if(!empty($jointAsset))
+					<div style="margin-top: 20px;">
+						<strong style="text-decoration: underline;">Joint Accounts</strong><br>
+							@foreach($jointAsset as $val)
+								@php 
+									$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
+									$subTotalJoint += $val['account_value'];
+									$j++;
+								@endphp
+								<div class="mt-5">#{{ $j }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
+							@endforeach
+						<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalJoint) }}</div>
+					</div>
+					@endif
+					<!-- Current income account -->
+					@if($current_income_account->isNotEmpty())
+					<div style="margin-top: 20px;">
+					<strong style="text-decoration: underline;">Current Income Accounts</strong><br>
+						@foreach($current_income_account as $income_account)
+						@php 
+							$subTotalCurrent += $income_account->income_amount;
+						@endphp
+						<div class="mt-5">{{ $income_account->client_name ?? ''}} &nbsp;&nbsp; ${{  number_format($income_account->income_amount) }} </div>
+						@endforeach
+					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalCurrent)}}</div>
+					</div>
 					@endif
 				</td>
 
 				<!-- Husband's Accounts -->
 				<td width="40%" valign="top">
 					@if(!empty($husbandAsset))
-					<strong>{{ $client_nm ?? ''}}'s Accounts</strong><br>
+					<div>	
+					<strong style="text-decoration: underline;">{{ $client_nm ?? ''}}'s Accounts</strong><br>
 						@foreach($husbandAsset as $val)
 							@php 
 								$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
@@ -348,67 +383,23 @@ $wife_max_year = $wife_roth_yr+4;
 							<div class="mt-5">#{{ $h }} {{ $val['account_title'] }}&nbsp; {{ $tax_quali ?? '' }}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
 					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalHusband) }}</div>
+					</div>
 					@endif
-				</td>
-			</tr>
-		</table>
-
-		<!-- Joint Accounts -->
-		@if(!empty($jointAsset))
-		<table>
-			<tr>
-				<td width="20%" valign="top">
-				</td>
-				<td width="40%" valign="top">
-					<strong>Joint Accounts</strong><br>
-						@foreach($jointAsset as $val)
-							@php 
-								$tax_quali = $val['tax_qualification'] == 1 ? 'IRA ' : 'non-qualified';
-								$subTotalJoint += $val['account_value'];
-								$j++;
-							@endphp
-							<div class="mt-5">#{{ $j }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
-						@endforeach
-					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalJoint) }}</div>
-				</td>
-				<td width="40%" valign="top">
-				</td>
-			</tr>
-		</table>
-		@endif
-
-		<!-- Totals -->
-		<table>
-			<tr>
-				<td width="20%" valign="top">
-				</td>
-				<td width="40%" valign="top">
-					@if($current_income_account->isNotEmpty())
-					<strong>Current Income Accounts</strong><br>
-						@foreach($current_income_account as $income_account)
-						@php 
-							$subTotalCurrent += $income_account->income_amount;
-						@endphp
-						<div class="mt-5">{{ $income_account->client_name ?? ''}} &nbsp;&nbsp; ${{  number_format($income_account->income_amount) }} </div>
-						@endforeach
-					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalCurrent)}}</div>
-					@endif
-				</td>
-				<td>
-					<div class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</div>
-					<div class="totals">Income Total ${{ number_format($incomeTotal) }}</div>
+					<div style="margin-top: 30px;">
+						<div class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</div>
+						<div class="totals">Income Total ${{ number_format($incomeTotal) }}</div>
+					</div>
 				</td>
 			</tr>
 			<input type="hidden" id="subTotalCurrent" value="{{ $subTotalCurrent ?? 0 }}">
 		</table>
-		
-		<br><br>
-		<p>
+		<br>
+		<p class="fixed-company-name">
 			Fidelity Mutual Financial: Advisor Darryl Stein <br>
 			267-280-3660 <br>
 			www.TheFidelityMutual.com
 		</p>
-		{{--<table class="footer">
+		<table class="footer">
 			<tr>
 				<td style="text-align: left;font-size: 12px;">
 					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
@@ -420,7 +411,7 @@ $wife_max_year = $wife_roth_yr+4;
 					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
 				</td>
 			</tr>
-		</table>--}}
+		</table>
 	</div>
 	
 	@php 
