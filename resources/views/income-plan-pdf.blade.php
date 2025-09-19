@@ -335,7 +335,7 @@ $wife_max_year = $roth_yr+4;
 							@endphp
 							<div class="mt-5">#{{ $w }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
-					<div class="subtotal mt-10">Subtotal $ {{ number_format($subTotalWife) }}</div>
+					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalWife) }}</div>
 					</div>
 					@endif
 					<!-- Joint Accounts -->
