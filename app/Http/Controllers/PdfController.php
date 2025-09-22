@@ -1073,7 +1073,8 @@ class PdfController extends Controller
 			{
 				if($acount->account_owner == 1)
 				{
-					$headerAccountTitleArray[] = 'RMD';
+					$headerAccountTitleArray[] = 'IRA balance for RMD';
+					$headerAccountTitleArray[] = $acount->owner_name.' RMD/Income';
 					$headerAccountTitleArray[] = $acount->owner_name.' '.'Tax Free Income';
 				}
 				//$headerAccountTitleArray[] = 'RMD';
@@ -1784,14 +1785,34 @@ class PdfController extends Controller
 							if($new_husband_age >=$husband_age_rmd_ira_bal)
 							{
 								//$percentRmd = percent_k401_yearly()[$i];
-								$row[] = number_format($previous_husband_annuity * 0.055932);
-								$row[] = 'ff';
+								//$row[] = number_format($previous_husband_annuity * 0.055932);
+								if($new_husband_age >= 72 && $new_husband_age<=76)
+								{
+									$row[] = number_format($husband_allo_RMD[$new_husband_age]);
+								}
+								else{
+									$row[] = '';
+								}
+								
+								
+								
+								if($new_husband_age >= 73 && $new_husband_age<=77)
+								{
+									$dist_periods = distribution_period()[$new_husband_age][0];
+									$row[] = number_format(round($husband_allo_RMD[$new_husband_age-1]/$dist_periods)) ; 
+								}
+								else{
+									$row[] = '';
+								}
+								
+								$row[] = '';
 								$husband_annuity_rmd_inc = $previous_husband_annuity * 0.055932;
 								$gross_income = $gross_income + $husband_annuity_rmd_inc;
 							}
 							else 
 							{
 								$husband_annuity_rmd_inc = 0;
+								$row[] = '';
 								$row[] = '';
 								$row[] = '';
 								$gross_income = $gross_income + $husband_annuity_rmd_inc;
@@ -1822,6 +1843,9 @@ class PdfController extends Controller
 								{
 									$dist_periods = wife_distribution_period()[$new_wife_age][0];
 									$row[] = number_format(round($wife_allo_RMD[$new_wife_age-1]/$dist_periods)) ; 
+								}
+								else{
+									$row[] = '';
 								}
 								
 								$row[] = '';
