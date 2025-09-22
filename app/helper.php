@@ -553,6 +553,7 @@ use App\Models\Followup_remarks;
 	function distribution_period()
 	{
 		return [
+			//'72'=> array('0'=>26.5, '1'=>23446.15),
 			'73'=> array('0'=>26.5, '1'=>23446.15),
 			'74'=> array('0'=>25.5, '1'=>18711.45),
 			'75'=> array('0'=>24.6, '1'=>11722.97),

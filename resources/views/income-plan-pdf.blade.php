@@ -1130,6 +1130,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 			$P_21 = 0;
 			$P_22 = 0;
 			$tot_amt_val = 15;
+			$wife_allo_RMD = [];
 		
 		@endphp
 		</hr>
@@ -1191,7 +1192,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 										@elseif($row == 8)
 											$ {{ number_format($a18/$wife_roth_yr) }}
 											@php 
-												$a20 = $a18/9;
+												$a20 = $a18/$wife_roth_yr;
 											@endphp
 										@endif
 									@elseif($col == 2 && $row == 4)
@@ -1304,26 +1305,32 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 													if($col==7)
 													{
 														$G_12 = ($index_18*1.05) - $index_21;
+														$wife_allo_RMD[72] = $G_12;
 													}
 													elseif($col==8)
 													{
 														$H_12 = ($index_18*1.05) - $index_21;
+														$wife_allo_RMD[73] = $H_12;
 													}
 													elseif($col==9)
 													{
 														$I_12 = ($index_18*1.05) - $index_21;
+														$wife_allo_RMD[74] = $I_12;
 													}
 													elseif($col==10)
 													{
 														$J_12 = ($index_18*1.05) - $index_21;
+														$wife_allo_RMD[75] = $J_12;
 													}
 													elseif($col==11)
 													{
 														$K_12 = ($index_18*1.05) - $index_21;
+														$wife_allo_RMD[76] = $K_12;
 													}
 													elseif($col==12)
 													{
 														$L_12 = ($index_18*1.05) - $index_21;
+														$wife_allo_RMD[77] = $L_12;
 													}
 												
 												@endphp

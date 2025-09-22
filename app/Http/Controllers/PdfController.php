@@ -9,6 +9,7 @@ use App\Models\Client_portfolio_Desires;
 use App\Models\Current_financial_account;
 use App\Models\Guaranteed_income_sources;
 use Illuminate\Support\Facades\Session;
+use App\Models\Roth_conversion_year;
 
 class PdfController extends Controller
 {
@@ -1078,8 +1079,8 @@ class PdfController extends Controller
 				//$headerAccountTitleArray[] = 'RMD';
 				if($acount->account_owner == 2)
 				{
-					$headerAccountTitleArray[] = 'RMD';
-					//$headerAccountTitleArray[] = 'Wife RMD/Income';
+					$headerAccountTitleArray[] = 'IRA balance for RMD';
+					$headerAccountTitleArray[] = $acount->owner_name.' RMD/Income';
 					$headerAccountTitleArray[] = $acount->owner_name.' '.'Tax Free Income';
 				}
 				
@@ -1090,6 +1091,230 @@ class PdfController extends Controller
 				}
 			}
 		}
+		
+		// CALCULATION FOR 72 YEARS WIFE ROTH 
+		
+		$index_18 = 0 ;
+		$index_20 = 0 ;
+		$index_21 = 0 ;
+		$roth_year_data = Roth_conversion_year::where('sl_no', $lastId)->first();
+		$wife_roth = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife_roth_year : '';
+		
+		$wife_max_year = $wife_roth != '' ? $wife_roth+4 : 12;
+		$wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife_roth_year : 8;
+		
+		$current_finance_wife_data = Current_financial_account::where('sl_no', $lastId)->where('account_owner', 2)->where('account_title', 'LIKE', '%Annuity%')->first();
+
+		$wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->account_value : '';
+			
+		for($col = 1; $col <= 16; $col++)
+		{
+			$index_12 = 0;
+			$index_15 = 0;
+			$index_16 = 0;
+			$index_13 = 0;
+			$index_17 = 0;
+				for($row = 1; $row <= 14; $row++)
+				{
+					$index = $col.$row;
+					$w_acc_value = $wife_account_value ?? '';
+					$a12 = round($w_acc_value * 0.21);
+					$a15 = $wife_account_value + $a12;
+					$a18 = round($a15 * (1 + 0.05));
+					if($col == 1)
+					{
+						if($row == 8){
+							$a20 = $a18/9;
+						}
+							
+					}
+					elseif($col == 4)
+					{
+						if($row == 1)
+						{
+							$index_12 = $a15;
+						}
+						
+						if($row == 6)
+						{
+							$index_18 = $a18;
+						}
+					}	
+						
+					if($col>4 && $col<=$wife_max_year)
+					{
+						if($row == 1)
+						{
+							if($col==5)
+							{
+								$index_12 = $index_18 - $index_21;
+							}
+							elseif($col>8 && $col<13)
+							{
+								if($col==9)
+								{
+									//$I_12 = ($index_18*1.05) - $index_21;
+									
+									$I_12 = ($index_18*1.05) - $index_20;
+									
+									$index_12 = ($index_18*1.05) - $index_20;
+									$wife_allo_RMD[74] = round($I_12);
+								}
+								elseif($col==10)
+								{
+									//$J_12 = ($index_18*1.05) - $index_21;
+									
+									$J_12 = ($index_18*1.05) - $index_20;
+									
+									$index_12 = ($index_18*1.05) - $index_20;
+									$wife_allo_RMD[75] = round($J_12);
+								}
+								elseif($col==11)
+								{
+									//$K_12 = ($index_18*1.05) - $index_21;
+									
+									$K_12 = ($index_18*1.05) - $index_20;
+									
+									$index_12 = ($index_18*1.05) - $index_20;
+									$wife_allo_RMD[76] = round($K_12);
+								}
+								elseif($col==12)
+								{
+									//$L_12 = ($index_18*1.05) - $index_21;
+									
+									$L_12 = ($index_18*1.05) - $index_20;
+									
+									$index_12 = ($index_18*1.05) - $index_20;
+									$wife_allo_RMD[77] = round($L_12);
+								}
+							}
+							else{
+								$index_12 = ($index_18*1.05) - $index_21;
+								if($col==7)
+								{
+									$G_12 = ($index_18*1.05) - $index_21;
+									$wife_allo_RMD[72] = round($G_12);
+								}
+								elseif($col==8)
+								{
+									$H_12 = ($index_18*1.05) - $index_21;
+									$wife_allo_RMD[73] = round($H_12);
+								}
+							}
+						}
+						elseif($row == 2)
+						{
+							$index_13 = $index_12* 0.0095;
+						}
+						elseif($row == 3)
+						{
+							if($col==5)
+							{
+								$index_15 = $a18/$wife_roth_yr;
+							}
+							
+							if($wife_max_year==6 && $col==6)
+							{
+								$index_15 = $index_12-$index_13;
+							}
+							elseif($col==6)
+							{
+								$index_15 = $a18/$wife_roth_yr;
+							}
+							
+							if($wife_max_year==7 && $col==7)
+							{
+								$index_15 = $index_12-$index_13;
+							}
+							elseif($col==7)
+							{
+								$index_15 = $a18/$wife_roth_yr;
+							}
+							
+							if($wife_max_year==8 && $col==8)
+							{
+								$index_15 = $index_12-$index_13;
+							}
+							elseif($col==8)
+							{
+								$index_15 = $a18/$wife_roth_yr;
+							}
+							
+							if($wife_max_year==9 && $col==9)
+							{
+								$index_15 = $index_12-$index_13;
+							}
+							elseif($col==9)
+							{
+								$index_15 = $a18/$wife_roth_yr;
+							}
+							
+							if($wife_max_year==10 && $col==10)
+							{
+								$index_15 = $index_12-$index_13;
+							}
+							elseif($col==10)	
+							{
+								$index_15 = $a18/$wife_roth_yr;
+							}	
+
+							if($wife_max_year==11 && $col==11)
+							{
+								$index_15 = $index_12-$index_13;
+							}
+							elseif($col==11)
+							{
+								$index_15 = $a18/$wife_roth_yr;
+							}
+							
+							if($col==12)
+							{
+								$index_15 = $index_12-$index_13;
+							}
+						}
+						elseif($row == 4)
+						{
+							$index_16 = $index_15 * 0.24;
+						}
+						elseif($row == 5)
+						{
+							$index_17 = $index_15-$index_16;
+						}
+						elseif($row == 6)
+						{
+							$index_18 = $index_12-$index_13-$index_15;
+						}
+						elseif($row == 8)
+						{
+							if($col==8)
+							{
+								$index_20 = $G_12/wife_distribution_period()[73][0];
+							}
+							
+							if($col==9)
+							{
+								$index_20 = $H_12/wife_distribution_period()[74][0];
+							}
+							
+							if($col==10)
+							{
+								$index_20 = $I_12/wife_distribution_period()[75][0];
+							}
+							
+							if($col==11)
+							{
+								$index_20 = $J_12/wife_distribution_period()[76][0];
+							}
+							
+							if($col==12)
+							{
+								$index_20 = $K_12/wife_distribution_period()[77][0];
+							}
+						}
+					}
+				}
+		}
+		//echo "<pre>";print_r($wife_allo_RMD);die;
 		// fetch values
 		$j=0;
 		$savings = 0;
@@ -1145,29 +1370,18 @@ class PdfController extends Controller
 					$husband_dob = $currentYear - $husbandAge;
 					
 					$wife_dob = $currentYear - $wifeAge;
-					//echo $husband_dob; die;
-					//$husband_age_rmd = 74; // 15-09-2025
-					//$wife_age_rmd = 73; // 15-09-2025
 					
-					/*$husband_age_rmd = $acount->age_income_start ?? '';
-					$wife_age_rmd = $acount->age_income_start ?? '';
-					
-					$rmd_start_age  = $acount->rmd_start_age ?? '';
-					//if($husband_dob >= 1960)
-						
-					if(($husband_dob >= 1960 && $acount->account_owner==1) || ($wife_dob >= 1960 && $acount->account_owner==2))
-					{
-						$husband_age_rmd = 75;
-						$wife_age_rmd = 75;
-						
-						$rmd_start_age = 75;
-					}*/
 					
 					//----- rmd age calculation-------
 					$husband_age_rmd = '0000';
 					$wife_age_rmd = '0000';
+					
+					$husband_age_rmd_ira_bal = 72;
+					$wife_age_rmd_ira_bal = 72;
+					
 					if($acount->account_owner == 1)
 					{
+						$husband_age_rmd = 72;
 						$husband_age_rmd = $acount->rmd_start_age ?? '0000';
 						$husband_dob = $currentYear - $husband_age_rmd;
 						if($husband_dob >= 1960)
@@ -1178,6 +1392,7 @@ class PdfController extends Controller
 					
 					if($acount->account_owner == 2)
 					{
+						$wife_age_rmd = 72;
 						$wife_age_rmd = $acount->rmd_start_age ?? '0000';
 						
 						$wife_dob = $currentYear - $wife_age_rmd;
@@ -1294,7 +1509,7 @@ class PdfController extends Controller
 								$previous_husband_annuity =  $husband_annuity;
 								//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 									
-								if($new_husband_age >=$husband_age_rmd && $acount->account_owner == 1)
+								if($new_husband_age >=$husband_age_rmd_ira_bal && $acount->account_owner == 1)
 								{
 									$rmd_husband = $previous_husband_annuity * 0.055932;
 									$husband_annuity = $previous_husband_annuity * 1.045 - $rmd_husband;
@@ -1325,13 +1540,14 @@ class PdfController extends Controller
 								$previous_wife_annuity =  $wife_annuity;
 								//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 									
-								if($new_wife_age >=$wife_age_rmd  && $acount->account_owner == 2)
+								if($new_wife_age >=$wife_age_rmd_ira_bal  && $acount->account_owner == 2)
 								{
 									//echo $new_wife_age;die;
-									$percentRmd = distribution_period()[$new_wife_age][0];
+									//$percentRmd = distribution_period()[$new_wife_age][0];// 22-09-2025
 									
-									$rmd_wife = $previous_wife_annuity / $percentRmd;
 									
+									//$rmd_wife = $previous_wife_annuity / $percentRmd; // 22-05-2025
+									$rmd_wife = 0;
 									$wife_annuity = ($wife_annuity * 1.045) - $rmd_wife;
 									$account_value = number_format($wife_annuity);
 									$finance_account_value = $finance_account_value + $wife_annuity;
@@ -1413,7 +1629,6 @@ class PdfController extends Controller
 							
 							$gross_income = $gross_income + $rmd[$key];
 							
-							$vs++;
 						}
 						else if($new_wife_age >= $wife_age_rmd  && $acount->account_owner == 2)
 						{
@@ -1432,7 +1647,6 @@ class PdfController extends Controller
 							
 							$gross_income = $gross_income + $rmd[$key];
 							
-							$vs++;
 						}
 						else
 						{
@@ -1455,11 +1669,11 @@ class PdfController extends Controller
 						{
 							//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 								
-							if($new_husband_age >=$husband_age_rmd)
+							if($new_husband_age >=$husband_age_rmd_ira_bal)
 							{
 								//$percentRmd = percent_k401_yearly()[$i];
 								$row[] = number_format($previous_husband_annuity * 0.055932);
-								$row[] = '';
+								$row[] = 'ff';
 								$husband_annuity_rmd_inc = $previous_husband_annuity * 0.055932;
 								$gross_income = $gross_income + $husband_annuity_rmd_inc;
 							}
@@ -1477,14 +1691,28 @@ class PdfController extends Controller
 						{
 							//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 								
-							if($new_wife_age >= $wife_age_rmd)
+							if($new_wife_age >= $wife_age_rmd_ira_bal)
 							{
 								$annual_income_value = Current_financial_account::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->where('account_owner', 2)->where('account_title','LIKE', '%annuity%')->first();
 								$wife_annuity_rmd_inc = $annual_income_value ? $annual_income_value->annual_income_value : 0;
 								
-								$percentRmd = distribution_period()[$new_wife_age][0];
-								$row[] = number_format($previous_wife_annuity / $percentRmd);
-								$row[] = $wife_annuity_rmd_inc;
+								//$percentRmd = distribution_period()[$new_wife_age][0];
+								//$row[] = number_format($previous_wife_annuity / $percentRmd).'www';
+								if($new_wife_age >= 72 && $new_wife_age<=77)
+								{
+									$row[] = number_format($wife_allo_RMD[$new_wife_age]);
+								}
+								else{
+									$row[] = '';
+								}
+								
+								if($new_wife_age >= 73 && $new_wife_age<=78)
+								{
+									$dist_periods = wife_distribution_period()[$new_wife_age][0];
+									$row[] = number_format(round($wife_allo_RMD[$new_wife_age-1]/$dist_periods)) ; 
+								}
+								
+								$row[] = '';
 								//$row[] = '$134,475';
 								//$wife_annuity_rmd_inc = 134475;
 								
@@ -1494,6 +1722,7 @@ class PdfController extends Controller
 							else 
 							{
 								$wife_annuity_rmd_inc = 0;
+								$row[] = '';
 								$row[] = '';
 								$row[] = '';
 								$gross_income = $gross_income + $wife_annuity_rmd_inc;
@@ -1651,6 +1880,7 @@ class PdfController extends Controller
 				$row[] = number_format($finance_account_value);
 				
 				$headerValueArray[$i] = $row;
+				$j++;
 		}			
 		
 		
