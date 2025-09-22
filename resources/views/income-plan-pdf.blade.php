@@ -5,6 +5,7 @@ $headerCount = count($excelheaderArray)-1;
 //echo "<pre>";print_r($excelheaderValueArray);die;
 //echo "<pre>";print_r(husband_roth_tax_conversion());die;
 //echo "<pre>";print_r($plan_allocation_header);die;
+//echo "<pre>";print_r($plan_allocation_value);die;
 $husbandAsset = [];
 $wifeAsset = [];
 $jointAsset = [];
@@ -1593,6 +1594,15 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 				</tr>
 			</thead>
 			<tbody>
+			@if(!empty($plan_allocation_value))
+					@foreach($plan_allocation_value as $key=>$excelheaderValue)
+						<tr>
+							@foreach($excelheaderValue as $k=>$headerVal)
+							<td>{{ $headerVal ?? '' }}</td>
+							@endforeach
+						</tr>
+					@endforeach
+			@endif
 			</tbody>
 		</table>
 	</div>
