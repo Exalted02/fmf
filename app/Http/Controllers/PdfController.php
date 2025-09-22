@@ -30,9 +30,9 @@ class PdfController extends Controller
 		$roth = $this->rothConversionPage($lastId);
 		//echo "<pre>";print_r($roth);die;
 		$data = $this->current_financial_account_page($lastId);
-		
-		$plan_details = $this->allocation_plan_details($lastId);
-		//echo "<pre>";print_r($plan_details);die;
+		//echo "<pre>";print_r($data);die;
+		$plan_allo_header = $this->allocation_plan_details($lastId);
+		//echo "<pre>";print_r($plan_allo_header);die;
 		
 		$pdf = app('dompdf.wrapper');
 		$contxt = stream_context_create([
@@ -46,7 +46,8 @@ class PdfController extends Controller
         //$pdf->getDomPDF()->setHttpContext($contxt);
 		//$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
 		
-		return view('income-plan-pdf', $data, $roth);
+		return view('income-plan-pdf',  array_merge($plan_allo_header, $data, $roth));
+		//return view('income-plan-pdf',  $data, $roth, $plan_allo_header);
 		
 		return $pdf->download('income-plan.pdf');
 	}
@@ -1109,7 +1110,7 @@ class PdfController extends Controller
 		}
 			
 		$headerArray = array_merge($headerAccountOwnerArray,$headerAccountTitleArray,$headerIncomeArray);
-		
+		//echo "<pre>";print_r($headerArray);die;
 		$data = [
 			"plan_allocation_header"=> $headerArray,
 		];
