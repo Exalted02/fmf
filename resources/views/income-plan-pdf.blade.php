@@ -670,6 +670,8 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 			
 			$max_yr = 2+$roth_yr;
 			$tax_free_val = $roth_yr == 1 ? $m_14 : ($roth_yr == 2 ? $m_15 : ($roth_yr == 3 ? $m_16 : ($roth_yr == 4 ? $m_17 : ($roth_yr == 5 ? $m_18 : ( $roth_yr == 6 ? $m_19 : ($roth_yr == 7 ? $m_20 : $m_20 ))))) );
+			
+			$husband_allo_RMD[] = [];
 		@endphp
 		
 		
@@ -759,6 +761,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 											   else{
 												   $index12_previous = $index17_previous-$index19_previous;
 											   }
+											   
 											@endphp
 										@elseif($row == 2 && $col<=8)
 										   $ {{ number_format(round($index12_previous*0.0095)) }}

@@ -1092,6 +1092,118 @@ class PdfController extends Controller
 			}
 		}
 		
+		// CALCULATION FOR 72 YEARS HUSBAND ROTH 
+		$a12 = 0;
+		$a14 = 0;
+		$a17 = 0;
+		$a20 = 0;
+		$J_16 = 0;
+		
+		$roth_year_data = Roth_conversion_year::where('sl_no', $lastId)->first();
+		$roth_yr = $roth_year_data ? $roth_year_data->year : 0;
+		
+		$index17_previous = 0;
+		$index19_previous = 0;
+		$C16=0;$D_16=0;$E_16=0;$F_16=0;$G_16=0;$H_16=0;$C_17=0;$D_17=0;
+		$E_17=0;$F_17=0;$G_17=0;$H_17=0;$h_19=0;$i12=0;$i13=0;$i14=0;$i15=0;
+		$i16=0;$i17=0;$L_14=0;$L_15=0;$L_16=0;$L_17=0;$L_18=0;$L_19=0;$L_20=0;
+		$M_14=0;$M_15=0;$M_16=0;$M_17=0;$M_18=0;$M_19=0;$J_16=0;$M_20=0;
+		
+		$max_yr = 2+$roth_yr;
+		/*$tax_free_val = $roth_yr == 1 ? $m_14 : ($roth_yr == 2 ? $m_15 : ($roth_yr == 3 ? $m_16 : ($roth_yr == 4 ? $m_17 : ($roth_yr == 5 ? $m_18 : ( $roth_yr == 6 ? $m_19 : ($roth_yr == 7 ? $m_20 : $m_20 ))))) );*/
+		
+		$husband_allo_RMD = [];
+		
+		$current_finance_husband_data = Current_financial_account::where('sl_no', $lastId)->where('account_owner', 1)->where('account_title', 'LIKE', '%Annuity%')->first();
+
+		$husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
+		
+		
+		
+		for($col = 1; $col <= 13; $col++)
+		{
+			$index12_previous = 0;
+			for($row = 1; $row <= 9; $row++)
+			{
+				$h_acc_value = $husband_account_value ?? '';
+				$a12 = round($h_acc_value * 0.21);
+				$a14 =  $h_acc_value + $a12;
+				$a17 =  round($a14 * 1.05);
+				$a20_pre = round($a17/6);
+				$a20 =  round($a17/6);
+				$index = $col.$row;
+				if($col >= 3 && $col<=$max_yr)
+				{
+					if($row == 1 && $col<=8)
+					{
+						if($index17_previous == 0 && $index19_previous == 0)
+						{								
+							$index12_previous = $a17;
+						}
+						else{
+						   $index12_previous = $index17_previous-$index19_previous;
+						}
+
+						if($col==5)
+						{
+						   $husband_allo_RMD[72] = round($index12_previous);
+						}
+						
+						if($col==6)
+						{
+						   $husband_allo_RMD[73] = round($index12_previous);
+						}
+						
+						if($col==7)
+						{
+						   $husband_allo_RMD[74] = round($index12_previous);
+						}
+						
+						if($col==8)
+						{
+						   $husband_allo_RMD[75] = round($index12_previous);
+						}
+					}
+					elseif($row == 2 && $col<=8)
+					{
+						$index13_previous = $index12_previous*0.0095;
+					}
+					elseif(($col >=3 && $col <= 8) && $row ==3)
+					{
+						$index15_previous = $a20*0.22;
+					}
+					elseif($row == 6 && $col<=8)
+					{
+						$index17_previous = ($index12_previous-$index13_previous-$a20) * 1.05;
+					}
+					elseif($row == 8)
+					{
+						$index19_previous = 0;
+						if($col == 6)
+						{
+							$index19_previous= distribution_period()[73][1];
+						}
+						
+						if($col == 7)
+						{
+							$index19_previous= distribution_period()[74][1];
+						}
+						
+						if($col == 8)
+						{
+							$index19_previous= distribution_period()[75][1];
+						}
+					}
+					
+					if($row==1 && $col==9)
+					{
+						$husband_allo_RMD[76] = round($index17_previous - distribution_period()[75][1]);
+					}
+				}
+			}
+		}
+		
+		//echo "<pre>";print_r($husband_allo_RMD);die;
 		// CALCULATION FOR 72 YEARS WIFE ROTH 
 		
 		$index_18 = 0 ;
