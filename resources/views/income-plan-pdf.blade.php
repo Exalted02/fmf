@@ -1132,6 +1132,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 			$P_20 = 0;
 			$P_21 = 0;
 			$P_22 = 0;
+			$P_23 = 0;
 			$tot_amt_val = 15;
 			$wife_allo_RMD = [];
 		

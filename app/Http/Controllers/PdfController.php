@@ -44,10 +44,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        //$pdf->getDomPDF()->setHttpContext($contxt);
-		//$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
+        $pdf->getDomPDF()->setHttpContext($contxt);
+		$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
 		
-		return view('income-plan-pdf',  array_merge($plan_allo_header, $data, $roth));
+		//return view('income-plan-pdf',  array_merge($plan_allo_header, $data, $roth));
 		
 		return $pdf->download('income-plan.pdf');
 	}
@@ -1802,6 +1802,7 @@ class PdfController extends Controller
 								if($new_husband_age >= 72 && $new_husband_age<=76)
 								{
 									//echo $new_husband_age; die;
+									if (isset($husband_allo_RMD[$new_husband_age]))
 									$row[] = number_format($husband_allo_RMD[$new_husband_age]);
 								}
 								else{
@@ -1813,6 +1814,8 @@ class PdfController extends Controller
 								if($new_husband_age >= 73 && $new_husband_age<=77)
 								{
 									$dist_periods = distribution_period()[$new_husband_age][0];
+									
+									if (isset($husband_allo_RMD[$new_husband_age-1]))
 									$row[] = number_format(round($husband_allo_RMD[$new_husband_age-1]/$dist_periods)) ; 
 								}
 								else{
@@ -1847,6 +1850,7 @@ class PdfController extends Controller
 								//$row[] = number_format($previous_wife_annuity / $percentRmd).'www';
 								if($new_wife_age >= 72 && $new_wife_age<=77)
 								{
+									if(isset($wife_allo_RMD[$new_wife_age]))
 									$row[] = number_format($wife_allo_RMD[$new_wife_age]);
 								}
 								else{
@@ -1856,6 +1860,8 @@ class PdfController extends Controller
 								if($new_wife_age >= 73 && $new_wife_age<=78)
 								{
 									$dist_periods = wife_distribution_period()[$new_wife_age][0];
+									
+									if(isset($wife_allo_RMD[$new_wife_age-1]))
 									$row[] = number_format(round($wife_allo_RMD[$new_wife_age-1]/$dist_periods)) ; 
 								}
 								else{
