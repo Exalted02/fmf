@@ -81,7 +81,11 @@ class PdfController extends Controller
 		
 		$headerAccountOwnerArray[] = 'Year';
 		$headerAccountOwnerArray[] = $portfolio_Desire_data->client_name ?? '';
+		
+		if(!empty($portfolio_Desire_data->partner_name))
 		$headerAccountOwnerArray[] = $portfolio_Desire_data->partner_name ?? '';
+		
+		
 		$v = 0;
 		$vs = 0;
 		foreach($current_financial_account as $key=>$acount)
@@ -201,6 +205,8 @@ class PdfController extends Controller
 					{
 						$row[] = $i;
 						$row[] = $husbandAge + $j;
+						
+						if(!empty($wifeAge))
 						$row[] = $wifeAge + $j;
 					}
 					
@@ -1119,7 +1125,7 @@ class PdfController extends Controller
 
 		$husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
 		
-		
+		//echo $husband_account_value;die;
 		
 		for($col = 1; $col <= 13; $col++)
 		{
@@ -1133,6 +1139,7 @@ class PdfController extends Controller
 				$a20_pre = round($a17/6);
 				$a20 =  round($a17/6);
 				$index = $col.$row;
+				
 				if($col >= 3 && $col<=$max_yr)
 				{
 					if($row == 1 && $col<=8)
@@ -1144,12 +1151,13 @@ class PdfController extends Controller
 						else{
 						   $index12_previous = $index17_previous-$index19_previous;
 						}
-
+						
 						if($col==5)
 						{
+							//echo $index12_previous;die;
 						   $husband_allo_RMD[72] = round($index12_previous);
 						}
-						
+						//echo "<pre>";print_r($husband_allo_RMD);die;
 						if($col==6)
 						{
 						   $husband_allo_RMD[73] = round($index12_previous);
@@ -1218,7 +1226,7 @@ class PdfController extends Controller
 		
 		$current_finance_wife_data = Current_financial_account::where('sl_no', $lastId)->where('account_owner', 2)->where('account_title', 'LIKE', '%Annuity%')->first();
 
-		$wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->account_value : '';
+		$wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->account_value : 0;
 			
 		for($col = 1; $col <= 16; $col++)
 		{
@@ -1230,8 +1238,9 @@ class PdfController extends Controller
 				for($row = 1; $row <= 14; $row++)
 				{
 					$index = $col.$row;
-					$w_acc_value = $wife_account_value ?? '';
-					$a12 = round($w_acc_value * 0.21);
+					$w_acc_value = $wife_account_value ?? 0;
+					//echo $w_acc_value;die;
+					$a12 = $w_acc_value !='' ? round($w_acc_value * 0.21) : 0;
 					$a15 = $wife_account_value + $a12;
 					$a18 = round($a15 * (1 + 0.05));
 					if($col == 1)
@@ -1788,6 +1797,7 @@ class PdfController extends Controller
 								//$row[] = number_format($previous_husband_annuity * 0.055932);
 								if($new_husband_age >= 72 && $new_husband_age<=76)
 								{
+									//echo $new_husband_age; die;
 									$row[] = number_format($husband_allo_RMD[$new_husband_age]);
 								}
 								else{

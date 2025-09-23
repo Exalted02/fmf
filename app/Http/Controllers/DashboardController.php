@@ -74,6 +74,7 @@ class DashboardController extends Controller
 		{
 			$record = Current_financial_account::where('sl_no', $sl_no)->get();
 			$data['records'] = $record;
+			$data['sl_no'] = $sl_no;
 			
 		}
 		else

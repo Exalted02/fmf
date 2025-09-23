@@ -67,14 +67,14 @@
 								<div class="input-block mb-3">
 									<label class="col-form-label">Partner's Name</label>
 									<input type="text" class="form-control"   name="partner_name" id="partner_name" placeholder="Enter Partner's Name" value="{{ $record->partner_name ?? '' }}">
-									<div class="partner_name_error error-text"></div>
+									{{--<div class="partner_name_error error-text"></div>--}}
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="input-block mb-3">
 									<label class="col-form-label">Partner's Age</label>
 									<input type="text" class="form-control"   name="partner_age" id="partner_age" placeholder="Enter Partner's Age" value="{{ $record->partner_age ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-									<div class="partner_age_error error-text"></div>
+									{{--<div class="partner_age_error error-text"></div>--}}
 								</div>
 							</div>
 						</div>
@@ -256,7 +256,7 @@
 			$('.client_age_error').text('Enter client age');
 			isValid = false;
 		}
-		if (partner_name === '')
+		/*if (partner_name === '')
 		{
 			$('.partner_name_error').text('Enter partner name');
 			isValid = false;
@@ -265,7 +265,7 @@
 		{
 			$('.partner_age_error').text('Enter partner age');
 			isValid = false;
-		}
+		}*/
 		if (current_portfolio_value === '')
 		{
 			$('.current_portfolio_error').text('Enter current portfolio value');

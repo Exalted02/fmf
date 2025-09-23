@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('content')
+@php
+$portfolio_data = App\Models\Client_portfolio_Desires::where('id', $sl_no)->first();
+$partner_name = $portfolio_data ? $portfolio_data->partner_name : '';
+@endphp
     <!-- Page Wrapper -->
     <div class="container">
     
@@ -25,12 +29,18 @@
 								<div class="col-lg-3 col-md-3">
 									<div class="">
 										<label for="" class="col-form-label">Account owner</label>
+										@if(!empty($partner_name))
 										<select class="form-control select" name="account_owner[]">
 											<option value="">Select</option>
 											<option value="1">Husband</option>
 											<option value="2">Wife</option>
 											<option value="3">Joint</option>
 										</select>
+										@else
+										<select class="form-control select" name="account_owner[]">
+											<option value="1">Husband</option>
+										</select>
+										@endif
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
@@ -58,7 +68,7 @@
 										
 									</div>
 								</div>
-								<div class="col-lg-2 col-md-2">
+								<div class="col-lg-3 col-md-3">
 									<div class="">
 										<label for="" class="col-form-label">Tax qualification</label>
 										<select class="select" name="tax_qualification[]">
@@ -235,12 +245,18 @@
 		<div class="col-lg-3 col-md-3">
 			<div class="">
 				<label for="" class="col-form-label">Account owner</label>
+				@if(!empty($partner_name))
 				<select class="form-control select" name="account_owner[]">
 					<option>Select</option>
 					<option value="1">Husband</option>
 					<option value="2">Wife</option>
 					<option value="3">Joint</option>
 				</select>
+				@else
+				<select class="form-control select" name="account_owner[]">
+					<option value="1">Husband</option>
+				</select>	
+				@endif
 			</div>
 		</div>
 		<div class="col-lg-3 col-md-3">
