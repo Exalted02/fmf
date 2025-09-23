@@ -1056,6 +1056,8 @@ class PdfController extends Controller
 
 		$headerAccountOwnerArray[] = 'Year';
 		$headerAccountOwnerArray[] = $portfolio_Desire_data->client_name ?? '';
+		
+		if(!empty($portfolio_Desire_data->partner_name))
 		$headerAccountOwnerArray[] = $portfolio_Desire_data->partner_name ?? '';
 
 		foreach($current_financial_account as $key=>$acount)
@@ -1482,6 +1484,8 @@ class PdfController extends Controller
 					{
 						$row[] = $i;
 						$row[] = $husbandAge + $j;
+						
+						if(!empty($wifeAge))
 						$row[] = $wifeAge + $j;
 					}
 					
