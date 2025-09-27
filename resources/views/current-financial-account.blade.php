@@ -38,7 +38,7 @@ $partner_name = $portfolio_data ? $portfolio_data->partner_name : '';
 										</select>
 										@else
 										<select class="form-control select" name="account_owner[]">
-											<option value="1">Husband</option>
+											<option value="1">Single</option>
 										</select>
 										@endif
 									</div>
@@ -110,12 +110,18 @@ $partner_name = $portfolio_data ? $portfolio_data->partner_name : '';
 								<div class="col-lg-3 col-md-3">
 									<div class="">
 										<label for="" class="col-form-label">Account owner</label>
+										@if(!empty($partner_name))
 										<select class="form-control select" name="account_owner[]">
 											<option value="">Select</option>
 											<option value="1" {{ !empty($record->account_owner) && $record->account_owner == 1 ? 'selected' : ''}}>Husband</option>
 											<option value="2" {{ !empty($record->account_owner) && $record->account_owner == 2 ? 'selected' : ''}}>Wife</option>
 											<option value="3" {{ !empty($record->account_owner) && $record->account_owner == 3 ? 'selected' : ''}}>Joint</option>
 										</select>
+										@else
+										<select class="form-control select" name="account_owner[]">
+											<option value="1">Single</option>
+										</select>	
+										@endif
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
@@ -254,7 +260,7 @@ $partner_name = $portfolio_data ? $portfolio_data->partner_name : '';
 				</select>
 				@else
 				<select class="form-control select" name="account_owner[]">
-					<option value="1">Husband</option>
+					<option value="1">Single</option>
 				</select>	
 				@endif
 			</div>

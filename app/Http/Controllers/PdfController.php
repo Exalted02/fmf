@@ -608,12 +608,21 @@ class PdfController extends Controller
 				
 				foreach($current_income_account as $k=>$income_src)
 				{
-					$account_value = number_format($income_src->income_amount);
+					$inc_src = $income_src->frequency == 1  ? $income_src->income_amount*12 : $income_src->income_amount;
+					
+					$account_value = number_format($inc_src);
 					if($i==0)
 					{
-						$previous_income_arr[$k] = $income_src->income_amount;
+						// update 27-09-2025
+						$previous_income_arr[$k] = $income_src->frequency == 1  ? $income_src->income_amount*12 : $income_src->income_amount;
+						$inc_src = $income_src->frequency == 1  ? $income_src->income_amount*12 : $income_src->income_amount;
+						$sum_current_inc = $sum_current_inc + $inc_src;
+						$gross_income = $gross_income + $inc_src;
+						
+						// comment 27-09-2025
+						/*$previous_income_arr[$k] = $income_src->income_amount;
 						$sum_current_inc = $sum_current_inc + $income_src->income_amount;
-						$gross_income = $gross_income + $income_src->income_amount;
+						$gross_income = $gross_income + $income_src->income_amount;*/
 					}
 					else
 					{
@@ -1923,12 +1932,24 @@ class PdfController extends Controller
 				
 				foreach($current_income_account as $k=>$income_src)
 				{
-					$account_value = number_format($income_src->income_amount);
+					$inc_src = $income_src->frequency == 1  ? $income_src->income_amount*12 : $income_src->income_amount;
+					
+					$account_value = number_format($inc_src);
+					//$account_value = number_format($income_src->income_amount);// 27-09-2025
 					if($i==0)
 					{
-						$previous_income_arr[$k] = $income_src->income_amount;
-						$sum_current_inc = $sum_current_inc + $income_src->income_amount;
-						$gross_income = $gross_income + $income_src->income_amount;
+						$previous_income_arr[$k] = $income_src->frequency == 1  ? $income_src->income_amount*12 : $income_src->income_amount;
+						
+						// update  27-09-2025
+						$inc_amt = $income_src->frequency == 1  ? $income_src->income_amount*12 : $income_src->income_amount;
+						
+						$sum_current_inc = $sum_current_inc + $inc_amt;
+						$gross_income = $gross_income + $inc_amt;
+						
+						//$previous_income_arr[$k] = $income_src->income_amount;
+						// comment 27-09-2025
+						/*$sum_current_inc = $sum_current_inc + $income_src->income_amount;
+						$gross_income = $gross_income + $income_src->income_amount;*/
 					}
 					else
 					{
