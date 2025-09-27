@@ -44,10 +44,10 @@ class PdfController extends Controller
             ]
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
-        //$pdf->getDomPDF()->setHttpContext($contxt);
-		//$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
+        $pdf->getDomPDF()->setHttpContext($contxt);
+		$pdf->loadView('income-plan-pdf', $data, $roth)->setPaper('a4', 'landscape');
 		
-		return view('income-plan-pdf',  array_merge($plan_allo_header, $data, $roth));
+		//return view('income-plan-pdf',  array_merge($plan_allo_header, $data, $roth));
 		
 		return $pdf->download('income-plan.pdf');
 	}
@@ -1493,6 +1493,8 @@ class PdfController extends Controller
 		$previous_nq = [];
 		$rmd = [];
 		$previous_joint_annuity = 0;
+		$desired_gross_income_retirement = 0;
+		$taxable_income = 0;
 		
 		for($i=0; $i<=25; $i++)
 		{
