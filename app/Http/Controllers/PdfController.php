@@ -1137,87 +1137,89 @@ class PdfController extends Controller
 		$husband_account_value = $current_finance_husband_data ? $current_finance_husband_data->account_value : '';
 		
 		//echo $husband_account_value;die;
-		
-		for($col = 1; $col <= 13; $col++)
+		if(!empty($husband_account_value))
 		{
-			$index12_previous = 0;
-			for($row = 1; $row <= 9; $row++)
+			for($col = 1; $col <= 13; $col++)
 			{
-				$h_acc_value = $husband_account_value ?? '';
-				$a12 = round($h_acc_value * 0.21);
-				$a14 =  $h_acc_value + $a12;
-				$a17 =  round($a14 * 1.05);
-				$a20_pre = round($a17/6);
-				$a20 =  round($a17/6);
-				$index = $col.$row;
-				
-				if($col >= 3 && $col<=$max_yr)
+				$index12_previous = 0;
+				for($row = 1; $row <= 9; $row++)
 				{
-					if($row == 1 && $col<=8)
-					{
-						if($index17_previous == 0 && $index19_previous == 0)
-						{								
-							$index12_previous = $a17;
-						}
-						else{
-						   $index12_previous = $index17_previous-$index19_previous;
-						}
-						
-						if($col==5)
-						{
-							//echo $index12_previous;die;
-						   $husband_allo_RMD[72] = round($index12_previous);
-						}
-						//echo "<pre>";print_r($husband_allo_RMD);die;
-						if($col==6)
-						{
-						   $husband_allo_RMD[73] = round($index12_previous);
-						}
-						
-						if($col==7)
-						{
-						   $husband_allo_RMD[74] = round($index12_previous);
-						}
-						
-						if($col==8)
-						{
-						   $husband_allo_RMD[75] = round($index12_previous);
-						}
-					}
-					elseif($row == 2 && $col<=8)
-					{
-						$index13_previous = $index12_previous*0.0095;
-					}
-					elseif(($col >=3 && $col <= 8) && $row ==3)
-					{
-						$index15_previous = $a20*0.22;
-					}
-					elseif($row == 6 && $col<=8)
-					{
-						$index17_previous = ($index12_previous-$index13_previous-$a20) * 1.05;
-					}
-					elseif($row == 8)
-					{
-						$index19_previous = 0;
-						if($col == 6)
-						{
-							$index19_previous= distribution_period()[73][1];
-						}
-						
-						if($col == 7)
-						{
-							$index19_previous= distribution_period()[74][1];
-						}
-						
-						if($col == 8)
-						{
-							$index19_previous= distribution_period()[75][1];
-						}
-					}
+					$h_acc_value = $husband_account_value ?? '';
+					$a12 = round($h_acc_value * 0.21);
+					$a14 =  $h_acc_value + $a12;
+					$a17 =  round($a14 * 1.05);
+					$a20_pre = round($a17/6);
+					$a20 =  round($a17/6);
+					$index = $col.$row;
 					
-					if($row==1 && $col==9)
+					if($col >= 3 && $col<=$max_yr)
 					{
-						$husband_allo_RMD[76] = round($index17_previous - distribution_period()[75][1]);
+						if($row == 1 && $col<=8)
+						{
+							if($index17_previous == 0 && $index19_previous == 0)
+							{								
+								$index12_previous = $a17;
+							}
+							else{
+							   $index12_previous = $index17_previous-$index19_previous;
+							}
+							
+							if($col==5)
+							{
+								//echo $index12_previous;die;
+							   $husband_allo_RMD[72] = round($index12_previous);
+							}
+							//echo "<pre>";print_r($husband_allo_RMD);die;
+							if($col==6)
+							{
+							   $husband_allo_RMD[73] = round($index12_previous);
+							}
+							
+							if($col==7)
+							{
+							   $husband_allo_RMD[74] = round($index12_previous);
+							}
+							
+							if($col==8)
+							{
+							   $husband_allo_RMD[75] = round($index12_previous);
+							}
+						}
+						elseif($row == 2 && $col<=8)
+						{
+							$index13_previous = $index12_previous*0.0095;
+						}
+						elseif(($col >=3 && $col <= 8) && $row ==3)
+						{
+							$index15_previous = $a20*0.22;
+						}
+						elseif($row == 6 && $col<=8)
+						{
+							$index17_previous = ($index12_previous-$index13_previous-$a20) * 1.05;
+						}
+						elseif($row == 8)
+						{
+							$index19_previous = 0;
+							if($col == 6)
+							{
+								$index19_previous= distribution_period()[73][1];
+							}
+							
+							if($col == 7)
+							{
+								$index19_previous= distribution_period()[74][1];
+							}
+							
+							if($col == 8)
+							{
+								$index19_previous= distribution_period()[75][1];
+							}
+						}
+						
+						if($row==1 && $col==9)
+						{
+							$husband_allo_RMD[76] = round($index17_previous - distribution_period()[75][1]);
+						}
 					}
 				}
 			}
@@ -1238,214 +1240,217 @@ class PdfController extends Controller
 		$current_finance_wife_data = Current_financial_account::where('sl_no', $lastId)->where('account_owner', 2)->where('account_title', 'LIKE', '%Annuity%')->first();
 
 		$wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->account_value : 0;
-			
-		for($col = 1; $col <= 16; $col++)
-		{
-			$index_12 = 0;
-			$index_15 = 0;
-			$index_16 = 0;
-			$index_13 = 0;
-			$index_17 = 0;
-				for($row = 1; $row <= 14; $row++)
-				{
-					$index = $col.$row;
-					$w_acc_value = $wife_account_value ?? 0;
-					//echo $w_acc_value;die;
-					$a12 = $w_acc_value !='' ? round($w_acc_value * 0.21) : 0;
-					$a15 = $wife_account_value + $a12;
-					$a18 = round($a15 * (1 + 0.05));
-					if($col == 1)
+		
+		if(!empty($wife_account_value))
+		{		
+			for($col = 1; $col <= 16; $col++)
+			{
+				$index_12 = 0;
+				$index_15 = 0;
+				$index_16 = 0;
+				$index_13 = 0;
+				$index_17 = 0;
+					for($row = 1; $row <= 14; $row++)
 					{
-						if($row == 8){
-							$a20 = $a18/9;
+						$index = $col.$row;
+						$w_acc_value = $wife_account_value ?? 0;
+						//echo $w_acc_value;die;
+						$a12 = $w_acc_value !='' ? round($w_acc_value * 0.21) : 0;
+						$a15 = $wife_account_value + $a12;
+						$a18 = round($a15 * (1 + 0.05));
+						if($col == 1)
+						{
+							if($row == 8){
+								$a20 = $a18/9;
+							}
+								
 						}
+						elseif($col == 4)
+						{
+							if($row == 1)
+							{
+								$index_12 = $a15;
+							}
 							
-					}
-					elseif($col == 4)
-					{
-						if($row == 1)
-						{
-							$index_12 = $a15;
-						}
-						
-						if($row == 6)
-						{
-							$index_18 = $a18;
-						}
-					}	
-						
-					if($col>4 && $col<=$wife_max_year)
-					{
-						if($row == 1)
-						{
-							if($col==5)
+							if($row == 6)
 							{
-								$index_12 = $index_18 - $index_21;
+								$index_18 = $a18;
 							}
-							elseif($col>8 && $col<13)
+						}	
+							
+						if($col>4 && $col<=$wife_max_year)
+						{
+							if($row == 1)
 							{
-								if($col==9)
+								if($col==5)
 								{
-									//$I_12 = ($index_18*1.05) - $index_21;
-									
-									$I_12 = ($index_18*1.05) - $index_20;
-									
-									$index_12 = ($index_18*1.05) - $index_20;
-									$wife_allo_RMD[74] = round($I_12);
+									$index_12 = $index_18 - $index_21;
 								}
-								elseif($col==10)
+								elseif($col>8 && $col<13)
 								{
-									//$J_12 = ($index_18*1.05) - $index_21;
-									
-									$J_12 = ($index_18*1.05) - $index_20;
-									
-									$index_12 = ($index_18*1.05) - $index_20;
-									$wife_allo_RMD[75] = round($J_12);
+									if($col==9)
+									{
+										//$I_12 = ($index_18*1.05) - $index_21;
+										
+										$I_12 = ($index_18*1.05) - $index_20;
+										
+										$index_12 = ($index_18*1.05) - $index_20;
+										$wife_allo_RMD[74] = round($I_12);
+									}
+									elseif($col==10)
+									{
+										//$J_12 = ($index_18*1.05) - $index_21;
+										
+										$J_12 = ($index_18*1.05) - $index_20;
+										
+										$index_12 = ($index_18*1.05) - $index_20;
+										$wife_allo_RMD[75] = round($J_12);
+									}
+									elseif($col==11)
+									{
+										//$K_12 = ($index_18*1.05) - $index_21;
+										
+										$K_12 = ($index_18*1.05) - $index_20;
+										
+										$index_12 = ($index_18*1.05) - $index_20;
+										$wife_allo_RMD[76] = round($K_12);
+									}
+									elseif($col==12)
+									{
+										//$L_12 = ($index_18*1.05) - $index_21;
+										
+										$L_12 = ($index_18*1.05) - $index_20;
+										
+										$index_12 = ($index_18*1.05) - $index_20;
+										$wife_allo_RMD[77] = round($L_12);
+									}
 								}
-								elseif($col==11)
-								{
-									//$K_12 = ($index_18*1.05) - $index_21;
-									
-									$K_12 = ($index_18*1.05) - $index_20;
-									
-									$index_12 = ($index_18*1.05) - $index_20;
-									$wife_allo_RMD[76] = round($K_12);
-								}
-								elseif($col==12)
-								{
-									//$L_12 = ($index_18*1.05) - $index_21;
-									
-									$L_12 = ($index_18*1.05) - $index_20;
-									
-									$index_12 = ($index_18*1.05) - $index_20;
-									$wife_allo_RMD[77] = round($L_12);
+								else{
+									$index_12 = ($index_18*1.05) - $index_21;
+									if($col==7)
+									{
+										$G_12 = ($index_18*1.05) - $index_21;
+										$wife_allo_RMD[72] = round($G_12);
+									}
+									elseif($col==8)
+									{
+										$H_12 = ($index_18*1.05) - $index_21;
+										$wife_allo_RMD[73] = round($H_12);
+									}
 								}
 							}
-							else{
-								$index_12 = ($index_18*1.05) - $index_21;
-								if($col==7)
+							elseif($row == 2)
+							{
+								$index_13 = $index_12* 0.0095;
+							}
+							elseif($row == 3)
+							{
+								if($col==5)
 								{
-									$G_12 = ($index_18*1.05) - $index_21;
-									$wife_allo_RMD[72] = round($G_12);
+									$index_15 = $a18/$wife_roth_yr;
+								}
+								
+								if($wife_max_year==6 && $col==6)
+								{
+									$index_15 = $index_12-$index_13;
+								}
+								elseif($col==6)
+								{
+									$index_15 = $a18/$wife_roth_yr;
+								}
+								
+								if($wife_max_year==7 && $col==7)
+								{
+									$index_15 = $index_12-$index_13;
+								}
+								elseif($col==7)
+								{
+									$index_15 = $a18/$wife_roth_yr;
+								}
+								
+								if($wife_max_year==8 && $col==8)
+								{
+									$index_15 = $index_12-$index_13;
 								}
 								elseif($col==8)
 								{
-									$H_12 = ($index_18*1.05) - $index_21;
-									$wife_allo_RMD[73] = round($H_12);
+									$index_15 = $a18/$wife_roth_yr;
+								}
+								
+								if($wife_max_year==9 && $col==9)
+								{
+									$index_15 = $index_12-$index_13;
+								}
+								elseif($col==9)
+								{
+									$index_15 = $a18/$wife_roth_yr;
+								}
+								
+								if($wife_max_year==10 && $col==10)
+								{
+									$index_15 = $index_12-$index_13;
+								}
+								elseif($col==10)	
+								{
+									$index_15 = $a18/$wife_roth_yr;
+								}	
+
+								if($wife_max_year==11 && $col==11)
+								{
+									$index_15 = $index_12-$index_13;
+								}
+								elseif($col==11)
+								{
+									$index_15 = $a18/$wife_roth_yr;
+								}
+								
+								if($col==12)
+								{
+									$index_15 = $index_12-$index_13;
+								}
+							}
+							elseif($row == 4)
+							{
+								$index_16 = $index_15 * 0.24;
+							}
+							elseif($row == 5)
+							{
+								$index_17 = $index_15-$index_16;
+							}
+							elseif($row == 6)
+							{
+								$index_18 = $index_12-$index_13-$index_15;
+							}
+							elseif($row == 8)
+							{
+								if($col==8)
+								{
+									$index_20 = $G_12/wife_distribution_period()[73][0];
+								}
+								
+								if($col==9)
+								{
+									$index_20 = $H_12/wife_distribution_period()[74][0];
+								}
+								
+								if($col==10)
+								{
+									$index_20 = $I_12/wife_distribution_period()[75][0];
+								}
+								
+								if($col==11)
+								{
+									$index_20 = $J_12/wife_distribution_period()[76][0];
+								}
+								
+								if($col==12)
+								{
+									$index_20 = $K_12/wife_distribution_period()[77][0];
 								}
 							}
 						}
-						elseif($row == 2)
-						{
-							$index_13 = $index_12* 0.0095;
-						}
-						elseif($row == 3)
-						{
-							if($col==5)
-							{
-								$index_15 = $a18/$wife_roth_yr;
-							}
-							
-							if($wife_max_year==6 && $col==6)
-							{
-								$index_15 = $index_12-$index_13;
-							}
-							elseif($col==6)
-							{
-								$index_15 = $a18/$wife_roth_yr;
-							}
-							
-							if($wife_max_year==7 && $col==7)
-							{
-								$index_15 = $index_12-$index_13;
-							}
-							elseif($col==7)
-							{
-								$index_15 = $a18/$wife_roth_yr;
-							}
-							
-							if($wife_max_year==8 && $col==8)
-							{
-								$index_15 = $index_12-$index_13;
-							}
-							elseif($col==8)
-							{
-								$index_15 = $a18/$wife_roth_yr;
-							}
-							
-							if($wife_max_year==9 && $col==9)
-							{
-								$index_15 = $index_12-$index_13;
-							}
-							elseif($col==9)
-							{
-								$index_15 = $a18/$wife_roth_yr;
-							}
-							
-							if($wife_max_year==10 && $col==10)
-							{
-								$index_15 = $index_12-$index_13;
-							}
-							elseif($col==10)	
-							{
-								$index_15 = $a18/$wife_roth_yr;
-							}	
-
-							if($wife_max_year==11 && $col==11)
-							{
-								$index_15 = $index_12-$index_13;
-							}
-							elseif($col==11)
-							{
-								$index_15 = $a18/$wife_roth_yr;
-							}
-							
-							if($col==12)
-							{
-								$index_15 = $index_12-$index_13;
-							}
-						}
-						elseif($row == 4)
-						{
-							$index_16 = $index_15 * 0.24;
-						}
-						elseif($row == 5)
-						{
-							$index_17 = $index_15-$index_16;
-						}
-						elseif($row == 6)
-						{
-							$index_18 = $index_12-$index_13-$index_15;
-						}
-						elseif($row == 8)
-						{
-							if($col==8)
-							{
-								$index_20 = $G_12/wife_distribution_period()[73][0];
-							}
-							
-							if($col==9)
-							{
-								$index_20 = $H_12/wife_distribution_period()[74][0];
-							}
-							
-							if($col==10)
-							{
-								$index_20 = $I_12/wife_distribution_period()[75][0];
-							}
-							
-							if($col==11)
-							{
-								$index_20 = $J_12/wife_distribution_period()[76][0];
-							}
-							
-							if($col==12)
-							{
-								$index_20 = $K_12/wife_distribution_period()[77][0];
-							}
-						}
 					}
-				}
+			}
 		}
 		//echo "<pre>";print_r($wife_allo_RMD);die;
 		// fetch values
