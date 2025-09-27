@@ -186,6 +186,7 @@ class PdfController extends Controller
 		$previous_savings = [];
 		$previous_nq = [];
 		$rmd = [];
+		$previous_joint_annuity = 0;
 		
 		
 		for($i=0; $i<=25; $i++)
@@ -256,6 +257,16 @@ class PdfController extends Controller
 						if($wife_dob >= 1960)
 						{
 							$wife_age_rmd = 75;
+						}
+					}
+					
+					if($acount->account_owner == 1)
+					{
+						$joint_age_rmd = $acount->rmd_start_age ?? '0000';
+						$husband_dob = $currentYear - $husband_age_rmd;
+						if($husband_dob >= 1960)
+						{
+							$joint_age_rmd = 75;
 						}
 					}
 					
@@ -421,6 +432,7 @@ class PdfController extends Controller
 						}
 						
 						//---- 03-09-2025------
+						
 						if($acount->account_owner == 3)
 						{
 							if($i==0)
@@ -432,8 +444,8 @@ class PdfController extends Controller
 							{
 								$previous_joint_annuity =  $joint_annuity;
 								//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
-									
-								if($new_husband_age >=$rmd_start_age && $new_wife_age >= $rmd_start_age)
+								
+								if($new_husband_age >=$joint_age_rmd && $new_wife_age >= $joint_age_rmd)
 								{
 									$rmd_husband = $previous_joint_annuity * 0.055932;
 									$joint_annuity = $previous_joint_annuity * 1.045 - $rmd_husband;
@@ -450,7 +462,7 @@ class PdfController extends Controller
 						}
 					}
 					//---------------------------------
-					
+					//echo 'hii'.$previous_joint_annuity; die;
 					//$row[] = $acount->account_value;
 					$row[] = $account_value;
 					
@@ -1480,6 +1492,7 @@ class PdfController extends Controller
 		$previous_savings = [];
 		$previous_nq = [];
 		$rmd = [];
+		$previous_joint_annuity = 0;
 		
 		for($i=0; $i<=25; $i++)
 		{
@@ -1515,6 +1528,7 @@ class PdfController extends Controller
 					//----- rmd age calculation-------
 					$husband_age_rmd = '0000';
 					$wife_age_rmd = '0000';
+					$joint_age_rmd = '0000';
 					
 					$husband_age_rmd_ira_bal = 72;
 					$wife_age_rmd_ira_bal = 72;
@@ -1539,6 +1553,17 @@ class PdfController extends Controller
 						if($wife_dob >= 1960)
 						{
 							$wife_age_rmd = 75;
+						}
+					}
+					
+					if($acount->account_owner == 1)
+					{
+						$joint_age_rmd = 72;
+						$joint_age_rmd = $acount->rmd_start_age ?? '0000';
+						$husband_dob = $currentYear - $joint_age_rmd;
+						if($husband_dob >= 1960)
+						{
+							$joint_age_rmd = 75;
 						}
 					}
 					
@@ -1717,7 +1742,7 @@ class PdfController extends Controller
 								$previous_joint_annuity =  $joint_annuity;
 								//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 									
-								if($new_husband_age >=$rmd_start_age && $new_wife_age >= $rmd_start_age)
+								if($new_husband_age >=$joint_age_rmd && $new_wife_age >= $joint_age_rmd)
 								{
 									$rmd_husband = $previous_joint_annuity * 0.055932;
 									$joint_annuity = $previous_joint_annuity * 1.045 - $rmd_husband;
