@@ -566,7 +566,7 @@ $(document).ready(function(){
 		$.ajax({
 				url: URL,
 				type: "POST",
-				data: {account_owner_arr:account_owner_arr,owner_name_arr:owner_name_arr,account_title_arr:account_title_arr,rmd_start_age_arr:rmd_start_age_arr,tax_qualification_arr:tax_qualification_arr,age_income_start_arr:age_income_start_arr,account_value_arr:account_value_arr,annual_income_value_arr:annual_income_value_arr,_token:csrfToken},
+				data: {account_owner_arr:account_owner_arr,owner_name_arr:owner_name_arr,account_title_arr:account_title_arr,rmd_start_age_arr:rmd_start_age_arr,tax_qualification_arr:tax_qualification_arr,age_income_start_arr:age_income_start_arr,account_value_arr:account_value_arr,annual_income_value_arr:annual_income_value_arr,tax_free_type_arr:tax_free_type_arr,tax_free_percent_arr:tax_free_percent_arr,_token:csrfToken},
 				dataType: 'json',
 				success: function(response) {
 					if(response.message == 'success')
