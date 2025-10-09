@@ -19,7 +19,9 @@ class Current_financial_account extends Model
 		'tax_qualification',
 		'age_income_start',
 		'account_value',
+		'tax_free_type',
 		'annual_income_value',
+		'tax_free_percent',
 		'status', 
     ];
 }

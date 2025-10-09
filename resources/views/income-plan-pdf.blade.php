@@ -1590,7 +1590,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 	</div>
 	@endif
 	
-	{{--<div style="page-break-after: always;">
+	<div style="page-break-after: always;">
 		<div>
 			<h2><strong style="margin-left:200px;">Financial Allocation Plan Details Husband And Wife</strong></h2>
 		</div>
@@ -1616,7 +1616,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 			@endif
 			</tbody>
 		</table>
-	</div>--}}
+	</div>
 </body>
 </html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

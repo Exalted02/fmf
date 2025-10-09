@@ -86,15 +86,33 @@ $partner_name = $portfolio_data ? $portfolio_data->partner_name : '';
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
-										<label for="" class="col-form-label">Age income start</label>
+										<label for="" class="col-form-label">Age income start(tax free income)</label>
 										<input class="form-control" name="age_income_start[]" type="text" placeholder="Age income start" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
 										
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
+										<label for="" class="col-form-label">Tax free type</label>
+										<select class="form-control select" name="tax_free_type[]">
+											<option value="">Select Mode</option>
+											<option value="1">Percentage</option>
+											<option value="2">Dollar value</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
 										<label for="" class="col-form-label">Annual income value</label>
 										<input class="form-control" name="annual_income_value[]" type="text" placeholder="Annual income value" onkeypress="return isNumberKey(event,this)">
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
+										<label for="" class="col-form-label">Tax free percent (%)</label>
+										<div class="input-percent">
+										<input class="form-control" name="tax_free_percent[]" type="text" placeholder="Tax free percent" onkeypress="return isNumberPercent(event)">
+										</div>
 									</div>
 								</div>
 								
@@ -174,8 +192,26 @@ $partner_name = $portfolio_data ? $portfolio_data->partner_name : '';
 								</div>
 								<div class="col-lg-3 col-md-3">
 									<div class="input-block">
+										<label for="" class="col-form-label">Tax free type</label>
+										<select class="form-control select" name="tax_free_type[]">
+											<option value="">Select Mode</option>
+											<option value="1">Percentage</option>
+											<option value="2">Dollar value</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
 										<label for="" class="col-form-label">Annual income value</label>
 										<input class="form-control" name="annual_income_value[]" type="text" placeholder="Annual income value" onkeypress="return isNumberKey(event,this)" value="{{ $record->annual_income_value ?? ''}}">
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-3">
+									<div class="input-block">
+										<label for="" class="col-form-label">Tax free percent</label>
+										<div class="input-percent">
+											<input class="form-control" name="tax_free_percent[]" type="text" placeholder="Tax free percent" onkeypress="return isNumberPercent(event)">
+										</div>
 									</div>
 								</div>
 								<div class="col-lg-1 col-md-1">
@@ -314,8 +350,26 @@ $partner_name = $portfolio_data ? $portfolio_data->partner_name : '';
 		</div>
 		<div class="col-lg-3 col-md-3">
 			<div class="input-block">
+				<label for="" class="col-form-label">Tax free type</label>
+				<select class="form-control select" name="tax_free_type[]">
+					<option value="">Select Mode</option>
+					<option value="1">Percentage</option>
+					<option value="2">Dollar value</option>
+				</select>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3">
+			<div class="input-block">
 				<label for="" class="col-form-label">Annual income value</label>
 				<input class="form-control" name="annual_income_value[]" type="text" placeholder="Annual income value" onkeypress="return isNumberKey(event,this)">
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3">
+			<div class="input-block">
+				<label for="" class="col-form-label">Tax free percent</label>
+				<div class="input-percent">
+				<input class="form-control" name="tax_free_percent[]" type="text" placeholder="Tax free percent" onkeypress="return isNumberPercent(event)">
+				</div>
 			</div>
 		</div>
 		<div class="col-lg-1 col-md-1">
@@ -376,6 +430,8 @@ $(document).ready(function(){
 		var age_income_start_arr = [];
 		var account_value_arr = [];
 		var annual_income_value_arr = [];
+		var tax_free_type_arr = [];
+		var tax_free_percent_arr = [];
 		
 		
 		let isValid = true;
@@ -468,6 +524,17 @@ $(document).ready(function(){
 			
         });
 		
+		$('select[name="tax_free_type[]"]').each(function() {
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).next('.select2').addClass('is-invalid');
+                allClientBlank = false;
+            } else {
+				$(this).next('.select2').removeClass('is-invalid');
+				frequency_amount_arr.push($(this).val().trim());
+			}
+			
+        });
+		
 		$('input[name="annual_income_value[]"]').each(function() {
             if ($(this).val() === "" || $(this).val() === null) {
 				$(this).addClass('is-invalid');
@@ -478,6 +545,18 @@ $(document).ready(function(){
 			}
 			
         });
+		
+		$('input[name="tax_free_percent[]"]').each(function() {
+            if ($(this).val() === "" || $(this).val() === null) {
+				$(this).addClass('is-invalid');
+                isValid = false;
+            } else {
+				$(this).removeClass('is-invalid');
+				tax_free_percent_arr.push($(this).val().trim());
+			}
+			
+        });
+		
 		if (!isValid) {
 			return false;
 		}
@@ -502,6 +581,17 @@ $(document).ready(function(){
 			});
 	});
 });
+function isNumberPercent(evt)
+{
+	var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode === 46 && evt.target.value.includes('.')) {
+        return false;
+    }
+    if (charCode !== 46 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
 </script>
 @endsection
 
