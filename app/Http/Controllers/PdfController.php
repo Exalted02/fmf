@@ -1888,13 +1888,13 @@ class PdfController extends Controller
 									if($i == $acount->age_income_start)
 									{
 										$row[] = number_format($acount->annual_income_value);
-										$previous_hus_tax_free_inc = $acount->annual_income_value;
+										$previous_hus_tax_free_inc = round($acount->annual_income_value);
 									}
 									else
 									{
 										$row[] = number_format(round(($previous_hus_tax_free_inc * (1 + $acount->tax_free_percent / 100))));
 										
-										$previous_hus_tax_free_inc = ($previous_hus_tax_free_inc * (1 + $acount->tax_free_percent / 100));
+										$previous_hus_tax_free_inc = round(($previous_hus_tax_free_inc * (1 + $acount->tax_free_percent / 100)));
 									}										
 								}
 								elseif($acount->tax_free_type == 2)
@@ -1903,7 +1903,7 @@ class PdfController extends Controller
 									{
 										$hy = 1;
 										$row[] = number_format(round($acount->annual_income_value));
-										$previous_hus_tax_free_inc = $acount->annual_income_value;
+										$previous_hus_tax_free_inc = round($acount->annual_income_value);
 															
 									}
 									else{
@@ -1919,7 +1919,7 @@ class PdfController extends Controller
 											$husband_tax_free_percent_increase = $acount->tax_free_percent + 0.5;
 											$row[] = number_format(round(($previous_hus_tax_free_inc * (1 + $husband_tax_free_percent_increase / 100)))) ;
 											
-											$previous_hus_tax_free_inc = ($previous_hus_tax_free_inc * (1 + $husband_tax_free_percent_increase / 100));
+											$previous_hus_tax_free_inc = round(($previous_hus_tax_free_inc * (1 + $husband_tax_free_percent_increase / 100)));
 										}
 										
 										$hy++;
