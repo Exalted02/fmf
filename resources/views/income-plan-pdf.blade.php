@@ -126,7 +126,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
         .totals { font-weight: bold; font-size: 26px; }
         .right { text-align: right; }
 		
-		/*.footer {
+		.footer {
 			position: fixed;
             bottom: 110px;
             left: 0;
@@ -139,7 +139,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 			margin-top: 0;
 			position: fixed;
 			bottom: 110px;
-		}*/
+		}
 		.mt-5 {
 			margin-top: 5px;
 		}

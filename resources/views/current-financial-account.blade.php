@@ -195,8 +195,8 @@ $partner_name = $portfolio_data ? $portfolio_data->partner_name : '';
 										<label for="" class="col-form-label">Tax free type</label>
 										<select class="form-control select" name="tax_free_type[]">
 											<option value="">Select Mode</option>
-											<option value="1">Percentage</option>
-											<option value="2">Dollar value</option>
+											<option value="1" {{ $record->tax_free_type == 1 ? 'selected' : ''}}>Percentage</option>
+											<option value="2" {{ $record->tax_free_type == 2 ? 'selected' : ''}}>Dollar value</option>
 										</select>
 									</div>
 								</div>
@@ -210,7 +210,7 @@ $partner_name = $portfolio_data ? $portfolio_data->partner_name : '';
 									<div class="input-block">
 										<label for="" class="col-form-label">Tax free percent</label>
 										<div class="input-percent">
-											<input class="form-control" name="tax_free_percent[]" type="text" placeholder="Tax free percent" onkeypress="return isNumberPercent(event)">
+											<input class="form-control" name="tax_free_percent[]" type="text" placeholder="Tax free percent" onkeypress="return isNumberPercent(event)" value="{{ $record->tax_free_percent ?? ''}}">
 										</div>
 									</div>
 								</div>
