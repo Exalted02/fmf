@@ -1863,7 +1863,7 @@ class PdfController extends Controller
 									$row[] = '';
 								}
 								
-								$row[] = '';
+								$row[] = 'hi'; // tax free income column
 								$husband_annuity_rmd_inc = $previous_husband_annuity * 0.055932;
 								$gross_income = $gross_income + $husband_annuity_rmd_inc;
 							}
@@ -1872,9 +1872,24 @@ class PdfController extends Controller
 								$husband_annuity_rmd_inc = 0;
 								$row[] = '';
 								$row[] = '';
-								$row[] = '';
+								$row[] = 'hello'; // tax free income column
 								$gross_income = $gross_income + $husband_annuity_rmd_inc;
 								//$previous_annuity = $acount->account_value;
+							}
+							
+							// for tax free income 
+							if($acount->age_income_start >=$i)
+							{
+								if($acount->tax_free_type == 1)
+								{
+									//$row[] = 'hi'; // 09-10-2025 implement tax free income 
+								}
+								
+								if($acount->tax_free_type == 2)
+								{
+									//$row[] = 'hi'; // 09-10-2025 implement tax free income 
+								}
+							
 							}
 						}
 						
@@ -1909,7 +1924,7 @@ class PdfController extends Controller
 									$row[] = '';
 								}
 								
-								$row[] = '';
+								$row[] = 'ss'; // tax free income column
 								//$row[] = '$134,475';
 								//$wife_annuity_rmd_inc = 134475;
 								
@@ -1921,9 +1936,24 @@ class PdfController extends Controller
 								$wife_annuity_rmd_inc = 0;
 								$row[] = '';
 								$row[] = '';
-								$row[] = '';
+								$row[] = 'kk'; // tax free income column
 								$gross_income = $gross_income + $wife_annuity_rmd_inc;
 								//$previous_annuity = $acount->account_value;
+							}
+							
+							// for tax free income 
+							if($acount->age_income_start >=$i)
+							{
+								if($acount->tax_free_type == 1)
+								{
+									//$row[] = 'hi'; // 09-10-2025 implement tax free income 
+								}
+								
+								if($acount->tax_free_type == 2)
+								{
+									//$row[] = 'hi'; // 09-10-2025 implement tax free income 
+								}
+							
 							}
 						}
 						
