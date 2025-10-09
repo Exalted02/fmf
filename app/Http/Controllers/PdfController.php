@@ -1496,6 +1496,9 @@ class PdfController extends Controller
 		$desired_gross_income_retirement = 0;
 		$taxable_income = 0;
 		
+		$previous_hus_tax_free_inc  = 0;
+		$previous_wife_tax_free_inc  = 0;
+		
 		for($i=0; $i<=25; $i++)
 		{
 			$row = [];
@@ -1863,7 +1866,7 @@ class PdfController extends Controller
 									$row[] = '';
 								}
 								
-								$row[] = 'hi'; // tax free income column
+								//$row[] = 'hi'; // tax free income column
 								$husband_annuity_rmd_inc = $previous_husband_annuity * 0.055932;
 								$gross_income = $gross_income + $husband_annuity_rmd_inc;
 							}
@@ -1872,24 +1875,60 @@ class PdfController extends Controller
 								$husband_annuity_rmd_inc = 0;
 								$row[] = '';
 								$row[] = '';
-								$row[] = 'hello'; // tax free income column
+								//$row[] = 'hello'; // tax free income column
 								$gross_income = $gross_income + $husband_annuity_rmd_inc;
 								//$previous_annuity = $acount->account_value;
 							}
 							
-							// for tax free income 
-							if($acount->age_income_start >=$i)
+							// for tax free income 09-10-2025 
+							if($i >= $acount->age_income_start)
 							{
 								if($acount->tax_free_type == 1)
 								{
-									//$row[] = 'hi'; // 09-10-2025 implement tax free income 
+									if($i == $acount->age_income_start)
+									{
+										$row[] = number_format($acount->annual_income_value);
+										$previous_hus_tax_free_inc = $acount->annual_income_value;
+									}
+									else
+									{
+										$row[] = number_format(round(($previous_hus_tax_free_inc * (1 + $acount->tax_free_percent / 100))));
+										
+										$previous_hus_tax_free_inc = ($previous_hus_tax_free_inc * (1 + $acount->tax_free_percent / 100));
+									}										
 								}
-								
-								if($acount->tax_free_type == 2)
+								elseif($acount->tax_free_type == 2)
 								{
-									//$row[] = 'hi'; // 09-10-2025 implement tax free income 
+									if($i == $acount->age_income_start)
+									{
+										$hy = 1;
+										$row[] = number_format(round($acount->annual_income_value));
+										$previous_hus_tax_free_inc = $acount->annual_income_value;
+															
+									}
+									else{
+										
+										if($hy <= 3)
+										{
+											$row[] = number_format(round(($previous_hus_tax_free_inc * (1 + $acount->tax_free_percent / 100))));
+											
+											$previous_hus_tax_free_inc = round(($previous_hus_tax_free_inc * (1 + $acount->tax_free_percent / 100)));
+										}
+										else
+										{
+											$husband_tax_free_percent_increase = $acount->tax_free_percent + 0.5;
+											$row[] = number_format(round(($previous_hus_tax_free_inc * (1 + $husband_tax_free_percent_increase / 100)))) ;
+											
+											$previous_hus_tax_free_inc = ($previous_hus_tax_free_inc * (1 + $husband_tax_free_percent_increase / 100));
+										}
+										
+										$hy++;
+									}
 								}
 							
+							}
+							else{
+								$row[] = '';
 							}
 						}
 						
@@ -1924,7 +1963,7 @@ class PdfController extends Controller
 									$row[] = '';
 								}
 								
-								$row[] = 'ss'; // tax free income column
+								//$row[] = 'ss'; // tax free income column
 								//$row[] = '$134,475';
 								//$wife_annuity_rmd_inc = 134475;
 								
@@ -1936,24 +1975,60 @@ class PdfController extends Controller
 								$wife_annuity_rmd_inc = 0;
 								$row[] = '';
 								$row[] = '';
-								$row[] = 'kk'; // tax free income column
+								//$row[] = 'kk'; // tax free income column
 								$gross_income = $gross_income + $wife_annuity_rmd_inc;
 								//$previous_annuity = $acount->account_value;
 							}
 							
-							// for tax free income 
-							if($acount->age_income_start >=$i)
+							// for tax free income 09-10-2025 
+							if($i >= $acount->age_income_start)
 							{
 								if($acount->tax_free_type == 1)
 								{
-									//$row[] = 'hi'; // 09-10-2025 implement tax free income 
+									if($i == $acount->age_income_start)
+									{
+										$row[] = number_format($acount->annual_income_value);
+										$previous_wife_tax_free_inc = $acount->annual_income_value;
+									}
+									else
+									{
+										$row[] = number_format(round(($previous_wife_tax_free_inc * (1 + $acount->tax_free_percent / 100))));
+										
+										$previous_wife_tax_free_inc = ($previous_wife_tax_free_inc * (1 + $acount->tax_free_percent / 100));
+									}										
+								}
+								elseif($acount->tax_free_type == 2)
+								{
+									if($i == $acount->age_income_start)
+									{
+										$wy = 1;
+										$row[] = number_format(round($acount->annual_income_value));
+										$previous_wife_tax_free_inc = $acount->annual_income_value;
+															
+									}
+									else{
+										
+										if($wy <= 3)
+										{
+											$row[] = number_format(round(($previous_wife_tax_free_inc * (1 + $acount->tax_free_percent / 100))));
+											
+											$previous_wife_tax_free_inc = round(($previous_wife_tax_free_inc * (1 + $acount->tax_free_percent / 100)));
+										}
+										else
+										{
+											$wife_tax_free_percent_increase = $acount->tax_free_percent + 0.5;
+											$row[] = number_format(round(($previous_wife_tax_free_inc * (1 + $wife_tax_free_percent_increase / 100)))) ;
+											
+											$previous_wife_tax_free_inc = ($previous_wife_tax_free_inc * (1 + $wife_tax_free_percent_increase / 100));
+										}
+										
+										$wy++;
+									}
 								}
 								
-								if($acount->tax_free_type == 2)
-								{
-									//$row[] = 'hi'; // 09-10-2025 implement tax free income 
-								}
-							
+							}
+							else{
+								$row[] = '';
 							}
 						}
 						
@@ -2120,6 +2195,7 @@ class PdfController extends Controller
 				
 				$headerValueArray[$i] = $row;
 				$j++;
+				
 		}			
 		
 		
