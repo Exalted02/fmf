@@ -530,7 +530,7 @@ $(document).ready(function(){
                 allClientBlank = false;
             } else {
 				$(this).next('.select2').removeClass('is-invalid');
-				frequency_amount_arr.push($(this).val().trim());
+				tax_free_type_arr.push($(this).val().trim());
 			}
 			
         });
