@@ -632,7 +632,7 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 								<td><strong>{{ $total_inc_tax_key == $subkey ?   '$' . number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ?  '$' . number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ?  '$' . number_format($total_irs_partner) : ($total_estate_key == $subkey ?  '$' . number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ?  '$' . number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ?  '$' . number_format($total_husband_rmd_inc) : ($total_joint_rmd_inc_key == $subkey ?  '$' . number_format($total_joint_rmd_inc) : '') ) ) ) )) }}
 								
 								@if(in_array($subkey, $rmd_position_keys))
-									${{ number_format($total_rmd_inc[$subkey]) }}ss
+									${{ number_format($total_rmd_inc[$subkey]) }}
 								@endif
 								</strong></td>
 							@endforeach
@@ -1680,7 +1680,7 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 					<td><strong></strong></td>
 				</tr>
 				<tr>
-					<td><strong></strong></td>
+					<td><strong>$ {{ number_format($total_wife_rmd_inc + $total_husband_rmd_inc) }}</strong></td>
 					<td><h3>IRA RMD’s by Age 95</h3></td>
 					<td><strong></strong></td>
 				</tr>
