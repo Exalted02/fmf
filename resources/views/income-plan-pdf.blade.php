@@ -1621,6 +1621,10 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 	</div>
 	@endif
 	
+	@php 
+		$total_irs_partner2 = 0;
+		$total_estate2 = 0;
+	@endphp
 	<div style="page-break-after: always;">
 		<div>
 			<h2><strong style="margin-left:200px;">Financial Allocation Plan Details Husband And Wife</strong></h2>
@@ -1629,12 +1633,60 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 			<thead>
 				<tr>
 				@if(!empty($plan_allocation_header))
-					@foreach($plan_allocation_header as $header)
+					@foreach($plan_allocation_header as $h=>$header)
 						<th>{{ $header }}</th>
+						@if($header == 'IRS Partner')
+							@php
+								$total_irs_partner2_key = $h;
+							@endphp
+						@endif
+						
+						@if($header == 'Tax Rates')
+							@php
+								$total_tax_rate2_key = $h;
+							@endphp
+						@endif
+						
+						@if($header == 'Total Estate')
+							@php
+								$total_estate2_key = $h;
+							@endphp
+						@endif
+						
 					@endforeach
 				@endif
 				</tr>
 			</thead>
+			@php 
+				//echo $total_irs_partner2_key;die;
+			@endphp
+			@if(!empty($plan_allocation_value))
+				@foreach($plan_allocation_value as $key=>$excelheaderValue)
+					@foreach($excelheaderValue as $k=>$headerVal)
+						@if($total_irs_partner2_key == $k)
+							@php
+							$total_irs_partner2_numeric = (int) str_replace(',', '', $headerVal);
+								$total_irs_partner2 = $total_irs_partner2 + $total_irs_partner2_numeric;
+							@endphp 
+						@endif
+						
+						@if($total_tax_rate2_key == $k)
+							@php
+							$last_tax_rate2_numeric = (int) str_replace(',', '', $headerVal);
+								$last_tax_rate2 = $last_tax_rate2_numeric;
+							@endphp 
+						@endif
+						
+						@if($total_estate2_key == $k)
+							@php
+							$total_estate2_numeric = (int) str_replace(',', '', $headerVal);
+								$total_estate2 = $total_estate2 + $total_estate2_numeric;
+							@endphp 
+						@endif
+						
+					@endforeach
+				@endforeach
+			@endif
 			<tbody>
 			@if(!empty($plan_allocation_value))
 					@foreach($plan_allocation_value as $key=>$excelheaderValue)
@@ -1643,6 +1695,19 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 							<td>{{ $headerVal ?? '' }}</td>
 							@endforeach
 						</tr>
+					@endforeach
+					<tr><td>&nbsp;</td></tr>
+					@foreach($plan_allocation_value as $key=>$excelheaderValue)
+						@if($key == 0)
+						<tr>
+							@foreach($excelheaderValue as $subkey=>$headerVal)
+								<td><strong>{{ $total_irs_partner2_key == $subkey ?   '$' . number_format($total_irs_partner2) : ($total_estate2_key == $subkey ?  '$' . number_format($total_estate2) : '' ) }}
+								
+								
+								</strong></td>
+							@endforeach
+						</tr>
+						@endif
 					@endforeach
 			@endif
 			</tbody>
@@ -1665,17 +1730,17 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 				<tr>
 					<td><strong>$ {{ number_format($total_irs_partner) }}</strong></td>
 					<td><h3>Total Taxes Paid By Age 95</h3></td>
-					<td><strong></strong></td>
+					<td><strong>$ {{ number_format($total_irs_partner2) }}</strong></td>
 				</tr>
 				<tr>
 					<td><strong>{{ $last_tax_rate }} %</strong></td>
 					<td><h3>Tax Bracket by Age 95</h3></td>
-					<td><strong></strong></td>
+					<td><strong>{{ $last_tax_rate2 }} %</strong></td>
 				</tr>
 				<tr>
 					<td><strong>$ {{ number_format($total_estate) }}</strong></td>
 					<td><h3>Total Estate Value by Age 95</h3></td>
-					<td><strong></strong></td>
+					<td><strong>$ {{ number_format($total_estate2) }}</strong></td>
 				</tr>
 				<tr>
 					<td><strong>0</strong></td>
