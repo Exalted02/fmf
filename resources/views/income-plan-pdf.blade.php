@@ -6,6 +6,7 @@ $headerCount = count($excelheaderArray)-1;
 //echo "<pre>";print_r(husband_roth_tax_conversion());die;
 //echo "<pre>";print_r($plan_allocation_header);die;
 //echo "<pre>";print_r($plan_allocation_value);die;
+
 $husbandAsset = [];
 $wifeAsset = [];
 $jointAsset = [];
@@ -18,6 +19,7 @@ foreach($current_financial_account as $financial_account)
 			'account_title' => $financial_account->account_title,
 			'tax_qualification' => $financial_account->tax_qualification,
 			'account_value' => $financial_account->account_value,
+			'owner_name' => $financial_account->owner_name,
 		];
 	}
 	elseif($financial_account->account_owner == 2)
@@ -27,6 +29,7 @@ foreach($current_financial_account as $financial_account)
 			'account_title' => $financial_account->account_title,
 			'tax_qualification' => $financial_account->tax_qualification,
 			'account_value' => $financial_account->account_value,
+			'owner_name' => $financial_account->owner_name,
 		];
 	}
 	else
@@ -40,6 +43,9 @@ foreach($current_financial_account as $financial_account)
 	}
 	
 }
+//echo $wifeAsset[0]['owner_name'];die;
+//echo "<pre>";print_r($wifeAsset);die;
+
 $subTotalHusband = 0;
 $subTotalWife = 0;
 $subTotalJoint = 0;
@@ -92,6 +98,10 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 
 $wife_max_year = $wife_roth != '' ? $wife_roth+4 : 12;
 $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife_roth_year : 8;
+
+$hus_RMD_Income = $husbandAsset[0]['owner_name'] .' RMD/Income';
+$wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
+//echo $wife_RMD_Income;die;
 @endphp
 <!DOCTYPE html>
 <html>
@@ -471,14 +481,14 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 						@endphp
 					@endif
 					
-					@if($header == 'Wife RMD/Income')
+					@if($header == $wife_RMD_Income)
 						@php
 							$total_wife_rmd_inc_key = $h;
 							$count_rmd =0;
 						@endphp
 					@endif
 					
-					@if($header == 'Husband RMD/Income')
+					@if($header == $hus_RMD_Income)
 						@php
 							$total_husband_rmd_inc_key = $h;
 						@endphp
@@ -622,7 +632,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 								<td><strong>{{ $total_inc_tax_key == $subkey ?   '$' . number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ?  '$' . number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ?  '$' . number_format($total_irs_partner) : ($total_estate_key == $subkey ?  '$' . number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ?  '$' . number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ?  '$' . number_format($total_husband_rmd_inc) : ($total_joint_rmd_inc_key == $subkey ?  '$' . number_format($total_joint_rmd_inc) : '') ) ) ) )) }}
 								
 								@if(in_array($subkey, $rmd_position_keys))
-									${{ number_format($total_rmd_inc[$subkey]) }}
+									${{ number_format($total_rmd_inc[$subkey]) }}ss
 								@endif
 								</strong></td>
 							@endforeach
@@ -1655,17 +1665,17 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 					<td><strong></strong></td>
 				</tr>
 				<tr>
-					<td><strong></strong></td>
+					<td><strong>$ {{ number_format($total_estate) }}</strong></td>
 					<td><h3>Total Estate Value by Age 95</h3></td>
 					<td><strong></strong></td>
 				</tr>
 				<tr>
-					<td><strong></strong></td>
+					<td><strong>0</strong></td>
 					<td><h3>Tax Free Asset Value by Age 90</h3></td>
 					<td><strong></strong></td>
 				</tr>
 				<tr>
-					<td><strong></strong></td>
+					<td><strong>0</strong></td>
 					<td><h3>Tax Free Income by Age 95</h3></td>
 					<td><strong></strong></td>
 				</tr>
