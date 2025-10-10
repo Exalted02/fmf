@@ -1803,7 +1803,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				<tr>
 					<td><strong>0</strong></td>
 					<td><h3>Tax Free Income by Age 95</h3></td>
-					<td><strong></strong></td>
+					<td><strong>$ {{ number_format($total_wife_tax_free_inc + $total_husband_tax_free_inc) }}</strong></td>
 				</tr>
 				<tr>
 					<td><strong>$ {{ number_format(($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc) - $total_wife_rmd_val) }}</strong></td>
