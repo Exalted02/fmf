@@ -126,7 +126,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
         .totals { font-weight: bold; font-size: 26px; }
         .right { text-align: right; }
 		
-		.footer {
+		/*.footer {
 			position: fixed;
             bottom: 110px;
             left: 0;
@@ -142,7 +142,7 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 		}
 		.mt-5 {
 			margin-top: 5px;
-		}
+		}*/
 		.mt-10 {
 			margin-top: 10px;
 		}
@@ -1614,6 +1614,53 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 						</tr>
 					@endforeach
 			@endif
+			</tbody>
+		</table>
+	</div>
+	
+	<div style="page-break-after: always;">
+		<div>
+			<h2><strong style="margin-left:400px;">Comparison Summary Report</strong></h2>
+		</div>
+		<table class="calc-report">
+			<thead>
+				<tr>
+				<td><h3>Current Plan</h3></td>
+				<td></td>
+				<td><h3>Fidelity Mutual Finance</h3></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td><h3>Total Taxes Paid By Age 95</h3></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><h3>Tax Bracket by Age 95</h3></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><h3>Total Estate Value by Age 95</h3></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><h3>Tax Free Asset Value by Age 90</h3></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><h3>Tax Free Income by Age 95</h3></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><h3>IRA RMD’s by Age 95</h3></td>
+					<td></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
