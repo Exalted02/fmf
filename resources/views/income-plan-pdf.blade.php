@@ -101,6 +101,9 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 
 $hus_RMD_Income = $husbandAsset[0]['owner_name'] .' RMD/Income';
 $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
+
+$hus_tax_free_Income = $husbandAsset[0]['owner_name'] .' Tax Free Income';
+$wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 //echo $wife_RMD_Income;die;
 @endphp
 <!DOCTYPE html>
@@ -1624,6 +1627,11 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 	@php 
 		$total_irs_partner2 = 0;
 		$total_estate2 = 0;
+		$total_tax_free_asset = 0;
+		$total_husband_tax_free_inc_key = 0;
+		$total_wife_tax_free_inc_key = 0;
+		$total_wife_tax_free_inc = 0;
+		$total_husband_tax_free_inc = 0;
 	@endphp
 	<div style="page-break-after: always;">
 		<div>
@@ -1650,6 +1658,30 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 						@if($header == 'Total Estate')
 							@php
 								$total_estate2_key = $h;
+							@endphp
+						@endif
+						
+						@if($header == 'Tax Free Assets')
+							@php
+								$total_tax_free_asset_key = $h;
+							@endphp
+						@endif
+						
+						@if($header == 'Tax Free Assets')
+							@php
+								$total_tax_free_asset_key = $h;
+							@endphp
+						@endif
+						
+						@if($header == $wife_tax_free_Income)
+							@php
+								$total_wife_tax_free_inc_key = $h;
+							@endphp
+						@endif
+						
+						@if($header == $hus_tax_free_Income)
+							@php
+								$total_husband_tax_free_inc_key = $h;
 							@endphp
 						@endif
 						
@@ -1684,6 +1716,27 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 							@endphp 
 						@endif
 						
+						@if($total_tax_free_asset_key == $k)
+							@php
+							$total_tax_free_asset_numeric = (int) str_replace(',', '', $headerVal);
+								$total_tax_free_asset = $total_tax_free_asset + $total_tax_free_asset_numeric;
+							@endphp 
+						@endif
+						
+						@if($total_wife_tax_free_inc_key == $k)
+							@php
+							$total_wife_tax_free = (int) str_replace(',', '', $headerVal);
+								$total_wife_tax_free_inc = $total_wife_tax_free_inc + $total_wife_tax_free;
+							@endphp 
+						@endif
+						
+						@if($total_husband_tax_free_inc_key == $k)
+							@php
+							$total_husband_tax_free = (int) str_replace(',', '', $headerVal);
+								$total_husband_tax_free_inc = $total_husband_tax_free_inc + $total_husband_tax_free;
+							@endphp 
+						@endif
+						
 					@endforeach
 				@endforeach
 			@endif
@@ -1701,7 +1754,7 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 						@if($key == 0)
 						<tr>
 							@foreach($excelheaderValue as $subkey=>$headerVal)
-								<td><strong>{{ $total_irs_partner2_key == $subkey ?   '$' . number_format($total_irs_partner2) : ($total_estate2_key == $subkey ?  '$' . number_format($total_estate2) : '' ) }}
+								<td><strong>{{ $total_irs_partner2_key == $subkey ?   '$' . number_format($total_irs_partner2) : ($total_estate2_key == $subkey ?  '$' . number_format($total_estate2) : ($total_tax_free_asset_key == $subkey ?  '$' . number_format($total_tax_free_asset) : ($total_wife_tax_free_inc_key == $subkey ?  '$' . number_format($total_wife_tax_free_inc) : ($total_husband_tax_free_inc_key == $subkey ?  '$' . number_format($total_husband_tax_free_inc) : ''))) ) }}
 								
 								
 								</strong></td>
@@ -1745,7 +1798,7 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 				<tr>
 					<td><strong>0</strong></td>
 					<td><h3>Tax Free Asset Value by Age 90</h3></td>
-					<td><strong></strong></td>
+					<td><strong>$ {{ number_format($total_tax_free_asset) }}</strong></td>
 				</tr>
 				<tr>
 					<td><strong>0</strong></td>
