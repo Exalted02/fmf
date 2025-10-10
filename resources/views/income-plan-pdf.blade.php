@@ -502,6 +502,12 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 						@endphp
 					@endif
 					
+					@if($header == 'Tax Rates')
+						@php
+							$total_tax_rate_key = $h;
+						@endphp
+					@endif
+					
 					@if($header == 'IRS Partner')
 						@php
 							$total_irs_partner_key = $h;
@@ -561,6 +567,13 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 							@php
 							$total_IRMAA_numeric = (int) str_replace(',', '', $headerVal);
 								$total_IRMAA = $total_IRMAA + $total_IRMAA_numeric;
+							@endphp 
+						@endif
+						
+						@if($total_tax_rate_key == $k)
+							@php
+							$last_tax_rate_numeric = (int) str_replace(',', '', $headerVal);
+								$last_tax_rate = $last_tax_rate_numeric;
 							@endphp 
 						@endif
 						
@@ -1632,34 +1645,34 @@ $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife
 			</thead>
 			<tbody>
 				<tr>
-					<td></td>
+					<td><strong>$ {{ number_format($total_irs_partner) }}</strong></td>
 					<td><h3>Total Taxes Paid By Age 95</h3></td>
-					<td></td>
+					<td><strong></strong></td>
 				</tr>
 				<tr>
-					<td></td>
+					<td><strong>{{ $last_tax_rate }} %</strong></td>
 					<td><h3>Tax Bracket by Age 95</h3></td>
-					<td></td>
+					<td><strong></strong></td>
 				</tr>
 				<tr>
-					<td></td>
+					<td><strong></strong></td>
 					<td><h3>Total Estate Value by Age 95</h3></td>
-					<td></td>
+					<td><strong></strong></td>
 				</tr>
 				<tr>
-					<td></td>
+					<td><strong></strong></td>
 					<td><h3>Tax Free Asset Value by Age 90</h3></td>
-					<td></td>
+					<td><strong></strong></td>
 				</tr>
 				<tr>
-					<td></td>
+					<td><strong></strong></td>
 					<td><h3>Tax Free Income by Age 95</h3></td>
-					<td></td>
+					<td><strong></strong></td>
 				</tr>
 				<tr>
-					<td></td>
+					<td><strong></strong></td>
 					<td><h3>IRA RMD’s by Age 95</h3></td>
-					<td></td>
+					<td><strong></strong></td>
 				</tr>
 			</tbody>
 		</table>
