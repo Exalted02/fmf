@@ -6,7 +6,6 @@ $headerCount = count($excelheaderArray)-1;
 //echo "<pre>";print_r(husband_roth_tax_conversion());die;
 //echo "<pre>";print_r($plan_allocation_header);die;
 //echo "<pre>";print_r($plan_allocation_value);die;
-
 $husbandAsset = [];
 $wifeAsset = [];
 $jointAsset = [];
@@ -43,9 +42,6 @@ foreach($current_financial_account as $financial_account)
 	}
 	
 }
-//echo $wifeAsset[0]['owner_name'];die;
-//echo "<pre>";print_r($wifeAsset);die;
-
 $subTotalHusband = 0;
 $subTotalWife = 0;
 $subTotalJoint = 0;
@@ -99,25 +95,11 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 $wife_max_year = $wife_roth != '' ? $wife_roth+4 : 12;
 $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife_roth_year : 8;
 
-$hus_RMD_Income = '';
-$wife_RMD_Income = '';
-$hus_tax_free_Income = '';
-$wife_tax_free_Income = '';
-
-if(!empty($husbandAsset))
-{
 $hus_RMD_Income = $husbandAsset[0]['owner_name'] .' RMD/Income';
-$hus_tax_free_Income = $husbandAsset[0]['owner_name'] .' Tax Free Income';
-}
-
-if(!empty($wifeAsset))
-{
 $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
+
+$hus_tax_free_Income = $husbandAsset[0]['owner_name'] .' Tax Free Income';
 $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
-}
-
-
-//echo $wife_RMD_Income;die;
 @endphp
 <!DOCTYPE html>
 <html>
@@ -454,7 +436,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	$total_rmd_inc = [];
 	$count_rmd = 0;
 	$total_rmd_value = 0;
-	$total_wife_rmd_val = 0;
+	$last_tax_rate = 0;
 	
 	@endphp
 	<div style="page-break-after: always;">
@@ -568,7 +550,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								$total_wife_rmd_val = $total_wife_rmd_val + $wife_rmd;
 							@endphp 
 						@endif
-					
+						
 						@if($total_wife_rmd_inc_key == $k)
 							@php
 							$total_wife_rmd = (int) str_replace(',', '', $headerVal);
@@ -610,6 +592,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								$last_tax_rate = $last_tax_rate_numeric;
 							@endphp 
 						@endif
+						
 						
 						@if($total_irs_partner_key == $k)
 							@php
@@ -1632,20 +1615,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 					</td>
 				@endfor
 			</tbody>
-		</table>
 		
-		<table class="footer">
-			<tr>
-				<td style="text-align: left;font-size: 12px;">
-					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
-					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
-					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
-					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
-					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
-
-					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
-				</td>
-			</tr>
 		</table>
 	</div>
 	@endif
@@ -1662,7 +1632,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		$total_wife_rmd_inc2 =0;
 	@endphp
 	
-	{{--<div style="page-break-after: always;">
+	<div style="page-break-after: always;">
 		<div>
 			<h2><strong style="margin-left:200px;">Financial Allocation Plan Details Husband And Wife</strong></h2>
 		</div>
@@ -1816,153 +1786,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			@endif
 			</tbody>
 		</table>
-	</div>--}}
-	<div style="page-break-after: always;">
-		<div>
-			<h2><strong style="margin-left:200px;">Financial Allocation Plan Details Husband And Wife</strong></h2>
-		</div>
-		<table class="calc-report">
-			<thead>
-				<tr>
-				@if(!empty($plan_allocation_header))
-					@foreach($plan_allocation_header as $h=>$header)
-						<th>{{ $header }}</th>
-						@if($header == 'IRS Partner')
-							@php
-								$total_irs_partner2_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == 'Tax Rates')
-							@php
-								$total_tax_rate2_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == 'Total Estate')
-							@php
-								$total_estate2_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == 'Tax Free Assets')
-							@php
-								$total_tax_free_asset_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == 'Tax Free Assets')
-							@php
-								$total_tax_free_asset_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == $wife_tax_free_Income)
-							@php
-								$total_wife_tax_free_inc_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == $hus_tax_free_Income)
-							@php
-								$total_husband_tax_free_inc_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == $hus_RMD_Income)
-							@php
-								$total_husband_rmd_inc2_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == $wife_RMD_Income)
-							@php
-								$total_wife_rmd_inc2_key = $h;
-							@endphp
-						@endif
-						
-						
-					@endforeach
-				@endif
-				</tr>
-			</thead>
-			
-			@if(!empty($plan_allocation_value))
-				@foreach($plan_allocation_value as $key=>$excelheaderValue)
-					@foreach($excelheaderValue as $k=>$headerVal)
-						@if($total_irs_partner2_key == $k)
-							@php
-							$total_irs_partner2_numeric = (int) str_replace(',', '', $headerVal);
-								$total_irs_partner2 = $total_irs_partner2 + $total_irs_partner2_numeric;
-							@endphp 
-						@endif
-						
-						@if($total_tax_rate2_key == $k)
-							@php
-							$last_tax_rate2_numeric = (int) str_replace(',', '', $headerVal);
-								$last_tax_rate2 = $last_tax_rate2_numeric;
-							@endphp 
-						@endif
-						
-						@if($total_estate2_key == $k)
-							@php
-							$total_estate2_numeric = (int) str_replace(',', '', $headerVal);
-								$total_estate2 = $total_estate2 + $total_estate2_numeric;
-							@endphp 
-						@endif
-						
-						@if($total_tax_free_asset_key == $k)
-							@php
-							$total_tax_free_asset_numeric = (int) str_replace(',', '', $headerVal);
-								$total_tax_free_asset = $total_tax_free_asset + $total_tax_free_asset_numeric;
-							@endphp 
-						@endif
-						
-						@if($total_wife_tax_free_inc_key == $k)
-							@php
-							$total_wife_tax_free = (int) str_replace(',', '', $headerVal);
-								$total_wife_tax_free_inc = $total_wife_tax_free_inc + $total_wife_tax_free;
-							@endphp 
-						@endif
-						
-						@if($total_husband_tax_free_inc_key == $k)
-							@php
-							$total_husband_tax_free = (int) str_replace(',', '', $headerVal);
-								$total_husband_tax_free_inc = $total_husband_tax_free_inc + $total_husband_tax_free;
-							@endphp 
-						@endif
-						
-						@if($total_husband_rmd_inc2_key == $k)
-							@php
-							$total_husband_rmd2 = (int) str_replace(',', '', $headerVal);
-								$total_husband_rmd_inc2 = $total_husband_rmd_inc2 + $total_husband_rmd2;
-							@endphp 
-						@endif
-						
-						@if($total_wife_rmd_inc2_key == $k)
-							@php
-							$total_wife_rmd2 = (int) str_replace(',', '', $headerVal);
-								$total_wife_rmd_inc2 = $total_wife_rmd_inc2 + $total_wife_rmd2;
-							@endphp 
-						@endif
-						
-					@endforeach
-				@endforeach
-			@endif
-			<tbody>
-			@if(!empty($plan_allocation_value))
-					@foreach($plan_allocation_value as $key=>$excelheaderValue)
-						<tr>
-							@foreach($excelheaderValue as $k=>$headerVal)
-							<td>{{ $headerVal ?? '' }}</td>
-							@endforeach
-						</tr>
-					@endforeach
-					<tr><td>&nbsp;</td></tr>
-					
-			@endif
-			</tbody>
-		</table>
 	</div>
 	
 	<div style="page-break-after: always;">
@@ -2009,20 +1832,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 					<td><strong>$ {{ number_format($total_husband_rmd_inc2 +  $total_wife_rmd_inc2 ) }}</strong></td>
 				</tr>
 			</tbody>
-		</table>
-		
-		<table class="footer">
-			<tr>
-				<td style="text-align: left;font-size: 12px;">
-					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
-					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
-					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
-					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
-					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
-
-					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
-				</td>
-			</tr>
 		</table>
 	</div>
 </body>
