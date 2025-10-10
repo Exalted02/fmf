@@ -1619,7 +1619,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 					</td>
 				@endfor
 			</tbody>
-		
 		</table>
 	</div>
 	@endif
@@ -1632,6 +1631,8 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		$total_wife_tax_free_inc_key = 0;
 		$total_wife_tax_free_inc = 0;
 		$total_husband_tax_free_inc = 0;
+		$total_husband_rmd_inc2 = 0;
+		$total_wife_rmd_inc2 =0;
 	@endphp
 	<div style="page-break-after: always;">
 		<div>
@@ -1685,6 +1686,19 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							@endphp
 						@endif
 						
+						@if($header == $hus_RMD_Income)
+							@php
+								$total_husband_rmd_inc2_key = $h;
+							@endphp
+						@endif
+						
+						@if($header == $wife_RMD_Income)
+							@php
+								$total_wife_rmd_inc2_key = $h;
+							@endphp
+						@endif
+						
+						
 					@endforeach
 				@endif
 				</tr>
@@ -1737,6 +1751,20 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							@endphp 
 						@endif
 						
+						@if($total_husband_rmd_inc2_key == $k)
+							@php
+							$total_husband_rmd2 = (int) str_replace(',', '', $headerVal);
+								$total_husband_rmd_inc2 = $total_husband_rmd_inc2 + $total_husband_rmd2;
+							@endphp 
+						@endif
+						
+						@if($total_wife_rmd_inc2_key == $k)
+							@php
+							$total_wife_rmd2 = (int) str_replace(',', '', $headerVal);
+								$total_wife_rmd_inc2 = $total_wife_rmd_inc2 + $total_wife_rmd2;
+							@endphp 
+						@endif
+						
 					@endforeach
 				@endforeach
 			@endif
@@ -1754,7 +1782,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						@if($key == 0)
 						<tr>
 							@foreach($excelheaderValue as $subkey=>$headerVal)
-								<td><strong>{{ $total_irs_partner2_key == $subkey ?   '$' . number_format($total_irs_partner2) : ($total_estate2_key == $subkey ?  '$' . number_format($total_estate2) : ($total_tax_free_asset_key == $subkey ?  '$' . number_format($total_tax_free_asset) : ($total_wife_tax_free_inc_key == $subkey ?  '$' . number_format($total_wife_tax_free_inc) : ($total_husband_tax_free_inc_key == $subkey ?  '$' . number_format($total_husband_tax_free_inc) : ''))) ) }}
+								<td><strong>{{ $total_irs_partner2_key == $subkey ?   '$' . number_format($total_irs_partner2) : ($total_estate2_key == $subkey ?  '$' . number_format($total_estate2) : ($total_tax_free_asset_key == $subkey ?  '$' . number_format($total_tax_free_asset) : ($total_wife_tax_free_inc_key == $subkey ?  '$' . number_format($total_wife_tax_free_inc) : ($total_husband_tax_free_inc_key == $subkey ?  '$' . number_format($total_husband_tax_free_inc) : ($total_husband_rmd_inc2_key == $subkey ?  '$' . number_format($total_husband_rmd_inc2) :  ($total_wife_rmd_inc2_key == $subkey ?  '$' . number_format($total_wife_rmd_inc2) : ''))))) ) }}
 								
 								
 								</strong></td>
