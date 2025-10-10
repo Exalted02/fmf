@@ -1690,7 +1690,7 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 				<tr>
 					<td><strong>$ {{ number_format(($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc) - $total_wife_rmd_val) }}</strong></td>
 					<td><h3>IRA RMD’s by Age 95</h3></td>
-					<td><strong>{{ $total_wife_rmd_val }}</strong></td>
+					<td><strong></strong></td>
 				</tr>
 			</tbody>
 		</table>
