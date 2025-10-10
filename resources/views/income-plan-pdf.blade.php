@@ -438,6 +438,7 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 	$total_rmd_inc = [];
 	$count_rmd = 0;
 	$total_rmd_value = 0;
+	$total_wife_rmd_val = 0;
 	
 	@endphp
 	<div style="page-break-after: always;">
@@ -543,6 +544,13 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 								$total_rmd_val = (int) str_replace(',', '', $headerVal);
 								$total_rmd_inc[$k] = $total_rmd_inc[$k] + $total_rmd_val;
 							@endphp
+						@endif
+						
+						@if($total_wife_rmd_inc_key-1 == $k)
+							@php
+							$wife_rmd = (int) str_replace(',', '', $headerVal);
+								$total_wife_rmd_val = $total_wife_rmd_val + $wife_rmd;
+							@endphp 
 						@endif
 					
 						@if($total_wife_rmd_inc_key == $k)
@@ -1680,9 +1688,9 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 					<td><strong></strong></td>
 				</tr>
 				<tr>
-					<td><strong>$ {{ number_format($total_wife_rmd_inc + $total_husband_rmd_inc) }}</strong></td>
+					<td><strong>$ {{ number_format(($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc) - $total_wife_rmd_val) }}</strong></td>
 					<td><h3>IRA RMD’s by Age 95</h3></td>
-					<td><strong></strong></td>
+					<td><strong>{{ $total_wife_rmd_val }}</strong></td>
 				</tr>
 			</tbody>
 		</table>
