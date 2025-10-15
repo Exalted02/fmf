@@ -48,7 +48,7 @@ class PdfController extends Controller
         //$pdf->getDomPDF()->setHttpContext($contxt);
 		//$pdf->loadView('income-plan-pdf', array_merge($plan_allo_header, $data, $roth))->setPaper('a4', 'landscape');
 		
-		//$pdf->loadView('income-plan-pdf', $data, $roth, $plan_allo_header)->setPaper('a4', 'landscape');
+		//$pdf->loadView('income-plan-pdf', $data, $roth, $plan_allo_header)->setPaper('a4', 'landscape'); // not used
 		
 		return view('income-plan-pdf',  array_merge($plan_allo_header, $data, $roth));
 		

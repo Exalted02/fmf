@@ -152,7 +152,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
         .totals { font-weight: bold; font-size: 26px; }
         .right { text-align: right; }
 		
-		/*.footer {
+		.footer {
 			position: fixed;
             bottom: 110px;
             left: 0;
@@ -168,7 +168,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		}
 		.mt-5 {
 			margin-top: 5px;
-		}*/
+		}
 		.mt-10 {
 			margin-top: 10px;
 		}
@@ -699,10 +699,17 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	
 	@if(!empty($current_finance_husband_data))
 	<div style="page-break-after: always;">
-		<div>
+		{{--<div>
 			<h2><strong style="margin-left:200px;">Husband Roth Conversion From Taxable To Free Tax</strong></h2>
 		</div>
-		</hr>
+		</hr>--}}
+		<table>
+			<tr>
+				<td class="section-title">
+					Husband Roth Conversion From Taxable To Free Tax
+				</td>
+			</tr>
+		</table>
 		@php 
 		
 			$a12 = 0;
@@ -1146,9 +1153,16 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	
 	@if(!empty($current_finance_wife_data))
 	<div style="page-break-after: always;">
-		<div>
+		{{--<div>
 			<h2><strong style="margin-left:200px;">Wife Roth Conversion From Taxable To Free Tax</strong></h2>
-		</div>
+		</div>--}}
+		<table>
+			<tr>
+				<td class="section-title">
+					Wife Roth Conversion From Taxable To Free Tax
+				</td>
+			</tr>
+		</table>
 		@php 
 			$a12 = 0;
 			$a15 = 0;
@@ -1827,9 +1841,16 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		</table>
 	</div>--}}
 	<div style="page-break-after: always;">
-		<div>
+		{{--<div>
 			<h2><strong style="margin-left:200px;">Financial Allocation Plan Details Husband And Wife</strong></h2>
-		</div>
+		</div>--}}
+		<table>
+			<tr>
+				<td class="section-title">
+					Financial Allocation Plan Details Husband And Wife
+				</td>
+			</tr>
+		</table>
 		<table class="calc-report">
 			<thead>
 				<tr>
@@ -1975,9 +1996,17 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	</div>
 	
 	<div style="page-break-after: always;">
-		<div>
+		{{--<div>
 			<h2><strong style="margin-left:200px;">Comparison Summary Report</strong></h2>
-		</div>
+		</div>--}}
+		<table>
+			<tr>
+				<td class="section-title">
+					Comparison Summary Report
+				</td>
+			</tr>
+		</table>
+		
 		<table class="calc-report">
 			<thead>
 				<tr>
