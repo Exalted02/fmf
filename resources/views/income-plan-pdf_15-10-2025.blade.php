@@ -455,8 +455,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	$count_rmd = 0;
 	$total_rmd_value = 0;
 	$total_wife_rmd_val = 0;
-	$total_tax_rate_key = '';
-	$last_tax_rate = '';
 	
 	@endphp
 	<div style="page-break-after: always;">
@@ -563,6 +561,8 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								$total_rmd_inc[$k] = $total_rmd_inc[$k] + $total_rmd_val;
 							@endphp
 						@endif
+						
+						
 						
 						@if($total_wife_rmd_inc_key-1 == $k)
 							@php
@@ -1664,11 +1664,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		$total_wife_rmd_inc2 =0;
 		$total_husband_rmd_inc2_key = 0;
 		$total_wife_rmd_inc2_key = 0;
-		$total_irs_partner2_key = '';
-		$total_tax_rate2_key = '';
-		$total_estate2_key = '';
-		$total_tax_free_asset_key = '';
-		$last_tax_rate2 = '';
 	@endphp
 	
 	{{--<div style="page-break-after: always;">
@@ -1976,7 +1971,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	
 	<div style="page-break-after: always;">
 		<div>
-			<h2><strong style="margin-left:200px;">Comparison Summary Report</strong></h2>
+			<h2><strong style="margin-left:350px;">Comparison Summary Report</strong></h2>
 		</div>
 		<table class="calc-report">
 			<thead>

@@ -242,18 +242,33 @@ class PdfController extends Controller
 					//----- rmd age calculation-------
 					$husband_age_rmd = '0000';
 					$wife_age_rmd = '0000';
+					
 					if($acount->account_owner == 1)
 					{
+						// this is not used according to bob and rmd_start_age
 						$husband_age_rmd = $acount->rmd_start_age ?? '0000';
 						$husband_dob = $currentYear - $husband_age_rmd;
 						if($husband_dob >= 1960)
 						{
 							$husband_age_rmd = 75;
 						}
+						//---------------------------
 					}
+					
+					// the above rmd_start not used below is updated 15-10-2025
+					if($portfolio_Desire_data->client_age < 61)
+					{
+						$husband_age_rmd = 75;
+					}
+					elseif($portfolio_Desire_data->client_age >= 61)
+					{
+						$husband_age_rmd = 73;
+					}
+					//---------------------------------------
 					
 					if($acount->account_owner == 2)
 					{
+						// this is not used according to bob and rmd_start_age
 						$wife_age_rmd = $acount->rmd_start_age ?? '0000';
 						
 						$wife_dob = $currentYear - $wife_age_rmd;
@@ -261,7 +276,20 @@ class PdfController extends Controller
 						{
 							$wife_age_rmd = 75;
 						}
+						//--------------------
 					}
+					
+					// the above rmd_start not used below is updated 15-10-2025
+					if($portfolio_Desire_data->partner_age < 61)
+					{
+						$wife_age_rmd = 75;
+					}
+					elseif($portfolio_Desire_data->partner_age >= 61)
+					{
+						$wife_age_rmd = 73;
+					}
+					//---------------
+					
 					
 					if($acount->account_owner == 1)
 					{
@@ -686,6 +714,10 @@ class PdfController extends Controller
 					$irmaaVal = 11541.60;
 				}
 				else if($taxable_income > 400000 && $taxable_income <= 750000)
+				{
+					$irmaaVal = 14190.40;
+				}
+				elseif($taxable_income > 750000)
 				{
 					$irmaaVal = 14190.40;
 				}
@@ -1557,6 +1589,20 @@ class PdfController extends Controller
 						}
 					}
 					
+					
+					
+					// the above rmd_start not used below is updated 15-10-2025
+					if($portfolio_Desire_data->client_age < 61)
+					{
+						$husband_age_rmd = 75;
+					}
+					elseif($portfolio_Desire_data->client_age >= 61)
+					{
+						$husband_age_rmd = 73;
+					}
+					//---------------------------------------
+					
+					
 					if($acount->account_owner == 2)
 					{
 						$wife_age_rmd = 72;
@@ -1568,6 +1614,17 @@ class PdfController extends Controller
 							$wife_age_rmd = 75;
 						}
 					}
+					
+					// the above rmd_start not used below is updated 15-10-2025
+					if($portfolio_Desire_data->partner_age < 61)
+					{
+						$wife_age_rmd = 75;
+					}
+					elseif($portfolio_Desire_data->partner_age >= 61)
+					{
+						$wife_age_rmd = 73;
+					}
+					//---------------------------------------
 					
 					if($acount->account_owner == 1)
 					{
