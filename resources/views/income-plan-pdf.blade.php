@@ -152,7 +152,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
         .totals { font-weight: bold; font-size: 26px; }
         .right { text-align: right; }
 		
-		.footer {
+		/*.footer {
 			position: fixed;
             bottom: 110px;
             left: 0;
@@ -168,7 +168,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		}
 		.mt-5 {
 			margin-top: 5px;
-		}
+		}*/
 		.mt-10 {
 			margin-top: 10px;
 		}
@@ -443,8 +443,8 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	</div>
 	
 	@php 
-	$total_wife_rmd_inc_key = '';
-	$total_husband_rmd_inc_key = '';
+	$total_wife_rmd_inc_key = 0;
+	$total_husband_rmd_inc_key = 0;
 	$total_joint_rmd_inc_key = '';
 	$total_inc_tax_key = '';
 	$total_IRMAA_key = '';
@@ -561,6 +561,8 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								$total_rmd_inc[$k] = $total_rmd_inc[$k] + $total_rmd_val;
 							@endphp
 						@endif
+						
+						
 						
 						@if($total_wife_rmd_inc_key-1 == $k)
 							@php
@@ -1660,6 +1662,8 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		$total_husband_tax_free_inc = 0;
 		$total_husband_rmd_inc2 = 0;
 		$total_wife_rmd_inc2 =0;
+		$total_husband_rmd_inc2_key = '';
+		$total_wife_rmd_inc2_key = '';
 	@endphp
 	
 	{{--<div style="page-break-after: always;">
@@ -1967,7 +1971,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	
 	<div style="page-break-after: always;">
 		<div>
-			<h2><strong style="margin-left:200px;">Comparison Summary Report</strong></h2>
+			<h2><strong style="margin-left:350px;">Comparison Summary Report</strong></h2>
 		</div>
 		<table class="calc-report">
 			<thead>
