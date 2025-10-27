@@ -426,4 +426,9 @@ class DashboardController extends Controller
 		//Session::forget('has_roth_year');
 		return response()->json(['message'=>'success']);
 	}
+	public function user_settings()
+	{
+		$data = [];
+		return view('user-setting', $data);
+	}
 }

@@ -68,6 +68,7 @@
 				<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-bars"></i></a>
 				<div class="dropdown-menu dropdown-menu-right">
 					<a class="dropdown-item" href="{{ route('income-plan-pdf') }}"><i class="fa-solid fa-file-pdf m-r-5"></i> Download PDF</a>
+					<a class="dropdown-item" href="{{ route('user-settings') }}"><i class="fa-solid fa-gear m-r-5"></i> Settings</a>
 					<a class="dropdown-item" href="{{ route('logout') }}"><i class="fa-solid fa-power-off m-r-5"></i> Logout</a>
 					<hr class="m-5-0">
 					@php
