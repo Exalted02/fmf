@@ -1950,7 +1950,42 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				<tr>
 				@if(!empty($plan_allocation_header))
 					@foreach($plan_allocation_header as $h=>$header)
-						<th>{{ $header }}</th>
+					 @php 
+						$th_bg_color = '';
+						if($header == 'RMD')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'Taxable Income')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'Tax Rates')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'IRMAA')
+						{
+							$th_bg_color = 'red';
+							
+						}
+						
+						
+						if(stripos($header, 'IRA') !== false)
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'Tax Free Assets')
+						{
+							$th_bg_color = '#A1F21D';
+						}	
+						
+					 @endphp
+						<th style="background-color:{{ $th_bg_color }}">{{ $header }}</th>
 						@if($header == 'IRS Partner')
 							@php
 								$total_irs_partner2_key = $h;
@@ -2005,6 +2040,18 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							@endphp
 						@endif
 						
+						@if($header == 'IRMAA')
+							@php
+								$total_irmaa_inc2_key = $h;
+							@endphp
+						
+						@endif
+						
+						@if($header == 'RMD')
+							@php
+								$total_rmd_inc2_key = $h;
+							@endphp
+						@endif
 						
 					@endforeach
 				@endif
@@ -2078,7 +2125,30 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 					@foreach($plan_allocation_value as $key=>$excelheaderValue)
 						<tr>
 							@foreach($excelheaderValue as $k=>$headerVal)
-							<td>{{ $headerVal ?? '' }}</td>
+							
+							@php 
+								$tr_bg_color = '';
+								if($total_rmd_inc2_key == $k)
+								{
+									$tr_bg_color = 'red';
+								}
+								
+								if($total_tax_rate2_key == $k)
+								{
+									$tr_bg_color = 'red';
+								}
+								
+								if($total_irmaa_inc2_key == $k)
+								{
+									$tr_bg_color = 'red';
+								}
+								
+								if($total_tax_free_asset_key == $k)
+								{
+									$tr_bg_color = '#A1F21D';
+								}
+							@endphp
+							<td style="background-color: {{ $headerVal !='' ? $tr_bg_color : ''}}">{{ $headerVal ?? '' }}</td>
 							@endforeach
 						</tr>
 					@endforeach
