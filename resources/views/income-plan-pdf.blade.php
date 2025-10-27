@@ -370,7 +370,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							@endphp
 							<div class="mt-5">#{{ $w }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
-					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalWife) }}</div>
+					<div class="subtotal mt-10">Subtotal <span style="background-color:#A1F21D;">${{ number_format($subTotalWife) }}</span></div>
 					</div>
 					@endif
 					<!-- Joint Accounts -->
@@ -385,7 +385,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								@endphp
 								<div class="mt-5">#{{ $j }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 							@endforeach
-						<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalJoint) }}</div>
+						<div class="subtotal mt-10">Subtotal <span style="background-color:#A1F21D;">${{ number_format($subTotalJoint) }}</span></div>
 					</div>
 					@endif
 					<!-- Current income account -->
@@ -398,7 +398,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						@endphp
 						<div class="mt-5">{{ $income_account->client_name ?? ''}} &nbsp;&nbsp; ${{  number_format($income_account->income_amount) }} </div>
 						@endforeach
-					<div class="subtotal mt-10"><span style="background-color:#A1F21D;">Subtotal ${{ number_format($subTotalCurrent)}}</span></div>
+					<div class="subtotal mt-10">Subtotal <span style="background-color:#A1F21D;">${{ number_format($subTotalCurrent)}}</span></div>
 					</div>
 					@endif
 				</td>
@@ -416,7 +416,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							@endphp
 							<div class="mt-5">#{{ $h }} {{ $val['account_title'] }}&nbsp; {{ $tax_quali ?? '' }}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
-					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalHusband) }}</div>
+					<div class="subtotal mt-10">Subtotal <span style="background-color:#A1F21D;">${{ number_format($subTotalHusband) }}</span></div>
 					</div>
 					@endif
 					<div style="margin-top: 30px;">
