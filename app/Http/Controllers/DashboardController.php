@@ -436,17 +436,16 @@ class DashboardController extends Controller
 	public function user_save_settings(Request $request)
 	{
 		//echo "<pre>";print_r($request->all()); die;
-		if($request->hasFile('advisor_logo'))
+		if(!empty($request->hid_logo))
 		{
+			$validated = $request->validate([
+				'advisor_text' => 'required',
+			]);
+		}
+		else{
 			$validated = $request->validate([
 				'advisor_text' => 'required',
 				'advisor_logo' => 'required|image',
-			]);
-		}
-		elseif(!empty($request->hid_logo))
-		{
-			$validated = $request->validate([
-				'advisor_text' => 'required',
 			]);
 		}
 		
