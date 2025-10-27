@@ -510,10 +510,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							$th_bg_color = 'red';
 						}
 						
-						if($header == 'Total Estate')
-						{
-							$th_bg_color = '#A1F21D';
-						}
 						
 						if(stripos($header, 'IRA') !== false)
 						{
@@ -680,18 +676,47 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 									$tr_bg_color = '';
 									if(in_array($k, $rmd_position_keys))
 									{
-										
 										$tr_bg_color = 'red';
 									}
+									
+									if($total_tax_rate_key == $k)
+									{
+										$tr_bg_color = 'red';
+									}
+									
+									if($total_IRMAA_key == $k)
+									{
+										$tr_bg_color = 'red';
+									}
+									
+									
 								@endphp
-								<td style="background-color: $tr_bg_color">{{ $headerVal ?? '' }}</td>
+								<td style="background-color: {{ $tr_bg_color }}">{{ $headerVal ?? '' }}/td>
 								@endforeach
 								</tr>
 							@endif
 						@else
 							<tr>
 								@foreach($excelheaderValue as $k=>$headerVal)
-								<td>{{ $headerVal ?? '' }}</td>
+								@php 
+									$tr_bg_color = '';
+									if(in_array($k, $rmd_position_keys))
+									{
+										$tr_bg_color = 'red';
+									}
+									
+									if($total_tax_rate_key == $k)
+									{
+										$tr_bg_color = 'red';
+									}
+									
+									if($total_IRMAA_key == $k)
+									{
+										$tr_bg_color = 'red';
+									}
+									
+								@endphp
+								<td style="background-color: {{ $headerVal !='' ? $tr_bg_color : '' }}">{{ $headerVal ?? '' }}</td>
 								@endforeach
 							</tr>
 						@endif
@@ -703,7 +728,28 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						@if($key == 0)
 						<tr>
 							@foreach($excelheaderValue as $subkey=>$headerVal)
-								<td><strong>{{ $total_inc_tax_key == $subkey ?   '$' . number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ?  '$' . number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ?  '$' . number_format($total_irs_partner) : ($total_estate_key == $subkey ?  '$' . number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ?  '$' . number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ?  '$' . number_format($total_husband_rmd_inc) : ($total_joint_rmd_inc_key == $subkey ?  '$' . number_format($total_joint_rmd_inc) : '') ) ) ) )) }}
+							
+							@php
+								$tr_tot_bg_color = '';
+								
+								if(in_array($subkey, $rmd_position_keys))
+								{
+									$tr_tot_bg_color = 'red';
+								}
+								
+								if($total_IRMAA_key == $subkey)
+								{
+									$tr_tot_bg_color = 'red';
+								}
+								
+								if($total_estate_key == $subkey)
+								{
+									$tr_tot_bg_color = 'red';
+								}
+								
+							@endphp
+							
+								<td style="background-color: {{ $tr_tot_bg_color }}"><strong>{{ $total_inc_tax_key == $subkey ?   '$' . number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ?  '$' . number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ?  '$' . number_format($total_irs_partner) : ($total_estate_key == $subkey ?  '$' . number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ?  '$' . number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ?  '$' . number_format($total_husband_rmd_inc) : ($total_joint_rmd_inc_key == $subkey ?  '$' . number_format($total_joint_rmd_inc) : '') ) ) ) )) }}
 								
 								@if(in_array($subkey, $rmd_position_keys))
 									${{ number_format($total_rmd_inc[$subkey]) }}
