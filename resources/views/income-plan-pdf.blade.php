@@ -517,7 +517,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						}
 						
 					@endphp
-					<th style="background-color: {{ $th_bg_color }}">{{ $header ?? '' }}</th>
+					<th style="font-size:12px; background-color: {{ $th_bg_color }}">{{ $header ?? '' }}</th>
 					
 					
 					
@@ -691,7 +691,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 									
 									
 								@endphp
-								<td style="background-color: {{ $tr_bg_color }}">{{ $headerVal ?? '' }}/td>
+								<td style="font-size:14px; background-color: {{ $tr_bg_color }}">{{ $headerVal ?? '' }}</td>
 								@endforeach
 								</tr>
 							@endif
@@ -716,7 +716,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 									}
 									
 								@endphp
-								<td style="background-color: {{ $headerVal !='' ? $tr_bg_color : '' }}">{{ $headerVal ?? '' }}</td>
+								<td style="font-size:14px; background-color: {{ $headerVal !='' ? $tr_bg_color : '' }}">{{ $headerVal ?? '' }}</td>
 								@endforeach
 							</tr>
 						@endif
@@ -749,7 +749,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								
 							@endphp
 							
-								<td style="background-color: {{ $tr_tot_bg_color }}"><strong>{{ $total_inc_tax_key == $subkey ?   '$' . number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ?  '$' . number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ?  '$' . number_format($total_irs_partner) : ($total_estate_key == $subkey ?  '$' . number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ?  '$' . number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ?  '$' . number_format($total_husband_rmd_inc) : ($total_joint_rmd_inc_key == $subkey ?  '$' . number_format($total_joint_rmd_inc) : '') ) ) ) )) }}
+								<td style="font-size:14px;background-color: {{ $tr_tot_bg_color }}"><strong>{{ $total_inc_tax_key == $subkey ?   '$' . number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ?  '$' . number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ?  '$' . number_format($total_irs_partner) : ($total_estate_key == $subkey ?  '$' . number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ?  '$' . number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ?  '$' . number_format($total_husband_rmd_inc) : ($total_joint_rmd_inc_key == $subkey ?  '$' . number_format($total_joint_rmd_inc) : '') ) ) ) )) }}
 								
 								@if(in_array($subkey, $rmd_position_keys))
 									${{ number_format($total_rmd_inc[$subkey]) }}
@@ -772,7 +772,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						@if($key == 0)
 						<tr>
 						@foreach($excelheaderValue as $subkey=>$headerVal)
-							<td>
+							<td style="font-size:14px">
 							@if($subkey == 6)
 							<strong>Total RMD: {{ '$ '. number_format($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc + $total_joint_rmd_inc)}}</strong>
 							@endif
@@ -828,19 +828,19 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		<table class="calc-report">
 			<thead>
 				<tr>
-					<th>Roth Conversion</br>${{ number_format($husband_account_value) ?? ''}}</br>21% Bonus</th>
+					<th style="font-size:12px;">Roth Conversion</br>${{ number_format($husband_account_value) ?? ''}}</br>21% Bonus</th>
 					<th></th>
-					<th>70</br>Yr 1</th>
-					<th>71</br>Yr 2</th>
-					<th>72</br>Yr 3</th>
-					<th>73</br>Yr 4</th>
-					<th>74</br>Yr 5</th>
-					<th>75</br>Yr 6</th>
-					<th>76</br>Yr 7</th>
-					<th>77</br>Yr 8</th>
-					<th>Annual Converted</th>
-					<th>Year End Roth Value</th>
-					<th>Year End Account Value</th>
+					<th style="font-size:12px;">70</br>Yr 1</th>
+					<th style="font-size:12px;">71</br>Yr 2</th>
+					<th style="font-size:12px;">72</br>Yr 3</th>
+					<th style="font-size:12px;">73</br>Yr 4</th>
+					<th style="font-size:12px;">74</br>Yr 5</th>
+					<th style="font-size:12px;">75</br>Yr 6</th>
+					<th style="font-size:12px;">76</br>Yr 7</th>
+					<th style="font-size:12px;">77</br>Yr 8</th>
+					<th style="font-size:12px;">Annual Converted</th>
+					<th style="font-size:12px;">Year End Roth Value</th>
+					<th style="font-size:12px;">Year End Account Value</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -872,7 +872,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 									@endphp
 								
 								<tr>
-									<td style="height:10px;text-align: left">
+									<td style="font-size:14px ;height:10px;text-align: left">
 									@if($col == 1 && $row == 1)
 										$ {{ number_format($a12) }}
 									@endif
@@ -1298,22 +1298,22 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		<table class="calc-report">
 			<thead>
 				<tr>
-					<th>Roth Conversion</br>${{ number_format($wife_account_value) ?? ''}}</br>21% Bonus</th>
+					<th style="font-size:12px;">Roth Conversion</br>${{ number_format($wife_account_value) ?? ''}}</br>21% Bonus</th>
 					<th></th>
 					<th></th>
-					<th>69</br>End of ></th>
-					<th>70</br>Yr 1</th>
-					<th>71</br>Yr 2</th>
-					<th>72</br>Yr 3</th>
-					<th>73</br>Yr 4</th>
-					<th>74</br>Yr 5</th>
-					<th>75</br>Yr 6</th>
-					<th>76</br>Yr 7</th>
-					<th>77</br>Yr 8</th>
-					<th></th>
-					<th>Annual Converted</th>
-					<th>Year End Roth Value</th>
-					<th>Total Account Value</th>
+					<th style="font-size:12px;">69</br>End of ></th>
+					<th style="font-size:12px;">70</br>Yr 1</th>
+					<th style="font-size:12px;">71</br>Yr 2</th>
+					<th style="font-size:12px;">72</br>Yr 3</th>
+					<th style="font-size:12px;">73</br>Yr 4</th>
+					<th style="font-size:12px;">74</br>Yr 5</th>
+					<th style="font-size:12px;">75</br>Yr 6</th>
+					<th style="font-size:12px;">76</br>Yr 7</th>
+					<th style="font-size:12px;">77</br>Yr 8</th>
+					<th style="font-size:12px;"></th>
+					<th style="font-size:12px;">Annual Converted</th>
+					<th style="font-size:12px;">Year End Roth Value</th>
+					<th style="font-size:12px;">Total Account Value</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -1338,7 +1338,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								$a18 = round($a15 * (1 + 0.05));
 							@endphp
 							<tr>
-								<td class="wife-cal"  style="{{ $col==2 ? 'display:none':($col==3 ? 'height:10px;width:100px;text-align:left' : ($col==13 ? 'height:10px;width:70px;text-align: left' : 'height:10px;width:0px;text-align: center')) }}">
+								<td class="wife-cal"  style="font-size:14px; {{ $col==2 ? 'display:none':($col==3 ? 'height:10px;width:100px;text-align:left' : ($col==13 ? 'height:10px;width:70px;text-align: left' : 'height:10px;width:0px;text-align: center')) }}">
 									@if($col == 1)
 										@if($row == 1)
 											$ {{ number_format($a12) }}
@@ -1779,161 +1779,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		$last_tax_rate2 = '';
 	@endphp
 	
-	{{--<div style="page-break-after: always;">
-		<div>
-			<h2><strong style="margin-left:200px;">Financial Allocation Plan Details Husband And Wife</strong></h2>
-		</div>
-		<table class="calc-report">
-			<thead>
-				<tr>
-				@if(!empty($plan_allocation_header))
-					@foreach($plan_allocation_header as $header)
-						<th>{{ $header }}</th>
-						@if($header == 'IRS Partner')
-							@php
-								$total_irs_partner2_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == 'Tax Rates')
-							@php
-								$total_tax_rate2_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == 'Total Estate')
-							@php
-								$total_estate2_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == 'Tax Free Assets')
-							@php
-								$total_tax_free_asset_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == 'Tax Free Assets')
-							@php
-								$total_tax_free_asset_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == $wife_tax_free_Income)
-							@php
-								$total_wife_tax_free_inc_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == $hus_tax_free_Income)
-							@php
-								$total_husband_tax_free_inc_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == $hus_RMD_Income)
-							@php
-								$total_husband_rmd_inc2_key = $h;
-							@endphp
-						@endif
-						
-						@if($header == $wife_RMD_Income)
-							@php
-								$total_wife_rmd_inc2_key = $h;
-							@endphp
-						@endif
-					@endforeach
-				@endif
-				</tr>
-			</thead>
-			@if(!empty($plan_allocation_value))
-				@foreach($plan_allocation_value as $key=>$excelheaderValue)
-					@foreach($excelheaderValue as $k=>$headerVal)
-						@if($total_irs_partner2_key == $k)
-							@php
-							$total_irs_partner2_numeric = (int) str_replace(',', '', $headerVal);
-								$total_irs_partner2 = $total_irs_partner2 + $total_irs_partner2_numeric;
-							@endphp 
-						@endif
-						
-						@if($total_tax_rate2_key == $k)
-							@php
-							$last_tax_rate2_numeric = (int) str_replace(',', '', $headerVal);
-								$last_tax_rate2 = $last_tax_rate2_numeric;
-							@endphp 
-						@endif
-						
-						@if($total_estate2_key == $k)
-							@php
-							$total_estate2_numeric = (int) str_replace(',', '', $headerVal);
-								$total_estate2 = $total_estate2 + $total_estate2_numeric;
-							@endphp 
-						@endif
-						
-						@if($total_tax_free_asset_key == $k)
-							@php
-							$total_tax_free_asset_numeric = (int) str_replace(',', '', $headerVal);
-								$total_tax_free_asset = $total_tax_free_asset + $total_tax_free_asset_numeric;
-							@endphp 
-						@endif
-						
-						@if($total_wife_tax_free_inc_key == $k)
-							@php
-							$total_wife_tax_free = (int) str_replace(',', '', $headerVal);
-								$total_wife_tax_free_inc = $total_wife_tax_free_inc + $total_wife_tax_free;
-							@endphp 
-						@endif
-						
-						@if($total_husband_tax_free_inc_key == $k)
-							@php
-							$total_husband_tax_free = (int) str_replace(',', '', $headerVal);
-								$total_husband_tax_free_inc = $total_husband_tax_free_inc + $total_husband_tax_free;
-							@endphp 
-						@endif
-						
-						@if($total_husband_rmd_inc2_key == $k)
-							@php
-							$total_husband_rmd2 = (int) str_replace(',', '', $headerVal);
-								$total_husband_rmd_inc2 = $total_husband_rmd_inc2 + $total_husband_rmd2;
-							@endphp 
-						@endif
-						
-						@if($total_wife_rmd_inc2_key == $k)
-							@php
-							$total_wife_rmd2 = (int) str_replace(',', '', $headerVal);
-								$total_wife_rmd_inc2 = $total_wife_rmd_inc2 + $total_wife_rmd2;
-							@endphp 
-						@endif
-						
-					@endforeach
-				@endforeach
-			@endif
-			<tbody>
-			@if(!empty($plan_allocation_value))
-					@foreach($plan_allocation_value as $key=>$excelheaderValue)
-						<tr>
-							@foreach($excelheaderValue as $k=>$headerVal)
-							<td>{{ $headerVal ?? '' }}</td>
-							@endforeach
-						</tr>
-					@endforeach
-					<tr><td>&nbsp;</td></tr>
-					@foreach($plan_allocation_value as $key=>$excelheaderValue)
-						@if($key == 0)
-						<tr>
-							@foreach($excelheaderValue as $subkey=>$headerVal)
-								<td><strong>{{ $total_irs_partner2_key == $subkey ?   '$' . number_format($total_irs_partner2) : ($total_estate2_key == $subkey ?  '$' . number_format($total_estate2) : ($total_tax_free_asset_key == $subkey ?  '$' . number_format($total_tax_free_asset) : ($total_wife_tax_free_inc_key == $subkey ?  '$' . number_format($total_wife_tax_free_inc) : ($total_husband_tax_free_inc_key == $subkey ?  '$' . number_format($total_husband_tax_free_inc) : ($total_husband_rmd_inc2_key == $subkey ?  '$' . number_format($total_husband_rmd_inc2) :  ($total_wife_rmd_inc2_key == $subkey ?  '$' . number_format($total_wife_rmd_inc2) : ''))))) ) }}
-								
-								
-								</strong></td>
-							@endforeach
-						</tr>
-						@endif
-					@endforeach
-			@endif
-			</tbody>
-		</table>
-	</div>--}}
+	
 	<div style="page-break-after: always;">
 		{{--<div>
 			<h2><strong style="margin-left:200px;">Financial Allocation Plan Details Husband And Wife</strong></h2>
@@ -1989,7 +1835,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						}	
 						
 					 @endphp
-						<th style="background-color:{{ $th_bg_color }}">{{ $header }}</th>
+						<th style="font-size:12px; background-color:{{ $th_bg_color }}">{{ $header }}</th>
 						@if($header == 'IRS Partner')
 							@php
 								$total_irs_partner2_key = $h;
@@ -2164,7 +2010,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								}
 								
 							@endphp
-							<td style="background-color: {{ $headerVal !='' ? $tr_bg_color : ''}}">{{ $headerVal ?? '' }}</td>
+							<td style="font-size:14px; background-color: {{ $headerVal !='' ? $tr_bg_color : ''}}">{{ $headerVal ?? '' }}</td>
 							@endforeach
 						</tr>
 					@endforeach
@@ -2197,34 +2043,34 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			</thead>
 			<tbody>
 				<tr>
-					<td style="background-color:red;"><strong>$ {{ number_format($total_irs_partner) }}</strong></td>
-					<td><h3>Total Taxes Paid By Age 95</h3></td>
-					<td style="background-color:#A1F21D;"><strong>$ {{ number_format($total_irs_partner2) }}</strong></td>
+					<td style="font-size:14px; background-color:red;"><strong>$ {{ number_format($total_irs_partner) }}</strong></td>
+					<td style="font-size:14px;"><h3>Total Taxes Paid By Age 95</h3></td>
+					<td style="font-size:14px; background-color:#A1F21D;"><strong>$ {{ number_format($total_irs_partner2) }}</strong></td>
 				</tr>
 				<tr>
-					<td style="background-color:red;"><strong>{{ $last_tax_rate }} %</strong></td>
-					<td><h3>Tax Bracket by Age 95</h3></td>
-					<td style="background-color:#A1F21D;"><strong>{{ $last_tax_rate2 }} %</strong></td>
+					<td style="font-size:14px; background-color:red;"><strong>{{ $last_tax_rate }} %</strong></td>
+					<td style="font-size:14px;"><h3>Tax Bracket by Age 95</h3></td>
+					<td style="font-size:14px; background-color:#A1F21D;"><strong>{{ $last_tax_rate2 }} %</strong></td>
 				</tr>
 				<tr>
-					<td style="background-color:red;"><strong>$ {{ number_format($total_estate) }}</strong></td>
-					<td><h3>Total Estate Value by Age 95</h3></td>
-					<td style="background-color:#A1F21D;"><strong>$ {{ number_format($total_estate2) }}</strong></td>
+					<td style="font-size:14px; background-color:red;"><strong>$ {{ number_format($total_estate) }}</strong></td>
+					<td style="font-size:14px;"><h3>Total Estate Value by Age 95</h3></td>
+					<td style="font-size:14px;background-color:#A1F21D;"><strong>$ {{ number_format($total_estate2) }}</strong></td>
 				</tr>
 				<tr>
-					<td style="background-color:red;"><strong>0</strong></td>
-					<td><h3>Tax Free Asset Value by Age 90</h3></td>
-					<td style="background-color:#A1F21D;"><strong>$ {{ number_format($total_tax_free_asset) }}</strong></td>
+					<td style="font-size:14px; background-color:red;"><strong>0</strong></td>
+					<td style="font-size:14px;"><h3>Tax Free Asset Value by Age 90</h3></td>
+					<td style="font-size:14px;background-color:#A1F21D;"><strong>$ {{ number_format($total_tax_free_asset) }}</strong></td>
 				</tr>
 				<tr>
-					<td style="background-color:red;"><strong>0</strong></td>
-					<td><h3>Tax Free Income by Age 95</h3></td>
-					<td style="background-color:#A1F21D;"><strong>$ {{ number_format($total_wife_tax_free_inc + $total_husband_tax_free_inc) }}</strong></td>
+					<td style="font-size:14px;background-color:red;"><strong>0</strong></td>
+					<td style="font-size:14px;"><h3>Tax Free Income by Age 95</h3></td>
+					<td style="font-size:14px; background-color:#A1F21D;"><strong>$ {{ number_format($total_wife_tax_free_inc + $total_husband_tax_free_inc) }}</strong></td>
 				</tr>
 				<tr>
-					<td style="background-color:red;"><strong>$ {{ number_format(($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc) - $total_wife_rmd_val) }}</strong></td>
-					<td><h3>IRA RMD’s by Age 95</h3></td>
-					<td style="background-color:#A1F21D;"><strong>$ {{ number_format($total_husband_rmd_inc2 +  $total_wife_rmd_inc2 ) }}</strong></td>
+					<td style="font-size:14px; background-color:red;"><strong>$ {{ number_format(($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc) - $total_wife_rmd_val) }}</strong></td>
+					<td style="font-size:14px;"><h3>IRA RMD’s by Age 95</h3></td>
+					<td style="font-size:14px;background-color:#A1F21D;"><strong>$ {{ number_format($total_husband_rmd_inc2 +  $total_wife_rmd_inc2 ) }}</strong></td>
 				</tr>
 			</tbody>
 		</table>
