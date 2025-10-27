@@ -40,20 +40,42 @@
 									@enderror
 								</div>
 							</div>
+							
 							<div class="col-lg-8 col-md-8">
-								<div class="input-block">
-									<label for="year" class="col-form-label">Advosor logo</label>
-									<input type="file" class="form-control" name="advisor_logo">
+								<div class="input-block mb-3">
+									<label for="advisor_logo" class="col-form-label fw-bold">Advisor Logo</label>
+									<div class="custom-file-upload position-relative text-center p-3 border rounded">
+										<input type="file" class="form-control d-none" name="advisor_logo" id="advisor_logo" accept="image/*">
+										<label for="advisor_logo" class="btn btn-outline-primary">
+											<i class="fa-solid fa-upload me-2"></i> Choose Logo
+										</label>
+									</div>
 									@error('advisor_logo')
-									 <div class="text-danger">{{ $message }}</div>
+										<div class="text-danger mt-1">{{ $message }}</div>
 									@enderror
 								</div>
 							</div>
+							
 							<div class="col-lg-8 col-md-8">
-								<div class="input-block">
-									<img src ="{{ url('uploads/advisor_logo/' . $setting->advisor_logo) }}" height="200" width="200">
+								<div class="input-block  position-relative">
+									<img 
+										id="preview-image" 
+										src="{{ !empty($setting->advisor_logo) ? url('uploads/advisor_logo/' . $setting->advisor_logo) : '' }}" 
+										alt="Advisor Logo" 
+										class="img-thumbnail {{ empty($setting->advisor_logo) ? 'd-none' : '' }}" 
+										style="max-height: 200px; max-width: 200px;"
+									>
+									 <button 
+										type="button" 
+										id="remove-preview" 
+										class="btn btn-danger btn-sm position-absolute top-0 end-0 translate-middle {{ empty($setting->advisor_logo) ? 'd-none' : '' }}"
+										style="border-radius: 50%; margin-right: 349px; padding: 0px 7px; display: {{ isset($setting->advisor_logo) ? 'none' : 'block'}}"
+									 data-id="{{ isset($setting) ? $setting->id : ''}}">
+										<i class="fa-solid fa-xmark"></i>
+									</button>
 								</div>
 							</div>
+							
 						</div>
 					</div>
 					<div class="row">
@@ -65,7 +87,7 @@
 					</div>
 					</form>
 				</div>			
-				<div class="col-md-2 order-1 order-sm-2">
+				{{--<div class="col-md-2 order-1 order-sm-2">
 					<div class="step-section">
 						<div class="triangle-container">
 							<div class="triangle-up complete">
@@ -92,7 +114,7 @@
 							</p>
 						</div>
 					</div>
-				</div>			
+				</div>--}}			
 			</div>			
         </div>
         <!-- /Page Content -->
@@ -104,56 +126,43 @@
 
 <script>
 $(document).ready(function(){
-	$('.save-roth-calculator-year').on('click', function(e){
-		e.preventDefault();
-		var year = $('#year').val();
-		var wife_roth_year = $('#wife_roth_year').val();
-		var show_specific_year = $('#show_specific_year').val();
+	
+	document.getElementById('advisor_logo').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const previewImage = document.getElementById('preview-image');
+    const removeButton = document.getElementById('remove-preview');
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImage.src = e.target.result;
+            previewImage.classList.remove('d-none');
+            removeButton.classList.remove('d-none');
+        };
+        reader.readAsDataURL(file);
+    }
+});
+	
+	document.getElementById('remove-preview').addEventListener('click', function() {
+		const previewImage = document.getElementById('preview-image');
+		const input = document.getElementById('advisor_logo');
 		
-		const rmd_age = $("#rmd_age").is(":checked");
+		input.value = '';
+		previewImage.src = '';
+		previewImage.classList.add('d-none');
+		this.classList.add('d-none');
 		
-		$('.year_error').text('');
-		$('.wife_roth_year_error').text('');
-		$('.rmd_age_error').text('');
-		
-		
-		let isValid = true;
-		$('.invalid-feedback').hide();
-		$('.form-control').removeClass('is-invalid');
-		if (year === '')
+		let id = $(this).data('id');
+		//alert(id);
+		/*if(id != '')
 		{
-			$('.year_error').text('Select husband year');
-			isValid = false;
-		}
-		
-		if (wife_roth_year === '')
-		{
-			$('.wife_roth_year_error').text('Select wife year');
-			isValid = false;
-		}
-		
-		/*if(show_specific_year === '')
-		{
-			$('.show_specific_year_error').text('This field required');
-			isValid = false;
-		}*/
-		
-		
-		if(isValid)
-		{
-			var URL = "{{ route('roth-calculator-year') }}";
-			
 			$.ajax({
-				url: URL,
+				url: "",
 				type: "POST",
-				data: {year:year,wife_roth_year:wife_roth_year,show_specific_year:show_specific_year,rmd_age:rmd_age,_token:csrfToken},
+				data: {id:id,_token:csrfToken},
 				dataType: 'json',
 				success: function(response) {
-					if(response.message == 'success')
-					{
-						
-						window.location.href= "{{ route('portfolio-desires') }}";
-					}
+					
 				},
 				error: function(xhr) {
 					// Handle validation errors
@@ -161,13 +170,11 @@ $(document).ready(function(){
 				}
 			});
 			
-		}
+		}*/
 	});
 	
 });
-document.getElementById("show_specific_year").addEventListener("input", function () {
-    this.value = this.value.replace(/[^0-9;]/g, ''); 
-});
+
 </script>
 @endsection
 
