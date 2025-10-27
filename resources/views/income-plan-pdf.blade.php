@@ -198,7 +198,8 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			<tr>
 				<!-- Left Side -->
 				<td width="50%" style="border-right: 1px solid #3490CD;">
-					<h1 style="color: #3490CD;">Building Rewarding Income Goals</h1>
+				<h1 style="color: #3490CD;">Building Rewarding Income Goals</h1>
+				{{--<h1 style="color: #3490CD;">{{ isset($setting) ? $setting->advisor_text : ''}}</h1>--}}
 					<h2>Income Allocation Tool</h2>
 				</td>
 
@@ -234,10 +235,15 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		<table>
 			<tr>
 				<td width="10%">
+				@if($setting->advisor_logo)
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+				@else
 					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+				@endif
 				</td>
 				<td width="90%">
-					<h1 style="color: #3490CD;">Building Rewarding Income Goals</h1>
+				{{--<h1 style="color: #3490CD;">Building Rewarding Income Goals</h1>--}}
+				<h1 style="color: #3490CD;">{{ isset($setting) ? $setting->advisor_text : ''}}</h1>
 					<h2>Income Allocation Tool</h2>
 				</td>
 			</tr>

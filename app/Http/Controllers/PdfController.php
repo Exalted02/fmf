@@ -10,6 +10,7 @@ use App\Models\Current_financial_account;
 use App\Models\Guaranteed_income_sources;
 use Illuminate\Support\Facades\Session;
 use App\Models\Roth_conversion_year;
+use App\Models\Setting;
 
 class PdfController extends Controller
 {
@@ -34,6 +35,8 @@ class PdfController extends Controller
 		//echo "<pre>";print_r($data);die;
 		$plan_allo_header = $this->allocation_plan_details($lastId);
 		//echo "<pre>";print_r($plan_allo_header);die;
+		
+		$data['setting'] = Setting::where('user_id', auth()->user()->id)->first();
 		
 		$pdf = app('dompdf.wrapper');
 		$contxt = stream_context_create([
