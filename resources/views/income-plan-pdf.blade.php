@@ -1938,6 +1938,10 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		{{--<div>
 			<h2><strong style="margin-left:200px;">Financial Allocation Plan Details Husband And Wife</strong></h2>
 		</div>--}}
+		@php 
+			$total_ira_inc2_key = [];
+			$total_rmd_inc2_key = [];
+		@endphp
 		<table>
 			<tr>
 				<td class="section-title">
@@ -2049,7 +2053,13 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						
 						@if($header == 'RMD')
 							@php
-								$total_rmd_inc2_key = $h;
+								$total_rmd_inc2_key[] = $h;
+							@endphp
+						@endif
+						
+						@if(stripos($header, 'IRA') !== false)
+							@php
+								$total_ira_inc2_key[] = $h;
 							@endphp
 						@endif
 						
@@ -2128,7 +2138,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							
 							@php 
 								$tr_bg_color = '';
-								if($total_rmd_inc2_key == $k)
+								if(in_array($k, $total_rmd_inc2_key))
 								{
 									$tr_bg_color = 'red';
 								}
@@ -2147,6 +2157,12 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								{
 									$tr_bg_color = '#A1F21D';
 								}
+								
+								if(in_array($k, $total_ira_inc2_key))
+								{
+									$tr_bg_color = 'red';
+								}
+								
 							@endphp
 							<td style="background-color: {{ $headerVal !='' ? $tr_bg_color : ''}}">{{ $headerVal ?? '' }}</td>
 							@endforeach
