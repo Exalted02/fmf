@@ -2016,41 +2016,41 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		<table class="calc-report">
 			<thead>
 				<tr>
-				<td><h3>Current Plan</h3></td>
+				<td style="background-color:red;"><h3>Current Plan</h3></td>
 				<td></td>
 				<td><h3>Fidelity Mutual Finance</h3></td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td><strong>$ {{ number_format($total_irs_partner) }}</strong></td>
+					<td style="background-color:red;"><strong>$ {{ number_format($total_irs_partner) }}</strong></td>
 					<td><h3>Total Taxes Paid By Age 95</h3></td>
-					<td><strong>$ {{ number_format($total_irs_partner2) }}</strong></td>
+					<td style="background-color:#A1F21D;"><strong>$ {{ number_format($total_irs_partner2) }}</strong></td>
 				</tr>
 				<tr>
-					<td><strong>{{ $last_tax_rate }} %</strong></td>
+					<td style="background-color:red;"><strong>{{ $last_tax_rate }} %</strong></td>
 					<td><h3>Tax Bracket by Age 95</h3></td>
-					<td><strong>{{ $last_tax_rate2 }} %</strong></td>
+					<td style="background-color:#A1F21D;"><strong>{{ $last_tax_rate2 }} %</strong></td>
 				</tr>
 				<tr>
-					<td><strong>$ {{ number_format($total_estate) }}</strong></td>
+					<td style="background-color:red;"><strong>$ {{ number_format($total_estate) }}</strong></td>
 					<td><h3>Total Estate Value by Age 95</h3></td>
-					<td><strong>$ {{ number_format($total_estate2) }}</strong></td>
+					<td style="background-color:#A1F21D;"><strong>$ {{ number_format($total_estate2) }}</strong></td>
 				</tr>
 				<tr>
-					<td><strong>0</strong></td>
+					<td style="background-color:red;"><strong>0</strong></td>
 					<td><h3>Tax Free Asset Value by Age 90</h3></td>
-					<td><strong>$ {{ number_format($total_tax_free_asset) }}</strong></td>
+					<td style="background-color:#A1F21D;"><strong>$ {{ number_format($total_tax_free_asset) }}</strong></td>
 				</tr>
 				<tr>
-					<td><strong>0</strong></td>
+					<td style="background-color:red;"><strong>0</strong></td>
 					<td><h3>Tax Free Income by Age 95</h3></td>
-					<td><strong>$ {{ number_format($total_wife_tax_free_inc + $total_husband_tax_free_inc) }}</strong></td>
+					<td style="background-color:#A1F21D;"><strong>$ {{ number_format($total_wife_tax_free_inc + $total_husband_tax_free_inc) }}</strong></td>
 				</tr>
 				<tr>
-					<td><strong>$ {{ number_format(($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc) - $total_wife_rmd_val) }}</strong></td>
+					<td style="background-color:red;"><strong>$ {{ number_format(($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc) - $total_wife_rmd_val) }}</strong></td>
 					<td><h3>IRA RMD’s by Age 95</h3></td>
-					<td><strong>$ {{ number_format($total_husband_rmd_inc2 +  $total_wife_rmd_inc2 ) }}</strong></td>
+					<td style="background-color:#A1F21D;"><strong>$ {{ number_format($total_husband_rmd_inc2 +  $total_wife_rmd_inc2 ) }}</strong></td>
 				</tr>
 			</tbody>
 		</table>
