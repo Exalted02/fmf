@@ -398,7 +398,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						@endphp
 						<div class="mt-5">{{ $income_account->client_name ?? ''}} &nbsp;&nbsp; ${{  number_format($income_account->income_amount) }} </div>
 						@endforeach
-					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalCurrent)}}</div>
+					<div class="subtotal mt-10"><span style="background-color:#A1F21D;">Subtotal ${{ number_format($subTotalCurrent)}}</span></div>
 					</div>
 					@endif
 				</td>
@@ -420,7 +420,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 					</div>
 					@endif
 					<div style="margin-top: 30px;">
-						<div class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</div>
+						<div class="totals"><span style="background-color:#A1F21D;">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</span></div>
 						<div class="totals">Income Total ${{ number_format($incomeTotal) }}</div>
 					</div>
 				</td>
@@ -487,7 +487,41 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			<tr>
 			    @if(!empty($excelheaderArray))
 					@foreach($excelheaderArray as $h=>$header)
-					<th>{{ $header ?? '' }}</th>
+				    
+					@php 
+						$th_bg_color = '';
+						if($header == 'RMD')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'Taxable Income')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'Tax Rates')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'IRMAA')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'Total Estate')
+						{
+							$th_bg_color = '#A1F21D';
+						}
+						
+						if(stripos($header, 'IRA') !== false)
+						{
+							$th_bg_color = 'red';
+						}
+						
+					@endphp
+					<th style="background-color: {{ $th_bg_color }}">{{ $header ?? '' }}</th>
 					
 					
 					
@@ -642,7 +676,15 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							@if(in_array($key, $show_specific_year))
 								<tr>
 								@foreach($excelheaderValue as $k=>$headerVal)
-								<td>{{ $headerVal ?? '' }}</td>
+								@php 
+									$tr_bg_color = '';
+									if(in_array($k, $rmd_position_keys))
+									{
+										
+										$tr_bg_color = 'red';
+									}
+								@endphp
+								<td style="background-color: $tr_bg_color">{{ $headerVal ?? '' }}</td>
 								@endforeach
 								</tr>
 							@endif
