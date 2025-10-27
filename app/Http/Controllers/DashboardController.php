@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Current_financial_account;
 use App\Models\Roth_conversion_year;
 use Stripe\Price;
+use App\Models\Setting;
 
 class DashboardController extends Controller
 {
@@ -429,6 +430,62 @@ class DashboardController extends Controller
 	public function user_settings()
 	{
 		$data = [];
+		$data['setting'] = Setting::where('user_id', auth()->user()->id)->first();
 		return view('user-setting', $data);
+	}
+	public function user_save_settings(Request $request)
+	{
+		//echo "<pre>";print_r($request->all()); die;
+		$validated = $request->validate([
+			'advisor_text' => 'required',
+			'advisor_logo' => 'required|image',
+		]);
+		
+		if($request->id > 0)
+		{
+			$model = Setting::find($request->id);
+			$model->user_id = auth()->user()->id;
+			$model->advisor_text = $request->advisor_text ?? null;
+			$model->save();
+			$id = $request->id;
+		}
+		else
+		{
+			$model = new Setting();
+			$model->user_id = auth()->user()->id;
+			$model->advisor_text = $request->advisor_text ?? null;
+			$model->save();
+			$id = $model->id;
+		}
+		
+		// add file
+		$fileName = '';
+		if($request->hasFile('advisor_logo')) {
+			$destinationPath = public_path('uploads/advisor_logo/');
+			if (!file_exists($destinationPath)) {
+				mkdir($destinationPath, 0777, true);
+			}
+			$file = $request->file('advisor_logo');
+			$fileName = time() . '_' . $file->getClientOriginalName();
+			$file->move($destinationPath, $fileName);
+			
+			//-- unlink---
+			if($request->hid_logo)
+			{
+				$f_name = $request->hid_logo;
+				$filePath = public_path('uploads/advisor_logo/' . $f_name);
+				if (file_exists($filePath)) {
+					unlink($filePath);
+				}
+			}
+			//-----------
+			
+			$updtmodel= Setting::find($id);
+			$updtmodel->advisor_logo = $fileName;
+			$updtmodel->save();
+		}
+		
+		$success_msg = $request->id > 0 ? 'Data updated successfully.' : 'Data inserted successfully.';
+		 return back()->with('success', $success_msg);
 	}
 }

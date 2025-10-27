@@ -78,6 +78,7 @@ Route::middleware(['auth','verified'])->group(function () {
 });
 	Route::get('/income-plan-pdf', [PdfController::class, 'incomePlan'])->name('income-plan-pdf');
 	Route::get('/user-settings', [DashboardController::class, 'user_settings'])->name('user-settings');
+	Route::post('/user-settings', [DashboardController::class, 'user_save_settings'])->name('user-settings');
 
 
 require __DIR__.'/auth.php';

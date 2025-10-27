@@ -20,28 +20,46 @@
 								</div>
 							</div>
 						</div>
-					<form name="frmsettings" action="{{ route('user-settings')}}" method="post">
+					
+					@if($message = Session::get('success'))
+                           <div class="text-success">
+                             <p>{{$message}}</p>
+                          </div>
+					@endif
+					<form name="frmsettings" action="{{ route('user-settings')}}" method="post" enctype="multipart/form-data">
+					@csrf
+					<input type="hidden" name="id" value="{{ isset($setting) ? $setting->id : ''}}">
+					<input type="hidden" name="hid_logo" value="{{ isset($setting) ? $setting->advisor_logo : ''}}">
 						<div class="row">
 							<div class="col-lg-8 col-md-8">
 								<div class="input-block">
 									<label for="year" class="col-form-label">Advosor text</label>
-									<input type="text" class="form-control" name="advisor_text">
-									<div class="year_error error-text"></div>
+									<input type="text" class="form-control" name="advisor_text"  value="{{ isset($setting) ? $setting->advisor_text : old('advisor_text')}}">
+									@error('advisor_text')
+									 <div class="text-danger">{{ $message }}</div>
+									@enderror
 								</div>
 							</div>
 							<div class="col-lg-8 col-md-8">
 								<div class="input-block">
 									<label for="year" class="col-form-label">Advosor logo</label>
 									<input type="file" class="form-control" name="advisor_logo">
-									<div class="wife_roth_year_error error-text"></div>
+									@error('advisor_logo')
+									 <div class="text-danger">{{ $message }}</div>
+									@enderror
+								</div>
+							</div>
+							<div class="col-lg-8 col-md-8">
+								<div class="input-block">
+									<img src ="{{ url('uploads/advisor_logo/' . $setting->advisor_logo) }}" height="200" width="200">
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row mt-4">
+					<div class="row">
 						<div class="col-md-12">
 							<div class="d-flex justify-between submit-section mt-2 mb-5">
-								<a href="javascript:void(0)"><button class="btn btn-primary common-button save-roth-calculator-year">Save</button></a>
+								<a href="javascript:void(0)"><button type="submit" class="btn btn-primary common-button">Save</button></a>
 							</div>
 						</div>
 					</div>
