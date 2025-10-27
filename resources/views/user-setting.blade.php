@@ -65,12 +65,20 @@
 										class="img-thumbnail {{ empty($setting->advisor_logo) ? 'd-none' : '' }}" 
 										style="max-height: 200px; max-width: 200px;"
 									>
-									 <button 
+									{{--<button 
 										type="button" 
 										id="remove-preview" 
 										class="btn btn-danger btn-sm position-absolute top-0 end-0 translate-middle {{ empty($setting->advisor_logo) ? 'd-none' : '' }}"
 										style="border-radius: 50%; margin-right: 349px; padding: 0px 7px; display: {{ isset($setting->advisor_logo) ? 'none' : 'block'}}"
 									 data-id="{{ isset($setting) ? $setting->id : ''}}">
+										<i class="fa-solid fa-xmark"></i>
+									</button>--}}
+									<button 
+										type="button" 
+										id="remove-preview" 
+										class="btn btn-danger btn-sm position-absolute top-0 end-0 translate-middle d-none"
+										style="border-radius: 50%; margin-right: 349px; padding: 0px 7px;"
+										data-id="{{ isset($setting) ? $setting->id : '' }}">
 										<i class="fa-solid fa-xmark"></i>
 									</button>
 								</div>
@@ -127,21 +135,21 @@
 <script>
 $(document).ready(function(){
 	
-	document.getElementById('advisor_logo').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    const previewImage = document.getElementById('preview-image');
-    const removeButton = document.getElementById('remove-preview');
+	/*document.getElementById('advisor_logo').addEventListener('change', function(event) {
+		const file = event.target.files[0];
+		const previewImage = document.getElementById('preview-image');
+		const removeButton = document.getElementById('remove-preview');
 
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            previewImage.src = e.target.result;
-            previewImage.classList.remove('d-none');
-            removeButton.classList.remove('d-none');
-        };
-        reader.readAsDataURL(file);
-    }
-});
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = function(e) {
+				previewImage.src = e.target.result;
+				previewImage.classList.remove('d-none');
+				removeButton.classList.remove('d-none');
+			};
+			reader.readAsDataURL(file);
+		}
+	});
 	
 	document.getElementById('remove-preview').addEventListener('click', function() {
 		const previewImage = document.getElementById('preview-image');
@@ -153,24 +161,33 @@ $(document).ready(function(){
 		this.classList.add('d-none');
 		
 		let id = $(this).data('id');
-		//alert(id);
-		/*if(id != '')
-		{
-			$.ajax({
-				url: "",
-				type: "POST",
-				data: {id:id,_token:csrfToken},
-				dataType: 'json',
-				success: function(response) {
-					
-				},
-				error: function(xhr) {
-					// Handle validation errors
-					
-				}
-			});
-			
-		}*/
+	});*/
+	
+	document.getElementById('advisor_logo').addEventListener('change', function(event) {
+		const file = event.target.files[0];
+		const previewImage = document.getElementById('preview-image');
+		const removeButton = document.getElementById('remove-preview');
+
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = function(e) {
+				previewImage.src = e.target.result;
+				previewImage.classList.remove('d-none');
+				removeButton.classList.remove('d-none'); // show cross button
+			};
+			reader.readAsDataURL(file);
+		}
+	});
+
+	document.getElementById('remove-preview').addEventListener('click', function() {
+		const previewImage = document.getElementById('preview-image');
+		const input = document.getElementById('advisor_logo');
+
+		// Clear the selected file
+		input.value = '';
+		previewImage.src = '';
+		previewImage.classList.add('d-none');
+		this.classList.add('d-none');
 	});
 	
 });
