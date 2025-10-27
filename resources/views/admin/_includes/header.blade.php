@@ -25,7 +25,7 @@
 	
 	<!-- Header Title -->
 	<div class="page-title-box">
-		<h3>{{ __('project_title') }}</h3>
+		<h3>{{ __('project_title') }}dd</h3>
 	</div>
 	<!-- /Header Title -->
 	
