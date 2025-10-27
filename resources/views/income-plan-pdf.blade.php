@@ -235,7 +235,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		<table>
 			<tr>
 				<td width="10%">
-				@if($setting->advisor_logo)
+				@if(isset($setting->advisor_logo))
 					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
 				@else
 					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
@@ -517,7 +517,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						}
 						
 					@endphp
-					<th style="font-size:12px; background-color: {{ $th_bg_color }}">{{ $header ?? '' }}</th>
+					<th style="font-size:12px;background-color: {{ $th_bg_color }}">{{ $header ?? '' }}</th>
 					
 					
 					
@@ -691,7 +691,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 									
 									
 								@endphp
-								<td style="font-size:14px; background-color: {{ $tr_bg_color }}">{{ $headerVal ?? '' }}</td>
+								<td style="font-size:12px;background-color: {{ $tr_bg_color }}">{{ $headerVal ?? '' }}</td>
 								@endforeach
 								</tr>
 							@endif
@@ -716,7 +716,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 									}
 									
 								@endphp
-								<td style="font-size:14px; background-color: {{ $headerVal !='' ? $tr_bg_color : '' }}">{{ $headerVal ?? '' }}</td>
+								<td style="background-color: {{ $headerVal !='' ? $tr_bg_color : '' }}">{{ $headerVal ?? '' }}</td>
 								@endforeach
 							</tr>
 						@endif
@@ -749,7 +749,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								
 							@endphp
 							
-								<td style="font-size:14px;background-color: {{ $tr_tot_bg_color }}"><strong>{{ $total_inc_tax_key == $subkey ?   '$' . number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ?  '$' . number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ?  '$' . number_format($total_irs_partner) : ($total_estate_key == $subkey ?  '$' . number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ?  '$' . number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ?  '$' . number_format($total_husband_rmd_inc) : ($total_joint_rmd_inc_key == $subkey ?  '$' . number_format($total_joint_rmd_inc) : '') ) ) ) )) }}
+								<td style="background-color: {{ $tr_tot_bg_color }}"><strong>{{ $total_inc_tax_key == $subkey ?   '$' . number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ?  '$' . number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ?  '$' . number_format($total_irs_partner) : ($total_estate_key == $subkey ?  '$' . number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ?  '$' . number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ?  '$' . number_format($total_husband_rmd_inc) : ($total_joint_rmd_inc_key == $subkey ?  '$' . number_format($total_joint_rmd_inc) : '') ) ) ) )) }}
 								
 								@if(in_array($subkey, $rmd_position_keys))
 									${{ number_format($total_rmd_inc[$subkey]) }}
@@ -772,7 +772,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						@if($key == 0)
 						<tr>
 						@foreach($excelheaderValue as $subkey=>$headerVal)
-							<td style="font-size:14px">
+							<td style="">
 							@if($subkey == 6)
 							<strong>Total RMD: {{ '$ '. number_format($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc + $total_joint_rmd_inc)}}</strong>
 							@endif
@@ -1835,7 +1835,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						}	
 						
 					 @endphp
-						<th style="font-size:12px; background-color:{{ $th_bg_color }}">{{ $header }}</th>
+						<th style="font-size:10px; background-color:{{ $th_bg_color }}">{{ $header }}</th>
 						@if($header == 'IRS Partner')
 							@php
 								$total_irs_partner2_key = $h;
@@ -2010,7 +2010,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								}
 								
 							@endphp
-							<td style="font-size:14px; background-color: {{ $headerVal !='' ? $tr_bg_color : ''}}">{{ $headerVal ?? '' }}</td>
+							<td style="font-size:10px; background-color: {{ $headerVal !='' ? $tr_bg_color : ''}}">{{ $headerVal ?? '' }}</td>
 							@endforeach
 						</tr>
 					@endforeach
