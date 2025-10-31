@@ -6,6 +6,7 @@ $headerCount = count($excelheaderArray)-1;
 //echo "<pre>";print_r(husband_roth_tax_conversion());die;
 //echo "<pre>";print_r($plan_allocation_header);die;
 //echo "<pre>";print_r($plan_allocation_value);die;
+
 $husbandAsset = [];
 $wifeAsset = [];
 $jointAsset = [];
@@ -42,6 +43,9 @@ foreach($current_financial_account as $financial_account)
 	}
 	
 }
+//echo $wifeAsset[0]['owner_name'];die;
+//echo "<pre>";print_r($wifeAsset);die;
+
 $subTotalHusband = 0;
 $subTotalWife = 0;
 $subTotalJoint = 0;
@@ -95,11 +99,25 @@ $wife_account_value = $current_finance_wife_data ? $current_finance_wife_data->a
 $wife_max_year = $wife_roth != '' ? $wife_roth+4 : 12;
 $wife_roth_yr  = !empty($roth_year_data->wife_roth_year) ? $roth_year_data->wife_roth_year : 8;
 
-$hus_RMD_Income = $husbandAsset[0]['owner_name'] .' RMD/Income';
-$wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
+$hus_RMD_Income = '';
+$wife_RMD_Income = '';
+$hus_tax_free_Income = '';
+$wife_tax_free_Income = '';
 
+if(!empty($husbandAsset))
+{
+$hus_RMD_Income = $husbandAsset[0]['owner_name'] .' RMD/Income';
 $hus_tax_free_Income = $husbandAsset[0]['owner_name'] .' Tax Free Income';
+}
+
+if(!empty($wifeAsset))
+{
+$wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
 $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
+}
+
+
+//echo $wife_RMD_Income;die;
 @endphp
 <!DOCTYPE html>
 <html>
@@ -180,7 +198,8 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			<tr>
 				<!-- Left Side -->
 				<td width="50%" style="border-right: 1px solid #3490CD;">
-					<h1 style="color: #3490CD;">Building Rewarding Income Goals</h1>
+				<h1 style="color: #3490CD;">Building Rewarding Income Goals</h1>
+				{{--<h1 style="color: #3490CD;">{{ isset($setting) ? $setting->advisor_text : ''}}</h1>--}}
 					<h2>Income Allocation Tool</h2>
 				</td>
 
@@ -197,7 +216,12 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</td>
 			</tr>
 		</table>
-
+		<br>
+		<p class="fixed-company-name">
+			Fidelity Mutual Financial: Advisor Darryl Stein <br>
+			267-280-3660 <br>
+			www.TheFidelityMutual.com
+		</p>
 		<table class="footer">
 			<tr>
 				<td style="text-align: left;font-size: 12px;">
@@ -216,10 +240,15 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		<table>
 			<tr>
 				<td width="10%">
+				@if(isset($setting->advisor_logo))
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+				@else
 					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+				@endif
 				</td>
 				<td width="90%">
-					<h1 style="color: #3490CD;">Building Rewarding Income Goals</h1>
+				{{--<h1 style="color: #3490CD;">Building Rewarding Income Goals</h1>--}}
+				<h1 style="color: #3490CD;">{{ isset($setting) ? $setting->advisor_text : ''}}</h1>
 					<h2>Income Allocation Tool</h2>
 				</td>
 			</tr>
@@ -300,6 +329,12 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</tr>
 			</tbody>
 		</table>
+		<br>
+		<p class="fixed-company-name">
+			Fidelity Mutual Financial: Advisor Darryl Stein <br>
+			267-280-3660 <br>
+			www.TheFidelityMutual.com
+		</p>
 		<table class="footer">
 			<tr>
 				<td style="text-align: left;font-size: 12px;">
@@ -317,6 +352,20 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	</div>
 	
 	<div style="page-break-after: always;">
+	<table>
+			<tr>
+				<td width="10%">
+				@if(isset($setting->advisor_logo))
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+				@else
+					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+				@endif
+				</td>
+				<td width="60%">
+				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
+				</td>
+			</tr>
+		</table>
 		<table>
 			<tr>
 				<td width="80%" class="section-title">
@@ -346,7 +395,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							@endphp
 							<div class="mt-5">#{{ $w }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
-					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalWife) }}</div>
+					<div class="subtotal mt-10">Subtotal <span style="background-color:#A1F21D;">${{ number_format($subTotalWife) }}</span></div>
 					</div>
 					@endif
 					<!-- Joint Accounts -->
@@ -361,7 +410,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								@endphp
 								<div class="mt-5">#{{ $j }} {{ $val['account_title'] }}&nbsp; {{$tax_quali ?? ''}}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 							@endforeach
-						<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalJoint) }}</div>
+						<div class="subtotal mt-10">Subtotal <span style="background-color:#A1F21D;">${{ number_format($subTotalJoint) }}</span></div>
 					</div>
 					@endif
 					<!-- Current income account -->
@@ -374,7 +423,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						@endphp
 						<div class="mt-5">{{ $income_account->client_name ?? ''}} &nbsp;&nbsp; ${{  number_format($income_account->income_amount) }} </div>
 						@endforeach
-					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalCurrent)}}</div>
+					<div class="subtotal mt-10">Subtotal <span style="background-color:#A1F21D;">${{ number_format($subTotalCurrent)}}</span></div>
 					</div>
 					@endif
 				</td>
@@ -392,11 +441,11 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							@endphp
 							<div class="mt-5">#{{ $h }} {{ $val['account_title'] }}&nbsp; {{ $tax_quali ?? '' }}&nbsp;&nbsp; ${{ number_format($val['account_value']) }}</div>
 						@endforeach
-					<div class="subtotal mt-10">Subtotal ${{ number_format($subTotalHusband) }}</div>
+					<div class="subtotal mt-10">Subtotal <span style="background-color:#A1F21D;">${{ number_format($subTotalHusband) }}</span></div>
 					</div>
 					@endif
 					<div style="margin-top: 30px;">
-						<div class="totals">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</div>
+						<div class="totals"><span style="background-color:#A1F21D;">Asset Total ${{ number_format($subTotalWife + $subTotalHusband + $subTotalJoint) }}</span></div>
 						<div class="totals">Income Total ${{ number_format($incomeTotal) }}</div>
 					</div>
 				</td>
@@ -425,8 +474,8 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	</div>
 	
 	@php 
-	$total_wife_rmd_inc_key = '';
-	$total_husband_rmd_inc_key = '';
+	$total_wife_rmd_inc_key = 0;
+	$total_husband_rmd_inc_key = 0;
 	$total_joint_rmd_inc_key = '';
 	$total_inc_tax_key = '';
 	$total_IRMAA_key = '';
@@ -436,10 +485,26 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	$total_rmd_inc = [];
 	$count_rmd = 0;
 	$total_rmd_value = 0;
-	$last_tax_rate = 0;
+	$total_wife_rmd_val = 0;
+	$total_tax_rate_key = '';
+	$last_tax_rate = '';
 	
 	@endphp
 	<div style="page-break-after: always;">
+		<table>
+			<tr>
+				<td width="10%">
+				@if(isset($setting->advisor_logo))
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+				@else
+					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+				@endif
+				</td>
+				<td width="60%">
+				<h3 style="color: #000000;text-align:center;margin-right: 212px;">Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
+				</td>
+			</tr>
+		</table>
 		<table>
 			<tr>
 				<td class="section-title">
@@ -461,7 +526,37 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			<tr>
 			    @if(!empty($excelheaderArray))
 					@foreach($excelheaderArray as $h=>$header)
-					<th>{{ $header ?? '' }}</th>
+				    
+					@php 
+						$th_bg_color = '';
+						if($header == 'RMD')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'Taxable Income')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'Tax Rates')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'IRMAA')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						
+						if(stripos($header, 'IRA') !== false)
+						{
+							$th_bg_color = 'red';
+						}
+						
+					@endphp
+					<th style="font-size:12px;background-color: {{ $th_bg_color }}">{{ $header ?? '' }}</th>
 					
 					
 					
@@ -550,7 +645,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								$total_wife_rmd_val = $total_wife_rmd_val + $wife_rmd;
 							@endphp 
 						@endif
-						
+					
 						@if($total_wife_rmd_inc_key == $k)
 							@php
 							$total_wife_rmd = (int) str_replace(',', '', $headerVal);
@@ -593,7 +688,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							@endphp 
 						@endif
 						
-						
 						@if($total_irs_partner_key == $k)
 							@php
 							$total_irs_partner_numeric = (int) str_replace(',', '', $headerVal);
@@ -617,14 +711,51 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							@if(in_array($key, $show_specific_year))
 								<tr>
 								@foreach($excelheaderValue as $k=>$headerVal)
-								<td>{{ $headerVal ?? '' }}</td>
+								@php 
+									$tr_bg_color = '';
+									if(in_array($k, $rmd_position_keys))
+									{
+										$tr_bg_color = 'red';
+									}
+									
+									if($total_tax_rate_key == $k)
+									{
+										$tr_bg_color = 'red';
+									}
+									
+									if($total_IRMAA_key == $k)
+									{
+										$tr_bg_color = 'red';
+									}
+									
+									
+								@endphp
+								<td style="font-size:12px;background-color: {{ $tr_bg_color }}">{{ $headerVal ?? '' }}</td>
 								@endforeach
 								</tr>
 							@endif
 						@else
 							<tr>
 								@foreach($excelheaderValue as $k=>$headerVal)
-								<td>{{ $headerVal ?? '' }}</td>
+								@php 
+									$tr_bg_color = '';
+									if(in_array($k, $rmd_position_keys))
+									{
+										$tr_bg_color = 'red';
+									}
+									
+									if($total_tax_rate_key == $k)
+									{
+										$tr_bg_color = 'red';
+									}
+									
+									if($total_IRMAA_key == $k)
+									{
+										$tr_bg_color = 'red';
+									}
+									
+								@endphp
+								<td style="background-color: {{ $headerVal !='' ? $tr_bg_color : '' }}">{{ $headerVal ?? '' }}</td>
 								@endforeach
 							</tr>
 						@endif
@@ -636,7 +767,28 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						@if($key == 0)
 						<tr>
 							@foreach($excelheaderValue as $subkey=>$headerVal)
-								<td><strong>{{ $total_inc_tax_key == $subkey ?   '$' . number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ?  '$' . number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ?  '$' . number_format($total_irs_partner) : ($total_estate_key == $subkey ?  '$' . number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ?  '$' . number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ?  '$' . number_format($total_husband_rmd_inc) : ($total_joint_rmd_inc_key == $subkey ?  '$' . number_format($total_joint_rmd_inc) : '') ) ) ) )) }}
+							
+							@php
+								$tr_tot_bg_color = '';
+								
+								if(in_array($subkey, $rmd_position_keys))
+								{
+									$tr_tot_bg_color = 'red';
+								}
+								
+								if($total_IRMAA_key == $subkey)
+								{
+									$tr_tot_bg_color = 'red';
+								}
+								
+								if($total_estate_key == $subkey)
+								{
+									$tr_tot_bg_color = 'red';
+								}
+								
+							@endphp
+							
+								<td style="background-color: {{ $tr_tot_bg_color }}"><strong>{{ $total_inc_tax_key == $subkey ?   '$' . number_format($total_inc_tax) : ($total_IRMAA_key == $subkey ?  '$' . number_format($total_IRMAA) : ($total_irs_partner_key == $subkey ?  '$' . number_format($total_irs_partner) : ($total_estate_key == $subkey ?  '$' . number_format($total_estate) : ($total_wife_rmd_inc_key == $subkey ?  '$' . number_format($total_wife_rmd_inc) : ($total_husband_rmd_inc_key == $subkey ?  '$' . number_format($total_husband_rmd_inc) : ($total_joint_rmd_inc_key == $subkey ?  '$' . number_format($total_joint_rmd_inc) : '') ) ) ) )) }}
 								
 								@if(in_array($subkey, $rmd_position_keys))
 									${{ number_format($total_rmd_inc[$subkey]) }}
@@ -659,7 +811,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						@if($key == 0)
 						<tr>
 						@foreach($excelheaderValue as $subkey=>$headerVal)
-							<td>
+							<td style="">
 							@if($subkey == 6)
 							<strong>Total RMD: {{ '$ '. number_format($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc + $total_joint_rmd_inc)}}</strong>
 							@endif
@@ -672,6 +824,26 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			</tbody>
 		</table>
 		
+		{{--<br>
+		<p class="fixed-company-name">
+			Fidelity Mutual Financial: Advisor Darryl Stein <br>
+			267-280-3660 <br>
+			www.TheFidelityMutual.com
+		</p>--}}
+		{{--<table class="footer">
+			<tr>
+				<td style="text-align: left;font-size: 12px;">
+					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
+
+					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
+				</td>
+			</tr>
+		</table>--}}
+		
 	</div>
 	
 	{{--<div class="row">
@@ -680,10 +852,31 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	
 	@if(!empty($current_finance_husband_data))
 	<div style="page-break-after: always;">
-		<div>
+		<table>
+			<tr>
+				<td width="10%">
+				@if(isset($setting->advisor_logo))
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+				@else
+					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+				@endif
+				</td>
+				<td width="60%">
+				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
+				</td>
+			</tr>
+		</table>
+		{{--<div>
 			<h2><strong style="margin-left:200px;">Husband Roth Conversion From Taxable To Free Tax</strong></h2>
 		</div>
-		</hr>
+		</hr>--}}
+		<table>
+			<tr>
+				<td class="section-title">
+					Husband Roth Conversion From Taxable To Free Tax
+				</td>
+			</tr>
+		</table>
 		@php 
 		
 			$a12 = 0;
@@ -708,19 +901,19 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		<table class="calc-report">
 			<thead>
 				<tr>
-					<th>Roth Conversion</br>${{ number_format($husband_account_value) ?? ''}}</br>21% Bonus</th>
+					<th style="font-size:12px;">Roth Conversion</br>${{ number_format($husband_account_value) ?? ''}}</br>21% Bonus</th>
 					<th></th>
-					<th>70</br>Yr 1</th>
-					<th>71</br>Yr 2</th>
-					<th>72</br>Yr 3</th>
-					<th>73</br>Yr 4</th>
-					<th>74</br>Yr 5</th>
-					<th>75</br>Yr 6</th>
-					<th>76</br>Yr 7</th>
-					<th>77</br>Yr 8</th>
-					<th>Annual Converted</th>
-					<th>Year End Roth Value</th>
-					<th>Year End Account Value</th>
+					<th style="font-size:12px;">70</br>Yr 1</th>
+					<th style="font-size:12px;">71</br>Yr 2</th>
+					<th style="font-size:12px;">72</br>Yr 3</th>
+					<th style="font-size:12px;">73</br>Yr 4</th>
+					<th style="font-size:12px;">74</br>Yr 5</th>
+					<th style="font-size:12px;">75</br>Yr 6</th>
+					<th style="font-size:12px;">76</br>Yr 7</th>
+					<th style="font-size:12px;">77</br>Yr 8</th>
+					<th style="font-size:12px;">Annual Converted</th>
+					<th style="font-size:12px;">Year End Roth Value</th>
+					<th style="font-size:12px;">Year End Account Value</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -752,7 +945,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 									@endphp
 								
 								<tr>
-									<td style="height:10px;text-align: left">
+									<td style="font-size:14px ;height:10px;text-align: left">
 									@if($col == 1 && $row == 1)
 										$ {{ number_format($a12) }}
 									@endif
@@ -1108,7 +1301,12 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				@endfor
 			</tbody>
 		</table>
-		
+		<br>
+		<p class="fixed-company-name">
+			Fidelity Mutual Financial: Advisor Darryl Stein <br>
+			267-280-3660 <br>
+			www.TheFidelityMutual.com
+		</p>
 		<table class="footer">
 			<tr>
 				<td style="text-align: left;font-size: 12px;">
@@ -1127,9 +1325,30 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	
 	@if(!empty($current_finance_wife_data))
 	<div style="page-break-after: always;">
-		<div>
+		{{--<div>
 			<h2><strong style="margin-left:200px;">Wife Roth Conversion From Taxable To Free Tax</strong></h2>
-		</div>
+		</div>--}}
+		<table>
+			<tr>
+				<td width="10%">
+				@if(isset($setting->advisor_logo))
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+				@else
+					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+				@endif
+				</td>
+				<td width="60%">
+				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td class="section-title">
+					Wife Roth Conversion From Taxable To Free Tax
+				</td>
+			</tr>
+		</table>
 		@php 
 			$a12 = 0;
 			$a15 = 0;
@@ -1171,22 +1390,22 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		<table class="calc-report">
 			<thead>
 				<tr>
-					<th>Roth Conversion</br>${{ number_format($wife_account_value) ?? ''}}</br>21% Bonus</th>
+					<th style="font-size:12px;">Roth Conversion</br>${{ number_format($wife_account_value) ?? ''}}</br>21% Bonus</th>
 					<th></th>
 					<th></th>
-					<th>69</br>End of ></th>
-					<th>70</br>Yr 1</th>
-					<th>71</br>Yr 2</th>
-					<th>72</br>Yr 3</th>
-					<th>73</br>Yr 4</th>
-					<th>74</br>Yr 5</th>
-					<th>75</br>Yr 6</th>
-					<th>76</br>Yr 7</th>
-					<th>77</br>Yr 8</th>
-					<th></th>
-					<th>Annual Converted</th>
-					<th>Year End Roth Value</th>
-					<th>Total Account Value</th>
+					<th style="font-size:12px;">69</br>End of ></th>
+					<th style="font-size:12px;">70</br>Yr 1</th>
+					<th style="font-size:12px;">71</br>Yr 2</th>
+					<th style="font-size:12px;">72</br>Yr 3</th>
+					<th style="font-size:12px;">73</br>Yr 4</th>
+					<th style="font-size:12px;">74</br>Yr 5</th>
+					<th style="font-size:12px;">75</br>Yr 6</th>
+					<th style="font-size:12px;">76</br>Yr 7</th>
+					<th style="font-size:12px;">77</br>Yr 8</th>
+					<th style="font-size:12px;"></th>
+					<th style="font-size:12px;">Annual Converted</th>
+					<th style="font-size:12px;">Year End Roth Value</th>
+					<th style="font-size:12px;">Total Account Value</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -1211,7 +1430,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								$a18 = round($a15 * (1 + 0.05));
 							@endphp
 							<tr>
-								<td class="wife-cal"  style="{{ $col==2 ? 'display:none':($col==3 ? 'height:10px;width:100px;text-align:left' : ($col==13 ? 'height:10px;width:70px;text-align: left' : 'height:10px;width:0px;text-align: center')) }}">
+								<td class="wife-cal"  style="font-size:14px; {{ $col==2 ? 'display:none':($col==3 ? 'height:10px;width:100px;text-align:left' : ($col==13 ? 'height:10px;width:70px;text-align: left' : 'height:10px;width:0px;text-align: center')) }}">
 									@if($col == 1)
 										@if($row == 1)
 											$ {{ number_format($a12) }}
@@ -1615,7 +1834,24 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 					</td>
 				@endfor
 			</tbody>
-		
+		</table>
+		<p class="fixed-company-name">
+			Fidelity Mutual Financial: Advisor Darryl Stein <br>
+			267-280-3660 <br>
+			www.TheFidelityMutual.com
+		</p>
+		<table class="footer">
+			<tr>
+				<td style="text-align: left;font-size: 12px;">
+					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
+
+					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
+				</td>
+			</tr>
 		</table>
 	</div>
 	@endif
@@ -1630,18 +1866,87 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		$total_husband_tax_free_inc = 0;
 		$total_husband_rmd_inc2 = 0;
 		$total_wife_rmd_inc2 =0;
+		$total_husband_rmd_inc2_key = 0;
+		$total_wife_rmd_inc2_key = 0;
+		$total_irs_partner2_key = '';
+		$total_tax_rate2_key = '';
+		$total_estate2_key = '';
+		$total_tax_free_asset_key = '';
+		$last_tax_rate2 = '';
 	@endphp
 	
+	
 	<div style="page-break-after: always;">
-		<div>
+		{{--<div>
 			<h2><strong style="margin-left:200px;">Financial Allocation Plan Details Husband And Wife</strong></h2>
-		</div>
+		</div>--}}
+		<table>
+			<tr>
+				<td width="10%">
+				@if(isset($setting->advisor_logo))
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+				@else
+					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+				@endif
+				</td>
+				<td width="60%">
+				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Fidelity Mutual Financial:Custom Tax Efficient Retirement Plan <br>Designed for Darryl and Masako Stein<br>Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
+				</td>
+			</tr>
+			
+		</table>
+		@php 
+			$total_ira_inc2_key = [];
+			$total_rmd_inc2_key = [];
+		@endphp
+		<table>
+			<tr>
+				<td class="section-title">
+					Financial Allocation Plan Details Husband And Wife
+				</td>
+			</tr>
+		</table>
 		<table class="calc-report">
 			<thead>
 				<tr>
 				@if(!empty($plan_allocation_header))
-					@foreach($plan_allocation_header as $header)
-						<th>{{ $header }}</th>
+					@foreach($plan_allocation_header as $h=>$header)
+					 @php 
+						$th_bg_color = '';
+						if($header == 'RMD')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'Taxable Income')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'Tax Rates')
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'IRMAA')
+						{
+							$th_bg_color = 'red';
+							
+						}
+						
+						
+						if(stripos($header, 'IRA') !== false)
+						{
+							$th_bg_color = 'red';
+						}
+						
+						if($header == 'Tax Free Assets')
+						{
+							$th_bg_color = '#A1F21D';
+						}	
+						
+					 @endphp
+						<th style="font-size:10px; background-color:{{ $th_bg_color }}">{{ $header }}</th>
 						@if($header == 'IRS Partner')
 							@php
 								$total_irs_partner2_key = $h;
@@ -1695,10 +2000,31 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								$total_wife_rmd_inc2_key = $h;
 							@endphp
 						@endif
+						
+						@if($header == 'IRMAA')
+							@php
+								$total_irmaa_inc2_key = $h;
+							@endphp
+						
+						@endif
+						
+						@if($header == 'RMD')
+							@php
+								$total_rmd_inc2_key[] = $h;
+							@endphp
+						@endif
+						
+						@if(stripos($header, 'IRA') !== false)
+							@php
+								$total_ira_inc2_key[] = $h;
+							@endphp
+						@endif
+						
 					@endforeach
 				@endif
 				</tr>
 			</thead>
+			
 			@if(!empty($plan_allocation_value))
 				@foreach($plan_allocation_value as $key=>$excelheaderValue)
 					@foreach($excelheaderValue as $k=>$headerVal)
@@ -1766,72 +2092,148 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 					@foreach($plan_allocation_value as $key=>$excelheaderValue)
 						<tr>
 							@foreach($excelheaderValue as $k=>$headerVal)
-							<td>{{ $headerVal ?? '' }}</td>
+							
+							@php 
+								$tr_bg_color = '';
+								if(in_array($k, $total_rmd_inc2_key))
+								{
+									$tr_bg_color = 'red';
+								}
+								
+								if($total_tax_rate2_key == $k)
+								{
+									$tr_bg_color = 'red';
+								}
+								
+								if($total_irmaa_inc2_key == $k)
+								{
+									$tr_bg_color = 'red';
+								}
+								
+								if($total_tax_free_asset_key == $k)
+								{
+									$tr_bg_color = '#A1F21D';
+								}
+								
+								if(in_array($k, $total_ira_inc2_key))
+								{
+									$tr_bg_color = 'red';
+								}
+								
+							@endphp
+							<td style="font-size:10px; background-color: {{ $headerVal !='' ? $tr_bg_color : ''}}">{{ $headerVal ?? '' }}</td>
 							@endforeach
 						</tr>
 					@endforeach
 					<tr><td>&nbsp;</td></tr>
-					@foreach($plan_allocation_value as $key=>$excelheaderValue)
-						@if($key == 0)
-						<tr>
-							@foreach($excelheaderValue as $subkey=>$headerVal)
-								<td><strong>{{ $total_irs_partner2_key == $subkey ?   '$' . number_format($total_irs_partner2) : ($total_estate2_key == $subkey ?  '$' . number_format($total_estate2) : ($total_tax_free_asset_key == $subkey ?  '$' . number_format($total_tax_free_asset) : ($total_wife_tax_free_inc_key == $subkey ?  '$' . number_format($total_wife_tax_free_inc) : ($total_husband_tax_free_inc_key == $subkey ?  '$' . number_format($total_husband_tax_free_inc) : ($total_husband_rmd_inc2_key == $subkey ?  '$' . number_format($total_husband_rmd_inc2) :  ($total_wife_rmd_inc2_key == $subkey ?  '$' . number_format($total_wife_rmd_inc2) : ''))))) ) }}
-								
-								
-								</strong></td>
-							@endforeach
-						</tr>
-						@endif
-					@endforeach
+					
 			@endif
 			</tbody>
 		</table>
+		{{--<p class="fixed-company-name">
+			Fidelity Mutual Financial: Advisor Darryl Stein <br>
+			267-280-3660 <br>
+			www.TheFidelityMutual.com
+		</p>--}}
+		{{--<table class="footer">
+			<tr>
+				<td style="text-align: left;font-size: 12px;">
+					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
+
+					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
+				</td>
+			</tr>
+		</table>--}}
 	</div>
 	
 	<div style="page-break-after: always;">
-		<div>
+		{{--<div>
 			<h2><strong style="margin-left:200px;">Comparison Summary Report</strong></h2>
-		</div>
+		</div>--}}
+		<table>
+			<tr>
+				<td width="10%">
+				@if(isset($setting->advisor_logo))
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+				@else
+					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+				@endif
+				</td>
+				<td width="60%">
+				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Fidelity Mutual Financial:Custom Tax Efficient Retirement Plan <br>Comparison Summary Report <br>Designed for Darryl and Masako Stein<br>Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td class="section-title">
+					Comparison Summary Report
+				</td>
+			</tr>
+		</table>
+		
 		<table class="calc-report">
 			<thead>
 				<tr>
-				<td><h3>Current Plan</h3></td>
+				<td style="background-color:red;"><h3>Current Plan</h3></td>
 				<td></td>
 				<td><h3>Fidelity Mutual Finance</h3></td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td><strong>$ {{ number_format($total_irs_partner) }}</strong></td>
-					<td><h3>Total Taxes Paid By Age 95</h3></td>
-					<td><strong>$ {{ number_format($total_irs_partner2) }}</strong></td>
+					<td style="font-size:15px; background-color:red;text:bold;"><strong>$ {{ number_format($total_irs_partner) }}</strong></td>
+					<td style="font-size:15px;text:bold;"><h3>Total Taxes Paid By Age 95</h3></td>
+					<td style="font-size:15px; background-color:#A1F21D;text:bold;"><strong>$ {{ number_format($total_irs_partner2) }}</strong></td>
 				</tr>
 				<tr>
-					<td><strong>{{ $last_tax_rate }} %</strong></td>
-					<td><h3>Tax Bracket by Age 95</h3></td>
-					<td><strong>{{ $last_tax_rate2 }} %</strong></td>
+					<td style="font-size:15px; background-color:red;text:bold;"><strong>{{ $last_tax_rate }} %</strong></td>
+					<td style="font-size:15px;text:bold;"><h3>Tax Bracket by Age 95</h3></td>
+					<td style="font-size:15px; background-color:#A1F21D;text:bold;"><strong>{{ $last_tax_rate2 }} %</strong></td>
 				</tr>
 				<tr>
-					<td><strong>$ {{ number_format($total_estate) }}</strong></td>
-					<td><h3>Total Estate Value by Age 95</h3></td>
-					<td><strong>$ {{ number_format($total_estate2) }}</strong></td>
+					<td style="font-size:15px; background-color:red;;text:bold;"><strong>$ {{ number_format($total_estate) }}</strong></td>
+					<td style="font-size:15px;;text:bold;"><h3>Total Estate Value by Age 95</h3></td>
+					<td style="font-size:15px;background-color:#A1F21D;;text:bold;"><strong>$ {{ number_format($total_estate2) }}</strong></td>
 				</tr>
 				<tr>
-					<td><strong>0</strong></td>
-					<td><h3>Tax Free Asset Value by Age 90</h3></td>
-					<td><strong>$ {{ number_format($total_tax_free_asset) }}</strong></td>
+					<td style="font-size:15px; background-color:red;;text:bold;"><strong>0</strong></td>
+					<td style="font-size:15px;;text:bold;"><h3>Tax Free Asset Value by Age 90</h3></td>
+					<td style="font-size:15px;background-color:#A1F21D;;text:bold;"><strong>$ {{ number_format($total_tax_free_asset) }}</strong></td>
 				</tr>
 				<tr>
-					<td><strong>0</strong></td>
-					<td><h3>Tax Free Income by Age 95</h3></td>
-					<td><strong>$ {{ number_format($total_wife_tax_free_inc + $total_husband_tax_free_inc) }}</strong></td>
+					<td style="font-size:15px;background-color:red;;text:bold;"><strong>0</strong></td>
+					<td style="font-size:15px;;text:bold;"><h3>Tax Free Income by Age 95</h3></td>
+					<td style="font-size:15px; background-color:#A1F21D;;text:bold;"><strong>$ {{ number_format($total_wife_tax_free_inc + $total_husband_tax_free_inc) }}</strong></td>
 				</tr>
 				<tr>
-					<td><strong>$ {{ number_format(($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc) - $total_wife_rmd_val) }}</strong></td>
-					<td><h3>IRA RMD’s by Age 95</h3></td>
-					<td><strong>$ {{ number_format($total_husband_rmd_inc2 +  $total_wife_rmd_inc2 ) }}</strong></td>
+					<td style="font-size:15px; background-color:red;;text:bold;"><strong>$ {{ number_format(($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc) - $total_wife_rmd_val) }}</strong></td>
+					<td style="font-size:15px;;text:bold;"><h3>IRA RMD’s by Age 95</h3></td>
+					<td style="font-size:15px;background-color:#A1F21D;;text:bold;"><strong>$ {{ number_format($total_husband_rmd_inc2 +  $total_wife_rmd_inc2 ) }}</strong></td>
 				</tr>
 			</tbody>
+		</table>
+		{{--<p class="fixed-company-name">
+			Fidelity Mutual Financial: Advisor Darryl Stein <br>
+			267-280-3660 <br>
+			www.TheFidelityMutual.com
+		</p>--}}
+		<table class="footer">
+			<tr>
+				<td style="text-align: left;font-size: 12px;">
+					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
+
+					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
+				</td>
+			</tr>
 		</table>
 	</div>
 </body>

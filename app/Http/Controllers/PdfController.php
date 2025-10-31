@@ -146,20 +146,20 @@ class PdfController extends Controller
 				if($acount->account_owner == 1)
 				{
 					//$headerAccountTitleArray[] = 'Husband RMD/Income';
-					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/ Income';
 				}
 				//$headerAccountTitleArray[] = 'RMD';
 				if($acount->account_owner == 2)
 				{
 					$headerAccountTitleArray[] = 'RMD';
 					//$headerAccountTitleArray[] = 'Wife RMD/Income';
-					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/ Income';
 				}
 				
 				if($acount->account_owner == 3)
 				{
 					//$headerAccountTitleArray[] = 'Joint RMD/Income';
-					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/ Income';
 				}
 			}
 			
@@ -1156,21 +1156,21 @@ class PdfController extends Controller
 				if($acount->account_owner == 1)
 				{
 					$headerAccountTitleArray[] = 'IRA balance for RMD';
-					$headerAccountTitleArray[] = $acount->owner_name.' RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' RMD/ Income';
 					$headerAccountTitleArray[] = $acount->owner_name.' '.'Tax Free Income';
 				}
 				//$headerAccountTitleArray[] = 'RMD';
 				if($acount->account_owner == 2)
 				{
 					$headerAccountTitleArray[] = 'IRA balance for RMD';
-					$headerAccountTitleArray[] = $acount->owner_name.' RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' RMD/ Income';
 					$headerAccountTitleArray[] = $acount->owner_name.' '.'Tax Free Income';
 				}
 				
 				if($acount->account_owner == 3)
 				{
 					//$headerAccountTitleArray[] = 'Joint RMD/Income';
-					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/ Income';
 				}
 			}
 		}

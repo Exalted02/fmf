@@ -106,13 +106,13 @@ $wife_tax_free_Income = '';
 
 if(!empty($husbandAsset))
 {
-$hus_RMD_Income = $husbandAsset[0]['owner_name'] .' RMD/Income';
+$hus_RMD_Income = $husbandAsset[0]['owner_name'] .' RMD/ Income';
 $hus_tax_free_Income = $husbandAsset[0]['owner_name'] .' Tax Free Income';
 }
 
 if(!empty($wifeAsset))
 {
-$wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/Income';
+$wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/ Income';
 $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 }
 
@@ -140,7 +140,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			font-size: 20px;
 		}
 		.calc-report td, .calc-report th {
-			font-size: 10px;
+			font-size: 9px;
 			word-wrap: break-word;
 			text-align: center;
 			background-color: #F3F4F6;
@@ -175,6 +175,11 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		.mt-10 {
 			margin-top: 10px;
 		}
+		.logo-section {
+			position: fixed;
+			top: -25px;
+			right: 0;
+		}
 		
 		
     </style>
@@ -193,9 +198,9 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</td>
 				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200" class="logo-section">
 				@else
-					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200" class="logo-section">
 				@endif
 				</td>
 			</tr>
@@ -219,7 +224,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 					{{ $representative ?? ''}}</p>
 
 					<p><strong style="color: #3490CD;">Date Prepared:</strong>
-					{{ Carbon::parse($created_at)->format('d/m/Y') }}</p>
+					{{ Carbon::parse($created_at)->format('m/d/Y') }}</p>
 				</td>
 			</tr>
 		</table>
@@ -252,9 +257,9 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</td>
 				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200" class="logo-section">
 				@else
-					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200" class="logo-section">
 				@endif
 				</td>
 			</tr>
@@ -365,15 +370,15 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</td>
 				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200" class="logo-section">
 				@else
-					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200" class="logo-section">
 				@endif
 				</td>
 			</tr>
 			
 		</table>
-		<table style="margin-bottom: 20px;">
+		<table style="margin-bottom: 10px;">
 			<tr>
 				<td width="20%" valign="top">
 				</td>
@@ -513,15 +518,15 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</td>
 				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200" class="logo-section">
 				@else
-					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200" class="logo-section">
 				@endif
 				</td>
 			</tr>
 			
 		</table>
-		<table style="margin-bottom: 20px;">
+		<table style="margin-bottom: 10px;">
 			<tr>
 				<td class="heading-color" style="font-weight: 700;">
 					Primary Goals: Income, Tax Reduction, Legacy
@@ -570,7 +575,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						}
 						
 					@endphp
-					<th style="font-size:12px;background-color: {{ $th_bg_color }}">{{ $header ?? '' }}</th>
+					<th style="font-size:11px;background-color: {{ $th_bg_color }}">{{ $header ?? '' }}</th>
 					
 					
 					
@@ -602,7 +607,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						@endphp
 					@endif
 					
-					@if($header == 'Joint RMD/Income')
+					@if($header == 'Joint RMD/ Income')
 						@php
 							$total_joint_rmd_inc_key = $h;
 						@endphp
@@ -873,15 +878,15 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</td>
 				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200" class="logo-section">
 				@else
-					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200" class="logo-section">
 				@endif
 				</td>
 			</tr>
 			
 		</table>
-		<table style="margin-bottom: 20px;">
+		<table style="margin-bottom: 10px;">
 			<tr>
 				<td class="heading-color" style="font-weight: 700;">
 					Primary Goals: Income, Tax Reduction, Legacy
@@ -963,7 +968,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 									@endphp
 								
 								<tr>
-									<td style="font-size:14px ;height:10px;text-align: left">
+									<td style="font-size:12px ;height:10px;text-align: left">
 									@if($col == 1 && $row == 1)
 										$ {{ number_format($a12) }}
 									@endif
@@ -1350,15 +1355,15 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</td>
 				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200" class="logo-section">
 				@else
-					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200" class="logo-section">
 				@endif
 				</td>
 			</tr>
 			
 		</table>
-		<table style="margin-bottom: 20px;">
+		<table style="margin-bottom: 10px;">
 			<tr>
 				<td class="heading-color" style="font-weight: 700;">
 					Primary Goals: Income, Tax Reduction, Legacy
@@ -1453,7 +1458,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								$a18 = round($a15 * (1 + 0.05));
 							@endphp
 							<tr>
-								<td class="wife-cal"  style="font-size:14px; {{ $col==2 ? 'display:none':($col==3 ? 'height:10px;width:100px;text-align:left' : ($col==13 ? 'height:10px;width:70px;text-align: left' : 'height:10px;width:0px;text-align: center')) }}">
+								<td class="wife-cal"  style="font-size:12px; {{ $col==2 ? 'display:none':($col==3 ? 'height:10px;width:100px;text-align:left' : ($col==13 ? 'height:10px;width:70px;text-align: left' : 'height:10px;width:0px;text-align: center')) }}">
 									@if($col == 1)
 										@if($row == 1)
 											$ {{ number_format($a12) }}
@@ -1910,15 +1915,15 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</td>
 				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200" class="logo-section">
 				@else
-					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200" class="logo-section">
 				@endif
 				</td>
 			</tr>
 			
 		</table>
-		<table style="margin-bottom: 20px;">
+		<table style="margin-bottom: 10px;">
 			<tr>
 				<td class="heading-color" style="font-weight: 700;">
 					Primary Goals: Income, Tax Reduction, Legacy
@@ -1983,7 +1988,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 						}	
 						
 					 @endphp
-						<th style="font-size:10px; background-color:{{ $th_bg_color }}">{{ $header }}</th>
+						<th style="font-size:9px; background-color:{{ $th_bg_color }}">{{ $header }}</th>
 						@if($header == 'IRS Partner')
 							@php
 								$total_irs_partner2_key = $h;
@@ -2158,7 +2163,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								}
 								
 							@endphp
-							<td style="font-size:10px; background-color: {{ $headerVal !='' ? $tr_bg_color : ''}}">{{ $headerVal ?? '' }}</td>
+							<td style="font-size:9px; background-color: {{ $headerVal !='' ? $tr_bg_color : ''}}">{{ $headerVal ?? '' }}</td>
 							@endforeach
 						</tr>
 					@endforeach
@@ -2198,15 +2203,15 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</td>
 				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200" class="logo-section">
 				@else
-					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200" class="logo-section">
 				@endif
 				</td>
 			</tr>
 			
 		</table>
-		<table style="margin-bottom: 20px;">
+		<table style="margin-bottom: 10px;">
 			<tr>
 				<td class="heading-color" style="font-weight: 700;">
 					Primary Goals: Income, Tax Reduction, Legacy
@@ -2274,7 +2279,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			267-280-3660 <br>
 			www.TheFidelityMutual.com
 		</p>--}}
-		<table class="footer">
+		{{--<table class="footer">
 			<tr>
 				<td style="text-align: left;font-size: 12px;">
 					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
@@ -2286,7 +2291,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
 				</td>
 			</tr>
-		</table>
+		</table>--}}
 	</div>
 </body>
 </html>
