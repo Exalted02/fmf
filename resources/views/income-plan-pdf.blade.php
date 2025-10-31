@@ -783,7 +783,13 @@ $blank_row_show = ["5","10","14","17","20","22"];
 								@endforeach
 							</tr>
 								@if(in_array($key, $blank_row_show))
-									<tr style="height:15px;">
+									<tr>
+									  <td style="background-color:#ffffff"></td>
+									</tr>
+									<tr>
+									  <td style="background-color:#ffffff"></td>
+									</tr>
+									<tr>
 									  <td style="background-color:#ffffff"></td>
 									</tr>
 								@endif
@@ -791,7 +797,7 @@ $blank_row_show = ["5","10","14","17","20","22"];
 						@endif
 							
 					@endforeach
-					<tr><td>&nbsp;</td></tr>
+					<tr><td style="background-color:#ffffff;">&nbsp;</td></tr>
 					
 					@foreach($excelheaderValueArray as $key=>$excelheaderValue)
 						@if($key == 0)
@@ -828,7 +834,7 @@ $blank_row_show = ["5","10","14","17","20","22"];
 						</tr>
 						@endif
 					@endforeach
-					<tr><td>&nbsp;</td></tr>
+					<tr><td style="background-color:#ffffff;">&nbsp;</td></tr>
 					@if(!empty($total_rmd_inc))
 						@foreach($total_rmd_inc as $val)
 							@php 
@@ -840,13 +846,15 @@ $blank_row_show = ["5","10","14","17","20","22"];
 					@foreach($excelheaderValueArray as $key=>$excelheaderValue)
 						@if($key == 0)
 						<tr>
+					<td style="padding:5px;" colspan="{{ count($excelheaderValue)}}">
 						@foreach($excelheaderValue as $subkey=>$headerVal)
-							<td style="">
-							@if($subkey == 6)
-							<strong>Total RMD: {{ '$ '. number_format($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc + $total_joint_rmd_inc)}}</strong>
+							
+							@if($subkey == 5)
+							<strong>Total RMD: <span style="background-color:#A1F21D;padding:5px;">{{ '$ '. number_format($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc + $total_joint_rmd_inc)}}</span></strong>
 							@endif
-							</td>
+							
 						@endforeach
+						</td>
 						</tr>
 						@endif
 					@endforeach
@@ -2217,7 +2225,13 @@ $blank_row_show = ["5","10","14","17","20","22"];
 							@endforeach
 							</tr>
 							@if(in_array($key, $blank_row_show))
-								<tr style="height:15px;">
+								<tr>
+								  <td style="background-color:#ffffff"></td>
+								</tr>
+								<tr>
+								  <td style="background-color:#ffffff"></td>
+								</tr>
+								<tr>
 								  <td style="background-color:#ffffff"></td>
 								</tr>
 							@endif
