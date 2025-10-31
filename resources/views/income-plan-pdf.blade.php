@@ -3,6 +3,7 @@ use Carbon\Carbon;
 $headerCount = count($excelheaderArray)-1;
 //echo "<pre>";print_r($excelheaderArray);die;
 //echo "<pre>";print_r($excelheaderValueArray);die;
+//echo "<pre>";print_r($plan_allocation_value);die;
 //echo "<pre>";print_r(husband_roth_tax_conversion());die;
 //echo "<pre>";print_r($plan_allocation_header);die;
 //echo "<pre>";print_r($plan_allocation_value);die;
@@ -116,8 +117,10 @@ $wife_RMD_Income = $wifeAsset[0]['owner_name'] .' RMD/ Income';
 $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 }
 
-
 //echo $wife_RMD_Income;die;
+$list_show = ["1","5","6","10","11","14","15","17","18","20","22","23","24","25"];
+$blank_row_show = ["5","10","14","17","20","22"];
+//echo "<pre>";print_r($list_show);die;
 @endphp
 <!DOCTYPE html>
 <html>
@@ -754,6 +757,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 								</tr>
 							@endif
 						@else
+							@if(in_array($key, $list_show))
 							<tr>
 								@foreach($excelheaderValue as $k=>$headerVal)
 								@php 
@@ -774,9 +778,16 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 									}
 									
 								@endphp
-								<td style="background-color: {{ $headerVal !='' ? $tr_bg_color : '' }}">{{ $headerVal ?? '' }}</td>
+								
+									<td style="background-color: {{ $headerVal !='' ? $tr_bg_color : '' }}">{{ $headerVal ?? '' }}</td>
 								@endforeach
 							</tr>
+								@if(in_array($key, $blank_row_show))
+									<tr style="height:15px;">
+									  <td style="background-color:#ffffff"></td>
+									</tr>
+								@endif
+							@endif
 						@endif
 							
 					@endforeach
@@ -2132,6 +2143,8 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			<tbody>
 			@if(!empty($plan_allocation_value))
 					@foreach($plan_allocation_value as $key=>$excelheaderValue)
+					@if(!empty($show_specific_year))
+						@if(in_array($key, $show_specific_year))
 						<tr>
 							@foreach($excelheaderValue as $k=>$headerVal)
 							
@@ -2166,6 +2179,50 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 							<td style="font-size:9px; background-color: {{ $headerVal !='' ? $tr_bg_color : ''}}">{{ $headerVal ?? '' }}</td>
 							@endforeach
 						</tr>
+						@endif
+					@else 
+						@if(in_array($key, $list_show))
+							<tr>
+							@foreach($excelheaderValue as $k=>$headerVal)
+							
+								@php 
+									$tr_bg_color = '';
+									if(in_array($k, $total_rmd_inc2_key))
+									{
+										$tr_bg_color = 'red';
+									}
+									
+									if($total_tax_rate2_key == $k)
+									{
+										$tr_bg_color = 'red';
+									}
+									
+									if($total_irmaa_inc2_key == $k)
+									{
+										$tr_bg_color = 'red';
+									}
+									
+									if($total_tax_free_asset_key == $k)
+									{
+										$tr_bg_color = '#A1F21D';
+									}
+									
+									if(in_array($k, $total_ira_inc2_key))
+									{
+										$tr_bg_color = 'red';
+									}
+									
+								@endphp
+								<td style="font-size:9px; background-color: {{ $headerVal !='' ? $tr_bg_color : ''}}">{{ $headerVal ?? '' }}</td>
+							@endforeach
+							</tr>
+							@if(in_array($key, $blank_row_show))
+								<tr style="height:15px;">
+								  <td style="background-color:#ffffff"></td>
+								</tr>
+							@endif
+						@endif
+					@endif
 					@endforeach
 					<tr><td>&nbsp;</td></tr>
 					
