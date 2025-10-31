@@ -126,14 +126,13 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
     <title>Income Plan Cover</title>
     <style>
 		@font-face {
-			font-family: 'SofiaPro-Regular';
-			src: url('{{ asset('front-assets/fonts/Sofia/SofiaPro.woff2') }}') format('woff2'),
-				 url('{{ asset('front-assets/fonts/Sofia/SofiaPro.woff') }}') format('woff');
-			font-weight: 500;
-			font-style: italic;
-		}
+            font-family: 'SofiaPro-Regular';
+            src: url("{{ public_path('fonts/Sofia/SofiaPro-Regular.ttf') }}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-		body { font-family: SofiaPro-Regular; }
+        body { font-family: 'SofiaPro-Regular', sans-serif; }
 		table { width: 100%; }
 		.report td {
 			background-color: #F3F4F6;
@@ -145,6 +144,9 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			word-wrap: break-word;
 			text-align: center;
 			background-color: #F3F4F6;
+		}
+		.heading-color {
+			color: #3490CD;
 		}
 		
 		.section-title { text-align: center; font-weight: bold; font-size: 20px; margin-bottom: 10px; }
@@ -165,6 +167,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			margin-top: 0;
 			position: fixed;
 			bottom: 110px;
+			font-size: 14px;
 		}
 		.mt-5 {
 			margin-top: 5px;
@@ -180,16 +183,20 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	<div style="page-break-after: always;">
 		<table>
 			<tr>
-				<td width="20%">
-					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="180">
-				</td>
 				<td width="80%">
-					<p style="margin-left: 10px; color: #929292;">
+					<p style="text-align: center; color: #929292;">
 						1233 NW 107th ter<br>
 						Plantation, FL 33322<br>
 						darryl.stein@gmail.com<br>
 						267-280-3660
 					</p>
+				</td>
+				<td width="20%">
+				@if(isset($setting->advisor_logo))
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
+				@else
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
+				@endif
 				</td>
 			</tr>
 		</table>
@@ -239,17 +246,16 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	<div style="page-break-after: always;">
 		<table>
 			<tr>
-				<td width="10%">
-				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
-				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
-				@endif
+				<td width="80%" style="text-align: center;">
+					<h2 style="color: #3490CD;">{{ isset($setting) ? $setting->advisor_text : ''}}</h2>
+					<h3>Income Allocation Tool</h3>
 				</td>
-				<td width="90%">
-				{{--<h1 style="color: #3490CD;">Building Rewarding Income Goals</h1>--}}
-				<h1 style="color: #3490CD;">{{ isset($setting) ? $setting->advisor_text : ''}}</h1>
-					<h2>Income Allocation Tool</h2>
+				<td width="20%">
+				@if(isset($setting->advisor_logo))
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
+				@else
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
+				@endif
 				</td>
 			</tr>
 		</table>
@@ -352,27 +358,36 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	</div>
 	
 	<div style="page-break-after: always;">
-	<table>
+		<table>
 			<tr>
-				<td width="10%">
+				<td width="80%">
+					<h3 class="heading-color" style="text-align:center;">Current Financial Accounts</h3>
+				</td>
+				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
 				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
 				@endif
 				</td>
-				<td width="60%">
-				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
+			</tr>
+			
+		</table>
+		<table style="margin-bottom: 20px;">
+			<tr>
+				<td width="20%" valign="top">
+				</td>
+				<td width="80%" class="heading-color" style="font-weight: 700;">
+					Primary Goals: Income, Tax Reduction, Legacy
 				</td>
 			</tr>
 		</table>
 		<table>
 			<tr>
-				<td width="80%" class="section-title">
-					Current Financial Accounts
+				<td width="20%" valign="top">
 				</td>
-				<td width="20%">
-					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="120">
+				<td width="80%" class="heading-color" style="font-weight: 700;">
+					Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation
 				</td>
 			</tr>
 		</table>
@@ -385,7 +400,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</td>
 				<td width="40%" valign="top">
 					@if(!empty($wifeAsset))
-					<div>
+					<div style="margin-top: 20px;">
 					<strong style="text-decoration: underline;">{{ $partner_nm ?? ''}}'s Accounts</strong><br>
 						@foreach($wifeAsset as $val)
 							@php 
@@ -431,7 +446,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				<!-- Husband's Accounts -->
 				<td width="40%" valign="top">
 					@if(!empty($husbandAsset))
-					<div>	
+					<div style="margin-top: 20px;">	
 					<strong style="text-decoration: underline;">{{ $client_nm ?? ''}}'s Accounts</strong><br>
 						@foreach($husbandAsset as $val)
 							@php 
@@ -493,33 +508,32 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	<div style="page-break-after: always;">
 		<table>
 			<tr>
-				<td width="10%">
+				<td width="80%">
+					<h3 class="heading-color" style="text-align:center;">Current Allocation Plan Details</h3>
+				</td>
+				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
 				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
 				@endif
 				</td>
-				<td width="60%">
-				<h3 style="color: #000000;text-align:center;margin-right: 212px;">Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
+			</tr>
+			
+		</table>
+		<table style="margin-bottom: 20px;">
+			<tr>
+				<td class="heading-color" style="font-weight: 700;">
+					Primary Goals: Income, Tax Reduction, Legacy
 				</td>
 			</tr>
 		</table>
 		<table>
 			<tr>
-				<td class="section-title">
-					Current Allocation Plan Details
+				<td class="heading-color" style="font-weight: 700;">
+					Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation
 				</td>
 			</tr>
-		</table>
-		<table class="">
-			<thead>
-				<tr>
-					<td>
-						Desired Income ${{ number_format($desired_retirement_income) }}
-					</td>
-				</tr>
-			</thead>
 		</table>
 		<table class="calc-report">
 			<thead>
@@ -854,26 +868,30 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	<div style="page-break-after: always;">
 		<table>
 			<tr>
-				<td width="10%">
+				<td width="80%">
+					<h3 class="heading-color" style="text-align:center;">Husband Roth Conversion From Taxable To Free Tax</h3>
+				</td>
+				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
 				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
 				@endif
 				</td>
-				<td width="60%">
-				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
+			</tr>
+			
+		</table>
+		<table style="margin-bottom: 20px;">
+			<tr>
+				<td class="heading-color" style="font-weight: 700;">
+					Primary Goals: Income, Tax Reduction, Legacy
 				</td>
 			</tr>
 		</table>
-		{{--<div>
-			<h2><strong style="margin-left:200px;">Husband Roth Conversion From Taxable To Free Tax</strong></h2>
-		</div>
-		</hr>--}}
 		<table>
 			<tr>
-				<td class="section-title">
-					Husband Roth Conversion From Taxable To Free Tax
+				<td class="heading-color" style="font-weight: 700;">
+					Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation
 				</td>
 			</tr>
 		</table>
@@ -1325,27 +1343,32 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	
 	@if(!empty($current_finance_wife_data))
 	<div style="page-break-after: always;">
-		{{--<div>
-			<h2><strong style="margin-left:200px;">Wife Roth Conversion From Taxable To Free Tax</strong></h2>
-		</div>--}}
 		<table>
 			<tr>
-				<td width="10%">
+				<td width="80%">
+					<h3 class="heading-color" style="text-align:center;">Wife Roth Conversion From Taxable To Free Tax</h3>
+				</td>
+				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
 				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
 				@endif
 				</td>
-				<td width="60%">
-				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
+			</tr>
+			
+		</table>
+		<table style="margin-bottom: 20px;">
+			<tr>
+				<td class="heading-color" style="font-weight: 700;">
+					Primary Goals: Income, Tax Reduction, Legacy
 				</td>
 			</tr>
 		</table>
 		<table>
 			<tr>
-				<td class="section-title">
-					Wife Roth Conversion From Taxable To Free Tax
+				<td class="heading-color" style="font-weight: 700;">
+					Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation
 				</td>
 			</tr>
 		</table>
@@ -1882,23 +1905,26 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		</div>--}}
 		<table>
 			<tr>
-				<td width="10%">
-				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
-				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
-				@endif
+				<td width="80%">
+					<h3 class="heading-color" style="text-align:center;">Fidelity Mutual Financial <br>Custom Tax Efficient Retirement Plan <br>Designed for Darryl and Masako Stein</h3>
 				</td>
-				<td width="60%">
-				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Fidelity Mutual Financial:Custom Tax Efficient Retirement Plan <br>Designed for Darryl and Masako Stein<br>Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
+				<td width="20%">
+				@if(isset($setting->advisor_logo))
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
+				@else
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
+				@endif
 				</td>
 			</tr>
 			
 		</table>
-		@php 
-			$total_ira_inc2_key = [];
-			$total_rmd_inc2_key = [];
-		@endphp
+		<table style="margin-bottom: 20px;">
+			<tr>
+				<td class="heading-color" style="font-weight: 700;">
+					Primary Goals: Income, Tax Reduction, Legacy
+				</td>
+			</tr>
+		</table>
 		<table>
 			<tr>
 				<td class="section-title">
@@ -1906,6 +1932,17 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</td>
 			</tr>
 		</table>
+		<table>
+			<tr>
+				<td class="heading-color" style="font-weight: 700;">
+					Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation
+				</td>
+			</tr>
+		</table>
+		@php 
+			$total_ira_inc2_key = [];
+			$total_rmd_inc2_key = [];
+		@endphp
 		<table class="calc-report">
 			<thead>
 				<tr>
@@ -2156,15 +2193,23 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		</div>--}}
 		<table>
 			<tr>
-				<td width="10%">
+				<td width="80%">
+					<h3 class="heading-color" style="text-align:center;">Fidelity Mutual Financial <br>Custom Tax Efficient Retirement Plan <br>Designed for Darryl and Masako Stein</h3>
+				</td>
+				<td width="20%">
 				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200">
 				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200">
 				@endif
 				</td>
-				<td width="60%">
-				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Fidelity Mutual Financial:Custom Tax Efficient Retirement Plan <br>Comparison Summary Report <br>Designed for Darryl and Masako Stein<br>Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
+			</tr>
+			
+		</table>
+		<table style="margin-bottom: 20px;">
+			<tr>
+				<td class="heading-color" style="font-weight: 700;">
+					Primary Goals: Income, Tax Reduction, Legacy
 				</td>
 			</tr>
 		</table>
@@ -2172,6 +2217,13 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			<tr>
 				<td class="section-title">
 					Comparison Summary Report
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td class="heading-color" style="font-weight: 700;">
+					Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation
 				</td>
 			</tr>
 		</table>

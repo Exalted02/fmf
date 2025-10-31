@@ -33,7 +33,7 @@
 						<div class="row">
 							<div class="col-lg-8 col-md-8">
 								<div class="input-block">
-									<label for="year" class="col-form-label">Advosor text</label>
+									<label for="year" class="col-form-label">Advisor text</label>
 									<input type="text" class="form-control" name="advisor_text"  value="{{ isset($setting) ? $setting->advisor_text : old('advisor_text')}}">
 									@error('advisor_text')
 									 <div class="text-danger">{{ $message }}</div>
