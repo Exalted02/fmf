@@ -216,12 +216,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</td>
 			</tr>
 		</table>
-		<br>
-		<p class="fixed-company-name">
-			Fidelity Mutual Financial: Advisor Darryl Stein <br>
-			267-280-3660 <br>
-			www.TheFidelityMutual.com
-		</p>
+
 		<table class="footer">
 			<tr>
 				<td style="text-align: left;font-size: 12px;">
@@ -329,12 +324,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				</tr>
 			</tbody>
 		</table>
-		<br>
-		<p class="fixed-company-name">
-			Fidelity Mutual Financial: Advisor Darryl Stein <br>
-			267-280-3660 <br>
-			www.TheFidelityMutual.com
-		</p>
 		<table class="footer">
 			<tr>
 				<td style="text-align: left;font-size: 12px;">
@@ -352,20 +341,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	</div>
 	
 	<div style="page-break-after: always;">
-	<table>
-			<tr>
-				<td width="10%">
-				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
-				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
-				@endif
-				</td>
-				<td width="60%">
-				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
-				</td>
-			</tr>
-		</table>
 		<table>
 			<tr>
 				<td width="80%" class="section-title">
@@ -491,20 +466,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	
 	@endphp
 	<div style="page-break-after: always;">
-		<table>
-			<tr>
-				<td width="10%">
-				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
-				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
-				@endif
-				</td>
-				<td width="60%">
-				<h3 style="color: #000000;text-align:center;margin-right: 212px;">Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
-				</td>
-			</tr>
-		</table>
 		<table>
 			<tr>
 				<td class="section-title">
@@ -824,26 +785,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			</tbody>
 		</table>
 		
-		{{--<br>
-		<p class="fixed-company-name">
-			Fidelity Mutual Financial: Advisor Darryl Stein <br>
-			267-280-3660 <br>
-			www.TheFidelityMutual.com
-		</p>--}}
-		{{--<table class="footer">
-			<tr>
-				<td style="text-align: left;font-size: 12px;">
-					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
-					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
-					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
-					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
-					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
-
-					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
-				</td>
-			</tr>
-		</table>--}}
-		
 	</div>
 	
 	{{--<div class="row">
@@ -852,20 +793,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 	
 	@if(!empty($current_finance_husband_data))
 	<div style="page-break-after: always;">
-		<table>
-			<tr>
-				<td width="10%">
-				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
-				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
-				@endif
-				</td>
-				<td width="60%">
-				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
-				</td>
-			</tr>
-		</table>
 		{{--<div>
 			<h2><strong style="margin-left:200px;">Husband Roth Conversion From Taxable To Free Tax</strong></h2>
 		</div>
@@ -1301,12 +1228,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				@endfor
 			</tbody>
 		</table>
-		<br>
-		<p class="fixed-company-name">
-			Fidelity Mutual Financial: Advisor Darryl Stein <br>
-			267-280-3660 <br>
-			www.TheFidelityMutual.com
-		</p>
+		
 		<table class="footer">
 			<tr>
 				<td style="text-align: left;font-size: 12px;">
@@ -1328,20 +1250,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		{{--<div>
 			<h2><strong style="margin-left:200px;">Wife Roth Conversion From Taxable To Free Tax</strong></h2>
 		</div>--}}
-		<table>
-			<tr>
-				<td width="10%">
-				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
-				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
-				@endif
-				</td>
-				<td width="60%">
-				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
-				</td>
-			</tr>
-		</table>
 		<table>
 			<tr>
 				<td class="section-title">
@@ -1835,11 +1743,7 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 				@endfor
 			</tbody>
 		</table>
-		<p class="fixed-company-name">
-			Fidelity Mutual Financial: Advisor Darryl Stein <br>
-			267-280-3660 <br>
-			www.TheFidelityMutual.com
-		</p>
+		
 		<table class="footer">
 			<tr>
 				<td style="text-align: left;font-size: 12px;">
@@ -1880,21 +1784,6 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 		{{--<div>
 			<h2><strong style="margin-left:200px;">Financial Allocation Plan Details Husband And Wife</strong></h2>
 		</div>--}}
-		<table>
-			<tr>
-				<td width="10%">
-				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
-				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
-				@endif
-				</td>
-				<td width="60%">
-				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Fidelity Mutual Financial:Custom Tax Efficient Retirement Plan <br>Designed for Darryl and Masako Stein<br>Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
-				</td>
-			</tr>
-			
-		</table>
 		@php 
 			$total_ira_inc2_key = [];
 			$total_rmd_inc2_key = [];
@@ -2130,44 +2019,12 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			@endif
 			</tbody>
 		</table>
-		{{--<p class="fixed-company-name">
-			Fidelity Mutual Financial: Advisor Darryl Stein <br>
-			267-280-3660 <br>
-			www.TheFidelityMutual.com
-		</p>--}}
-		{{--<table class="footer">
-			<tr>
-				<td style="text-align: left;font-size: 12px;">
-					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
-					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
-					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
-					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
-					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
-
-					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
-				</td>
-			</tr>
-		</table>--}}
 	</div>
 	
 	<div style="page-break-after: always;">
 		{{--<div>
 			<h2><strong style="margin-left:200px;">Comparison Summary Report</strong></h2>
 		</div>--}}
-		<table>
-			<tr>
-				<td width="10%">
-				@if(isset($setting->advisor_logo))
-					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="80">
-				@else
-					<img src="{{ asset('front-assets/img/income-goals.png') }}" width="80">
-				@endif
-				</td>
-				<td width="60%">
-				<h3 style="color: #000000;text-align:center;margin-right: 213px;">Fidelity Mutual Financial:Custom Tax Efficient Retirement Plan <br>Comparison Summary Report <br>Designed for Darryl and Masako Stein<br>Primary Goals: Income, Tax Reduction, Legacy<br>Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation</h3>
-				</td>
-			</tr>
-		</table>
 		<table>
 			<tr>
 				<td class="section-title">
@@ -2186,42 +2043,38 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 			</thead>
 			<tbody>
 				<tr>
-					<td style="font-size:15px; background-color:red;text:bold;"><strong>$ {{ number_format($total_irs_partner) }}</strong></td>
-					<td style="font-size:15px;text:bold;"><h3>Total Taxes Paid By Age 95</h3></td>
-					<td style="font-size:15px; background-color:#A1F21D;text:bold;"><strong>$ {{ number_format($total_irs_partner2) }}</strong></td>
+					<td style="font-size:14px; background-color:red;"><strong>$ {{ number_format($total_irs_partner) }}</strong></td>
+					<td style="font-size:14px;"><h3>Total Taxes Paid By Age 95</h3></td>
+					<td style="font-size:14px; background-color:#A1F21D;"><strong>$ {{ number_format($total_irs_partner2) }}</strong></td>
 				</tr>
 				<tr>
-					<td style="font-size:15px; background-color:red;text:bold;"><strong>{{ $last_tax_rate }} %</strong></td>
-					<td style="font-size:15px;text:bold;"><h3>Tax Bracket by Age 95</h3></td>
-					<td style="font-size:15px; background-color:#A1F21D;text:bold;"><strong>{{ $last_tax_rate2 }} %</strong></td>
+					<td style="font-size:14px; background-color:red;"><strong>{{ $last_tax_rate }} %</strong></td>
+					<td style="font-size:14px;"><h3>Tax Bracket by Age 95</h3></td>
+					<td style="font-size:14px; background-color:#A1F21D;"><strong>{{ $last_tax_rate2 }} %</strong></td>
 				</tr>
 				<tr>
-					<td style="font-size:15px; background-color:red;;text:bold;"><strong>$ {{ number_format($total_estate) }}</strong></td>
-					<td style="font-size:15px;;text:bold;"><h3>Total Estate Value by Age 95</h3></td>
-					<td style="font-size:15px;background-color:#A1F21D;;text:bold;"><strong>$ {{ number_format($total_estate2) }}</strong></td>
+					<td style="font-size:14px; background-color:red;"><strong>$ {{ number_format($total_estate) }}</strong></td>
+					<td style="font-size:14px;"><h3>Total Estate Value by Age 95</h3></td>
+					<td style="font-size:14px;background-color:#A1F21D;"><strong>$ {{ number_format($total_estate2) }}</strong></td>
 				</tr>
 				<tr>
-					<td style="font-size:15px; background-color:red;;text:bold;"><strong>0</strong></td>
-					<td style="font-size:15px;;text:bold;"><h3>Tax Free Asset Value by Age 90</h3></td>
-					<td style="font-size:15px;background-color:#A1F21D;;text:bold;"><strong>$ {{ number_format($total_tax_free_asset) }}</strong></td>
+					<td style="font-size:14px; background-color:red;"><strong>0</strong></td>
+					<td style="font-size:14px;"><h3>Tax Free Asset Value by Age 90</h3></td>
+					<td style="font-size:14px;background-color:#A1F21D;"><strong>$ {{ number_format($total_tax_free_asset) }}</strong></td>
 				</tr>
 				<tr>
-					<td style="font-size:15px;background-color:red;;text:bold;"><strong>0</strong></td>
-					<td style="font-size:15px;;text:bold;"><h3>Tax Free Income by Age 95</h3></td>
-					<td style="font-size:15px; background-color:#A1F21D;;text:bold;"><strong>$ {{ number_format($total_wife_tax_free_inc + $total_husband_tax_free_inc) }}</strong></td>
+					<td style="font-size:14px;background-color:red;"><strong>0</strong></td>
+					<td style="font-size:14px;"><h3>Tax Free Income by Age 95</h3></td>
+					<td style="font-size:14px; background-color:#A1F21D;"><strong>$ {{ number_format($total_wife_tax_free_inc + $total_husband_tax_free_inc) }}</strong></td>
 				</tr>
 				<tr>
-					<td style="font-size:15px; background-color:red;;text:bold;"><strong>$ {{ number_format(($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc) - $total_wife_rmd_val) }}</strong></td>
-					<td style="font-size:15px;;text:bold;"><h3>IRA RMD’s by Age 95</h3></td>
-					<td style="font-size:15px;background-color:#A1F21D;;text:bold;"><strong>$ {{ number_format($total_husband_rmd_inc2 +  $total_wife_rmd_inc2 ) }}</strong></td>
+					<td style="font-size:14px; background-color:red;"><strong>$ {{ number_format(($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc) - $total_wife_rmd_val) }}</strong></td>
+					<td style="font-size:14px;"><h3>IRA RMD’s by Age 95</h3></td>
+					<td style="font-size:14px;background-color:#A1F21D;"><strong>$ {{ number_format($total_husband_rmd_inc2 +  $total_wife_rmd_inc2 ) }}</strong></td>
 				</tr>
 			</tbody>
 		</table>
-		{{--<p class="fixed-company-name">
-			Fidelity Mutual Financial: Advisor Darryl Stein <br>
-			267-280-3660 <br>
-			www.TheFidelityMutual.com
-		</p>--}}
+		
 		<table class="footer">
 			<tr>
 				<td style="text-align: left;font-size: 12px;">
