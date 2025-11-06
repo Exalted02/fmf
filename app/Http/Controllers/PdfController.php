@@ -364,7 +364,10 @@ class PdfController extends Controller
 								$percentRmd = distribution_period()[$new_husband_age][0];
 								//$rmd[$key] = $previous_tax_quali_arr[$key] / $percentRmd;
 								
-								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key] - $gap_from_asset[$i-1]);// substract from gap from asset 30-10-2025
+								//$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key] - $gap_from_asset[$i-1]);// substract from gap from asset 30-10-2025
+								
+								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key] - $gap_from_asset[0]);// substract from gap from asset 06-11-2025
+								
 								//echo "<pre>";print_r($rmd);die;
 								$account_value = number_format($current_tax_value);
 								$percentRmd = distribution_period()[$new_husband_age][0];
@@ -377,7 +380,10 @@ class PdfController extends Controller
 							{
 								$percentRmd = distribution_period()[$new_wife_age][0];
 								//$rmd[$key] = $previous_tax_quali_arr[$key] / $percentRmd;
-								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key]- $gap_from_asset[$i-1]);// substract from gap from asset 30-10-2025
+								//$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key]- $gap_from_asset[$i-1]);// substract from gap from asset 30-10-2025
+								
+								$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key]- $gap_from_asset[0]);// substract from gap from asset 06-11-2025
+								
 								//echo "<pre>";print_r($rmd);die;
 								$account_value = number_format($current_tax_value);
 								$percentRmd = distribution_period()[$new_wife_age][0];
@@ -388,7 +394,10 @@ class PdfController extends Controller
 							else
 							{
 								$rmd[$key] = 0;
-								$current_tax_value = ($previous_tax_quali_arr[$key] * 1.05)- $gap_from_asset[$i-1];// substract from gap from asset 30-10-2025
+								//$current_tax_value = ($previous_tax_quali_arr[$key] * 1.05)- $gap_from_asset[$i-1];// substract from gap from asset 30-10-2025
+								
+								$current_tax_value = ($previous_tax_quali_arr[$key] * 1.05)- $gap_from_asset[0];// substract from gap from asset 06-11-2025
+								
 								$account_value = number_format($current_tax_value);
 
 								
@@ -529,7 +538,10 @@ class PdfController extends Controller
 							$k401_rmd = $previous_tax_quali_arr[$key] / $percentRmd;
 							
 							//$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
-							$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key] - $gap_from_asset[$i-1]);// substract from gap from asset 30-10-2025
+							//$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key] - $gap_from_asset[$i-1]);// substract from gap from asset 30-10-2025
+							
+							$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key] - $gap_from_asset[0]);// substract from gap from asset 06-11-2025
+							
 							$rmd[$key] = $previous_tax_quali_arr[$key] / $percentRmd;
 							
 							$previous_tax_quali_arr[$key] = $current_tax_value;
@@ -548,7 +560,10 @@ class PdfController extends Controller
 							$k401_rmd = $previous_tax_quali_arr[$key] / $percentRmd;
 							
 							//$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
-							$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key] - $gap_from_asset[$i-1]);// substract from gap from asset 30-10-2025
+							//$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key] - $gap_from_asset[$i-1]);// substract from gap from asset 30-10-2025
+							
+							$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key] - $gap_from_asset[0]);// substract from gap from asset 06-11-2025
+							
 							$rmd[$key] = $previous_tax_quali_arr[$key] / $percentRmd;
 							
 							$previous_tax_quali_arr[$key] = $current_tax_value;
@@ -570,7 +585,10 @@ class PdfController extends Controller
 							}
 							else
 							{
-								$current_tax_value = ($previous_tax_quali_arr[$key] * 1.05) - $gap_from_asset[$i-1];// substract from gap from asset 30-10-2025
+								///$current_tax_value = ($previous_tax_quali_arr[$key] * 1.05) - $gap_from_asset[$i-1];// substract from gap from asset 30-10-2025
+								
+								
+								$current_tax_value = ($previous_tax_quali_arr[$key] * 1.05) - $gap_from_asset[0];// substract from gap from asset 06-11-2025
 							}
 							//$previous_tax_quali_arr[$key] = $current_tax_value;
 						}
@@ -705,6 +723,8 @@ class PdfController extends Controller
 					$taxable_income = $gross_income;
 				}
 				
+				
+				
 				if($i==0)
 				{
 					$income_goal = $desired_gross_income_retirement;
@@ -713,6 +733,17 @@ class PdfController extends Controller
 				{
 					$income_goal = round($income_goal * (1 + $COLA / 100));
 				}
+				
+				//------ 06-11-2025----
+				//$gross_income = $gross_income - ($gross_income*0.15);
+				if($i==0)
+				{
+					$taxable_income = $income_goal;
+				}
+				else{
+					$taxable_income = $gross_income + $gap_from_asset[0];
+				}
+				//----------------------
 				
 				// calculation for IRMAA
 				$irmaaVal = 0;
@@ -777,12 +808,14 @@ class PdfController extends Controller
 				}
 				else 
 				{
-					$irs_partner = round(($taxable_income * $tax_rate) / 100);
+					//$irs_partner = round(($taxable_income * $tax_rate) / 100);
+					$irs_partner = round(($income_goal * $tax_rate) / 100);
 				}
 				//-------
 				//----store gap from asset value 30-10-2025----
 				$gap_from_asset[$i] = $income_goal - $gross_income;
 				//--------------------------------------------
+				
 				
 				$row[] = number_format($income_goal);
 				$row[] = number_format($gross_income);
