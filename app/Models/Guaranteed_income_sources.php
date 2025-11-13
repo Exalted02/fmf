@@ -15,6 +15,7 @@ class Guaranteed_income_sources extends Model
 		'client_name',
 		'income_amount',
 		'type',
+		'tax_deduction',
 		'frequency',
 		'cola',
 		'start_age',
