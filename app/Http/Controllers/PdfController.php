@@ -196,6 +196,8 @@ class PdfController extends Controller
 		$previous_joint_annuity = 0;
 		$gap_from_asset = [];
 		
+		$add_on_taxable_inc = 0;
+		
 		for($i=0; $i<=25; $i++)
 		{
 				$row = [];
@@ -736,16 +738,30 @@ class PdfController extends Controller
 				
 				//------ 06-11-2025----
 				//$gross_income = $gross_income - ($gross_income*0.15);
+				
 				if($i==0)
 				{
+					//$add_on_taxable_inc = 0;
+					if($portfolio_Desire_data->client_age > 65 && $portfolio_Desire_data->partner_age > 65)
+					{
+						$add_on_taxable_inc = 1600; // client requirement
+					}
+					
+					
 					$tax_deduction = $portfolio_Desire_data->tax_deduction;
 					//$gap = $income_goal - $gross_income;
-					$taxable_income = $income_goal - $tax_deduction;
+					$taxable_income = $income_goal - $tax_deduction + $add_on_taxable_inc;
 					//$taxable_income = $gross_income + $gap;
 				}
 				else{
+					//$add_on_taxable_inc = 0;
+					if($portfolio_Desire_data->client_age > 65 && $portfolio_Desire_data->partner_age > 65)
+					{
+						$add_on_taxable_inc = 1600; // client requirement
+					}
+					
 					$tax_deduction = $portfolio_Desire_data->tax_deduction;
-					$taxable_income = $gross_income + $gap_from_asset[0] - $tax_deduction;
+					$taxable_income = $gross_income + $gap_from_asset[0] - $tax_deduction + $add_on_taxable_inc;
 				}
 				//----------------------
 				
