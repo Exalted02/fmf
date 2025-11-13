@@ -520,7 +520,7 @@ class PdfController extends Controller
 					{
 						$row[] = '$26375';
 						$nq_icome = 26375;
-						$gross_income = $gross_income + $nq_icome;
+						//$gross_income = $gross_income + $nq_icome;//13-11-2025
 					}
 					
 					// calculation for tax_qualification = 1 (IRA) RMD and Income has no Annuity
@@ -546,7 +546,7 @@ class PdfController extends Controller
 							
 							$previous_tax_quali_arr[$key] = $current_tax_value;
 							
-							$gross_income = $gross_income + $rmd[$key];
+							//$gross_income = $gross_income + $rmd[$key]; //13-11-2025
 							
 							$vs++;
 						}
@@ -568,7 +568,7 @@ class PdfController extends Controller
 							
 							$previous_tax_quali_arr[$key] = $current_tax_value;
 							
-							$gross_income = $gross_income + $rmd[$key];
+							//$gross_income = $gross_income + $rmd[$key]; // 13-11-2025
 							
 							$vs++;
 						}
@@ -608,13 +608,13 @@ class PdfController extends Controller
 								//$percentRmd = percent_k401_yearly()[$i];
 								$row[] = number_format($previous_husband_annuity * 0.055932);
 								$husband_annuity_rmd_inc = $previous_husband_annuity * 0.055932;
-								$gross_income = $gross_income + $husband_annuity_rmd_inc;
+								//$gross_income = $gross_income + $husband_annuity_rmd_inc; // 13-11-2025
 							}
 							else 
 							{
 								$husband_annuity_rmd_inc = 0;
 								$row[] = '';
-								$gross_income = $gross_income + $husband_annuity_rmd_inc;
+								//$gross_income = $gross_income + $husband_annuity_rmd_inc; // 13-11-2025
 								//$previous_annuity = $acount->account_value;
 							}
 						}
@@ -634,7 +634,7 @@ class PdfController extends Controller
 								//$row[] = '$134,475';
 								//$wife_annuity_rmd_inc = 134475;
 								
-								$gross_income = $gross_income + $wife_annuity_rmd_inc;
+								//$gross_income = $gross_income + $wife_annuity_rmd_inc; // 13-11-2025
 								
 							}
 							else 
@@ -642,7 +642,7 @@ class PdfController extends Controller
 								$wife_annuity_rmd_inc = 0;
 								$row[] = '';
 								$row[] = '';
-								$gross_income = $gross_income + $wife_annuity_rmd_inc;
+								//$gross_income = $gross_income + $wife_annuity_rmd_inc; // 13-11-2025
 								//$previous_annuity = $acount->account_value;
 							}
 						}
@@ -657,13 +657,13 @@ class PdfController extends Controller
 								$row[] = number_format($previous_joint_annuity * 0.055932);
 								$joint_annuity_rmd_inc = $previous_joint_annuity * 0.055932;
 								
-								$gross_income = $gross_income + $joint_annuity_rmd_inc;
+								//$gross_income = $gross_income + $joint_annuity_rmd_inc; //13-11-2025
 							}
 							else 
 							{
 								$joint_annuity_rmd_inc = 0;
 								$row[] = '';
-								$gross_income = $gross_income + $joint_annuity_rmd_inc;
+								//$gross_income = $gross_income + $joint_annuity_rmd_inc; // 13-11-2025
 								//$previous_annuity = $acount->account_value;
 							}
 						}
@@ -738,12 +738,14 @@ class PdfController extends Controller
 				//$gross_income = $gross_income - ($gross_income*0.15);
 				if($i==0)
 				{
+					$tax_deduction = $portfolio_Desire_data->tax_deduction;
 					//$gap = $income_goal - $gross_income;
-					$taxable_income = $income_goal;
+					$taxable_income = $income_goal - $tax_deduction;
 					//$taxable_income = $gross_income + $gap;
 				}
 				else{
-					$taxable_income = $gross_income + $gap_from_asset[0];
+					$tax_deduction = $portfolio_Desire_data->tax_deduction;
+					$taxable_income = $gross_income + $gap_from_asset[0] - $tax_deduction;
 				}
 				//----------------------
 				
