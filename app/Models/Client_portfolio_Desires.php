@@ -22,6 +22,7 @@ class Client_portfolio_Desires extends Model
 		'cola_age',
 		'assumed_return',
 		'RIPG',
+		'tax_deduction',
 		'status', 
     ];
 	public function get_representative_details()

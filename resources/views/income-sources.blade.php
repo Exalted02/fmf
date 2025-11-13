@@ -52,13 +52,6 @@
 									</div>
 								</div>
 								<div class="col-lg-3 col-md-3">
-									<div class="input-block">
-										<label for="" class="col-form-label">Tax deduction</label>
-										<input class="form-control" name="tax_deduction[]" type="text" placeholder="Tax deduction" value="">
-										<div class="invalid-feedback"></div> 
-									</div>
-								</div>
-								<div class="col-lg-3 col-md-3">
 									<div class="">
 										<label for="" class="col-form-label">Frequency</label>
 										<select class="form-control select" name="frequency[]">
@@ -125,14 +118,6 @@
 											<option value="2"  {{ !empty($record->type) && $record->type == 2 ? 'selected' : ''}}>Pension</option>
 												{{--<option value="1"  {{ !empty($record->type) && $record->type == 1 ? 'selected' : ''}}>Income</option>--}}
 										</select>
-										<div class="invalid-feedback"></div> 
-									</div>
-								</div>
-								
-								<div class="col-lg-3 col-md-3">
-									<div class="input-block">
-										<label for="" class="col-form-label">Tax deduction</label>
-										<input class="form-control" name="tax_deduction[]" type="text" placeholder="Tax deduction" value="{{ $record->tax_deduction ?? ''}}">
 										<div class="invalid-feedback"></div> 
 									</div>
 								</div>
@@ -264,13 +249,6 @@
 			</div>
 		</div>
 		<div class="col-lg-3 col-md-3">
-			<div class="input-block">
-				<label for="" class="col-form-label">Tax deduction</label>
-				<input class="form-control" name="tax_deduction[]" type="text" placeholder="Tax deduction" value="">
-				<div class="invalid-feedback"></div> 
-			</div>
-		</div>
-		<div class="col-lg-3 col-md-3">
 			<div class="">
 				<label for="" class="col-form-label">Frequency</label>
 				<select class="form-control select" name="frequency[]">
@@ -349,7 +327,6 @@ $(document).ready(function(){
 		var cola_arr = [];
 		var start_age_arr = [];
 		var end_age_arr = [];
-		var tax_deduction_arr = [];
 		
 		var allClientBlank = true;
 		$('input[name="client_name[]"]').each(function() {
@@ -385,16 +362,7 @@ $(document).ready(function(){
 			
         });
 		
-		$('input[name="tax_deduction[]"]').each(function() {
-            if ($(this).val() === "" || $(this).val() === null) {
-				$(this).addClass('is-invalid');
-                allClientBlank = false;
-            } else {
-				$(this).removeClass('is-invalid');
-				tax_deduction_arr.push($(this).val().trim());
-			}
-			
-        });
+		
 		
 		$('select[name="frequency[]"]').each(function() {
             if ($(this).val() === "" || $(this).val() === null) {
@@ -451,7 +419,7 @@ $(document).ready(function(){
 		$.ajax({
 				url: URL,
 				type: "POST",
-				data: {client_arr:client_arr,income_amount_arr:income_amount_arr,type_amount_arr:type_amount_arr,tax_deduction_arr:tax_deduction_arr,frequency_amount_arr:frequency_amount_arr,cola_arr:cola_arr,start_age_arr:start_age_arr,end_age_arr:end_age_arr,_token:csrfToken},
+				data: {client_arr:client_arr,income_amount_arr:income_amount_arr,type_amount_arr:type_amount_arr,frequency_amount_arr:frequency_amount_arr,cola_arr:cola_arr,start_age_arr:start_age_arr,end_age_arr:end_age_arr,_token:csrfToken},
 				dataType: 'json',
 				success: function(response) {
 					if(response.message == 'success')

@@ -111,6 +111,13 @@
 									<div class="desired_retirement_age_error error-text"></div>
 								</div>
 							</div>
+							<div class="col-md-6">
+								<div class="input-block mb-3">
+									<label class="col-form-label">Tax deduction ($)</label>
+									<input type="text" class="form-control"   name="tax_deduction" id="tax_deduction" placeholder="Enter tax deduction" value="{{ $record->tax_deduction ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+									<div class="tax_deduction_error error-text"></div>
+								</div>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
@@ -219,6 +226,7 @@
 		var current_portfolio_value = $('#current_portfolio_value').val();
 		var desired_gross_income_retirement = $('#desired_gross_income_retirement').val();
 		var desired_retirement_age = $('#desired_retirement_age').val();
+		var tax_deduction = $('#tax_deduction').val();
 		var COLA = $('#COLA').val();
 		var cola_age = $('#cola_age').val();
 		var assumed_return = $('#assumed_return').val();
@@ -238,6 +246,7 @@
 		$('.current_portfolio_error').text('');
 		$('.current_gross_portfolio_error').text('');
 		$('.desired_retirement_age_error').text('');
+		$('.tax_deduction_error').text('');
 		$('.COLA_error').text('');
 		$('.cola_age_error').text('');
 		$('.assumed_return_error').text('');
@@ -281,6 +290,11 @@
 			$('.desired_retirement_age_error').text('Enter desired retirement age');
 			isValid = false;
 		}
+		if (tax_deduction === '')
+		{
+			$('.tax_deduction_error').text('Enter tax deduction');
+			isValid = false;
+		}
 		if (COLA === '')
 		{
 			$('.COLA_error').text('Enter COLA');
@@ -303,7 +317,7 @@
 			$.ajax({
 				url: URL,
 				type: "POST",
-				data: {client_name:client_name,client_age:client_age,partner_name:partner_name,partner_age:partner_age,current_portfolio_value:current_portfolio_value,desired_gross_income_retirement:desired_gross_income_retirement,desired_retirement_age:desired_retirement_age,COLA:COLA,cola_age:cola_age,assumed_return:assumed_return,RIPG:RIPG,_token:csrfToken},
+				data: {client_name:client_name,client_age:client_age,partner_name:partner_name,partner_age:partner_age,current_portfolio_value:current_portfolio_value,desired_gross_income_retirement:desired_gross_income_retirement,desired_retirement_age:desired_retirement_age,tax_deduction:tax_deduction,COLA:COLA,cola_age:cola_age,assumed_return:assumed_return,RIPG:RIPG,_token:csrfToken},
 				dataType: 'json',
 				success: function(response) {
 					if(response.message == 'success')

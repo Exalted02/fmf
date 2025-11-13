@@ -723,7 +723,7 @@ class PdfController extends Controller
 					$taxable_income = $gross_income;
 				}
 				
-				
+				$gross_income = $gross_income*0.85; // 13-11-2025  add new
 				
 				if($i==0)
 				{
@@ -738,7 +738,9 @@ class PdfController extends Controller
 				//$gross_income = $gross_income - ($gross_income*0.15);
 				if($i==0)
 				{
+					//$gap = $income_goal - $gross_income;
 					$taxable_income = $income_goal;
+					//$taxable_income = $gross_income + $gap;
 				}
 				else{
 					$taxable_income = $gross_income + $gap_from_asset[0];

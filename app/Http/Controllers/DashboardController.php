@@ -185,6 +185,7 @@ class DashboardController extends Controller
 			$model->cola_age  = $request->cola_age;
 			$model->assumed_return  = $request->assumed_return;
 			$model->RIPG  = $RIPG;
+			$model->tax_deduction  = $request->tax_deduction;
 			$model->save();
 		}
 		else
@@ -203,6 +204,7 @@ class DashboardController extends Controller
 			$model->cola_age  = $request->cola_age;
 			$model->assumed_return  = $request->assumed_return;
 			$model->RIPG  = $RIPG;
+			$model->tax_deduction  = $request->tax_deduction;
 			$model->status  = 1;
 			$model->save();
 			$id = $model->id;
@@ -217,7 +219,6 @@ class DashboardController extends Controller
 		$client_name = $request->input('client_arr', []);
 		$income_amount = $request->input('income_amount_arr', []);
 		$type = $request->input('type_amount_arr', []);
-		$tax_deduction = $request->input('tax_deduction_arr', []);
 		$frequency = $request->input('frequency_amount_arr', []);
 		$cola = $request->input('cola_arr', []);
 		$start_age = $request->input('start_age_arr', []);
@@ -238,7 +239,6 @@ class DashboardController extends Controller
 			$model->client_name = $client_name[$index] ?? null;
 			$model->income_amount = $income_amount[$index] ?? null;
 			$model->type = $type[$index] ?? null;
-			$model->tax_deduction = $tax_deduction[$index] ?? null;
 			$model->frequency = $frequency[$index] ?? null;
 			$model->cola = $cola[$index] ?? null;
 			$model->start_age = $start_age[$index] ?? null;
