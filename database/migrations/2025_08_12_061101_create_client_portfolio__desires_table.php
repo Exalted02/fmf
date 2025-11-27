@@ -21,7 +21,7 @@ return new class extends Migration
 			$table->double('current_portfolio_value', 15, 2)->nullable();
 			$table->double('desired_gross_income_retirement', 15, 2)->nullable();
 			$table->integer('desired_retirement_age')->nullable();
-			$table->integer('COLA')->nullable()->comment('Cost of Living Adjustment');
+			$table->decimal('COLA', 5, 2)->nullable()->comment('Cost of Living Adjustment');
 			$table->integer('cola_age')->nullable()->comment('Age to Begin COLA Adjustment');
 			$table->integer('assumed_return')->nullable();
 			$table->string('RIPG')->nullable()->comment('1=Income,2=Tax Reduction,3=Legacy');

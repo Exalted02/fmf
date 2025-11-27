@@ -129,7 +129,7 @@
 								<div class="input-block mb-3">
 									<label class="col-form-label">Cost of Living Adjustment (COLA)</label>
 									<div class="input-percent">
-									<input type="text" class="form-control"   name="COLA" id="COLA" placeholder="Enter Cost of Living Adjustment (COLA)" value="{{ $record->COLA ?? '' }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+									<input type="text" class="form-control"   name="COLA" id="COLA" placeholder="Enter Cost of Living Adjustment (COLA)" value="{{ $record->COLA ?? '' }}" onkeypress="return isPercentKey(event)">
 									</div>
 									<div class="COLA_error error-text"></div>
 								</div>
@@ -344,6 +344,19 @@
 	window.location.href = pricingPlansUrl;
  });
  
+ 
+ function isPercentKey(evt) {
+    let charCode = evt.which ? evt.which : evt.keyCode;
+    let value = evt.target.value;
+    if (charCode === 46 && value.includes('.')) {
+        return false;
+    }
+
+    if ((charCode >= 48 && charCode <= 57) || charCode === 46) {
+        return true;
+    }
+    return false;
+}
 </script>
 @endsection
 
