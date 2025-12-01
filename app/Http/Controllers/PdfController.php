@@ -217,6 +217,8 @@ class PdfController extends Controller
 				$sumincomes = 0;
 				$storeRMDVal = 0;
 				
+				$ss_taxable_income = 0;
+				
 				$ageData = Client_portfolio_Desires::where('id', $acount->sl_no)->first();
 				$husbandAge = $ageData ? $ageData->client_age : '';
 				$wifeAge = $ageData ? $ageData->partner_age : '';
@@ -861,6 +863,8 @@ class PdfController extends Controller
 							
 							$account_value = number_format($inc_src);
 							
+							$ss_taxable_income = $ss_taxable_income + $inc_src;
+							
 						}
 						elseif($new_husband_age > $portfolio_Desire_data->desired_retirement_age)
 						{
@@ -870,6 +874,8 @@ class PdfController extends Controller
 							$sum_current_inc = $sum_current_inc + $current_inc_value;
 							
 							$gross_income = $gross_income + $current_inc_value;
+							
+							$ss_taxable_income = $ss_taxable_income + $current_inc_value;
 						}
 						
 						// calculation for income goal
@@ -886,6 +892,12 @@ class PdfController extends Controller
 					}
 					$sum_incomes = $gross_income;
 					$gross_income = $gross_income*0.85;
+					
+					$sum_incomes = $ss_taxable_income;
+					$ss_taxable_income = $ss_taxable_income*0.85;
+				}
+				else{
+					$row[] = 0;
 				}
 				//----- atanu end today----
 				
@@ -942,7 +954,7 @@ class PdfController extends Controller
 				}
 				//----- atanu end----
 				
-				// previous value store in gap from asset
+				// previous value store in gap from asset below not used
 				if($new_husband_age >= $portfolio_Desire_data->desired_retirement_age-1)
 				{
 					//$gap_from_asset_pre[$i] = $store_gap_from_retirement[$g];
@@ -986,6 +998,9 @@ class PdfController extends Controller
 					//$taxable_income = $gross_income + $gap_from_asset[$i-1] - $tax_deduction + $add_on_taxable_inc;
 					
 					$taxable_income = $gross_income + $finalGapFromAsset - $tax_deduction + $add_on_taxable_inc;
+				}
+				else{
+					 $row[] = 0;
 				}
 				//----------------------
 				
@@ -1046,10 +1061,12 @@ class PdfController extends Controller
 						$tax_rate = 37; // %
 					}
 					
+					//$tax_bill = number_format(round(($gross_income+$finalGapFromAsset) * $tax_rate/100));
 					
+					$tax_bill = number_format(round(($ss_taxable_income+$finalGapFromAsset) * $tax_rate/100));
 				}
 				
-				$tax_bill = number_format(round(($gross_income+$finalGapFromAsset) * $tax_rate/100));
+				//$tax_bill = number_format(round(($gross_income+$finalGapFromAsset) * $tax_rate/100));
 				
 				//------- irs partner -----
 				$irs_partner = 0;
@@ -1083,21 +1100,25 @@ class PdfController extends Controller
 					$g++;
 				}*/
 				
+				// new gross income calculate 
+				$new_gross_income = $sum_incomes + $storeRMDVal + $finalGapFromAsset;
+				
 				//--------------------------------------------
 				
 				$row[] = number_format($income_goal);
-				$row[] = number_format($income_goal);
-				$row[] = number_format($gross_income);
+				$row[] = number_format($new_gross_income); // gross income 
+				$row[] = number_format($ss_taxable_income); // ss taxable income
 				//$row[] = number_format($taxable_income);
 				//$row[] = number_format($income_goal);
 				//$row[] = number_format($income_goal - $gross_income);
 				$row[] = number_format($finalGapFromAsset);
-				$row[] = number_format($irmaaVal);
-				$row[] = number_format($taxable_income); // show here
+				//$row[] = number_format($irmaaVal);
+				//$row[] = number_format($taxable_income); // show here
 				$row[] = $tax_rate .'%';
 				$row[] = $tax_bill;
-				$row[] = number_format($irs_partner);
-				$row[] = number_format($finance_account_value);
+				//$row[] = number_format($irs_partner);
+				$row[] = number_format($irmaaVal);
+				$row[] = $finance_account_value > 0 ? number_format($finance_account_value) : '';
 				
 				$headerAccountOwnerValueArray[$i] = $row;
 				
@@ -1132,11 +1153,12 @@ class PdfController extends Controller
 			//$headerIncomeArray[] = 'Taxable Income';
 			//$headerIncomeArray[] = 'Income Goal';
 			$headerIncomeArray[] = 'Gap From Assets';
-			$headerIncomeArray[] = 'IRMAA';
-			$headerIncomeArray[] = 'Taxable Income'; // show here
+			//$headerIncomeArray[] = 'IRMAA';
+			//$headerIncomeArray[] = 'Taxable Income'; // show here
 			$headerIncomeArray[] = 'Tax Rates';
 			$headerIncomeArray[] = 'Tax Bill';
-			$headerIncomeArray[] = 'IRS Partner';
+			//$headerIncomeArray[] = 'IRS Partner';
+			$headerIncomeArray[] = 'IRMAA';
 			$headerIncomeArray[] = 'Total Estate';
 			
 			$headerIncomeValueArray[] = $gross_income;
@@ -1445,7 +1467,7 @@ class PdfController extends Controller
 		{
 			$account_owner = $acount->account_owner == 1 ? 'Husband' : ($acount->account_owner == 2 ? 'Wife' : 'Joint');
 			
-			$headTitle = $acount->account_owner == 1 ? $acount->owner_name.' '.$acount->account_title : ($acount->account_owner == 2 ? $acount->owner_name.' '.$acount->account_title : $acount->owner_name.' '.$acount->account_title);
+			$headTitle = $acount->account_owner == 1 ? $acount->owner_name.' '.'Roth' : ($acount->account_owner == 2 ? $acount->owner_name.' '.'Roth' : $acount->owner_name.' '.'Roth');
 			$headerAccountTitleArray[] = $headTitle;
 			
 			if ($acount->tax_qualification == 2 && !preg_match('/\bsavings?\b/i', $acount->account_title))
@@ -1453,10 +1475,12 @@ class PdfController extends Controller
 				$headerAccountTitleArray[] = 'Income';
 			}
 			
-			if($acount->tax_qualification == 1 && stripos($acount->account_title, 'Annuity') === false)
+			// comment 28-11-2025---
+			/*if($acount->tax_qualification == 1 && stripos($acount->account_title, 'Annuity') === false)
 			{
 				$headerAccountTitleArray[] = 'RMD';
-			}
+			}*/
+			// -------
 		
 			if(stripos($acount->account_title, 'Annuity') !== false)
 			{
@@ -2007,8 +2031,13 @@ class PdfController extends Controller
 						if($i==0)
 						{
 							//$k401 =  $acount->account_value;
-							$previous_tax_quali_arr[$key] = $acount->account_value;
-							//$account_value = $acount->account_value;
+							$accbonus = $acount->account_value * (1+ 0.16);
+							$comparitive_grw = $accbonus * (1 + 0.05);
+							$account_value = $comparitive_grw;
+							
+							//$previous_tax_quali_arr[$key] = $acount->account_value;
+							$previous_tax_quali_arr[$key] = $account_value;
+							
 							$finance_account_value = $finance_account_value + $acount->account_value;
 						}
 						else
@@ -2176,7 +2205,8 @@ class PdfController extends Controller
 					}
 					
 					// calculation for tax_qualification = 1 (IRA) RMD and Income has no Annuity
-					if($acount->tax_qualification == 1   && stripos($acount->account_title, 'Annuity') === false)
+					// comment 28-11-2025
+					/*if($acount->tax_qualification == 1   && stripos($acount->account_title, 'Annuity') === false)
 					{
 						//if($new_husband_age >=$husband_age_rmd && $new_wife_age >= $wife_age_rmd)
 							
@@ -2227,7 +2257,7 @@ class PdfController extends Controller
 							//$previous_tax_quali_arr[$key] = $current_tax_value;
 						}
 						
-					}
+					}*/
 					
 					
 					// calculation for tax_qualification = 1 (IRA) RMD and Income has Annuity

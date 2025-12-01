@@ -121,6 +121,11 @@ $wife_tax_free_Income = $wifeAsset[0]['owner_name'] .' Tax Free Income';
 $list_show = ["1","5","6","10","11","14","15","17","18","20","22","23","24","25"];
 $blank_row_show = ["5","10","14","17","20","22"];
 //echo "<pre>";print_r($list_show);die;
+
+//--28-11-2025---
+$husband_wife_current_finance_data = App\Models\Current_financial_account::where('sl_no', $lastId)->where('account_owner', 1)->where('tax_qualification', 1)->first();
+
+$husband_current_account_value = $husband_wife_current_finance_data ? $husband_wife_current_finance_data->account_value : '';
 @endphp
 <!DOCTYPE html>
 <html>
@@ -883,6 +888,420 @@ $blank_row_show = ["5","10","14","17","20","22"];
 		</table>--}}
 		
 	</div>
+	
+	@if(!empty($husband_wife_current_finance_data))
+		@php 
+			$portfolio_Desires = App\Models\Client_portfolio_Desires::where('id', $lastId)->first();
+			$roth_start_age = $portfolio_Desires->client_age;
+			$roth_end_age = $portfolio_Desires->desired_retirement_age;
+			$no_of_yr = $roth_end_age-$roth_start_age +1;
+			$no_of_cols = $no_of_yr +5 ;
+		@endphp
+	<div style="page-break-after: always;">
+		<table>
+			<tr>
+				<td width="80%">
+					<h3 class="heading-color" style="text-align:center;">Client: {{ $portfolio_Desires->client_name }}  and {{ $portfolio_Desires->partner_name }} Roth Conversion From Taxable To Free Tax</h3>
+				</td>
+				<td width="20%">
+				@if(isset($setting->advisor_logo))
+					<img src="{{ url('uploads/advisor_logo/'. $setting->advisor_logo) }}" width="200" class="logo-section">
+				@else
+					<img src="{{ asset('front-assets/img/-logo1.png') }}" width="200" class="logo-section">
+				@endif
+				</td>
+			</tr>
+			
+		</table>
+		<table style="margin-bottom: 10px;">
+			<tr>
+				<td class="heading-color" style="font-weight: 700;">
+					Primary Goals: Income, Tax Reduction, Legacy
+				</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td class="heading-color" style="font-weight: 700;">
+					Desired Retirement Income ${{ number_format($desired_retirement_income) }} + 3% inflation
+				</td>
+			</tr>
+		</table>
+		@php 
+		
+			$a12 = 0;
+			$a14 = 0;
+			$a17 = 0;
+			$a20 = 0;
+			$J_16 = 0;
+			$index17_previous = 0;
+			$index19_previous = 0;
+			$C16=0;$D_16=0;$E_16=0;$F_16=0;$G_16=0;$H_16=0;$C_17=0;$D_17=0;
+			$E_17=0;$F_17=0;$G_17=0;$H_17=0;$h_19=0;$i12=0;$i13=0;$i14=0;$i15=0;
+			$i16=0;$i17=0;$L_14=0;$L_15=0;$L_16=0;$L_17=0;$L_18=0;$L_19=0;$L_20=0;
+			$M_14=0;$M_15=0;$M_16=0;$M_17=0;$M_18=0;$M_19=0;$J_16=0;$M_20=0;
+			
+			//$max_yr = 2+$roth_yr;
+			$max_yr = $no_of_yr;
+			$tax_free_val = $roth_yr == 1 ? $m_14 : ($roth_yr == 2 ? $m_15 : ($roth_yr == 3 ? $m_16 : ($roth_yr == 4 ? $m_17 : ($roth_yr == 5 ? $m_18 : ( $roth_yr == 6 ? $m_19 : ($roth_yr == 7 ? $m_20 : $m_20 ))))) );
+			
+			$husband_allo_RMD = [];
+			$year_end_roth_val = 0;
+			
+			$j = 1;
+			$d_13 = 0;
+			$new_col = 5;
+			$p=3;
+			$q=4;
+			// calculation for last two column
+			$rothValArr = [];
+			$rothValArr2 = [];
+			$year_end_roth_val = 0;
+			for($col = 1; $col <= $no_of_cols ; $col++)
+			{
+				$index12_previous = 0;
+				$h_acc_value = $husband_current_account_value ?? '';
+				$a12 = round($h_acc_value * 0.16);
+				$a14 =  $h_acc_value + $a12;
+				$a17 =  round($a14 * 1.05);
+				$a20_pre = round($a17/6);
+				
+				$a20 =  round($a17/4);
+				
+				if($col==3)
+				{
+					$first_row_val = $a14;
+				}
+				if($col==4)
+				{
+					$first_row_val = $a17;
+				}
+				if($new_col == $col)
+				{
+					$first_row_val = $first_row_val*1.05;
+				}
+				
+				for($row = 1; $row <= 9; $row++)
+				{
+					if($col >= 4 && $col<=$max_yr)
+					{
+						
+						
+						if($row==5)
+						{
+							//$val = round($a20 - ($a20 * 0.22));
+							($year_end_roth_val + $val)* 1.05;
+							
+							//$rothValArr[$p] = round(($year_end_roth_val + $val)* 1.05);
+							
+							//$year_end_roth_val = ($year_end_roth_val + $val) * 1.05;
+							
+							$rothValArr[$p] = round($a20 - ($a20 * 0.22));
+							
+							$rothValArr2[$q]= ($year_end_roth_val + $rothValArr[$p]) * 1.05;
+							$year_end_roth_val = ($year_end_roth_val + $rothValArr[$p]) * 1.05;
+							$p++;
+							$q++;
+						}
+						
+						if($row==7)
+						{
+							$first_row_val = $first_row_val - $a20;
+						}
+						
+					}
+				
+					if($col == $max_yr+1)
+					{
+						if($row==5)
+						{
+							//$val = round($first_row_val - ($first_row_val * 0.22));
+							
+							
+							//$rothValArr[$p] = round(($year_end_roth_val + $val)* 1.05);
+							
+							//$year_end_roth_val = ($year_end_roth_val + $val) * 1.05;
+							
+							$rothValArr[$p] = round($first_row_val - ($first_row_val * 0.22));
+							
+							$rothValArr2[$q]= ($rothValArr2[$q-1] + $first_row_val - ($first_row_val * 0.22)) * 1.05;
+							$p++;
+							$q++;
+						}
+					}
+					
+					if($col==10 && $row > 6)
+					{
+						$rothValArr[$p] = 0;
+						$rothValArr2[$q] = 0;
+						$p++;
+					}
+				}
+				
+				if($col >=5) 
+				{
+					$new_col++;
+				}
+			}
+			
+			//echo "<pre>";print_r($rothValArr);
+			//echo "<pre>";print_r($rothValArr2);die;
+			$first_row_val = 0;
+			$j = 1;
+			$d_13 = 0;
+			$new_col = 5;
+			$year_end_roth_val = 0;
+			$total_acc_val = [];
+			$acv = 3;
+		@endphp
+		
+		
+		<table class="calc-report">
+			<thead>
+				<tr>
+					<th style="font-size:12px;">Roth Conversion</br>${{ number_format($husband_current_account_value) ?? ''}}</br>16% Bonus</th>
+					<th></th>
+					@for($i=$roth_start_age ;$i<=$roth_end_age ; $i++, $j++)
+					<th style="font-size:12px;">{{ $i }}</br>Yr {{ $j }}</th>
+					@endfor
+					{{--<th style="font-size:12px;">71</br>Yr 2</th>
+					<th style="font-size:12px;">72</br>Yr 3</th>
+					<th style="font-size:12px;">73</br>Yr 4</th>
+					<th style="font-size:12px;">74</br>Yr 5</th>
+					<th style="font-size:12px;">75</br>Yr 6</th>
+					<th style="font-size:12px;">76</br>Yr 7</th>
+					<th style="font-size:12px;">77</br>Yr 8</th>--}}
+					<th style="font-size:12px;">Annual Converted</th>
+					<th style="font-size:12px;">Year End Roth Value</th>
+					<th style="font-size:12px;">Total Account Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for($col = 1; $col <= $no_of_cols ; $col++)
+					@php 
+						$index12_previous = 0;
+						$h_acc_value = $husband_current_account_value ?? '';
+						$a12 = round($h_acc_value * 0.16);
+						$a14 =  $h_acc_value + $a12;
+						$a17 =  round($a14 * 1.05);
+						$a20_pre = round($a17/6);
+						
+						$a20 =  round($a17/4);
+						
+						if($col==3)
+						{
+							$first_row_val = $a14;
+						}
+						if($col==4)
+						{
+							$first_row_val = $a17;
+						}
+						if($new_col == $col)
+						{
+							$first_row_val = $first_row_val*1.05;
+						}
+					@endphp
+					<td>
+						<table class="calc-report">
+							@for($row = 1; $row <= 15; $row++)
+									@php
+										
+										
+										//$a20 =  round($a17/4);
+										$index = $col.$row;
+									@endphp
+								
+								<tr>
+									<td style="font-size:12px ;height:10px;text-align: center">
+									@if($col == 1 && $row == 1)
+										$ {{ number_format($a12) }}
+									@endif
+									
+									@if($col == 1 && $row == 2)
+										$ {{ number_format($a14) }}
+									@endif
+									
+									@if($col == 1 && $row == 3)
+										5%
+									@endif
+									
+									@if($col == 1 && $row == 4)
+										Cons. Growth
+									@endif
+									
+									@if($col == 1 && $row == 5)
+										$ {{ number_format($a17) }}
+									@endif
+									@if($col == 1 && $row == 7)
+										Conversion
+									@endif
+									
+									@if($col == 1 && $row == 8)
+										$ {{ number_format($a20) }}
+									@endif
+									
+									{{ husband_wife_roth_tax_conversion()[$index] ?? '' }}
+									
+									@if($col >= 3 && $col<=$max_yr)
+									    @if($row==1)
+										${{ number_format(round($first_row_val)) }}
+										@endif
+										
+										@if($row==2)
+											$0
+										@endif
+										@if($row==3)
+											${{ number_format(round($a20)) }}
+										@endif
+										@if($row==4)
+											${{ number_format(round($a20 * 0.22)) }}
+										@endif
+										@if($row==5)
+											${{ number_format(round($a20 - ($a20 * 0.22))) }}
+										@endif
+										@if($row==6)
+											${{ number_format(round($first_row_val - $a20)) }}
+										@endif
+										@if($row==7 && $col==3)
+											${{ number_format(round($first_row_val*1.05)) }}tt
+											@php
+											$total_acc_val[$acv] = $first_row_val*1.05;
+											$first_row_val = $first_row_val - $a20;
+											
+											$acv++;
+											@endphp
+										@endif
+										
+										@if($row==7 && $col>=4 && $col<=6)
+											${{ number_format(round($rothValArr2[$col] + ($first_row_val - $a20))) }}
+											@php
+											$total_acc_val[$acv] = $rothValArr2[$col] + ($first_row_val - $a20);
+											
+											if($col == 5)
+											{
+												$F19 = $rothValArr2[$col] + ($first_row_val - $a20);
+											}
+											
+											$first_row_val = $first_row_val - $a20;
+											$acv++;;
+											@endphp
+										@endif
+									@endif
+									@if($row==7 && $col==7)
+										${{ number_format(round($F19)) }}
+										@php 
+											$total_acc_val[$acv] = $F19;
+											$acv++;
+										@endphp
+									@endif
+									
+									@if($row >= 8 && $col==7)
+										@php 
+											$total_acc_val[$acv] = 0;
+											$acv++;
+										@endphp
+									@endif
+									
+									
+									@if($col == $max_yr+1)
+										@if($row==1)
+										${{ number_format(round($first_row_val)) }}
+										@endif
+										
+										@if($row==2)
+											$0
+										@endif
+										
+										@if($row==3)
+											${{ number_format(round($first_row_val)) }}
+										@endif
+										@if($row==4)
+											${{ number_format(round($first_row_val * 0.22)) }}
+										@endif
+										
+										@if($row==5)
+											${{ number_format(round($first_row_val - ($first_row_val * 0.22))) }}
+										@endif
+										
+										@if($row==6)
+											${{ number_format(round($first_row_val - ($first_row_val))) }}
+										@endif
+									@endif
+									
+									@if($col==3 && $row==9)
+										<strong>IRA $ {{ number_format($husband_current_account_value) }}</strong>
+									@elseif($col==10 && $row==9)
+									<strong>Tax Free $ {{ number_format($tax_free_val) }}</strong>
+									@endif
+									
+									@if($no_of_yr+3 == $col)
+										@if($row >= 3 && $row<=8)
+										Year {{ $row-2}}
+										@endif
+									@endif
+									
+									@if($no_of_yr+4 == $col)
+										@if($row >= 3 && $row<=8)
+										${{ number_format(round(($year_end_roth_val + $rothValArr[$row]) * 1.05))}}
+										@php
+											if($row == 8)
+											{
+												$m20 = ($year_end_roth_val + $rothValArr[$row]) * 1.05;
+											}
+											
+											$year_end_roth_val = ($year_end_roth_val + $rothValArr[$row]) * 1.05;
+										@endphp
+										@endif
+									@endif
+									@if($no_of_yr+5 == $col)
+										
+										@if($row >= 3 && $row<=8)
+										    @if($row == 8)
+												${{ number_format(round($m20)) }}
+											@else
+												${{ number_format(round($total_acc_val[$row])) }}
+											@endif
+											
+										@endif
+									@endif
+									</td>
+								</tr>
+							@endfor
+							
+							
+						</table>
+					</td>
+					@php
+						if($col >=5) 
+						{
+							$new_col++;
+						}
+						
+					@endphp
+				@endfor
+			</tbody>
+		</table>
+		<br>
+		<p class="fixed-company-name">
+			Fidelity Mutual Financial: Advisor Darryl Stein <br>
+			267-280-3660 <br>
+			www.TheFidelityMutual.com
+		</p>
+		<table class="footer">
+			<tr>
+				<td style="text-align: left;font-size: 12px;">
+					The following calculators are made available as self-help tools for independent use. Fidelity Mutual Financial does not guarantee their applicability to any individual circumstances. Fidelity
+					Mutual Financial encourages you to seek personalized guidance from qualified professionals regarding all personal finance issues. This analysis is based solely on the information you provide.
+					The results presented by this calculator are hypothetical and for illustrative purposes, and do not represent the current or future performance of any specific financial product. No guarantees
+					are made as to the accuracy of any projection. All financial products carry a degree of risk, and past performance is not a guarantee of future results. Generally, the greater the return, the
+					greater the risk. This calculator does not reflect any possible taxes. It also does not reflect fees, expenses and charges that may be associated with a financial product holding the savings.</br></br>
+
+					Intellectual Property of Fidelity Mutual Financial LLC: "Unauthorized duplication, distribution, or reproduction of this work in any form is strictly prohibited and will result in legal consequences".
+				</td>
+			</tr>
+		</table>
+	</div>
+	@endif
 	
 	{{--<div class="row">
 			<div style="margin-left:450px;"><strong>Total RMD: {{ '$ '. number_format($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc + $total_joint_rmd_inc)}}</strong></div>

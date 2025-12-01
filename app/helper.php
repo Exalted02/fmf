@@ -703,5 +703,18 @@ use App\Models\Followup_remarks;
 			'56'=> array('0'=>6.4, '1'=>23446),
 		];
 	}
+	function husband_wife_roth_tax_conversion()
+	{
+		return [
+			'21' =>'IRA',
+			'22' =>'Fee .00',
+			'23' =>'Roth Conver.',
+			'24' =>'Roth Tax Paid',
+			'25' =>'Roth Account',
+			'26' =>'Ira Value',
+			'27' =>'Total A/C Value',
+			'28' =>'Effective Tax Rate',
+		];
+	}
 
 ?>
