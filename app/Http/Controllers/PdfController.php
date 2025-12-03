@@ -1194,6 +1194,172 @@ class PdfController extends Controller
 		//echo "<pre>";print_r($headerValueArray);die;
 		//------
 		
+		//=================================================
+		$portfolio_Desires = Client_portfolio_Desires::where('id', $lastId)->first();
+		$roth_start_age = $portfolio_Desires->client_age;
+		$roth_end_age = $portfolio_Desires->desired_retirement_age;
+		$no_of_yr = $roth_end_age-$roth_start_age +1;
+		$no_of_cols = $no_of_yr +5 ;
+			
+		$husband_wife_current_finance_data = Current_financial_account::where('sl_no', $lastId)->where('account_owner', 1)->where('tax_qualification', 1)->first();
+
+		$husband_current_account_value = $husband_wife_current_finance_data ? $husband_wife_current_finance_data->account_value : '';
+		
+		$rothValArr = [];
+		$rothValArr2 = [];
+		$year_end_roth_val = 0;
+		$new_col = 5;
+		$max_yr = $no_of_yr;
+		$p=3;
+		$q=4;
+		$max_row =$no_of_yr+3;
+		$fyr = 0;
+		
+		$firstRyr = [];
+		$first_row_val = 0;
+		$total_account_val = [];
+		if(!empty($husband_current_account_value))
+		{
+			for($col = 1; $col <= $no_of_cols ; $col++)
+			{
+				$index12_previous = 0;
+				$h_acc_value = $husband_current_account_value ?? '';
+				$a12 = round($h_acc_value * 0.16);
+				$a14 =  $h_acc_value + $a12;
+				$a17 =  round($a14 * 1.05);
+				$a20_pre = round($a17/6);
+				
+				$a20 =  round($a17/4);
+				
+				if($col==3)
+				{
+					$first_row_val = $a14;
+				}
+				if($col==4)
+				{
+					$first_row_val = $a17;
+				}
+				if($new_col == $col)
+				{
+					$first_row_val = $first_row_val*1.05;
+				}
+				
+				for($row = 1; $row <= $max_row; $row++)
+				{
+					if($col >= 4 && $col<=$max_yr)
+					{
+						
+						
+						if($row==5)
+						{
+							$rothValArr[$p] = round($a20 - ($a20 * 0.22));
+							
+							$rothValArr2[$q]= ($year_end_roth_val + $rothValArr[$p]) * 1.05;
+							$year_end_roth_val = ($year_end_roth_val + $rothValArr[$p]) * 1.05;
+							$p++;
+							$q++;
+						}
+						
+						if($row==7)
+						{
+							$first_row_val = $first_row_val - $a20;
+							
+						}
+						
+					}
+				
+					if($col == $max_yr+1)
+					{
+						if($row==5)
+						{
+							$rothValArr[$p] = round($first_row_val - ($first_row_val * 0.22));
+							
+							$rothValArr2[$q]= ($rothValArr2[$q-1] + $first_row_val - ($first_row_val * 0.22)) * 1.05;
+							
+							
+							$p++;
+							$q++;
+						}
+					}
+					
+					if($col > $max_yr+1 && $col <= $max_yr+3)
+					{
+						$rothValArr2[$q]= $rothValArr2[$q-1] * 1.05;
+						$p++;
+						$q++;
+						break;
+					}
+					
+					
+					/*if($col==10 && $row > 6)
+					{
+						$rothValArr[$p] = 0;
+						$rothValArr2[$q] = 0;
+						$p++;
+					}*/
+					
+					if($row==6)
+					{
+						if($col>=3 && $col<=$max_yr)
+						{
+							$firstRyr[$fyr] = round($first_row_val - $a20);
+							$fyr++;
+						}
+						
+						if($col>=3 && $col==$max_yr+1)
+						{
+							$firstRyr[$fyr] = 0;
+						}
+					}
+				}
+				
+				if($col >=5) 
+				{
+					$new_col++;
+				}
+				
+				
+			}
+			
+			$yearEndRothVal = [];
+			$yroth = 1;
+			$midYr = (int)($max_yr/2);
+			foreach($rothValArr2 as $val)
+			{
+				$yearEndRothVal[$yroth] = $val;
+				$yroth ++;
+			}
+			
+			//$r=4;
+			$lastKey = array_key_last($firstRyr);
+			$midKey = (int)(array_key_last($firstRyr)/2);
+			foreach($firstRyr as $key=>$val)
+			{
+				if($key == 0)
+				{
+					$total_account_val[] = number_format(round($a14*1.05));
+				}
+				elseif($key == $lastKey)
+				{
+					$total_account_val[] = number_format(round($firstRyr[$midKey] + $yearEndRothVal[$midKey]));
+				}
+				else{
+					$total_account_val[] = number_format(round($val + $yearEndRothVal[$key]));
+				}
+				 
+			}
+			
+			$yearEndlastKey = array_key_last($yearEndRothVal);
+			$total_account_val[] = number_format(round($yearEndRothVal[$yearEndlastKey]));
+		}
+		
+		//echo "<pre>";print_r($firstRyr);
+		//echo "<pre>";print_r($rothValArr);
+		//echo "<pre>";print_r($rothValArr2);
+		//echo "<pre>";print_r($yearEndRothVal);
+		//echo "<pre>";print_r($total_account_val);die;
+		//------------------------------------------------
+		
 		$data = [
 			"created_at" => $portfolio_Desire_data->created_at ?? '',
 			"representative" => $portfolio_Desire_data->get_representative_details->name ?? '',
@@ -1218,6 +1384,8 @@ class PdfController extends Controller
             "excelheaderArray" => $headerArray,
             "excelheaderValueArray" => $headerValueArray,
             "lastId" => $lastId,
+            "yearEndRothVal" => $yearEndRothVal,
+            "total_account_val" => $total_account_val,
         ];
 		
 		return $data;
@@ -2712,137 +2880,146 @@ class PdfController extends Controller
 		$firstRyr = [];
 		$first_row_val = 0;
 		$total_account_val = [];
-		
-		for($col = 1; $col <= $no_of_cols ; $col++)
+		if(!empty($husband_current_account_value))
 		{
-			$index12_previous = 0;
-			$h_acc_value = $husband_current_account_value ?? '';
-			$a12 = round($h_acc_value * 0.16);
-			$a14 =  $h_acc_value + $a12;
-			$a17 =  round($a14 * 1.05);
-			$a20_pre = round($a17/6);
-			
-			$a20 =  round($a17/4);
-			
-			if($col==3)
+			for($col = 1; $col <= $no_of_cols ; $col++)
 			{
-				$first_row_val = $a14;
-			}
-			if($col==4)
-			{
-				$first_row_val = $a17;
-			}
-			if($new_col == $col)
-			{
-				$first_row_val = $first_row_val*1.05;
-			}
-			
-			for($row = 1; $row <= $max_row; $row++)
-			{
-				if($col >= 4 && $col<=$max_yr)
+				$index12_previous = 0;
+				$h_acc_value = $husband_current_account_value ?? '';
+				$a12 = round($h_acc_value * 0.16);
+				$a14 =  $h_acc_value + $a12;
+				$a17 =  round($a14 * 1.05);
+				$a20_pre = round($a17/6);
+				
+				$a20 =  round($a17/4);
+				
+				if($col==3)
 				{
-					
-					
-					if($row==5)
+					$first_row_val = $a14;
+				}
+				if($col==4)
+				{
+					$first_row_val = $a17;
+				}
+				if($new_col == $col)
+				{
+					$first_row_val = $first_row_val*1.05;
+				}
+				
+				for($row = 1; $row <= $max_row; $row++)
+				{
+					if($col >= 4 && $col<=$max_yr)
 					{
-						$rothValArr[$p] = round($a20 - ($a20 * 0.22));
 						
-						$rothValArr2[$q]= ($year_end_roth_val + $rothValArr[$p]) * 1.05;
-						$year_end_roth_val = ($year_end_roth_val + $rothValArr[$p]) * 1.05;
+						
+						if($row==5)
+						{
+							$rothValArr[$p] = round($a20 - ($a20 * 0.22));
+							
+							$rothValArr2[$q]= ($year_end_roth_val + $rothValArr[$p]) * 1.05;
+							$year_end_roth_val = ($year_end_roth_val + $rothValArr[$p]) * 1.05;
+							$p++;
+							$q++;
+						}
+						
+						if($row==7)
+						{
+							$first_row_val = $first_row_val - $a20;
+							
+						}
+						
+					}
+				
+					if($col == $max_yr+1)
+					{
+						if($row==5)
+						{
+							$rothValArr[$p] = round($first_row_val - ($first_row_val * 0.22));
+							
+							$rothValArr2[$q]= ($rothValArr2[$q-1] + $first_row_val - ($first_row_val * 0.22)) * 1.05;
+							
+							
+							$p++;
+							$q++;
+						}
+					}
+					
+					if($col > $max_yr+1 && $col <= $max_yr+3)
+					{
+						$rothValArr2[$q]= $rothValArr2[$q-1] * 1.05;
 						$p++;
 						$q++;
+						break;
 					}
 					
-					if($row==7)
-					{
-						$first_row_val = $first_row_val - $a20;
-						
-					}
 					
-				}
-			
-				if($col == $max_yr+1)
-				{
-					if($row==5)
+					/*if($col==10 && $row > 6)
 					{
-						$rothValArr[$p] = round($first_row_val - ($first_row_val * 0.22));
-						
-						$rothValArr2[$q]= ($rothValArr2[$q-1] + $first_row_val - ($first_row_val * 0.22)) * 1.05;
-						
-						
+						$rothValArr[$p] = 0;
+						$rothValArr2[$q] = 0;
 						$p++;
-						$q++;
-					}
-				}
-				
-				if($col > $max_yr+1 && $col <= $max_yr+3)
-				{
-					$rothValArr2[$q]= $rothValArr2[$q-1] * 1.05;
-					$p++;
-					$q++;
-					break;
-				}
-				
-				
-				/*if($col==10 && $row > 6)
-				{
-					$rothValArr[$p] = 0;
-					$rothValArr2[$q] = 0;
-					$p++;
-				}*/
-				
-				if($row==6)
-				{
-					if($col>=3 && $col<=$max_yr)
-					{
-						$firstRyr[$fyr] = round($first_row_val - $a20);
-						$fyr++;
-					}
+					}*/
 					
-					if($col>=3 && $col==$max_yr+1)
+					if($row==6)
 					{
-						$firstRyr[$fyr] = 0;
+						if($col>=3 && $col<=$max_yr)
+						{
+							$firstRyr[$fyr] = round($first_row_val - $a20);
+							$fyr++;
+						}
+						
+						if($col>=3 && $col==$max_yr+1)
+						{
+							$firstRyr[$fyr] = 0;
+						}
 					}
 				}
+				
+				if($col >=5) 
+				{
+					$new_col++;
+				}
+				
+				
 			}
 			
-			if($col >=5) 
+			$yearEndRothVal = [];
+			$yroth = 1;
+			$midYr = (int)($max_yr/2);
+			foreach($rothValArr2 as $val)
 			{
-				$new_col++;
+				$yearEndRothVal[$yroth] = $val;
+				$yroth ++;
 			}
 			
-			
-		}
-		
-		$yearEndRothVal = [];
-		$yroth = 1;
-		$midYr = (int)($max_yr/2);
-		foreach($rothValArr2 as $val)
-		{
-			$yearEndRothVal[$yroth] = $val;
-			$yroth ++;
-		}
-		
-		//$r=4;
-		$lastKey = (int)(array_key_last($firstRyr)/2);
-		//echo $lastKey;
-		foreach($firstRyr as $key=>$val)
-		{
-			if($key == 0)
+			//$r=4;
+			$lastKey = array_key_last($firstRyr);
+			$midKey = (int)(array_key_last($firstRyr)/2);
+			foreach($firstRyr as $key=>$val)
 			{
-				$total_account_val[] = number_format(round($a14*1.05));
+				if($key == 0)
+				{
+					$total_account_val[] = number_format(round($a14*1.05));
+				}
+				elseif($key == $lastKey)
+				{
+					$total_account_val[] = number_format(round($firstRyr[$midKey] + $yearEndRothVal[$midKey]));
+				}
+				else{
+					$total_account_val[] = number_format(round($val + $yearEndRothVal[$key]));
+				}
+				 
 			}
-			else{
-				$total_account_val[] = number_format(round($val + $yearEndRothVal[$key]));
-			}
-			 
+			
+			$yearEndlastKey = array_key_last($yearEndRothVal);
+			$total_account_val[] = number_format(round($yearEndRothVal[$yearEndlastKey]));
 		}
 		
-		echo "<pre>";print_r($firstRyr);
+		/*echo "<pre>";print_r($firstRyr);
 		echo "<pre>";print_r($rothValArr);
 		echo "<pre>";print_r($rothValArr2);
 		echo "<pre>";print_r($yearEndRothVal);
-		echo "<pre>";print_r($total_account_val);die;
+		echo "<pre>";print_r($total_account_val);die;*/
 		//------------------------------------------------
 		$portfolio_Desire_data = Client_portfolio_Desires::with(['get_representative_details'])->where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		

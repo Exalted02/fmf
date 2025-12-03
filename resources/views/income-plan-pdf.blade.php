@@ -956,6 +956,8 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 			$rothValArr = [];
 			$rothValArr2 = [];
 			$year_end_roth_val = 0;
+			$max_row =$no_of_yr+3;
+			
 			for($col = 1; $col <= $no_of_cols ; $col++)
 			{
 				$index12_previous = 0;
@@ -1054,6 +1056,30 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 			$acv = 3;
 			$m20 = 0;
 			$client_roth = [];
+			
+			
+			$yearEndRothValCal = [];
+			$yk = 3;
+			if(!empty($yearEndRothVal))
+			{
+				foreach($yearEndRothVal as $val)
+				{
+					$yearEndRothValCal[$yk] = $val;
+					$yk++;
+				}
+			}
+			
+			$ak = 3;
+			$total_account_val_arr = [];
+			if(!empty($total_account_val))
+			{
+				foreach($total_account_val as $val)
+				{
+					$total_account_val_arr[$ak] = $val;
+					$ak++;
+				}
+			}
+			//echo "<pre>";print_r($total_account_val_arr);die;
 		@endphp
 		
 		
@@ -1163,38 +1189,13 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 										@if($row==6)
 											${{ number_format(round($first_row_val - $a20)) }}
 										@endif
-										@if($row==7 && $col==3)
-											${{ number_format(round($first_row_val*1.05)) }}
-											@php
-											$total_acc_val[$acv] = $first_row_val*1.05;
-											$first_row_val = $first_row_val - $a20;
-											
-											$acv++;
-											@endphp
-										@endif
-										
-										@if($row==7 && $col>=4 && $col<=6)
-											${{ number_format(round($rothValArr2[$col] + ($first_row_val - $a20))) }}
-											@php
-											$total_acc_val[$acv] = $rothValArr2[$col] + ($first_row_val - $a20);
-											
-											if($col == 5)
-											{
-												$F19 = $rothValArr2[$col] + ($first_row_val - $a20);
-											}
-											
-											$first_row_val = $first_row_val - $a20;
-											$acv++;;
-											@endphp
-										@endif
 									@endif
-									@if($row==7 && $col==7)
-										${{ number_format(round($F19)) }}
-										@php 
-											$total_acc_val[$acv] = $F19;
-											$acv++;
-										@endphp
+									
+									@if($row==7 && $col >=3 && $col<=$max_yr+2)
+										${{ $total_account_val_arr[$col] }}
 									@endif
+									
+									
 									
 									@if($row >= 8 && $col==7)
 										@php 
@@ -1236,40 +1237,20 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 									@endif
 									
 									@if($no_of_yr+3 == $col)
-										@if($row >= 3 && $row<=8)
+										@if($row >= 3 && $row<=$max_row-1)
 										Year {{ $row-2}}
 										@endif
 									@endif
 									
 									@if($no_of_yr+4 == $col)
-										@if($row >= 3 && $row<=8)
-										${{ number_format(round(($year_end_roth_val + $rothValArr[$row]) * 1.05))}}
-										@php
-											if($row == 8)
-											{
-												$m20 = ($year_end_roth_val + $rothValArr[$row]) * 1.05;
-											}
-											
-											$year_end_roth_val = ($year_end_roth_val + $rothValArr[$row]) * 1.05;
-										@endphp
+										@if($row >= 3 && $row<=$max_row-1)
+										${{ number_format(round($yearEndRothValCal[$row]))}}
 										@endif
 									@endif
 									@if($no_of_yr+5 == $col)
 										
-										@if($row >= 3 && $row<=8)
-										    @if($row == 8)
-												${{ number_format(round($m20)) }}
-												@php 
-													$client_roth[$roth_start_age] = round($m20);
-												@endphp
-											@else
-												${{ number_format(round($total_acc_val[$row])) }}
-												@php 
-													$client_roth[$roth_start_age] = round($total_acc_val[$row]);
-													$roth_start_age++;
-												@endphp
-											@endif
-											
+										@if($row >= 3 && $row<=$max_row-1)
+										    ${{ $total_account_val_arr[$row]}}
 										@endif
 									@endif
 									</td>
