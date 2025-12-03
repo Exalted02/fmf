@@ -887,6 +887,13 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 		</table>--}}
 		
 	</div>
+	@php 
+		$portfolio_Desires = App\Models\Client_portfolio_Desires::where('id', $lastId)->first();
+		$roth_start_age = $portfolio_Desires->client_age;
+		$roth_end_age = $portfolio_Desires->desired_retirement_age;
+		$no_of_yr = $roth_end_age-$roth_start_age +1;
+		$no_of_cols = $no_of_yr +5 ;
+	@endphp
 	
 	@if(!empty($husband_wife_current_finance_data))
 		@php 
@@ -1075,7 +1082,7 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 			{
 				foreach($total_account_val as $val)
 				{
-					$total_account_val_arr[$ak] = $val;
+					$total_account_val_arr[$ak] = number_format(round($val));
 					$ak++;
 				}
 			}
@@ -2338,7 +2345,7 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 		<table>
 			<tr>
 				<td width="80%">
-					<h3 class="heading-color" style="text-align:center;">Fidelity Mutual Financial <br>Custom Tax Efficient Retirement Plan <br>Designed for Darryl and Masako Stein</h3>
+					<h3 class="heading-color" style="text-align:center;">Fidelity Mutual Financial <br>Custom Tax Efficient Retirement Strategy <br>{{ $portfolio_Desires->client_name ?? '' }} and {{ $portfolio_Desires->partner_name ?? '' }}</h3>
 				</td>
 				<td width="20%">
 				@if(isset($setting->advisor_logo))
@@ -2588,7 +2595,7 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 								
 								if(in_array($k, $total_ira_inc2_key))
 								{
-									$tr_bg_color = 'red';
+									$tr_bg_color = ''; // should be red
 								}
 								
 							@endphp
