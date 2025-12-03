@@ -716,5 +716,15 @@ use App\Models\Followup_remarks;
 			'28' =>'Effective Tax Rate',
 		];
 	}
+	function clientRoth($arr = null)
+	{
+		static $store = null;
+
+		if ($arr !== null) {
+			$store = $arr;
+		}
+		echo "<pre>";print_r($store);die;
+		return $store;
+	}
 
 ?>

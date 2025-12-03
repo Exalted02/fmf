@@ -3,7 +3,6 @@ use Carbon\Carbon;
 $headerCount = count($excelheaderArray)-1;
 //echo "<pre>";print_r($excelheaderArray);die;
 //echo "<pre>";print_r($excelheaderValueArray);die;
-//echo "<pre>";print_r($plan_allocation_value);die;
 //echo "<pre>";print_r(husband_roth_tax_conversion());die;
 //echo "<pre>";print_r($plan_allocation_header);die;
 //echo "<pre>";print_r($plan_allocation_value);die;
@@ -1053,6 +1052,8 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 			$year_end_roth_val = 0;
 			$total_acc_val = [];
 			$acv = 3;
+			$m20 = 0;
+			$client_roth = [];
 		@endphp
 		
 		
@@ -1163,7 +1164,7 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 											${{ number_format(round($first_row_val - $a20)) }}
 										@endif
 										@if($row==7 && $col==3)
-											${{ number_format(round($first_row_val*1.05)) }}tt
+											${{ number_format(round($first_row_val*1.05)) }}
 											@php
 											$total_acc_val[$acv] = $first_row_val*1.05;
 											$first_row_val = $first_row_val - $a20;
@@ -1231,7 +1232,7 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 									@if($col==3 && $row==9)
 										<strong>IRA $ {{ number_format($husband_current_account_value) }}</strong>
 									@elseif($col==10 && $row==9)
-									<strong>Tax Free $ {{ number_format($tax_free_val) }}</strong>
+									<strong>Tax Free $ {{ number_format($m20) }}</strong>
 									@endif
 									
 									@if($no_of_yr+3 == $col)
@@ -1258,8 +1259,15 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 										@if($row >= 3 && $row<=8)
 										    @if($row == 8)
 												${{ number_format(round($m20)) }}
+												@php 
+													$client_roth[$roth_start_age] = round($m20);
+												@endphp
 											@else
 												${{ number_format(round($total_acc_val[$row])) }}
+												@php 
+													$client_roth[$roth_start_age] = round($total_acc_val[$row]);
+													$roth_start_age++;
+												@endphp
 											@endif
 											
 										@endif
