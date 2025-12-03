@@ -3096,7 +3096,7 @@ class PdfController extends Controller
 			 //&& preg_match('/\bsavings?\b/i', $acount->account_title)
 			if($acount->tax_qualification == 1 && stripos($acount->account_title, 'Annuity') === false)
 			{
-				$headerAccountTitleArray[] = 'RMD';
+				//$headerAccountTitleArray[] = 'RMD';
 			}
 			
 			
@@ -3479,6 +3479,7 @@ class PdfController extends Controller
 								$current_tax_value = $clientRothVal[$new_husband_age];
 								$account_value = number_format($current_tax_value);
 								$previous_tax_quali_arr[$key] = $current_tax_value;
+								$finance_account_value = $current_tax_value;
 							}
 							else if($new_wife_age >= $wife_age_rmd  && $acount->account_owner == 2)
 							{
@@ -3665,7 +3666,7 @@ class PdfController extends Controller
 							$percentRmd = current_allo_plan_distribution_period()[$rmdindex][0]; // 27-11-2025
 							
 							//------ 03-09-2025----
-							$row[] = number_format($previous_tax_quali_arr[$key] / $percentRmd);
+							//$row[] = number_format($previous_tax_quali_arr[$key] / $percentRmd);// no need here 03-12-2025
 							$storeRMDVal = $previous_tax_quali_arr[$key] / $percentRmd;
 
 							$k401_rmd = $previous_tax_quali_arr[$key] / $percentRmd;
@@ -3700,7 +3701,7 @@ class PdfController extends Controller
 							$percentRmd = current_allo_plan_distribution_period()[$rmdindex][0]; // 27-11-2025
 							
 							//------ 03-09-2025----
-							$row[] = number_format($previous_tax_quali_arr[$key] / $percentRmd);
+							//$row[] = number_format($previous_tax_quali_arr[$key] / $percentRmd); // no need here 03-12-2025
 							
 							$storeRMDVal = $previous_tax_quali_arr[$key] / $percentRmd;
 
@@ -3726,8 +3727,8 @@ class PdfController extends Controller
 						{
 							$rmd[$key] = 0;
 							$k401_rmd = 0;
-							$row[] = '';
-							//$row[] = '';
+							//$row[] = ''; // no need here 03-12-2025
+							
 							
 							if($i == 1) // here change
 							{
@@ -3840,7 +3841,7 @@ class PdfController extends Controller
 					//$row[] = '';
 				}*/
 				
-				//----- atanu start today----
+				//----- exalted start today----
 				if($new_husband_age >= $portfolio_Desire_data->desired_retirement_age)
 				{
 					foreach($current_income_account as $k=>$income_src)
