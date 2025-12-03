@@ -35,6 +35,7 @@ use App\Models\Cities;
 use App\Models\States;
 use App\Models\Source;
 use App\Models\Followup_remarks;
+use App\Models\Current_financial_account;
 
 // use File;
 	
@@ -718,7 +719,11 @@ use App\Models\Followup_remarks;
 	}
 	function future_roth_distribution_period()
 	{
-		return [
+		$sl_no = Session::get('sl_no');
+		$financialdata = Current_financial_account::where('sl_no', $sl_no)->first();
+		$rmdstartage = $financialdata ? $financialdata->rmd_start_age : '';
+		
+		$data =  [
 			
 			'75'=> array('0'=>24.6, '1'=>11722.97),
 			'76'=> array('0'=>23.7, '1'=>4477.34),
@@ -747,6 +752,18 @@ use App\Models\Followup_remarks;
 			'98'=> array('0'=>6.8, '1'=>23446),
 			'99'=> array('0'=>6.4, '1'=>23446),
 		];
+		
+		$shifted = [];
+
+		$originalStartAge = 75;
+		$ageDiff = $originalStartAge - $rmdstartage; 
+
+		foreach ($data as $age => $value) {
+			$newAge = $age - $ageDiff;  
+			$shifted[$newAge] = $value;
+		}
+
+		return $shifted;
 	}
 
 ?>

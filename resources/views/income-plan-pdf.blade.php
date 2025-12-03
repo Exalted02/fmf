@@ -2595,7 +2595,7 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 								
 								if(in_array($k, $total_ira_inc2_key))
 								{
-									$tr_bg_color = ''; // should be red
+									$tr_bg_color = 'red'; // should be red
 								}
 								
 							@endphp
