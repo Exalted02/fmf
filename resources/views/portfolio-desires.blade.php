@@ -251,6 +251,8 @@
 		$('.cola_age_error').text('');
 		$('.assumed_return_error').text('');
 		
+		let roth_min_age = parseInt(client_age) + parseInt(3);
+		//alert(roth_min_age);
 		
 		let isValid = true;
 		$('.invalid-feedback').hide();
@@ -290,6 +292,17 @@
 			$('.desired_retirement_age_error').text('Enter desired retirement age');
 			isValid = false;
 		}
+		
+		//alert(roth_min_age);alert(desired_retirement_age);
+		if(roth_min_age > desired_retirement_age)
+		{
+			$('html, body').animate({
+			  scrollTop: $('#desired_retirement_age').offset().top
+			}, 800);
+			$('.desired_retirement_age_error').text('Retirement age should be 3 year or more than client age');
+			isValid = false;
+		}
+		
 		if (tax_deduction === '')
 		{
 			$('.tax_deduction_error').text('Enter tax deduction');

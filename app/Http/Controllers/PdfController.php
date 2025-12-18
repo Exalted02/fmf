@@ -29,9 +29,20 @@ class PdfController extends Controller
 			$lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
 		}
 		
+		$portfolioData = Client_portfolio_Desires::where('id', $lastId)->first();
+		$partner_name = $portfolioData ? $portfolioData->partner_name : null;
+		$partner_age = $portfolioData ? $portfolioData->partner_age : null;
+		
+		
 		$roth = $this->rothConversionPage($lastId);
 		//echo "<pre>";print_r($roth);die;
-		$data = $this->current_financial_account_page($lastId);
+		if(!empty($partner_name) && !empty($partner_age))
+		{
+			$data = $this->current_financial_account_page($lastId);
+		}
+		else{
+			$data = $this->single_current_financial_account_page($lastId);
+		}
 		//echo "<pre>";print_r($data);die;
 		$plan_allo_header = $this->allocation_plan_details($lastId);
 		//echo "<pre>";print_r($plan_allo_header);die;
@@ -48,7 +59,7 @@ class PdfController extends Controller
         ]);
 		$pdf = PDF::setOptions(['isHTML5ParserEnabled' => true, 'isRemoteEnabled' => true]);
 		
-		//return view('income-plan-pdf',  array_merge($plan_allo_header, $data, $roth));
+		return view('income-plan-pdf',  array_merge($plan_allo_header, $data, $roth));
 		
         $pdf->getDomPDF()->setHttpContext($contxt);
 		$pdf->loadView('income-plan-pdf', array_merge($plan_allo_header, $data, $roth))->setPaper('a4', 'landscape');
@@ -63,7 +74,7 @@ class PdfController extends Controller
 		//echo $lastId; die;
 		// $lastId = Client_portfolio_Desires::where('user_id', auth()->user()->id)->latest('id')->value('id');
 		
-		//echo $lastId; die;
+		//echo $lastId; die; 
 		
 		$portfolio_Desire_data = Client_portfolio_Desires::with(['get_representative_details'])->where('user_id', auth()->user()->id)->where('id', $lastId)->first();
 		
@@ -203,7 +214,8 @@ class PdfController extends Controller
 		$sumcurrentinc = 0;
 		$inc_goal = 0;
 		$store_previous_income_arr = [];
-		
+		$sum_before_tax_bill = 0;
+		$sum_rmd_before = 0;
 		
 		for($i=1; $i<=31; $i++)
 		{
@@ -275,7 +287,7 @@ class PdfController extends Controller
 				}
 				elseif($new_husband_age > $portfolio_Desire_data->desired_retirement_age)
 				{
-					$inc_goal = round($inc_goal * (1 + $COLA / 100));
+					$inc_goal = round($inc_goal * (1 + 2.5 / 100));
 				}
 				
 				
@@ -288,7 +300,7 @@ class PdfController extends Controller
 				}
 				else if($new_husband_age >= $portfolio_Desire_data->desired_retirement_age)
 				{
-					$storeGapFromAsset = $inc_goal - $sumincomes;
+					$storeGapFromAsset = round($inc_goal - $sumincomes);
 					//$store_gap_from_retirement[$i] = $inc_goal - $grossInc;
 					$store_gap_from_retirement[$i] = 0;
 					//$gap_from_asset[$i] = $store_gap_from_retirement[$g];
@@ -374,7 +386,7 @@ class PdfController extends Controller
 					else{
 						$husband_age_rmd = 75;
 					}
-					
+				
 					//---------------------------------------
 					
 					if($acount->account_owner == 2)
@@ -457,6 +469,11 @@ class PdfController extends Controller
 						}
 					}
 					
+					if($new_husband_age >= $portfolio_Desire_data->desired_retirement_age && $new_husband_age < $husband_age_rmd)
+					{
+						$sum_rmd_before = $sum_rmd_before +$storeGapFromAsset;
+					}
+					
 					// here loop should extends according to tax_qualification fields = 1 and has no Annuity
 					if($acount->tax_qualification == 1    && stripos($acount->account_title, 'Annuity') === false)
 					{
@@ -483,12 +500,20 @@ class PdfController extends Controller
 								{
 									//$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key] - $gap_from_asset_pre[$i-1]);// substract from gap from asset 17-11-2025
 									
-									$percentClRmd = current_allo_plan_distribution_period()[$rmdClientindex][0];
+									//----- 05-12-2025---
+									//$percentClRmd = current_allo_plan_distribution_period()[$rmdClientindex][0];
 									
-									$clientRmdCal = round($previous_tax_quali_arr[$key]/$percentClRmd);
-									$storeGapFromAsset = $storeGapFromAsset-$clientRmdCal;
-									
-									$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $clientRmdCal - $storeGapFromAsset); // 27-11-2025
+									if($new_husband_age >= $husband_age_rmd)
+									{
+										$percentClRmd = future_roth_distribution_period()[$new_husband_age][0];
+										//----- end 05-12-2025----
+										
+										$clientRmdCal = round($previous_tax_quali_arr[$key]/$percentClRmd);
+										$storeGapFromAsset = $storeGapFromAsset-$clientRmdCal;
+										
+										$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $clientRmdCal - $storeGapFromAsset); // 27-11-2025
+										
+									}
 								}
 								else{
 									//$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key] - $gap_from_asset[$i-1]);// substract from gap from asset 06-11-2025
@@ -675,13 +700,19 @@ class PdfController extends Controller
 						{
 							//$percentRmd = distribution_period()[$new_husband_age][0]; // before 27-11-2025
 							
-							$percentRmd = current_allo_plan_distribution_period()[$rmdindex][0]; // 27-11-2025
+							//---- 05-12-2025------
+							//$percentRmd = current_allo_plan_distribution_period()[$rmdindex][0]; // 27-11-2025
+							
+							$percentRmd = future_roth_distribution_period()[$new_husband_age][0];
+							//--------------
 							
 							//------ 03-09-2025----
 							$row[] = number_format($previous_tax_quali_arr[$key] / $percentRmd);
 							$storeRMDVal = $previous_tax_quali_arr[$key] / $percentRmd;
 
 							$k401_rmd = $previous_tax_quali_arr[$key] / $percentRmd;
+							
+							$sum_rmd_before = $sum_rmd_before + ($previous_tax_quali_arr[$key] / $percentRmd);
 							
 							//$rmd = $previous_tax_quali_arr[$key] / $percentRmd;
 							//$current_tax_value = round(($previous_tax_quali_arr[$key] * 1.05) - $rmd[$key] - $gap_from_asset[$i-1]);// substract from gap from asset 30-10-2025
@@ -710,7 +741,11 @@ class PdfController extends Controller
 						{
 							//$percentRmd = distribution_period()[$new_wife_age][0]; // before 27-11-2025
 							
-							$percentRmd = current_allo_plan_distribution_period()[$rmdindex][0]; // 27-11-2025
+							//-- 05-12-2025---
+							//$percentRmd = current_allo_plan_distribution_period()[$rmdindex][0]; // 27-11-2025
+							
+							$percentRmd = future_roth_distribution_period()[$new_husband_age][0];
+							//---------------
 							
 							//------ 03-09-2025----
 							$row[] = number_format($previous_tax_quali_arr[$key] / $percentRmd);
@@ -1040,6 +1075,7 @@ class PdfController extends Controller
 				//---- tax rate percent --
 				$tax_rate = 0;
 				$tax_bill = 0;
+				
 				if($new_husband_age >= $portfolio_Desire_data->desired_retirement_age)
 				{
 					if($taxable_income > 0 && $taxable_income <= 23850)
@@ -1074,6 +1110,8 @@ class PdfController extends Controller
 					//$tax_bill = number_format(round(($gross_income+$finalGapFromAsset) * $tax_rate/100));
 					
 					$tax_bill = number_format(round(($ss_taxable_income+$finalGapFromAsset) * $tax_rate/100));
+					
+					$sum_before_tax_bill = $sum_before_tax_bill + ($ss_taxable_income+$finalGapFromAsset) * ($tax_rate/100);
 				}
 				
 				//$tax_bill = number_format(round(($gross_income+$finalGapFromAsset) * $tax_rate/100));
@@ -1184,6 +1222,7 @@ class PdfController extends Controller
 		
 		$headerArray = array_merge($headerAccountOwnerArray,$headerAccountTitleArray,$headerIncomeArray);
 		
+		//echo "<pre>";print_r($headerArray);die;
 		//echo "<pre>";print_r($headerAccountOwnerValueArray);die;
 		//echo "<pre>";print_r($headerIncomeValueArray);die;
 		
@@ -1386,6 +1425,8 @@ class PdfController extends Controller
             "lastId" => $lastId,
             "yearEndRothVal" => $yearEndRothVal,
             "total_account_val" => $total_account_val,
+            "sum_before_tax_bill" => $sum_before_tax_bill,
+            "sum_rmd_before" => $sum_rmd_before,
         ];
 		
 		return $data;
@@ -3169,7 +3210,8 @@ class PdfController extends Controller
 		$sumcurrentinc = 0;
 		$inc_goal = 0;
 		$store_previous_income_arr = [];
-		
+		$sum_future_tax_bill = 0;
+		$sum_tax_free_inc = 0;
 		
 		for($i=1; $i<=31; $i++)
 		{
@@ -3647,10 +3689,13 @@ class PdfController extends Controller
 					if($new_husband_age >=$husband_age_rmd)
 					{
 						$row[] = number_format(round($previous_tax_quali_arr[$key]/future_roth_distribution_period()[$new_husband_age][0]));
+						
+						$sum_tax_free_inc = $sum_tax_free_inc + $previous_tax_quali_arr[$key]/future_roth_distribution_period()[$new_husband_age][0];
 					}
 					else
 					{
 						$row[] = number_format(round($storeGapFromAsset));
+						$sum_tax_free_inc = $sum_tax_free_inc + $storeGapFromAsset;
 					}
 					
 					
@@ -4028,6 +4073,7 @@ class PdfController extends Controller
 				//---- tax rate percent --
 				$tax_rate = 0;
 				$tax_bill = 0;
+				
 				if($new_husband_age >= $portfolio_Desire_data->desired_retirement_age)
 				{
 					if($taxable_income > 0 && $taxable_income <= 23850)
@@ -4072,14 +4118,16 @@ class PdfController extends Controller
 				if($new_husband_age == $portfolio_Desire_data->desired_retirement_age)
 				{
 					$irs_partner = round(($income_goal * $tax_rate) / 100);
-					$tax_bill = number_format($ss_taxable_income * $tax_rate/100);
+					$tax_bill = number_format($ss_taxable_income * 12/100);
+					$sum_future_tax_bill = $sum_future_tax_bill + ($ss_taxable_income * 12/100);
 				}
 				elseif($new_husband_age >= $portfolio_Desire_data->desired_retirement_age)
 				{
 					//$irs_partner = round(($taxable_income * $tax_rate) / 100);
 					$irs_partner = round(($income_goal * $tax_rate) / 100);
 					
-					$tax_bill = number_format($ss_taxable_income * $tax_rate/100);
+					$tax_bill = number_format($ss_taxable_income * 12/100);
+					$sum_future_tax_bill = $sum_future_tax_bill + ($ss_taxable_income * 12/100);
 				}
 				//-------
 				//----store gap from asset value 30-10-2025 from retirement age of client----    
@@ -4214,7 +4262,534 @@ class PdfController extends Controller
 		$data = [
 			"plan_allocation_header"=> $headerArray,
 			"plan_allocation_value" => $headerValueArray,
+			"sum_future_tax_bill" => $sum_future_tax_bill,
+			"sum_tax_free_inc" => $sum_tax_free_inc,
 		];
+		
+		return $data;
+	}
+	public function single_current_financial_account_page($lastId)
+	{
+		//echo $lastId;die;
+		$portfolio_Desire_data = Client_portfolio_Desires::with(['get_representative_details'])->where('user_id', auth()->user()->id)->where('id', $lastId)->first();
+		
+		$current_financial_account = Current_financial_account::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->get();
+		
+		$current_income_account = Guaranteed_income_sources::where('sl_no', $lastId)->where('user_id', auth()->user()->id)->get();
+		
+		//echo "<pre>";print_r($current_income_account);die;
+		
+		// for more excel data in pdf
+		$headerAccountOwnerArray = [];
+		$headerAccountTitleArray = [];
+		$headerIncomeArray = [];
+		$owner = [];
+		
+		$headerAccountOwnerValueArray = [];
+		$headerIncomeValueArray = [];
+		$headerValueArray = [];
+		$gross_income = 0;
+		$taxable_income = 0;
+		$finance_account_value =0;
+		$desired_gross_income_retirement = 0;
+		
+		$headerAccountTitleArray[] = 'Year';
+		$headerAccountTitleArray[] = $portfolio_Desire_data->client_name ?? '';
+		
+		if(!empty($portfolio_Desire_data->partner_name))
+		$headerAccountTitleArray[] = $portfolio_Desire_data->partner_name ?? '';
+		
+		
+		$v = 0;
+		$vs = 0;
+		
+		$headerAccountTitleArray[] = 'Cash Account';
+		foreach($current_financial_account as $key=>$acount)
+		{
+			$account_owner = $acount->account_owner == 1 ? 'Husband' : ($acount->account_owner == 2 ? 'Wife' : 'Joint');
+			
+			
+			
+			$headTitle = $acount->account_owner == 1 ? $acount->owner_name.' '.$acount->account_title : ($acount->account_owner == 2 ? $acount->owner_name.' '.$acount->account_title : $acount->owner_name.' '.$acount->account_title);
+			
+			$headerAccountTitleArray[] = $headTitle;
+			
+			//if (stripos($acount->account_title, 'nq') !== false)
+				
+			if ($acount->tax_qualification == 2 && !preg_match('/\bsavings?\b/i', $acount->account_title))
+			{
+				$headerAccountTitleArray[] = 'Income';
+			}
+			
+			// here header loop extends according to tax_qualification fields
+			 //&& preg_match('/\bsavings?\b/i', $acount->account_title)
+			if($acount->tax_qualification == 1 && stripos($acount->account_title, 'Annuity') === false)
+			{
+				$headerAccountTitleArray[] = 'RMD';
+			}
+			
+			if(stripos($acount->account_title, 'Annuity') !== false)
+			{
+				if($acount->account_owner == 1)
+				{
+					//$headerAccountTitleArray[] = 'Husband RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/ Income';
+				}
+				//$headerAccountTitleArray[] = 'RMD';
+				if($acount->account_owner == 2)
+				{
+					$headerAccountTitleArray[] = 'RMD';
+					//$headerAccountTitleArray[] = 'Wife RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/ Income';
+				}
+				
+				if($acount->account_owner == 3)
+				{
+					//$headerAccountTitleArray[] = 'Joint RMD/Income';
+					$headerAccountTitleArray[] = $acount->owner_name.' '.'RMD/ Income';
+				}
+			}
+			
+		}
+		
+		foreach($current_income_account as $income_src)
+		{
+			$headerAccountTitleArray[] = $income_src->client_name;
+		}
+		
+		$headerAccountTitleArray[] = 'Taxable SS 2.85%';
+		$headerAccountTitleArray[] = 'Ded';
+		$headerAccountTitleArray[] = 'Taxable Income';
+		$headerAccountTitleArray[] = 'Income Goal';
+		$headerAccountTitleArray[] = 'Income Gap';
+		$headerAccountTitleArray[] = 'Eff Tax 12.0%';
+		$headerAccountTitleArray[] = 'IRS Takes';
+		$headerAccountTitleArray[] = 'IRMAA';
+		$headerAccountTitleArray[] = 'Total Assets';
+		
+		//echo "<pre>";print_r($headerAccountTitleArray);die;
+		$j=0;
+		$cashAccount = [];
+		$currrentPortfolioVal = [];
+		$currrentGuarantedVal = [];
+		$rmdVal = [];
+		$taxDeductionVal = [];
+		$taxableSocialSecurity = [];
+		$incomeGoal = [];
+		$incomeGap = [];
+		$taxable_income = 0;
+		$totalAsset = 0;
+		
+		for($i=1; $i<=31; $i++)
+		{
+			$row = [];
+			
+			$ageData = Client_portfolio_Desires::where('id', $acount->sl_no)->first();
+			$husbandAge = $ageData ? $ageData->client_age : '';
+			$new_husband_age = $husbandAge + $j;
+			$row[] = $i;
+			$row[] = $husbandAge + $j;
+			
+			// cash account
+			if($i==1)
+			{
+				$row[] = '$'. number_format(20000);
+				$cashAccount[$i] = 20000;
+			}
+			else
+			{
+				$row[] = '$'. number_format(round($cashAccount[$i-1] * 1.0125));
+				$cashAccount[$i] = round($cashAccount[$i-1] * 1.0125);
+			}
+			//--------
+			
+			
+			// column 5
+			foreach($current_financial_account as $key=>$acount)
+			{
+				if($i==1)
+				{
+					$row[] = '$'. number_format(round($acount->account_value));
+				    $currrentPortfolioVal[$i] = round($acount->account_value);
+					$totalAsset = round($acount->account_value);
+				}
+				else{
+					$row[] = '$ '.number_format(round(($currrentPortfolioVal[$i-1] * 1.05) - $incomeGap[$i-1]));
+				    $currrentPortfolioVal[$i] = round(($currrentPortfolioVal[$i-1] * 1.05) - $incomeGap[$i-1]);
+					$totalAsset = round(($currrentPortfolioVal[$i-1] * 1.05) - $incomeGap[$i-1]);
+				}
+				
+				// RMD column
+				if($new_husband_age >= $acount->rmd_start_age)
+				{
+					$row[] = '$'. number_format(round($currrentPortfolioVal[$i-1]/allo_plan_distribution_period_single()[$new_husband_age][0]));
+					//$row[] = $currrentPortfolioVal[$i];
+					$rmdVal[$i] = round($currrentPortfolioVal[$i-1]/allo_plan_distribution_period_single()[$new_husband_age][0]);
+				}
+				else{
+					$row[] = '';
+					$rmdVal[$i] = 0;
+				}
+				//--------------
+			}
+			//--------------------
+			// column for guaranted income source
+			foreach($current_income_account as $income_src)
+			{
+				if($new_husband_age == $income_src->start_age)
+				{
+					$row[] = '$'. number_format(round($income_src->income_amount));
+					$currrentGuarantedVal[$i] = round($income_src->income_amount);
+				}
+				else if($new_husband_age > $income_src->start_age){
+					$current_value = $currrentGuarantedVal[$i-1] * 1.022;
+					$row[] = '$'. number_format(round($current_value));
+					$currrentGuarantedVal[$i] = round($current_value);
+				}
+				else{
+					$row[] = '';
+				}
+			}
+			
+			//----------------
+			// Taxable income social security
+			if($new_husband_age >= $income_src->start_age)
+			{				
+				$row[] = '$'. number_format(round($currrentGuarantedVal[$i] * 0.85));
+				$taxableSocialSecurity[$i] = $currrentGuarantedVal[$i] * 0.85;
+			}
+			else{
+				$row[] = '';
+				$taxableSocialSecurity[$i] = 0;
+			}
+			//---------
+			
+			// Ded (deduction)
+			if($portfolio_Desire_data->client_age < 65)
+			{
+				
+				
+				if($i <= 3)
+				{
+					$row[] = '$'.number_format(round($portfolio_Desire_data->tax_deduction));
+					$taxDeductionVal[$i] = round($portfolio_Desire_data->tax_deduction);
+				}
+				elseif($i > 3)
+				{
+					
+					$row[] = '$'.number_format(round($taxDeductionVal[$i-1] * 1.022));
+					$taxDeductionVal[$i] = round($taxDeductionVal[$i-1] * 1.022);
+				}
+			}
+			else{
+				$row[] = '';
+				$taxDeductionVal[$i] = 0;
+			}
+			//------
+			//===================================================
+			// calculation for income goal 
+			if($new_husband_age == $current_income_account[0]->start_age){
+				$incomeGoal[$i] = 100000;
+			}
+			elseif($new_husband_age > $current_income_account[0]->start_age){
+				$incomeGoal[$i] = round($incomeGoal[$i-1]*1.03);
+			}
+			else{
+				$incomeGoal[$i] = 0;
+			}
+			
+			//--- calculation for incomeGap----------
+			if($new_husband_age >= $current_income_account[0]->start_age)
+			{
+				$incomeGap[$i] = round($incomeGoal[$i] - $rmdVal[$i] - $currrentGuarantedVal[$i]);
+			}
+			else{
+				$incomeGap[$i] = round($portfolio_Desire_data->desired_gross_income_retirement);
+			}
+			//=========================================================
+			
+			//--- taxable income --
+			if($new_husband_age >= $current_income_account[0]->start_age)
+			{
+				$row[] = '$'.number_format(round($rmdVal[$i] + $taxableSocialSecurity[$i] + $incomeGap[$i] - $taxDeductionVal[$i]));
+				$taxable_income = round($rmdVal[$i] + $taxableSocialSecurity[$i] + $incomeGap[$i] - $taxDeductionVal[$i]);
+			}
+			else{
+				$row[] = '$'.number_format(round($rmdVal[$i] + $taxableSocialSecurity[$i] + $portfolio_Desire_data->desired_gross_income_retirement - $taxDeductionVal[$i]));
+				$taxable_income = round($rmdVal[$i] + $taxableSocialSecurity[$i] + $portfolio_Desire_data->desired_gross_income_retirement - $taxDeductionVal[$i]);
+			}
+			//-------------------
+			
+			// income goal 
+				if($new_husband_age == $current_income_account[0]->start_age)
+				{
+					$row[] = '$'. number_format(100000);
+					$incomeGoal[$i] = 100000;
+				}
+				elseif($new_husband_age > $current_income_account[0]->start_age)
+				{
+					$row[] = '$'.number_format(round($incomeGoal[$i-1]*1.03));
+					$incomeGoal[$i] = round($incomeGoal[$i-1]*1.03);
+				}
+				else{
+					$row[] = '$'.number_format(round($portfolio_Desire_data->desired_gross_income_retirement));
+					$incomeGoal[$i] = 0;
+				}
+			//--------
+			
+			// income gap 
+				if($new_husband_age >= $current_income_account[0]->start_age)
+				{
+					$row[] = '$'.number_format(round($incomeGoal[$i] - $rmdVal[$i] - $currrentGuarantedVal[$i]));
+					$incomeGap[$i] = round($incomeGoal[$i] - $rmdVal[$i] - $currrentGuarantedVal[$i]);
+				}
+				else{
+					$row[] = '$'.number_format(round($portfolio_Desire_data->desired_gross_income_retirement));
+					$incomeGap[$i] = round($portfolio_Desire_data->desired_gross_income_retirement);
+				}
+			//--------
+			
+			//---------- Eff tax percentage --
+			if($taxable_income > 0 && $taxable_income <= 23850)
+			{
+				$tax_rate = 10; // %
+			}
+			else if($taxable_income >= 23851 && $taxable_income <= 96950)
+			{
+				$tax_rate = 12; // %
+			}
+			else if($taxable_income >= 96951 && $taxable_income <= 206700)
+			{
+				$tax_rate = 22; // %
+			}
+			else if($taxable_income >= 206701 && $taxable_income <= 394600)
+			{
+				$tax_rate = 24; // %
+			}
+			else if($taxable_income >= 394601 && $taxable_income <= 501050)
+			{
+				$tax_rate = 32; // %
+			}
+			else if($taxable_income >= 501051 && $taxable_income <= 751600)
+			{
+				$tax_rate = 35; // %
+			}
+			else if($taxable_income >=751601)
+			{
+				$tax_rate = 37; // %
+			}
+			$row[] = '22 %';
+			
+			//---- IRS takes --
+			$row[] = '$'.number_format(round($taxable_income*0.22));
+			//------
+			//--- IRMAA --
+			$row[] = '';
+			//---- toal asset --
+			$row[] = '$'.number_format($totalAsset);
+			
+			
+			// final store in array
+			$j++;
+			$headerValueArray[$i] = $row;
+		}
+		
+		
+		
+		//echo "<pre>";print_r($headerValueArray);die;
+		
+		
+		//====================for roth calculation===========================
+		$portfolio_Desires = Client_portfolio_Desires::where('id', $lastId)->first();
+		$roth_start_age = $portfolio_Desires->client_age;
+		$roth_end_age = $portfolio_Desires->desired_retirement_age;
+		$no_of_yr = $roth_end_age-$roth_start_age +1;
+		$no_of_cols = $no_of_yr +5 ;
+			
+		$husband_wife_current_finance_data = Current_financial_account::where('sl_no', $lastId)->where('account_owner', 1)->where('tax_qualification', 1)->first();
+
+		$husband_current_account_value = $husband_wife_current_finance_data ? $husband_wife_current_finance_data->account_value : '';
+		
+		$rothValArr = [];
+		$rothValArr2 = [];
+		$year_end_roth_val = 0;
+		$new_col = 5;
+		$max_yr = $no_of_yr;
+		$p=3;
+		$q=4;
+		$max_row =$no_of_yr+3;
+		$fyr = 0;
+		
+		$firstRyr = [];
+		$first_row_val = 0;
+		$total_account_val = [];
+		if(!empty($husband_current_account_value))
+		{
+			for($col = 1; $col <= $no_of_cols ; $col++)
+			{
+				$index12_previous = 0;
+				$h_acc_value = $husband_current_account_value ?? '';
+				$a12 = round($h_acc_value * 0.16);
+				$a14 =  $h_acc_value + $a12;
+				$a17 =  round($a14 * 1.05);
+				$a20_pre = round($a17/6);
+				
+				$a20 =  round($a17/4);
+				
+				if($col==3)
+				{
+					$first_row_val = $a14;
+				}
+				if($col==4)
+				{
+					$first_row_val = $a17;
+				}
+				if($new_col == $col)
+				{
+					$first_row_val = $first_row_val*1.05;
+				}
+				
+				for($row = 1; $row <= $max_row; $row++)
+				{
+					if($col >= 4 && $col<=$max_yr)
+					{
+						
+						
+						if($row==5)
+						{
+							$rothValArr[$p] = round($a20 - ($a20 * 0.22));
+							
+							$rothValArr2[$q]= ($year_end_roth_val + $rothValArr[$p]) * 1.05;
+							$year_end_roth_val = ($year_end_roth_val + $rothValArr[$p]) * 1.05;
+							$p++;
+							$q++;
+						}
+						
+						if($row==7)
+						{
+							$first_row_val = $first_row_val - $a20;
+							
+						}
+						
+					}
+				
+					if($col == $max_yr+1)
+					{
+						if($row==5)
+						{
+							$rothValArr[$p] = round($first_row_val - ($first_row_val * 0.22));
+							
+							$rothValArr2[$q]= ($rothValArr2[$q-1] + $first_row_val - ($first_row_val * 0.22)) * 1.05;
+							
+							
+							$p++;
+							$q++;
+						}
+					}
+					
+					if($col > $max_yr+1 && $col <= $max_yr+3)
+					{
+						$rothValArr2[$q]= $rothValArr2[$q-1] * 1.05;
+						$p++;
+						$q++;
+						break;
+					}
+					
+					
+					/*if($col==10 && $row > 6)
+					{
+						$rothValArr[$p] = 0;
+						$rothValArr2[$q] = 0;
+						$p++;
+					}*/
+					
+					if($row==6)
+					{
+						if($col>=3 && $col<=$max_yr)
+						{
+							$firstRyr[$fyr] = round($first_row_val - $a20);
+							$fyr++;
+						}
+						
+						if($col>=3 && $col==$max_yr+1)
+						{
+							$firstRyr[$fyr] = 0;
+						}
+					}
+				}
+				
+				if($col >=5) 
+				{
+					$new_col++;
+				}
+				
+				
+			}
+			
+			$yearEndRothVal = [];
+			$yroth = 1;
+			$midYr = (int)($max_yr/2);
+			foreach($rothValArr2 as $val)
+			{
+				$yearEndRothVal[$yroth] = $val;
+				$yroth ++;
+			}
+			
+			//$r=4;
+			$lastKey = array_key_last($firstRyr);
+			$midKey = (int)(array_key_last($firstRyr)/2);
+			foreach($firstRyr as $key=>$val)
+			{
+				if($key == 0)
+				{
+					$total_account_val[] = $a14*1.05;
+				}
+				elseif($key == $lastKey)
+				{
+					$total_account_val[] = $firstRyr[$midKey] + $yearEndRothVal[$midKey];
+				}
+				else{
+					$total_account_val[] = $val + $yearEndRothVal[$key];
+				}
+				 
+			}
+			
+			$yearEndlastKey = array_key_last($yearEndRothVal);
+			$total_account_val[] = $yearEndRothVal[$yearEndlastKey];
+		}
+		
+		$sum_before_tax_bill = 0;
+		$sum_rmd_before = 0;
+		
+		$data = [
+			"created_at" => $portfolio_Desire_data->created_at ?? '',
+			"representative" => $portfolio_Desire_data->get_representative_details->name ?? '',
+			"client_nm" => $portfolio_Desire_data->client_name ?? '',
+			"partner_nm" => $portfolio_Desire_data->partner_name ?? '',
+            "current_position" => $portfolio_Desire_data->current_portfolio_value ?? '',
+            "current_age" => $portfolio_Desire_data->client_age ?? '',
+            "retirement_age" => $portfolio_Desire_data->desired_retirement_age ?? '',
+            "desired_retirement_income" => $portfolio_Desire_data->desired_gross_income_retirement ?? '',
+            "cola" => $portfolio_Desire_data->COLA ?? '',
+            "growth_allocation" => $portfolio_Desire_data->current_portfolio_value ?? '',
+            "primary_goals" => $portfolio_Desire_data->RIPG ?? '',
+            "wife_annuity" => "2,377,000",
+            "husband_annuity" => "803,952",
+            "joint_401k" => "156,000",
+            "asset_total" => "3,853,752",
+            "income_total" => "61,536",
+            "wife_ss" => "35,772",
+            "husband_ss" => "25,764",
+            "current_financial_account" => $current_financial_account,
+            "current_income_account" => $current_income_account,
+            "excelheaderArray" => $headerAccountTitleArray,
+            "excelheaderValueArray" => $headerValueArray,
+            "lastId" => $lastId,
+            "yearEndRothVal" => $yearEndRothVal,
+            "total_account_val" => $total_account_val,
+            "sum_before_tax_bill" => $sum_before_tax_bill,
+            "sum_rmd_before" => $sum_rmd_before,
+        ];
 		
 		return $data;
 	}

@@ -892,7 +892,8 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 		$roth_start_age = $portfolio_Desires->client_age;
 		$roth_end_age = $portfolio_Desires->desired_retirement_age;
 		$no_of_yr = $roth_end_age-$roth_start_age +1;
-		$no_of_cols = $no_of_yr +5 ;
+		//echo $roth_end_age.' '.$roth_start_age; die;
+		$no_of_cols = $no_of_yr +5;
 	@endphp
 	
 	@if(!empty($husband_wife_current_finance_data))
@@ -980,20 +981,22 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 				{
 					$first_row_val = $a14;
 				}
+				
 				if($col==4)
 				{
 					$first_row_val = $a17;
+					//echo $p .' '.$rothValArr[$p];die;
 				}
+				
 				if($new_col == $col)
 				{
 					$first_row_val = $first_row_val*1.05;
 				}
 				
-				for($row = 1; $row <= 9; $row++)
+				/*for($row = 1; $row <= 9; $row++)
 				{
 					if($col >= 4 && $col<=$max_yr)
 					{
-						
 						
 						if($row==5)
 						{
@@ -1044,7 +1047,7 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 						$rothValArr2[$q] = 0;
 						$p++;
 					}
-				}
+				}*/
 				
 				if($col >=5) 
 				{
@@ -1132,6 +1135,7 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 						}
 						if($new_col == $col)
 						{
+							$first_row_val = $first_row_val - $a20;
 							$first_row_val = $first_row_val*1.05;
 						}
 					@endphp
@@ -2729,34 +2733,34 @@ $husband_current_account_value = $husband_wife_current_finance_data ? $husband_w
 			</thead>
 			<tbody>
 				<tr>
-					<td style="font-size:15px; background-color:red;text:bold;"><strong>$ {{ number_format($total_irs_partner) }}</strong></td>
+					<td style="font-size:15px; background-color:red;text:bold;"><strong>$ {{ number_format($sum_before_tax_bill) }}</strong></td>
 					<td style="font-size:15px;text:bold;"><h3>Total Taxes Paid By Age 95</h3></td>
-					<td style="font-size:15px; background-color:#A1F21D;text:bold;"><strong>$ {{ number_format($total_irs_partner2) }}</strong></td>
+					<td style="font-size:15px; background-color:#A1F21D;text:bold;"><strong>$ {{ number_format($sum_future_tax_bill) }}</strong></td>
 				</tr>
 				<tr>
-					<td style="font-size:15px; background-color:red;text:bold;"><strong>{{ $last_tax_rate }} %</strong></td>
+					<td style="font-size:15px; background-color:red;text:bold;"><strong>0 %</strong></td>
 					<td style="font-size:15px;text:bold;"><h3>Tax Bracket by Age 95</h3></td>
-					<td style="font-size:15px; background-color:#A1F21D;text:bold;"><strong>{{ $last_tax_rate2 }} %</strong></td>
+					<td style="font-size:15px; background-color:#A1F21D;text:bold;"><strong>${{ number_format($sum_tax_free_inc) }} %</strong></td>
 				</tr>
 				<tr>
-					<td style="font-size:15px; background-color:red;;text:bold;"><strong>$ {{ number_format($total_estate) }}</strong></td>
+					<td style="font-size:15px; background-color:red;;text:bold;"><strong>$ 0</strong></td>
 					<td style="font-size:15px;;text:bold;"><h3>Total Estate Value by Age 95</h3></td>
-					<td style="font-size:15px;background-color:#A1F21D;;text:bold;"><strong>$ {{ number_format($total_estate2) }}</strong></td>
+					<td style="font-size:15px;background-color:#A1F21D;;text:bold;"><strong>$ 0</strong></td>
 				</tr>
 				<tr>
-					<td style="font-size:15px; background-color:red;;text:bold;"><strong>0</strong></td>
-					<td style="font-size:15px;;text:bold;"><h3>Tax Free Asset Value by Age 90</h3></td>
-					<td style="font-size:15px;background-color:#A1F21D;;text:bold;"><strong>$ {{ number_format($total_tax_free_asset) }}</strong></td>
+					<td style="font-size:15px; background-color:red;;text:bold;"><strong>12%</strong></td>
+					<td style="font-size:15px;;text:bold;"><h3>Tax Rate At 95</h3></td>
+					<td style="font-size:15px;background-color:#A1F21D;;text:bold;"><strong>12%</strong></td>
 				</tr>
 				<tr>
-					<td style="font-size:15px;background-color:red;;text:bold;"><strong>0</strong></td>
-					<td style="font-size:15px;;text:bold;"><h3>Tax Free Income by Age 95</h3></td>
-					<td style="font-size:15px; background-color:#A1F21D;;text:bold;"><strong>$ {{ number_format($total_wife_tax_free_inc + $total_husband_tax_free_inc) }}</strong></td>
+					<td style="font-size:15px;background-color:red;;text:bold;"><strong>${{ number_format($sum_rmd_before)}}</strong></td>
+					<td style="font-size:15px;;text:bold;"><h3>Total RMS`s At 95</h3></td>
+					<td style="font-size:15px; background-color:#A1F21D;;text:bold;"><strong>$ 0</strong></td>
 				</tr>
 				<tr>
 					<td style="font-size:15px; background-color:red;;text:bold;"><strong>$ {{ number_format(($total_rmd_value + $total_wife_rmd_inc + $total_husband_rmd_inc) - $total_wife_rmd_val) }}</strong></td>
-					<td style="font-size:15px;;text:bold;"><h3>IRA RMD’s by Age 95</h3></td>
-					<td style="font-size:15px;background-color:#A1F21D;;text:bold;"><strong>$ {{ number_format($total_husband_rmd_inc2 +  $total_wife_rmd_inc2 ) }}</strong></td>
+					<td style="font-size:15px;;text:bold;"><h3>IRMAA At Age 95</h3></td>
+					<td style="font-size:15px;background-color:#A1F21D;;text:bold;"><strong>$ 0</strong></td>
 				</tr>
 			</tbody>
 		</table>

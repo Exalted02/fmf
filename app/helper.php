@@ -670,6 +670,21 @@ use App\Models\Current_financial_account;
 			'39' =>'Income',
 		];
 	}
+	
+	function husband_wife_roth_tax_conversion()
+	{
+		return [
+			'21' =>'IRA',
+			'22' =>'Fee .00',
+			'23' =>'Roth Conver.',
+			'24' =>'Roth Tax Paid',
+			'25' =>'Roth Account',
+			'26' =>'Ira Value',
+			'27' =>'Total A/C Value',
+			'28' =>'Effective Tax Rate',
+		];
+	}
+	
 	function current_allo_plan_distribution_period()
 	{
 		return [
@@ -702,19 +717,6 @@ use App\Models\Current_financial_account;
 			'54'=> array('0'=>7.3, '1'=>23446),
 			'55'=> array('0'=>6.8, '1'=>23446),
 			'56'=> array('0'=>6.4, '1'=>23446),
-		];
-	}
-	function husband_wife_roth_tax_conversion()
-	{
-		return [
-			'21' =>'IRA',
-			'22' =>'Fee .00',
-			'23' =>'Roth Conver.',
-			'24' =>'Roth Tax Paid',
-			'25' =>'Roth Account',
-			'26' =>'Ira Value',
-			'27' =>'Total A/C Value',
-			'28' =>'Effective Tax Rate',
 		];
 	}
 	function future_roth_distribution_period()
@@ -764,6 +766,59 @@ use App\Models\Current_financial_account;
 		}
 
 		return $shifted;
+	}
+	
+	function allo_plan_distribution_period_single()
+	{
+		$sl_no = Session::get('sl_no');
+		$financialdata = Current_financial_account::where('sl_no', $sl_no)->first();
+		$rmdstartage = $financialdata ? $financialdata->rmd_start_age : '';
+		
+		if ($rmdstartage === 0) {
+			return [];
+		}
+
+		
+		$values = [
+			[23.7, 4477.34],
+			[22.9, 4669.93],
+			[22.0, 23446],
+			[21.1, 23446],
+			[20.2, 23446],
+			[19.4, 23446],
+			[18.5, 23446],
+			[17.7, 23446],
+			[16.8, 23446],
+			[16.0, 23446],
+			[15.2, 23446],
+			[14.4, 23446],
+			[13.7, 23446],
+			[12.9, 23446],
+			[12.2, 23446],
+			[11.5, 23446],
+			[10.8, 23446],
+			[10.1, 23446],
+			[9.5, 23446],
+			[8.9, 23446],
+			[8.4, 23446],
+			[7.8, 23446],
+			[7.3, 23446],
+			[6.8, 23446],
+			[6.4, 23446],
+		];
+		
+		$data = [];
+		$age = $rmdstartage;
+
+		foreach ($values as $row) {
+			$data[$age] = [
+				0 => $row[0],
+				1 => $row[1],
+			];
+			$age++;
+		}
+
+		return $data;
 	}
 
 ?>
